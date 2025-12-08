@@ -193,7 +193,7 @@ Modular-Design Architecture:
 
 ```mermaid
 erDiagram
-  direction TB
+  direction LR
 
   STORES {
     string(12) id PK
