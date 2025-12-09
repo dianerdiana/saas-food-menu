@@ -365,6 +365,7 @@ erDiagram
     string(12) store_id FK
     string(255) name
     string(255) slug
+    string(255) image
     date created_at "default now"
     date updated_at "default now"
     string(12) created_by FK
@@ -475,7 +476,7 @@ erDiagram
 
 ### API Endpoint
 
-**Pages** - Backend For Frontend (BFF) - [**API-Spec**](/server/src/modules/pages/application/docs/page-api.md)
+**Pages** - Backend For Frontend (BFF) - [**API-Spec**](/server/src/modules/page/application/docs/page-api.md)
 
 - `GET /api/v1/pages/home` - Retrieve all data for home page
 - `GET /api/v1/pages/products?limit=?&page=?&search=?&category` - Search all products filtered by search key and category name
@@ -505,10 +506,18 @@ erDiagram
 - `PUT /api/v1/stores/:id` - Update store data by id
 - `DELETE /api/v1/stores/:id` - Delete store by id
 
-**Subscriptions** - [**API-Spec**](/server/src/modules/subscription/application/docs/subscription-api.md)
+**Subscription** - [**API-Spec**](/server/src/modules/subscription/application/docs/subscription-api.md)
 
 - `GET /api/v1/subscriptions?limit=?&page?&search=?` - Retrieve subscriptions data with pagination
 - `POST /api/v1/subscriptions` - Create new store
 - `GET /api/v1/subscriptions/:id` - Get store data by id
 - `PUT /api/v1/subscriptions/:id` - Update store data by id
 - `DELETE /api/v1/subscriptions/:id` - Delete store by id
+
+**Category** - [**API-Spec**](/server/src/modules/category/application/docs/category-api.md)
+
+- `GET /api/v1/categories?limit=?&page?&search=?` - Retrieve categories data with pagination
+- `POST /api/v1/categories` - Create new store
+- `GET /api/v1/categories/:id` - Get store data by id
+- `PUT /api/v1/categories/:id` - Update store data by id
+- `DELETE /api/v1/categories/:id` - Delete store by id
