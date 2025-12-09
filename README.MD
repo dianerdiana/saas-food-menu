@@ -254,6 +254,7 @@ erDiagram
     string(50) phone
     text location
     text description
+    string(100) status
     date created_at "default now"
     date updated_at "default now"
     string(12) created_by FK
@@ -484,15 +485,23 @@ erDiagram
 - `POST /api/v1/pages/transactions` - Create new transaction (don't post the price, let backend handle it)
 - `GET /api/v1/pages/transactions/:id/details` - Retrieve new created transaction details by id
 
-[**Authentication**](/server/src/modules/authentication/application/docs/authentication-api.md)
+[**Authentication - API Spec**](/server/src/modules/authentication/application/docs/authentication-api.md)
 
 - `POST /api/v1/auth/signup` - Register as a user
 - `POST /api/v1/auth/signin` - Login as a user
 
-[**User**](/server/src/modules/user/application/docs/user-api.md)
+[**User - API Spec**](/server/src/modules/user/application/docs/user-api.md)
 
 - `GET /api/v1/users?limit=?&page?&search=?` - Retrieve users data with pagination
 - `POST /api/v1/users` - Create new user
 - `GET /api/v1/users/:id` - Get user data by id
 - `PUT /api/v1/users/:id` - Update user data by id
 - `DELETE /api/v1/users/:id` - Delete user by id
+
+[**Store - API Spec**](/server/src/modules/store/application/docs/store-api.md)
+
+- `GET /api/v1/stores?limit=?&page?&search=?` - Retrieve stores data with pagination
+- `POST /api/v1/stores` - Create new store
+- `GET /api/v1/stores/:id` - Get store data by id
+- `PUT /api/v1/stores/:id` - Update store data by id
+- `DELETE /api/v1/stores/:id` - Delete store by id
