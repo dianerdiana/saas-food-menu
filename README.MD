@@ -509,15 +509,23 @@ erDiagram
 **Subscription** - [**API-Spec**](/server/src/modules/subscription/application/docs/subscription-api.md)
 
 - `GET /api/v1/subscriptions?limit=?&page?&search=?` - Retrieve subscriptions data with pagination
-- `POST /api/v1/subscriptions` - Create new store
-- `GET /api/v1/subscriptions/:id` - Get store data by id
-- `PUT /api/v1/subscriptions/:id` - Update store data by id
-- `DELETE /api/v1/subscriptions/:id` - Delete store by id
+- `POST /api/v1/subscriptions` - Create new subscription
+- `GET /api/v1/subscriptions/:id` - Get subscription data by id
+- `PUT /api/v1/subscriptions/:id` - Update subscription data by id
+- `DELETE /api/v1/subscriptions/:id` - Delete subscription by id
 
 **Category** - [**API-Spec**](/server/src/modules/category/application/docs/category-api.md)
 
 - `GET /api/v1/categories?limit=?&page?&search=?` - Retrieve categories data with pagination
-- `POST /api/v1/categories` - Create new store
-- `GET /api/v1/categories/:id` - Get store data by id
-- `PUT /api/v1/categories/:id` - Update store data by id
-- `DELETE /api/v1/categories/:id` - Delete store by id
+- `POST /api/v1/categories` - Create new category
+- `GET /api/v1/categories/:id` - Get category data by id
+- `PUT /api/v1/categories/:id` - Update category data by id
+- `DELETE /api/v1/categories/:id` - Delete category by id
+
+**Product** - [**API-Spec**](/server/src/modules/product/application/docs/product-api.md)
+
+- `GET /api/v1/products?limit=?&page?&search=?` - Retrieve products data with pagination
+- `POST /api/v1/products` - Create new product
+- `GET /api/v1/products/:id` - Get product data by id
+- `PUT /api/v1/products/:id` - Update product data by id
+- `DELETE /api/v1/products/:id` - Delete product by id
