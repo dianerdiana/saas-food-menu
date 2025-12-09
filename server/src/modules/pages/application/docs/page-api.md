@@ -45,6 +45,10 @@ type Product = {
   slug: string;
   image: string;
   price: number;
+  category: {
+    id: string;
+    name: string;
+  };
 };
 ```
 
@@ -116,7 +120,11 @@ type Transaction = {
           "name": "string",
           "slug": "string",
           "image": "string",
-          "price": "number"
+          "price": "number",
+          "category": {
+            "id": "string",
+            "name": "string"
+          }
         },
         {
           "id": "string",
@@ -124,7 +132,11 @@ type Transaction = {
           "name": "string",
           "slug": "string",
           "image": "string",
-          "price": "number"
+          "price": "number",
+          "category": {
+            "id": "string",
+            "name": "string"
+          }
         }
       ],
       "recommendationProducts": [
@@ -134,7 +146,11 @@ type Transaction = {
           "name": "string",
           "slug": "string",
           "image": "string",
-          "price": "number"
+          "price": "number",
+          "category": {
+            "id": "string",
+            "name": "string"
+          }
         },
         {
           "id": "string",
@@ -142,7 +158,11 @@ type Transaction = {
           "name": "string",
           "slug": "string",
           "image": "string",
-          "price": "number"
+          "price": "number",
+          "category": {
+            "id": "string",
+            "name": "string"
+          }
         }
       ]
     }
@@ -173,7 +193,11 @@ type Transaction = {
         "name": "string",
         "slug": "string",
         "image": "string",
-        "price": "number"
+        "price": "number",
+        "category": {
+          "id": "string",
+          "name": "string"
+        }
       },
       {
         "id": "string",
@@ -181,7 +205,11 @@ type Transaction = {
         "name": "string",
         "slug": "string",
         "image": "string",
-        "price": "number"
+        "price": "number",
+        "category": {
+          "id": "string",
+          "name": "string"
+        }
       }
     ]
   }
