@@ -333,7 +333,6 @@ erDiagram
     string(12) updated_by FK
   }
 
-
   SUBSCRIPTIONS {
     string(12) id PK
     string(12) store_id FK
@@ -476,7 +475,7 @@ erDiagram
 
 ### API Endpoint
 
-[**Pages** - Backend For Frontend (BFF)](/server/src/modules/pages/application/docs/page-api.md)
+**Pages** - Backend For Frontend (BFF) - [**API-Spec**](/server/src/modules/pages/application/docs/page-api.md)
 
 - `GET /api/v1/pages/home` - Retrieve all data for home page
 - `GET /api/v1/pages/products?limit=?&page=?&search=?&category` - Search all products filtered by search key and category name
@@ -485,12 +484,12 @@ erDiagram
 - `POST /api/v1/pages/transactions` - Create new transaction (don't post the price, let backend handle it)
 - `GET /api/v1/pages/transactions/:id/details` - Retrieve new created transaction details by id
 
-[**Authentication - API Spec**](/server/src/modules/authentication/application/docs/authentication-api.md)
+**Authentication** - [**API-Spec**](/server/src/modules/authentication/application/docs/authentication-api.md)
 
 - `POST /api/v1/auth/signup` - Register as a user
 - `POST /api/v1/auth/signin` - Login as a user
 
-[**User - API Spec**](/server/src/modules/user/application/docs/user-api.md)
+**User** - [**API-Spec**](/server/src/modules/user/application/docs/user-api.md)
 
 - `GET /api/v1/users?limit=?&page?&search=?` - Retrieve users data with pagination
 - `POST /api/v1/users` - Create new user
@@ -498,10 +497,18 @@ erDiagram
 - `PUT /api/v1/users/:id` - Update user data by id
 - `DELETE /api/v1/users/:id` - Delete user by id
 
-[**Store - API Spec**](/server/src/modules/store/application/docs/store-api.md)
+**Store** - [**API-Spec**](/server/src/modules/store/application/docs/store-api.md)
 
 - `GET /api/v1/stores?limit=?&page?&search=?` - Retrieve stores data with pagination
 - `POST /api/v1/stores` - Create new store
 - `GET /api/v1/stores/:id` - Get store data by id
 - `PUT /api/v1/stores/:id` - Update store data by id
 - `DELETE /api/v1/stores/:id` - Delete store by id
+
+**Subscriptions** - [**API-Spec**](/server/src/modules/subscription/application/docs/subscription-api.md)
+
+- `GET /api/v1/subscriptions?limit=?&page?&search=?` - Retrieve subscriptions data with pagination
+- `POST /api/v1/subscriptions` - Create new store
+- `GET /api/v1/subscriptions/:id` - Get store data by id
+- `PUT /api/v1/subscriptions/:id` - Update store data by id
+- `DELETE /api/v1/subscriptions/:id` - Delete store by id
