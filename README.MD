@@ -189,6 +189,55 @@ Modular-Design Architecture:
 └── tsconfig.json
 </pre>
 
+## Pages Routing
+
+- **ASTRO - Public Facing Pages**
+  - /
+  - /[store_name]
+  - /[store_name]/search
+  - /[store_name]/products
+  - /[store_name]/products?limit=?&page=?search=?&category=?
+  - /[store_name]/preducts/[slug]/details
+  - /[store_name]/charts
+  - /[store_name]/transactions
+  - /[store_name]/transactions/:id/details
+  - /[store_name]/profile
+- **VITE REACT - CMS Pages**
+  - Authentication
+    - /auth/signin
+    - /auth/signup
+  - Dashboard
+    - /dashboard
+  - Management Subscriptions
+    - /subscriptions
+    - /subscriptions/create
+    - /subscriptions/edit
+  - Management Transactions
+    - /transactions
+    - /transactions/create
+    - /transactions/edit
+  - Management Users
+    - /users
+    - /users/create
+    - /users/edit
+  - Management Categories
+    - /categories
+    - /categories/create
+    - /categories/edit
+  - Management Products
+    - /products
+    - /products/create
+    - /products/edit
+  - Management Bank
+    - /banks
+    - /banks/create
+    - /banks/edit
+  - Settings
+    - /stores
+    - /stores/create
+    - /stores/edit
+    - /stores/details
+
 ## API Spec
 
 ### ERD
@@ -424,13 +473,26 @@ erDiagram
 
 ```
 
-### - API Endpoint
+### API Endpoint
 
 [**Pages** - Backend For Frontend (BFF)](/server/src/modules/pages/application/docs/page-api.md)
 
-- `GET /pages/home` - Retrieve all data for home page
-- `GET /pages/products?limit=?&page=?&search=?&category` - Search all products filtered by search key and category name
-- `GET /pages/search` - Retrieve all categories to search product by name and category
-- `GET /pages/products/:id/details` - Retrieve details product by id (also get menu ingredients of product)
-- `POST /pages/transactions` - Create new transaction (don't post the price, let backend handle it)
-- `GET /pages/transactions/:id/details` - Retrieve new created transaction details by id
+- `GET /api/v1/pages/home` - Retrieve all data for home page
+- `GET /api/v1/pages/products?limit=?&page=?&search=?&category` - Search all products filtered by search key and category name
+- `GET /api/v1/pages/search` - Retrieve all categories to search product by name and category
+- `GET /api/v1/pages/products/:id/details` - Retrieve details product by id (also get menu ingredients of product)
+- `POST /api/v1/pages/transactions` - Create new transaction (don't post the price, let backend handle it)
+- `GET /api/v1/pages/transactions/:id/details` - Retrieve new created transaction details by id
+
+[**Authentication**](/server/src/modules/authentication/application/docs/authentication-api.md)
+
+- `POST /api/v1/auth/signup` - Register as a user
+- `POST /api/v1/auth/signin` - Login as a user
+
+[**Uset**](/server/src/modules/user/application/docs/user-api.md)
+
+- `GET /api/v1/users?limit=?&page?&search=?` - Retrieve users data with pagination
+- `POST /api/v1/users` - Create new user
+- `GET /api/v1/users/:id` - Get user data by id
+- `PUT /api/v1/users/:id` - Update user data by id
+- `DELETE /api/v1/users/:id` - Delete user by id

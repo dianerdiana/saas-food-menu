@@ -158,7 +158,7 @@ type UserResponse = {
 
 - Request:
   - Method: PUT
-  - Endpoint: `/api/v1/users`
+  - Endpoint: `/api/v1/users/:id`
   - Header:
     - Content-Type: application/json
     - Accept: application/json
