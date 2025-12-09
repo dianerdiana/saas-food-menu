@@ -489,7 +489,7 @@ erDiagram
 - `POST /api/v1/auth/signup` - Register as a user
 - `POST /api/v1/auth/signin` - Login as a user
 
-[**Uset**](/server/src/modules/user/application/docs/user-api.md)
+[**User**](/server/src/modules/user/application/docs/user-api.md)
 
 - `GET /api/v1/users?limit=?&page?&search=?` - Retrieve users data with pagination
 - `POST /api/v1/users` - Create new user
