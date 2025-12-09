@@ -529,3 +529,11 @@ erDiagram
 - `GET /api/v1/products/:id` - Get product data by id
 - `PUT /api/v1/products/:id` - Update product data by id
 - `DELETE /api/v1/products/:id` - Delete product by id
+
+**Transaction** - [**API-Spec**](/server/src/modules/transaction/application/docs/transaction-api.md)
+
+- `GET /api/v1/transactions?limit=?&page?&search=?` - Retrieve transactions data with pagination
+- `POST /api/v1/transactions` - Create new transaction
+- `GET /api/v1/transactions/:id` - Get transaction data by id
+- `PUT /api/v1/transactions/:id` - Update transaction data by id
+- `DELETE /api/v1/transactions/:id` - Delete transaction by id
