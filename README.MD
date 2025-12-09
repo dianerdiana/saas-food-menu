@@ -189,7 +189,9 @@ Modular-Design Architecture:
 └── tsconfig.json
 </pre>
 
-## ERD
+## API Spec
+
+### ERD
 
 ```mermaid
 erDiagram
@@ -407,3 +409,11 @@ erDiagram
   USERS ||--o{ TRANSACTION_DETAILS : "one-to-many (creator/updater)"
 
 ```
+
+### - API Endpoint
+
+[**Pages** - Backend For Frontend (BFF)](/server/src/modules/pages/application/docs/page-api.md)
+
+- `/pages/home` - Retrieve all data for home page
+- `/pages/products` - Retrieve all products
+- `/pages/search` - Retrieve all categories
