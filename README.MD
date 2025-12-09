@@ -428,8 +428,9 @@ erDiagram
 
 [**Pages** - Backend For Frontend (BFF)](/server/src/modules/pages/application/docs/page-api.md)
 
-- `/pages/home` - Retrieve all data for home page
-- `/pages/products` - Retrieve all products
-- `/pages/search` - Retrieve all categories to search product by name and category
-- `/pages/search/results?search=$&category=$` - Retrieve all products filtered by search key and category name
-- `/pages/`
+- `GET /pages/home` - Retrieve all data for home page
+- `GET /pages/products?limit=?&page=?&search=?&category` - Search all products filtered by search key and category name
+- `GET /pages/search` - Retrieve all categories to search product by name and category
+- `GET /pages/products/:id/details` - Retrieve details product by id (also get menu ingredients of product)
+- `POST /pages/transactions` - Create new transaction (don't post the price, let backend handle it)
+- `GET /pages/transactions/:id/details` - Retrieve new created transaction details by id
