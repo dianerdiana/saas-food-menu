@@ -346,6 +346,17 @@ erDiagram
     string(12) updated_by FK
   }
 
+  MENU_INGREDIENTS {
+    string(12) id PK
+    string(12) store_id FK
+    string(12) product_id FK
+    string(100) name
+    date created_at "default now"
+    date updated_at "default now"
+    string(12) created_by FK
+    string(12) updated_by FK
+  }
+
   TRANSACTIONS {
     string(12) id PK
     string(12) store_id FK
@@ -379,6 +390,7 @@ erDiagram
   STORES ||--o{ CATEGORIES : "one-to-many"
   STORES ||--o{ PRODUCTS : "one-to-many"
   STORES ||--o{ TRANSACTIONS : "one-to-many"
+  STORES ||--o{ MENU_INGREDIENTS: "one-to-many"
 
   USERS ||--o{ USER_ROLES : "one-to-many"
   ROLES ||--o{ USER_ROLES : "one-to-many"
@@ -391,6 +403,7 @@ erDiagram
 
   PRODUCTS ||--o{ PRODUCT_CATEGORIES: "one-to-many"
   CATEGORIES ||--o{ PRODUCT_CATEGORIES: "one-to-many"
+  PRODUCTS ||--o{ MENU_INGREDIENTS: "one-to-many"
 
   PRODUCTS ||--o{ TRANSACTION_DETAILS: "one-to-many"
 
@@ -407,6 +420,7 @@ erDiagram
   USERS ||--o{ PRODUCT_CATEGORIES : "one-to-many (creator/updater)"
   USERS ||--o{ TRANSACTIONS : "one-to-many (creator/updater)"
   USERS ||--o{ TRANSACTION_DETAILS : "one-to-many (creator/updater)"
+  USERS ||--o{ MENU_INGREDIENTS : "one-to-many (creator/updater)"
 
 ```
 
@@ -416,4 +430,6 @@ erDiagram
 
 - `/pages/home` - Retrieve all data for home page
 - `/pages/products` - Retrieve all products
-- `/pages/search` - Retrieve all categories
+- `/pages/search` - Retrieve all categories to search product by name and category
+- `/pages/search/results?search=$&category=$` - Retrieve all products filtered by search key and category name
+- `/pages/`
