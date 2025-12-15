@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Astro",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "strict": true
+  },
+  "include": ["src", "**/*.astro"]
+}
