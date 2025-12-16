@@ -1,18 +1,414 @@
 ---
-import "@workspace/ui/globals.css"
-import Layout from '../layouts/Layout.astro';
-import { Button } from '@workspace/ui/components/button'
+import Layout from "../layouts/blank-layout.astro";
+import { Bell, Search } from "lucide-react";
+import { CategoriesSwiper } from "@views/categories-swiper";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const response = {
+  data: {
+    store: {
+      id: "1",
+      name: "Ramenku Majalengka",
+    },
+    categories: [
+      {
+        id: "1",
+        name: "All Menu",
+        slug: "",
+        image:
+          "https://ik.imagekit.io/dianerdiana/saas-food-menu/icons/all-menu.png",
+      },
+      {
+        id: "2",
+        name: "Desert",
+        slug: "desert",
+        image:
+          "https://ik.imagekit.io/dianerdiana/saas-food-menu/icons/desert.png",
+      },
+      {
+        id: "2",
+        name: "Drink",
+        slug: "drink",
+        image:
+          "https://ik.imagekit.io/dianerdiana/saas-food-menu/icons/drink.png",
+      },
+      {
+        id: "2",
+        name: "Ramen",
+        slug: "ramen",
+        image:
+          "https://ik.imagekit.io/dianerdiana/saas-food-menu/icons/ramen.png",
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        slug: "chicken",
+        image:
+          "https://ik.imagekit.io/dianerdiana/saas-food-menu/icons/chicken.png",
+      },
+    ],
+  },
+};
 ---
 
 <Layout>
-	<Button variant={'danger'}>Dian Erdiana</Button>
-	<h1 class="text-purple-700 font-black text-6xl">
-		Hallo nama saya Dian Erdiana!
-	</h1>
-	<p class="text-indigo-700 text-3xl">
-		Apakah kamu sudah makan?
-	</p>
+  <div
+    id="Content-Container"
+    class="relative flex flex-col w-full max-w-160 min-h-screen mx-auto overflow-x-hidden pb-32"
+  >
+    <div
+      id="Background"
+      class="absolute top-0 w-full h-42.5 rounded-b-[45px] bg-warning-gradient"
+    >
+    </div>
+
+    <div id="TopNav" class="relative flex flex-col px-5 mt-5 h-42.5">
+      <div class="relative flex items-center justify-between">
+        <div class="flex flex-col gap-1">
+          <p class="text-white text-sm">Welcome To,</p>
+          <h1 class="text-white font-semibold">{response.data.store.name}</h1>
+        </div>
+        <a
+          href="#"
+          class="w-12 h-12 flex items-center justify-center shrink-0 rounded-full overflow-hidden bg-white/20"
+        >
+          <Bell className="w-7 h-7" fill="#fff" stroke="#fff" />
+        </a>
+      </div>
+
+      <h1 class="text-white font-semibold text-2xl leading-7.5 mt-5">
+        Order Delicious Meal!
+      </h1>
+
+      <div class="absolute bottom-0 left-0 right-0 w-full gap-2 px-5">
+        <label
+          class="flex items-center w-full rounded-full p-2 gap-3 bg-input ring-1 ring-ring focus-within:ring-yellow-500 transition-all duration-300"
+        >
+          <Search className="w-8 h-8 flex shrink-0 text-warning" />
+          <input
+            type="text"
+            name="search"
+            id=""
+            class="appearance-none outline-none w-full font-semibold placeholder:text-ngekos-grey placeholder:font-light"
+            placeholder="Search menu, or etc..."
+          />
+        </label>
+      </div>
+    </div>
+
+    <div id="Categories" class="relative flex flex-col px-5 mt-5">
+      <div class="flex items-end justify-between mb-10">
+        <h1 class="text-foreground font-medium text-lg">Explore Categories</h1>
+        <a href="#" class="text-warning text-sm">See All</a>
+      </div>
+
+      <CategoriesSwiper categories={response.data.categories} client:visible />
+    </div>
+
+    <div id="Favorites" class="relative flex flex-col px-5 mt-5">
+      <div class="flex items-end justify-between">
+        <h1 class="text-foreground font-medium text-lg">Menu Favorite</h1>
+        <a href="#" class="text-warning text-sm">See All</a>
+      </div>
+
+      <div class="swiper w-full">
+        <div class="swiper-wrapper mt-[10px]">
+          <div class="swiper-slide w-fit">
+            <a href="details.html" class="card">
+              <div
+                class="flex flex-col w-[210px] shrink-0 rounded-[8px] bg-white p-[12px] pb-5 gap-[10px] hover:bg-[#FFF7F0] hover:border-[1px] hover:border-[#F3AF00] transition-all duration-300 cursor-pointer"
+              >
+                <div
+                  class="position-relative flex w-full h-[150px] shrink-0 rounded-[8px] bg-[#D9D9D9] overflow-hidden"
+                >
+                  <img
+                    src="assets/images/photos/ramen.png"
+                    class="w-full h-full object-cover"
+                    alt="thumbnail"
+                  />
+
+                  <!-- rating -->
+                  <div
+                    class="absolute top-5 right-5 flex items-center gap-1 bg-white px-[8px] py-[4px] rounded-full"
+                  >
+                    <img
+                      src="assets/images/icons/ic_star.svg"
+                      alt="rating"
+                      class="w-4 h-4"
+                    />
+                    <p class="text-sm">4.8</p>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <p class="text-[#F3AF00] font-[400] text-[12px]">Ramen</p>
+                  <h3 class="text-foreground font-medium text-[14px]">
+                    Spicy Ramen Level 3
+                  </h3>
+                  <p class="text-[#606060] font-[400] text-[10px]">
+                    Rich broth, spicy and tempting, with chashu topping
+                  </p>
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <p class="text-[#FF001A] font-[600] text-[14px]">Rp 45.000</p>
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-[24px] h-[24px] rounded-full bg-transparent"
+                    data-id="1"
+                    onclick="addToCart(this.dataset.id)"
+                  >
+                    <img
+                      src="assets/images/icons/ic_plus.svg"
+                      class="w-full h-full"
+                      alt="icon"
+                    />
+                  </button>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="swiper-slide w-fit">
+            <a href="details.html" class="card">
+              <div
+                class="flex flex-col w-[210px] shrink-0 rounded-[8px] bg-white p-[12px] pb-5 gap-[10px] hover:bg-[#FFF7F0] hover:border-[1px] hover:border-[#F3AF00] transition-all duration-300 cursor-pointer"
+              >
+                <div
+                  class="position-relative flex w-full h-[150px] shrink-0 rounded-[8px] bg-[#D9D9D9] overflow-hidden"
+                >
+                  <img
+                    src="assets/images/photos/ramen.png"
+                    class="w-full h-full object-cover"
+                    alt="thumbnail"
+                  />
+
+                  <!-- rating -->
+                  <div
+                    class="absolute top-5 right-5 flex items-center gap-1 bg-white px-[8px] py-[4px] rounded-full"
+                  >
+                    <img
+                      src="assets/images/icons/ic_star.svg"
+                      alt="rating"
+                      class="w-4 h-4"
+                    />
+                    <p class="text-sm">4.8</p>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <p class="text-[#F3AF00] font-[400] text-[12px]">Ramen</p>
+                  <h3 class="text-foreground font-medium text-[14px]">
+                    Spicy Ramen Level 3
+                  </h3>
+                  <p class="text-[#606060] font-[400] text-[10px]">
+                    Rich broth, spicy and tempting, with chashu topping
+                  </p>
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <p class="text-[#FF001A] font-[600] text-[14px]">Rp 45.000</p>
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-[24px] h-[24px] rounded-full bg-transparent"
+                    data-id="2"
+                    onclick="addToCart(this.dataset.id)"
+                  >
+                    <img
+                      src="assets/images/icons/ic_plus.svg"
+                      class="w-full h-full"
+                      alt="icon"
+                    />
+                  </button>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="swiper-slide w-fit">
+            <a href="details.html" class="card">
+              <div
+                class="flex flex-col w-[210px] shrink-0 rounded-[8px] bg-white p-[12px] pb-5 gap-[10px] hover:bg-[#FFF7F0] hover:border-[1px] hover:border-[#F3AF00] transition-all duration-300 cursor-pointer"
+              >
+                <div
+                  class="position-relative flex w-full h-[150px] shrink-0 rounded-[8px] bg-[#D9D9D9] overflow-hidden"
+                >
+                  <img
+                    src="assets/images/photos/ramen.png"
+                    class="w-full h-full object-cover"
+                    alt="thumbnail"
+                  />
+
+                  <!-- rating -->
+                  <div
+                    class="absolute top-5 right-5 flex items-center gap-1 bg-white px-[8px] py-[4px] rounded-full"
+                  >
+                    <img
+                      src="assets/images/icons/ic_star.svg"
+                      alt="rating"
+                      class="w-4 h-4"
+                    />
+                    <p class="text-sm">4.8</p>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <p class="text-[#F3AF00] font-[400] text-[12px]">Ramen</p>
+                  <h3 class="text-foreground font-medium text-[14px]">
+                    Spicy Ramen Level 3
+                  </h3>
+                  <p class="text-[#606060] font-[400] text-[10px]">
+                    Rich broth, spicy and tempting, with chashu topping
+                  </p>
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <p class="text-[#FF001A] font-[600] text-[14px]">Rp 45.000</p>
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-[24px] h-[24px] rounded-full bg-transparent"
+                    data-id="3"
+                    onclick="addToCart(this.dataset.id)"
+                  >
+                    <img
+                      src="assets/images/icons/ic_plus.svg"
+                      class="w-full h-full"
+                      alt="icon"
+                    />
+                  </button>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="Recomendations" class="relative flex flex-col px-5 mt-5">
+      <div class="flex items-end justify-between">
+        <h1 class="text-foreground font-medium text-lg">
+          Chef's Recommendations
+        </h1>
+        <a href="#" class="text-warning text-sm">See All</a>
+      </div>
+      <div class="flex flex-col gap-4 mt-[10px]">
+        <a href="details.html" class="card">
+          <div
+            class="flex rounded-[8px] border border-[#F1F2F6] p-[12px] gap-4 bg-white hover:bg-[#FFF7F0] hover:border-[1px] hover:border-[#F3AF00] transition-all duration-300"
+          >
+            <img
+              src="assets/images/photos/ramen.png"
+              class="w-[128px] object-cover rounded-[8px]"
+              alt="icon"
+            />
+            <div class="flex flex-col gap-1 w-full">
+              <p class="text-[#F3AF00] font-[400] text-[12px]">Ramen</p>
+              <h3 class="text-foreground font-medium text-[14px]">
+                Spicy Ramen Level 3
+              </h3>
+              <p class="text-[#606060] font-[400] text-[10px]">
+                Rich broth, spicy and tempting, with chashu topping
+              </p>
+
+              <div class="flex items-center justify-between">
+                <p class="text-[#FF001A] font-[600] text-[14px]">Rp 45.000</p>
+                <button
+                  type="button"
+                  class="flex items-center justify-center w-[24px] h-[24px] rounded-full bg-transparent"
+                  data-id="1"
+                  onclick="addToCart(this.dataset.id)"
+                >
+                  <img
+                    src="assets/images/icons/ic_plus.svg"
+                    class="w-full h-full"
+                    alt="icon"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="details.html" class="card">
+          <div
+            class="flex rounded-[8px] border border-[#F1F2F6] p-[12px] gap-4 bg-white hover:bg-[#FFF7F0] hover:border-[1px] hover:border-[#F3AF00] transition-all duration-300"
+          >
+            <img
+              src="assets/images/photos/Fried Chicken High Angle Shot.png"
+              class="w-[128px] object-cover rounded-[8px]"
+              alt="icon"
+            />
+            <div class="flex flex-col gap-1 w-full">
+              <p class="text-[#F3AF00] font-[400] text-[12px]">Chicken</p>
+              <h3 class="text-foreground font-medium text-[14px]">
+                Chicken Karaage
+              </h3>
+              <p class="text-[#606060] font-[400] text-[10px]">
+                Crispy Japanese-style fried chicken, served with a tangy
+              </p>
+
+              <div class="flex items-center justify-between">
+                <p class="text-[#FF001A] font-[600] text-[14px]">Rp 45.000</p>
+                <button
+                  type="button"
+                  class="flex items-center justify-center w-[24px] h-[24px] rounded-full bg-transparent"
+                  data-id="1"
+                  onclick="addToCart(this.dataset.id)"
+                >
+                  <img
+                    src="assets/images/icons/ic_plus.svg"
+                    class="w-full h-full"
+                    alt="icon"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- navigation bottom -->
+    <div
+      class="fixed inset-x-0 bottom-0 max-w-[640px] z-50 bg-white shadow-sm mx-auto"
+    >
+      <div class="flex items-center justify-between px-8 py-4">
+        <a href="index.html" class="flex flex-col items-center gap-2">
+          <img
+            src="assets/images/icons/Home.svg"
+            class="w-[24px] h-[24px]"
+            alt="icon"
+          />
+          <p class="text-warning font-[400] text-[12px]">Home</p>
+        </a>
+        <a href="cart.html" class="flex flex-col items-center gap-2">
+          <div class="relative">
+            <img
+              src="assets/images/icons/Buy.svg"
+              class="w-[24px] h-[24px]"
+              alt="icon"
+            />
+            <div
+              class="absolute top-[-4px] right-[-8px] flex items-center justify-center w-[16px] h-[16px] rounded-full bg-warning"
+            >
+              <p class="text-white font-[400] text-[10px]" id="cart-count"></p>
+            </div>
+          </div>
+          <p class="text-[#606060] font-[400] text-[12px]">Cart</p>
+        </a>
+        <a href="find.html" class="flex flex-col items-center gap-2">
+          <img
+            src="assets/images/icons/Search_default.svg"
+            class="w-[24px] h-[24px]"
+            alt="icon"
+          />
+          <p class="text-[#606060] font-[400] text-[12px]">Find</p>
+        </a>
+        <a href="index.html" class="flex flex-col items-center gap-2">
+          <img
+            src="assets/images/icons/Profile.svg"
+            class="w-[24px] h-[24px]"
+            alt="icon"
+          />
+          <p class="text-[#606060] font-[400] text-[12px]">Profile</p>
+        </a>
+      </div>
+    </div>
+  </div>
 </Layout>

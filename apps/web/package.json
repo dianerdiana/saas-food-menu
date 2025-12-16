@@ -9,10 +9,13 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/vercel": "^9.0.2",
     "@astrojs/react": "^4.4.2",
+    "@astrojs/vercel": "^9.0.2",
+    "@radix-ui/react-slot": "^1.2.4",
     "@workspace/ui": "workspace:*",
     "astro": "^5.16.5",
+    "axios": "^1.13.2",
+    "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.475.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
