@@ -9,7 +9,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(1 0 0);
+  --background: oklch(96.7% 0.003 264.54);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -20,11 +20,11 @@
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted-foreground: oklch(48.91% 0 0);
   --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --accent-foreground: oklch(32.9% 0 0);
+  --destructive: oklch(62.88% 0.257 27.39);
+  --destructive-foreground: oklch(62.88% 0.257 27.39);
   --border: oklch(0.922 0 0);
   --input: oklch(1 0 0);
   --ring: oklch(96.15% 0.005 274.97);
@@ -44,6 +44,7 @@
   --sidebar-ring: oklch(0.708 0 0);
 
   --warning: oklch(73.25% 0.183 51.39);
+  --hover-warning: oklch(98.04% 0.013 63.93);
 }
 
 .dark {
@@ -81,6 +82,7 @@
   --sidebar-ring: oklch(0.439 0 0);
 
   --warning: oklch(73.25% 0.183 51.39);
+  --hover-warning: oklch(98.04% 0.013 63.93);
 }
 
 @theme inline {
@@ -122,6 +124,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   --color-warning: oklch(73.25% 0.183 51.39);
+  --color-hover-warning: oklch(98.04% 0.013 63.93);
 }
 
 @layer base {

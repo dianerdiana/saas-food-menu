@@ -1,15 +1,9 @@
+import { Category } from "@/types/category.js";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@workspace/ui/components/carousel";
-
-type Category = {
-  id: string;
-  name: string;
-  slug: string;
-  image: string;
-};
 
 type CategoriesSwiperProps = { categories: Category[] };
 
@@ -24,7 +18,7 @@ export function CategoriesSwiper({ categories }: CategoriesSwiperProps) {
       <CarouselContent className="w-full">
         {categories.map((category, index) => (
           <CarouselItem key={index} className="w-fit basis-1/3 sm:basis-1/5">
-            <a href="#" className="swiper-slide w-fit">
+            <a href="#" className="w-fit">
               <div className="flex flex-col items-center shrink-0 gap-2 text-center">
                 <div className="w-16 h-16 rounded-full flex shrink-0 overflow-hidden p-4 bg-black/10">
                   <img
@@ -34,7 +28,7 @@ export function CategoriesSwiper({ categories }: CategoriesSwiperProps) {
                   />
                 </div>
                 <div className="flex flex-col gap-0.5">
-                  <h3 className="font-light text-[#504D53] text-[14px]">
+                  <h3 className="font-light text-muted-foreground text-[14px]">
                     {category.name}
                   </h3>
                 </div>
