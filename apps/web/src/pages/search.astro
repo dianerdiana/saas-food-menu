@@ -1,0 +1,84 @@
+---
+import Container from "@/components/astro/container.astro";
+import NavigationLayout from "@/layouts/navigation-layout.astro";
+import ProductCardHorizontal from "@/views/product/components/astro/product-card-horizontal.astro";
+import { ArrowLeft } from "lucide-react";
+
+const response = {
+  data: [
+    {
+      id: "1",
+      store_id: "2",
+      name: "Spicy Ramen Level 3",
+      description: "Rich broth, spicy and tempting, with chashu topping",
+      price: 45000,
+      slug: "spicy-ramen-level-3",
+      image:
+        "https://ik.imagekit.io/dianerdiana/saas-food-menu/photos/ramen.png",
+      category: {
+        id: "2",
+        name: "Ramen",
+        image: "",
+        slug: "",
+      },
+    },
+    {
+      id: "2",
+      store_id: "2",
+      name: "Chicken Karaage",
+      description: "Crispy Japanese-style fried chicken, served with a tangy",
+      price: 48000,
+      slug: "spicy-ramen-level-3",
+      image:
+        "https://ik.imagekit.io/dianerdiana/saas-food-menu/photos/Fried%20Chicken%20High%20Angle%20Shot.png",
+      category: {
+        id: "2",
+        name: "Chicken",
+        image: "",
+        slug: "",
+      },
+    },
+  ],
+};
+---
+
+<NavigationLayout>
+  <Container slot="header">
+    <header>
+      <div
+        id="TopNav"
+        class="relative flex items-center justify-between px-5 py-3 bg-white"
+      >
+        <a
+          href="find.html"
+          class="w-12 h-12 flex items-center justify-center shrink-0 rounded-full overflow-hidden bg-background"
+        >
+          <ArrowLeft />
+        </a>
+        <p class="font-semibold">Search Results</p>
+        <div class="dummy-btn w-12"></div>
+      </div>
+
+      <div
+        id="Header"
+        class="relative flex items-center justify-between gap-2 px-5 mt-4.5"
+      >
+        <div class="flex flex-col gap-1.5">
+          <h1 class="text-[20px]">Search Result</h1>
+          <p class="text-muted-foreground text-[12px]">32 Menus Available</p>
+        </div>
+      </div>
+    </header>
+  </Container>
+
+  <!-- search result -->
+  <Container slot="main">
+    <main id="SearchResult" class="flex flex-col gap-4 mt-2.5 px-5">
+      {
+        response.data.map((product) => (
+          <ProductCardHorizontal product={product} />
+        ))
+      }
+    </main>
+  </Container>
+</NavigationLayout>

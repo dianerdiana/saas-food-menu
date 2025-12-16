@@ -14,7 +14,7 @@ export function CategoryCarousel({ categories }: Props) {
     <Carousel className="w-full">
       <CarouselContent>
         {categories.map((category, index) => (
-          <CarouselItem key={index} className="w-fit basis-1/3 sm:basis-1/5">
+          <CarouselItem key={index} className="w-fit basis-1/4 sm:basis-1/5">
             <a href="#" className="w-fit">
               <div className="flex flex-col items-center shrink-0 gap-2 text-center">
                 <div className="w-16 h-16 rounded-full flex shrink-0 overflow-hidden p-4 bg-black/10">

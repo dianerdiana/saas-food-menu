@@ -3,10 +3,7 @@ import "@workspace/ui/globals.css";
 import { cn } from "@workspace/ui/lib/utils";
 import { House, Search, ShoppingCart, User } from "lucide-react";
 
-const referer = Astro.request.headers.get("Referer");
-const url = new URL(referer || "");
-
-console.log(url);
+const pathname = Astro.url.pathname;
 
 const navigation = [
   {
@@ -62,13 +59,13 @@ const navigation = [
               href={nav.href}
               class={cn(
                 "flex flex-col items-center gap-2",
-                nav.href === url.pathname && "text-primary",
+                nav.href === pathname && "text-primary",
               )}
             >
               <div class="relative">
                 <nav.icon
                   className={
-                    nav.href === url.pathname
+                    nav.href === pathname
                       ? "stroke-primary fill-primary"
                       : "stroke-muted-foreground"
                   }

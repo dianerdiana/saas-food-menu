@@ -11,14 +11,14 @@ const { product } = Astro.props;
 <div
   class="flex flex-wrap rounded-xl border border-background p-3 bg-white hover:bg-primary-slate hover:border hover:border-yellow-500 transition-all duration-300"
 >
-  <div class="basis-3/12">
+  <div class="basis-4/12 lg:basis-3/12">
     <img
       src={product.image}
-      class="w-full object-cover rounded-xl"
+      class="w-full object-cover rounded-xl aspect-square sm:aspect-auto"
       alt="icon"
     />
   </div>
-  <div class="flex flex-col gap-4 ps-4 basis-9/12">
+  <div class="flex flex-col gap-4 ps-4 basis-8/12 lg:basis-9/12">
     <a href="details.html">
       <div class="flex flex-col gap-1 w-full">
         <p class="text-yellow-500 font-medium text-xs">
@@ -38,12 +38,13 @@ const { product } = Astro.props;
       </p>
       <Button
         type="button"
-        className="flex items-center justify-center w-6 h-6 rounded-full"
-        data-id="1"
+        className="flex items-center justify-center rounded-full"
         aria-label="Add to cart"
         variant="primary"
+        size="sm"
       >
         <Plus className="size-4" />
+        Add to cart
       </Button>
     </div>
   </div>
