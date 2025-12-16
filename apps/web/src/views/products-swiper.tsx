@@ -23,7 +23,7 @@ export function ProductsSwiper({ products }: ProductsSwiperProps) {
         <CarouselContent className="w-full">
           {products.map((product, index) => (
             <CarouselItem key={index} className="w-fit basis-2/5">
-              <div className=" p-3 pb-5 bg-white hover:bg-hover-warning rounded-xl border border-background hover:border-yellow-500 transition-all duration-300">
+              <div className=" p-3 pb-5 bg-white hover:bg-primary-slate rounded-xl border border-background hover:border-yellow-500 transition-all duration-300">
                 <a href="details.html">
                   <div className="flex flex-col w-full shrink-0 gap-2.5">
                     <div className="relative flex w-full h-37.5 shrink-0 rounded-xl bg-accent overflow-hidden">
@@ -61,7 +61,7 @@ export function ProductsSwiper({ products }: ProductsSwiperProps) {
                     className="flex items-center justify-center w-6 h-6 rounded-full"
                     data-id="1"
                     aria-label="Add to cart"
-                    variant="warning"
+                    variant="primary"
                     onClick={() => console.log("Klik")}
                   >
                     <Plus className="size-4 stroke-3" />

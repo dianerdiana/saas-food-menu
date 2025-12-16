@@ -15,7 +15,7 @@ export function ProductRecommendation({
       {products.map((product) => (
         <div
           key={product.id}
-          className="flex flex-wrap rounded-xl border border-background p-3 bg-white hover:bg-hover-warning hover:border hover:border-yellow-500 transition-all duration-300"
+          className="flex flex-wrap rounded-xl border border-background p-3 bg-white hover:bg-primary-slate hover:border hover:border-yellow-500 transition-all duration-300"
         >
           <div className="basis-3/12">
             <img
@@ -47,7 +47,7 @@ export function ProductRecommendation({
                 className="flex items-center justify-center w-6 h-6 rounded-full"
                 data-id="1"
                 aria-label="Add to cart"
-                variant="warning"
+                variant="primary"
               >
                 <Plus className="size-4" />
               </Button>

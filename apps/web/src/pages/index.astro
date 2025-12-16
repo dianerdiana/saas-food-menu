@@ -127,7 +127,7 @@ const response = {
   >
     <div
       id="Background"
-      class="absolute top-0 w-full h-42.5 rounded-b-[45px] bg-warning-gradient"
+      class="absolute top-0 w-full h-42.5 rounded-b-[45px] bg-primary-gradient"
     >
     </div>
 
@@ -153,7 +153,7 @@ const response = {
         <label
           class="flex items-center w-full rounded-full p-2 gap-3 bg-input ring-1 ring-ring focus-within:ring-yellow-500 transition-all duration-300"
         >
-          <Search className="w-8 h-8 flex shrink-0 text-warning" />
+          <Search className="w-8 h-8 flex shrink-0 text-primary" />
           <input
             type="text"
             name="search"
@@ -170,7 +170,7 @@ const response = {
         <h1 class="text-accent-foreground font-medium text-lg">
           Explore Categories
         </h1>
-        <a href="#" class="text-warning text-sm">See All</a>
+        <a href="#" class="text-primary text-sm">See All</a>
       </div>
 
       <CategoriesSwiper categories={response.data.categories} client:visible />
@@ -181,7 +181,7 @@ const response = {
         <h1 class="text-accent-foreground font-medium text-lg">
           Menu Favorite
         </h1>
-        <a href="#" class="text-warning text-sm">See All</a>
+        <a href="#" class="text-primary text-sm">See All</a>
       </div>
 
       <ProductsSwiper
@@ -195,7 +195,7 @@ const response = {
         <h1 class="text-accent-foreground font-medium text-lg">
           Chef's Recommendations
         </h1>
-        <a href="#" class="text-warning text-sm">See All</a>
+        <a href="#" class="text-primary text-sm">See All</a>
       </div>
       <ProductRecommendation products={response.data.productFavorites} />
     </div>
