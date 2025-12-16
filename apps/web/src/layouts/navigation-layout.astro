@@ -1,25 +1,55 @@
 ---
 import "@workspace/ui/globals.css";
+import { House, Search, ShoppingCart, User } from "lucide-react";
+
+const referer = Astro.request.headers.get("Referer");
+const url = new URL(referer || "");
+
+console.log(referer);
 ---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro Basics</title>
+  </head>
+  <body>
+    <slot />
+    <!-- navigation bottom -->
+    <div
+      class="fixed inset-x-0 bottom-0 max-w-160 z-50 bg-white shadow-sm mx-auto"
+    >
+      <div class="flex items-center justify-between px-8 py-4">
+        <a href="index.html" class="flex flex-col items-center gap-2">
+          <House className="stroke-warning fill-warning" />
+          <p class="text-warning font-normal text-xs">Home</p>
+        </a>
+        <a href="cart.html" class="flex flex-col items-center gap-2">
+          <div class="relative">
+            <ShoppingCart className="stroke-muted-foreground" />
+            <div
+              class="absolute -top-1 -right-2 flex items-center justify-center w-4 h-4 rounded-full bg-warning"
+            >
+              <p class="text-white font-normal text-[10px]" id="cart-count">
+                6
+              </p>
+            </div>
+          </div>
+          <p class="text-[#606060] font-normal text-xs">Cart</p>
+        </a>
+        <a href="find.html" class="flex flex-col items-center gap-2">
+          <Search className="stroke-muted-foreground" />
+          <p class="text-[#606060] font-normal text-xs">Find</p>
+        </a>
+        <a href="index.html" class="flex flex-col items-center gap-2">
+          <User className="stroke-muted-foreground" />
+          <p class="text-[#606060] font-normal text-xs">Profile</p>
+        </a>
+      </div>
+    </div>
+  </body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

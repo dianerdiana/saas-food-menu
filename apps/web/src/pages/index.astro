@@ -1,8 +1,9 @@
 ---
-import Layout from "../layouts/blank-layout.astro";
+import NavigationLayout from "../layouts/navigation-layout.astro";
 import { Bell, Search } from "lucide-react";
 import { CategoriesSwiper } from "@/views/categories-swiper";
 import { ProductsSwiper } from "@/views/products-swiper";
+import { ProductRecommendation } from "@/views/product-recommendations";
 
 const response = {
   data: {
@@ -47,11 +48,79 @@ const response = {
           "https://ik.imagekit.io/dianerdiana/saas-food-menu/icons/chicken.png",
       },
     ],
+    productFavorites: [
+      {
+        id: "1",
+        store_id: "2",
+        name: "Spicy Ramen Level 3",
+        description: "Rich broth, spicy and tempting, with chashu topping",
+        price: 45000,
+        slug: "spicy-ramen-level-3",
+        image:
+          "https://ik.imagekit.io/dianerdiana/saas-food-menu/photos/ramen.png",
+        category: {
+          id: "2",
+          name: "Ramen",
+          image: "",
+          slug: "",
+        },
+      },
+      {
+        id: "2",
+        store_id: "2",
+        name: "Chicken Karaage",
+        description: "Crispy Japanese-style fried chicken, served with a tangy",
+        price: 48000,
+        slug: "spicy-ramen-level-3",
+        image:
+          "https://ik.imagekit.io/dianerdiana/saas-food-menu/photos/Fried%20Chicken%20High%20Angle%20Shot.png",
+        category: {
+          id: "2",
+          name: "Chicken",
+          image: "",
+          slug: "",
+        },
+      },
+    ],
+    productRecommendations: [
+      {
+        id: "1",
+        store_id: "2",
+        name: "Spicy Ramen Level 3",
+        description: "Rich broth, spicy and tempting, with chashu topping",
+        price: 45000,
+        slug: "spicy-ramen-level-3",
+        image:
+          "https://ik.imagekit.io/dianerdiana/saas-food-menu/photos/ramen.png",
+        category: {
+          id: "2",
+          name: "Ramen",
+          image: "",
+          slug: "",
+        },
+      },
+      {
+        id: "1",
+        store_id: "2",
+        name: "Spicy Ramen Level 3",
+        description: "Rich broth, spicy and tempting, with chashu topping",
+        price: 45000,
+        slug: "spicy-ramen-level-3",
+        image:
+          "https://ik.imagekit.io/dianerdiana/saas-food-menu/photos/ramen.png",
+        category: {
+          id: "2",
+          name: "Ramen",
+          image: "",
+          slug: "",
+        },
+      },
+    ],
   },
 };
 ---
 
-<Layout>
+<NavigationLayout>
   <div
     id="Content-Container"
     class="relative flex flex-col w-full max-w-160 min-h-screen mx-auto overflow-x-hidden pb-32"
@@ -117,40 +186,7 @@ const response = {
 
       <ProductsSwiper
         client:visible
-        products={[
-          {
-            id: "1",
-            store_id: "2",
-            name: "Spicy Ramen Level 3",
-            description: "Rich broth, spicy and tempting, with chashu topping",
-            price: 45000,
-            slug: "spicy-ramen-level-3",
-            image:
-              "https://ik.imagekit.io/dianerdiana/saas-food-menu/photos/ramen.png",
-            category: {
-              id: "2",
-              name: "Ramen",
-              image: "",
-              slug: "",
-            },
-          },
-          {
-            id: "1",
-            store_id: "2",
-            name: "Spicy Ramen Level 3",
-            description: "Rich broth, spicy and tempting, with chashu topping",
-            price: 45000,
-            slug: "spicy-ramen-level-3",
-            image:
-              "https://ik.imagekit.io/dianerdiana/saas-food-menu/photos/ramen.png",
-            category: {
-              id: "2",
-              name: "Ramen",
-              image: "",
-              slug: "",
-            },
-          },
-        ]}
+        products={response.data.productFavorites}
       />
     </div>
 
@@ -161,128 +197,7 @@ const response = {
         </h1>
         <a href="#" class="text-warning text-sm">See All</a>
       </div>
-      <div class="flex flex-col gap-4 mt-[10px]">
-        <a href="details.html" class="card">
-          <div
-            class="flex rounded-[8px] border border-[#F1F2F6] p-[12px] gap-4 bg-white hover:bg-[#FFF7F0] hover:border-[1px] hover:border-[#F3AF00] transition-all duration-300"
-          >
-            <img
-              src="assets/images/photos/ramen.png"
-              class="w-[128px] object-cover rounded-[8px]"
-              alt="icon"
-            />
-            <div class="flex flex-col gap-1 w-full">
-              <p class="text-[#F3AF00] font-[400] text-[12px]">Ramen</p>
-              <h3 class="text-accent-foreground font-medium text-[14px]">
-                Spicy Ramen Level 3
-              </h3>
-              <p class="text-[#606060] font-[400] text-[10px]">
-                Rich broth, spicy and tempting, with chashu topping
-              </p>
-
-              <div class="flex items-center justify-between">
-                <p class="text-[#FF001A] font-[600] text-[14px]">Rp 45.000</p>
-                <button
-                  type="button"
-                  class="flex items-center justify-center w-[24px] h-[24px] rounded-full bg-transparent"
-                  data-id="1"
-                  onclick="addToCart(this.dataset.id)"
-                >
-                  <img
-                    src="assets/images/icons/ic_plus.svg"
-                    class="w-full h-full"
-                    alt="icon"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-        </a>
-
-        <a href="details.html" class="card">
-          <div
-            class="flex rounded-[8px] border border-[#F1F2F6] p-[12px] gap-4 bg-white hover:bg-[#FFF7F0] hover:border-[1px] hover:border-[#F3AF00] transition-all duration-300"
-          >
-            <img
-              src="assets/images/photos/Fried Chicken High Angle Shot.png"
-              class="w-[128px] object-cover rounded-[8px]"
-              alt="icon"
-            />
-            <div class="flex flex-col gap-1 w-full">
-              <p class="text-[#F3AF00] font-[400] text-[12px]">Chicken</p>
-              <h3 class="text-accent-foreground font-medium text-[14px]">
-                Chicken Karaage
-              </h3>
-              <p class="text-[#606060] font-[400] text-[10px]">
-                Crispy Japanese-style fried chicken, served with a tangy
-              </p>
-
-              <div class="flex items-center justify-between">
-                <p class="text-[#FF001A] font-[600] text-[14px]">Rp 45.000</p>
-                <button
-                  type="button"
-                  class="flex items-center justify-center w-[24px] h-[24px] rounded-full bg-transparent"
-                  data-id="1"
-                  onclick="addToCart(this.dataset.id)"
-                >
-                  <img
-                    src="assets/images/icons/ic_plus.svg"
-                    class="w-full h-full"
-                    alt="icon"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <!-- navigation bottom -->
-    <div
-      class="fixed inset-x-0 bottom-0 max-w-[640px] z-50 bg-white shadow-sm mx-auto"
-    >
-      <div class="flex items-center justify-between px-8 py-4">
-        <a href="index.html" class="flex flex-col items-center gap-2">
-          <img
-            src="assets/images/icons/Home.svg"
-            class="w-[24px] h-[24px]"
-            alt="icon"
-          />
-          <p class="text-warning font-[400] text-[12px]">Home</p>
-        </a>
-        <a href="cart.html" class="flex flex-col items-center gap-2">
-          <div class="relative">
-            <img
-              src="assets/images/icons/Buy.svg"
-              class="w-[24px] h-[24px]"
-              alt="icon"
-            />
-            <div
-              class="absolute top-[-4px] right-[-8px] flex items-center justify-center w-[16px] h-[16px] rounded-full bg-warning"
-            >
-              <p class="text-white font-[400] text-[10px]" id="cart-count"></p>
-            </div>
-          </div>
-          <p class="text-[#606060] font-[400] text-[12px]">Cart</p>
-        </a>
-        <a href="find.html" class="flex flex-col items-center gap-2">
-          <img
-            src="assets/images/icons/Search_default.svg"
-            class="w-[24px] h-[24px]"
-            alt="icon"
-          />
-          <p class="text-[#606060] font-[400] text-[12px]">Find</p>
-        </a>
-        <a href="index.html" class="flex flex-col items-center gap-2">
-          <img
-            src="assets/images/icons/Profile.svg"
-            class="w-[24px] h-[24px]"
-            alt="icon"
-          />
-          <p class="text-[#606060] font-[400] text-[12px]">Profile</p>
-        </a>
-      </div>
+      <ProductRecommendation products={response.data.productFavorites} />
     </div>
   </div>
-</Layout>
+</NavigationLayout>
