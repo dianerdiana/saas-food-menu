@@ -1,0 +1,25 @@
+---
+type Props = {
+  id: string;
+  title: string;
+  link?: string;
+};
+const { id, title, link } = Astro.props;
+---
+
+<div id={id} class="relative flex flex-col px-5 mt-5">
+  <div class="flex items-end justify-between mb-2.5">
+    <h1 class="text-accent-foreground font-medium text-lg">{title}</h1>
+    {
+      link ? (
+        <a href="#" class="text-primary text-sm">
+          See All
+        </a>
+      ) : (
+        ""
+      )
+    }
+  </div>
+
+  <slot name="content" />
+</div>

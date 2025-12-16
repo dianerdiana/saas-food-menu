@@ -9,9 +9,9 @@ import {
 
 import { Plus, Star } from "lucide-react";
 
-type ProductsSwiperProps = { products: (Product & { category: Category })[] };
+type ProductCarouselProps = { products: (Product & { category: Category })[] };
 
-export function ProductsSwiper({ products }: ProductsSwiperProps) {
+export function ProductCarousel({ products }: ProductCarouselProps) {
   return (
     <div className="flex justify-center">
       <Carousel

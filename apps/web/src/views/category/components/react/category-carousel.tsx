@@ -1,21 +1,18 @@
-import { Category } from "@/types/category.js";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-} from "@workspace/ui/components/carousel";
+} from "@workspace/ui/components/carousel.js";
+import type { Category } from "@/types/category.js";
 
-type CategoriesSwiperProps = { categories: Category[] };
+type Props = {
+  categories: Category[];
+};
 
-export function CategoriesSwiper({ categories }: CategoriesSwiperProps) {
+export function CategoryCarousel({ categories }: Props) {
   return (
-    <Carousel
-      className="w-full"
-      opts={{
-        align: "center",
-      }}
-    >
-      <CarouselContent className="w-full">
+    <Carousel className="w-full">
+      <CarouselContent>
         {categories.map((category, index) => (
           <CarouselItem key={index} className="w-fit basis-1/3 sm:basis-1/5">
             <a href="#" className="w-fit">
@@ -24,7 +21,7 @@ export function CategoriesSwiper({ categories }: CategoriesSwiperProps) {
                   <img
                     src={category.image}
                     className="w-full h-full object-contain"
-                    alt="thumbnail"
+                    alt={category.name}
                   />
                 </div>
                 <div className="flex flex-col gap-0.5">

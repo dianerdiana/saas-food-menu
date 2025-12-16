@@ -1,11 +1,40 @@
 ---
 import "@workspace/ui/globals.css";
+import { cn } from "@workspace/ui/lib/utils";
 import { House, Search, ShoppingCart, User } from "lucide-react";
 
 const referer = Astro.request.headers.get("Referer");
 const url = new URL(referer || "");
 
-console.log(referer);
+console.log(url);
+
+const navigation = [
+  {
+    id: "1",
+    name: "Home",
+    icon: House,
+    href: "/",
+  },
+  {
+    id: "2",
+    name: "Cart",
+    icon: ShoppingCart,
+    href: "/cart",
+    count: 6,
+  },
+  {
+    id: "3",
+    name: "Search",
+    icon: Search,
+    href: "/search",
+  },
+  {
+    id: "4",
+    name: "Profile",
+    icon: User,
+    href: "/profile",
+  },
+];
 ---
 
 <!doctype html>
@@ -18,37 +47,49 @@ console.log(referer);
     <title>Astro Basics</title>
   </head>
   <body>
-    <slot />
+    <div class="pb-40">
+      <slot name="header" />
+      <slot name="main" />
+    </div>
     <!-- navigation bottom -->
     <div
       class="fixed inset-x-0 bottom-0 max-w-160 z-50 bg-white shadow-sm mx-auto"
     >
       <div class="flex items-center justify-between px-8 py-4">
-        <a href="index.html" class="flex flex-col items-center gap-2">
-          <House className="stroke-primary fill-primary" />
-          <p class="text-primary font-normal text-xs">Home</p>
-        </a>
-        <a href="cart.html" class="flex flex-col items-center gap-2">
-          <div class="relative">
-            <ShoppingCart className="stroke-muted-foreground" />
-            <div
-              class="absolute -top-1 -right-2 flex items-center justify-center w-4 h-4 rounded-full bg-primary"
+        {
+          navigation.map((nav) => (
+            <a
+              href={nav.href}
+              class={cn(
+                "flex flex-col items-center gap-2",
+                nav.href === url.pathname && "text-primary",
+              )}
             >
-              <p class="text-white font-normal text-[10px]" id="cart-count">
-                6
-              </p>
-            </div>
-          </div>
-          <p class="text-[#606060] font-normal text-xs">Cart</p>
-        </a>
-        <a href="find.html" class="flex flex-col items-center gap-2">
-          <Search className="stroke-muted-foreground" />
-          <p class="text-[#606060] font-normal text-xs">Find</p>
-        </a>
-        <a href="index.html" class="flex flex-col items-center gap-2">
-          <User className="stroke-muted-foreground" />
-          <p class="text-[#606060] font-normal text-xs">Profile</p>
-        </a>
+              <div class="relative">
+                <nav.icon
+                  className={
+                    nav.href === url.pathname
+                      ? "stroke-primary fill-primary"
+                      : "stroke-muted-foreground"
+                  }
+                />
+                {nav.count ? (
+                  <div class="absolute -top-1 -right-2 flex items-center justify-center w-4 h-4 rounded-full bg-primary border border-white">
+                    <p
+                      class="text-white font-normal text-[10px]"
+                      id="cart-count"
+                    >
+                      {nav.count}
+                    </p>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+              <p class="font-normal text-xs">{nav.name}</p>
+            </a>
+          ))
+        }
       </div>
     </div>
   </body>
