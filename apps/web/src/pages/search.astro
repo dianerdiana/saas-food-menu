@@ -1,5 +1,6 @@
 ---
 import Container from "@/components/astro/container.astro";
+import NavigationTop from "@/components/astro/navigation-top.astro";
 import NavigationLayout from "@/layouts/navigation-layout.astro";
 import ProductCardHorizontal from "@/views/product/components/astro/product-card-horizontal.astro";
 import { ArrowLeft } from "lucide-react";
@@ -45,19 +46,7 @@ const response = {
 <NavigationLayout>
   <Container slot="header">
     <header>
-      <div
-        id="TopNav"
-        class="relative flex items-center justify-between px-5 py-3 bg-white"
-      >
-        <a
-          href="find.html"
-          class="w-12 h-12 flex items-center justify-center shrink-0 rounded-full overflow-hidden bg-background"
-        >
-          <ArrowLeft />
-        </a>
-        <p class="font-semibold">Search Results</p>
-        <div class="dummy-btn w-12"></div>
-      </div>
+      <NavigationTop title="Search" backLink="/" />
 
       <div
         id="Header"

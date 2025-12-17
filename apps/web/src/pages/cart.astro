@@ -1,8 +1,8 @@
 ---
 import Container from "@/components/astro/container.astro";
+import NavigationTop from "@/components/astro/navigation-top.astro";
 import BlankLayout from "@/layouts/blank-layout.astro";
 import ProductCart from "@/views/product/components/astro/product-cart.astro";
-import { ArrowLeft } from "lucide-react";
 
 const response = {
   data: [
@@ -44,21 +44,9 @@ const response = {
 };
 ---
 
-<BlankLayout class="pb-32">
+<BlankLayout>
   <Container slot="header">
-    <header
-      id="TopNav"
-      class="relative flex items-center justify-between px-5 py-3 bg-white"
-    >
-      <a
-        href="/"
-        class="w-12 h-12 flex items-center justify-center shrink-0 rounded-full overflow-hidden bg-background"
-      >
-        <ArrowLeft />
-      </a>
-      <p class="font-semibold">My Cart</p>
-      <div class="dummy-btn w-12"></div>
-    </header>
+    <NavigationTop title="My Cart" backLink="/" />
   </Container>
   <Container slot={"main"}>
     <div id="Cart" class="flex flex-col gap-3 mt-4 px-5">
@@ -75,7 +63,7 @@ const response = {
         </div>
 
         <a
-          href="customer-information.html"
+          href="/customer-information"
           type="button"
           class="flex justify-center rounded-full py-3.5 px-7 bg-primary font-normal text-white"
         >

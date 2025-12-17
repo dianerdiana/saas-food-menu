@@ -1,0 +1,23 @@
+---
+import { ArrowLeft } from "lucide-react";
+
+type Props = {
+  title: string;
+  backLink: string;
+};
+const { title, backLink } = Astro.props;
+---
+
+<nav
+  id="TopNav"
+  class="relative flex items-center justify-between px-5 py-3 bg-white"
+>
+  <a
+    href={backLink}
+    class="w-12 h-12 flex items-center justify-center shrink-0 rounded-full overflow-hidden bg-background"
+  >
+    <ArrowLeft />
+  </a>
+  <p class="font-semibold">{title}</p>
+  <div class="dummy-btn w-12"></div>
+</nav>
