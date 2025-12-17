@@ -60,7 +60,7 @@ const response = {
       <div class="dummy-btn w-12"></div>
     </header>
   </Container>
-  <Container slot={"main"} class="pb-36">
+  <Container slot={"main"}>
     <div id="Cart" class="flex flex-col gap-3 mt-4 px-5">
       {response.data.map((product) => <ProductCart product={product} />)}
     </div>

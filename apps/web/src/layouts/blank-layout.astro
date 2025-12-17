@@ -16,7 +16,9 @@ import "@workspace/ui/globals.css";
     <title>Astro Basics</title>
   </head>
   <body>
-    <slot name="header" />
-    <slot name="main" />
+    <div class="pb-40">
+      <slot name="header" />
+      <slot name="main" />
+    </div>
   </body>
 </html>
