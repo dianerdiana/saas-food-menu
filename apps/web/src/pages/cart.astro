@@ -1,6 +1,6 @@
 ---
 import Container from "@/components/astro/container.astro";
-import NavigationLayout from "@/layouts/blank-layout.astro";
+import BlankLayout from "@/layouts/blank-layout.astro";
 import ProductCart from "@/views/product/components/astro/product-cart.astro";
 import { ArrowLeft } from "lucide-react";
 
@@ -44,7 +44,7 @@ const response = {
 };
 ---
 
-<NavigationLayout>
+<BlankLayout class="pb-32">
   <Container slot="header">
     <header
       id="TopNav"
@@ -84,4 +84,4 @@ const response = {
       </div>
     </div>
   </Container>
-</NavigationLayout>
+</BlankLayout>

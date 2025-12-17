@@ -1,5 +1,7 @@
 ---
 import "@workspace/ui/globals.css";
+import { cn } from "@workspace/ui/lib/utils";
+const props = Astro.props;
 ---
 
 <!doctype html>
@@ -16,7 +18,7 @@ import "@workspace/ui/globals.css";
     <title>Astro Basics</title>
   </head>
   <body>
-    <div class="pb-40">
+    <div class={cn("pb-24", props.class)}>
       <slot name="header" />
       <slot name="main" />
     </div>
