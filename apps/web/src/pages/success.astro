@@ -1,132 +1,111 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Emenu</title>
+---
+import Container from "@/components/astro/container.astro";
+import BlankLayout from "@/layouts/blank-layout.astro";
+import { Check, ListCheck } from "lucide-react";
+---
 
-    <link rel="stylesheet" href="./output.css" />
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
-  </head>
-
-  <body>
-    <div id="Content-Container">
-      <div class="flex flex-col min-h-screen justify-center px-5">
-        <div id="Success" class="relative flex flex-col">
-          <div
-            class="w-full flex flex-col rounded-[8px] border border-background p-5 gap-6 bg-white mt-6"
-          >
-            <div class="flex flex-col items-center gap-2">
-              <img
-                src="assets/images/icons/Success.svg"
-                alt="success"
-                class="w-24 h-24"
-              />
-              <p class="text-[26px] font-[500] text-center">
-                Successful Transaction Show this to the cashier
-              </p>
-            </div>
-
-            <div class="flex flex-col gap-2">
-              <p class="font-semibold">Order Details</p>
-
-              <div class="flex flex-col gap-4 mt-[10px]">
-                <div
-                  class="flex items-center rounded-[8px] border border-background p-[12px] gap-4 bg-white hover:bg-primary-slate hover:border-[1px] hover:border-secondary transition-all duration-300"
-                >
-                  <div class="w-[128px] h-[88px]">
-                    <img
-                      src="assets/images/photos/ramen.png"
-                      class="w-full object-cover rounded-[8px]"
-                      alt="icon"
-                    />
-                  </div>
-                  <div class="flex flex-col gap-1 w-full">
-                    <p class="text-secondary font-[400] text-[12px]">Ramen</p>
-                    <h3 class="text-accent-foreground font-[500] text-[14px]">
-                      Spicy Ramen Level 3
-                    </h3>
-
-                    <div class="flex items-center justify-between">
-                      <p class="text-destructive font-[600] text-[14px]">
-                        Rp 45.000
-                      </p>
-                    </div>
-                  </div>
-                  <span id="qty">x1</span>
-                </div>
-              </div>
-
-              <div class="flex flex-col gap-4 mt-[10px]">
-                <div
-                  class="flex items-center rounded-[8px] border border-background p-[12px] gap-4 bg-white hover:bg-primary-slate hover:border-[1px] hover:border-secondary transition-all duration-300"
-                >
-                  <div class="w-[128px] h-[88px]">
-                    <img
-                      src="assets/images/photos/ramen.png"
-                      class="w-full object-cover rounded-[8px]"
-                      alt="icon"
-                    />
-                  </div>
-                  <div class="flex flex-col gap-1 w-full">
-                    <p class="text-secondary font-[400] text-[12px]">Ramen</p>
-                    <h3 class="text-accent-foreground font-[500] text-[14px]">
-                      Spicy Ramen Level 3
-                    </h3>
-
-                    <div class="flex items-center justify-between">
-                      <p class="text-destructive font-[600] text-[14px]">
-                        Rp 45.000
-                      </p>
-                    </div>
-                  </div>
-                  <span id="qty">x1</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex flex-col gap-2">
-              <p class="font-semibold">Your Code Order</p>
-              <label
-                class="flex items-center w-full rounded-[8px] p-[14px_20px] gap-3 bg-white ring-1 ring-primary/5 focus-within:ring-secondary focus-within:ring-opacity-100 transition-all duration-300"
+<BlankLayout>
+  <Container slot={"main"}>
+    <div class="flex flex-col min-h-screen justify-center px-5">
+      <div id="Success" class="relative flex flex-col gap-y-4">
+        <div
+          class="w-full flex flex-col rounded-xl border border-background p-5 gap-6 bg-white mt-6"
+        >
+          <div class="flex flex-col items-center gap-2">
+            <div class="bg-success-slate rounded-full p-3">
+              <div
+                class="bg-success rounded-full p-3 flex items-center justify-center"
               >
+                <Check className="size-8 stroke-white" />
+              </div>
+            </div>
+          </div>
+          <p class="text-3xl font-medium text-center">
+            Successful Transaction <br /> Show this to the cashier
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <p class="font-semibold">Order Details</p>
+          <div class="flex flex-col gap-4">
+            <div
+              class="cart-item flex items-center rounded-xl border border-background p-3 gap-4 bg-white hover:bg-primary-slate hover:border hover:border-secondary transition-all duration-300"
+            >
+              <div class="overflow-hidden w-32 h-22">
                 <img
-                  src="assets/images/icons/Document.svg"
-                  class="w-5 h-5 flex shrink-0"
+                  src="https://ik.imagekit.io/dianerdiana/saas-food-menu/photos/Delicious%20Ramen%20Bowl.png?updatedAt=1765852917286"
+                  class="w-full h-full object-cover object-center rounded-xl aspect-auto"
                   alt="icon"
                 />
-                <input
-                  type="text"
-                  name="code"
-                  id=""
-                  class="appearance-none outline-none w-full font-semibold placeholder:text-ngekos-grey placeholder:font-light"
-                  value="TRX2019213"
+              </div>
+              <div class="flex flex-col gap-1 w-full">
+                <p class="text-secondary font-normal text-xs">Ramen</p>
+                <h3 class="text-accent-foreground font-medium text-sm">
+                  Spicy Ramen Level 3
+                </h3>
+
+                <div class="flex items-center justify-between">
+                  <p class="text-destructive font-semibold text-sm">
+                    Rp 45.000
+                  </p>
+                </div>
+              </div>
+              <span id="qty">x1</span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-4">
+            <div
+              class="cart-item flex items-center rounded-xl border border-background p-3 gap-4 bg-white hover:bg-primary-slate hover:border hover:border-secondary transition-all duration-300"
+            >
+              <div class="overflow-hidden w-32 h-22">
+                <img
+                  src="https://ik.imagekit.io/dianerdiana/saas-food-menu/photos/Delicious%20Ramen%20Bowl.png?updatedAt=1765852917286"
+                  class="w-full h-full object-cover object-center rounded-xl aspect-auto"
+                  alt="icon"
                 />
-              </label>
+              </div>
+              <div class="flex flex-col gap-1 w-full">
+                <p class="text-secondary font-normal text-xs">Ramen</p>
+                <h3 class="text-accent-foreground font-medium text-sm">
+                  Spicy Ramen Level 3
+                </h3>
+
+                <div class="flex items-center justify-between">
+                  <p class="text-destructive font-semibold text-sm">
+                    Rp 45.000
+                  </p>
+                </div>
+              </div>
+              <span id="qty">x1</span>
             </div>
           </div>
         </div>
 
-        <a
-          href="index.html"
-          class="flex justify-center rounded-full p-[14px_28px] bg-primary font-normal text-white mt-6"
-        >
-          See More Menu
-        </a>
+        <div class="flex flex-col gap-2">
+          <p class="font-semibold">Your Code Order</p>
+          <label
+            class="flex items-center w-full rounded-xl py-3.5 px-5 gap-3 bg-white ring-1 ring-primary/5 focus-within:ring-secondary focus-within:ring-opacity-100 transition-all duration-300"
+          >
+            <div class="bg-primary/30 p-1 rounded">
+              <ListCheck className="stroke-primary" />
+            </div>
+            <input
+              type="text"
+              name="code"
+              id=""
+              class="appearance-none outline-none w-full font-semibold placeholder:font-light"
+              value="TRX2019213"
+            />
+          </label>
+        </div>
       </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"
-    ></script>
-    <script src="assets/js/customer-information.js"></script>
-  </body>
-</html>
+    <a
+      href="/"
+      class="flex justify-center rounded-full py-3.5 px-5 bg-primary font-normal text-white mt-6"
+    >
+      See More Menu
+    </a>
+  </Container>
+</BlankLayout>
