@@ -4,9 +4,9 @@ import BlankLayout from "@/layouts/blank-layout.astro";
 import { Check, ListCheck } from "lucide-react";
 ---
 
-<BlankLayout>
+<BlankLayout class="pb-0">
   <Container slot={"main"}>
-    <div class="flex flex-col min-h-screen justify-center px-5">
+    <div class="flex flex-col min-h-screen justify-center px-5 gap-y-4">
       <div id="Success" class="relative flex flex-col gap-y-4">
         <div
           class="w-full flex flex-col rounded-xl border border-background p-5 gap-6 bg-white mt-6"
@@ -99,13 +99,12 @@ import { Check, ListCheck } from "lucide-react";
           </label>
         </div>
       </div>
+      <a
+        href="/"
+        class="flex justify-center rounded-full py-3.5 px-5 bg-primary font-normal text-white"
+      >
+        See More Menu
+      </a>
     </div>
-
-    <a
-      href="/"
-      class="flex justify-center rounded-full py-3.5 px-5 bg-primary font-normal text-white mt-6"
-    >
-      See More Menu
-    </a>
   </Container>
 </BlankLayout>
