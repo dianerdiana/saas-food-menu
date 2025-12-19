@@ -278,24 +278,8 @@ Modular-Design Architecture:
 erDiagram
   direction LR
 
-  STORES {
-    string(12) id PK
-    string(100) name
-    string(255) image
-    string(255) slug
-    string(50) phone
-    text location
-    text description
-    string(100) status
-    date created_at "default now"
-    date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
-  }
-
   USERS {
     string(12) id PK
-    string(12) store_id
     string(255) avatar "nullable"
     string(50) full_name
     string(50) username
@@ -305,6 +289,22 @@ erDiagram
     date last_login
     date created_at
     date updated_at
+    string(12) created_by FK
+    string(12) updated_by FK
+  }
+
+  STORES {
+    string(12) id PK
+    string(12) owner FK
+    string(100) name
+    string(255) image
+    string(255) slug
+    string(50) phone
+    text location
+    text description
+    string(100) status
+    date created_at "default now"
+    date updated_at "default now"
     string(12) created_by FK
     string(12) updated_by FK
   }
@@ -466,7 +466,6 @@ erDiagram
     string(12) updated_by FK
   }
 
-  STORES ||--o{ USERS : "one-to-many"
   STORES ||--o{ SUBSCRIPTIONS : "one-to-many"
   STORES ||--o{ BANKS : "one-to-many"
   STORES ||--o{ CATEGORIES : "one-to-many"
@@ -474,6 +473,8 @@ erDiagram
   STORES ||--o{ TRANSACTIONS : "one-to-many"
   STORES ||--o{ MENU_INGREDIENTS: "one-to-many"
 
+
+  USERS ||--o{ STORES : "one-to-many"
   USERS ||--o{ USER_ROLES : "one-to-many"
   ROLES ||--o{ USER_ROLES : "one-to-many"
   ROLES ||--o{ ROLE_PERMISSIONS : "one-to-many"
