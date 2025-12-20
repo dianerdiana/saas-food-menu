@@ -4,11 +4,10 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./*"],
-      "@app/*": ["./src/app/*"],
-      "@modules/*": ["./src/modules/*"],
-      "@shared/*": ["./src/shared/*"],
-      "@workspace/ui/*": ["../../packages/ui/src/*"]
+      "@/app/*": ["./src/app/*"],
+      "@/database/*": ["./src/database/*"],
+      "@/modules/*": ["./src/modules/*"],
+      "@/shared/*": ["./src/shared/*"]
     }
   }
 }

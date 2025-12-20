@@ -1,4 +1,3 @@
-import { UserRole } from '@/modules/user-role/domain/permission/user-role.entity';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
 import {
   BeforeInsert,
@@ -7,38 +6,37 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
 } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 
-@Entity('users')
-export class User {
+@Entity('stores')
+export class Store {
   @PrimaryColumn('uuid')
   id!: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  avatar!: string;
+  @Column({ name: 'user_id', type: 'varchar', length: 36 })
+  userId!: string;
 
-  @Column({ name: 'full_name', type: 'varchar', length: 100, unique: true })
-  fullName!: string;
+  @Column({ type: 'varchar', length: 255 })
+  name!: string;
 
-  @Column({ type: 'varchar', length: 100, unique: true })
-  username!: string;
+  @Column({ type: 'varchar', length: 255 })
+  image!: string;
 
-  @Column({ type: 'varchar', length: 100, unique: true })
-  email!: string;
+  @Column({ type: 'varchar', length: 255, unique: true })
+  slug!: string;
 
   @Column({ type: 'varchar', length: 50, unique: true })
   phone!: string;
 
-  @Column({ type: 'varchar', length: 100 })
-  password!: string;
+  @Column({ type: 'text', nullable: true })
+  location!: string;
+
+  @Column({ type: 'text', nullable: true })
+  description!: string;
 
   @Column({ type: 'varchar', length: 50, default: GENERAL_STATUS.active })
   status!: string;
-
-  @Column({ name: 'last_login', type: 'timestamptz', nullable: true })
-  lastLogin!: Date;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt!: Date;
@@ -51,9 +49,6 @@ export class User {
 
   @Column({ name: 'updated_by', type: 'varchar', length: 36, nullable: true })
   updatedBy!: string;
-
-  @OneToMany(() => UserRole, (userRole) => userRole.userId)
-  userRoles!: UserRole[];
 
   @BeforeInsert()
   generateId() {

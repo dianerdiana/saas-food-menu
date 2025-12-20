@@ -295,14 +295,14 @@ erDiagram
 
   STORES {
     string(12) id PK
-    string(12) owner FK
+    string(12) user_id FK
     string(100) name
     string(255) image
     string(255) slug
     string(50) phone
     text location
     text description
-    string(100) status
+    string(50) status
     date created_at "default now"
     date updated_at "default now"
     string(12) created_by FK
@@ -315,8 +315,6 @@ erDiagram
     string(255) description "optional"
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
   }
 
   PERMISSIONS {
@@ -329,8 +327,6 @@ erDiagram
     string(255) reason "optional"
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
   }
 
   USER_ROLES {
@@ -339,8 +335,6 @@ erDiagram
     string(12) role_id FK
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
   }
 
   ROLE_PERMISSIONS {
@@ -349,8 +343,6 @@ erDiagram
     string(12) permission_id FK
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
   }
 
   BANKS {
@@ -491,10 +483,6 @@ erDiagram
   PRODUCTS ||--o{ TRANSACTION_DETAILS: "one-to-many"
 
   USERS ||--o{ STORES : "one-to-many (creator/updater)"
-  USERS ||--o{ ROLES : "one-to-many (creator/updater)"
-  USERS ||--o{ PERMISSIONS : "one-to-many (creator/updater)"
-  USERS ||--o{ USER_ROLES : "one-to-many (creator/updater)"
-  USERS ||--o{ ROLE_PERMISSIONS : "one-to-many (creator/updater)"
   USERS ||--o{ BANKS : "one-to-many (creator/updater)"
   USERS ||--o{ SUBSCRIPTIONS : "one-to-many (creator/updater)"
   USERS ||--o{ SUBSCRIPTION_PAYMENTS : "one-to-many (creator/updater)"
