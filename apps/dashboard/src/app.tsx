@@ -1,7 +1,24 @@
-import { VerticalLayout } from "./layouts/vertical-layout";
+import { Suspense, useEffect, useState } from 'react';
+import { Outlet, ScrollRestoration } from 'react-router';
 
 function App() {
-  return <VerticalLayout />;
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
+  return (
+    <Suspense fallback={null}>
+      <Outlet />
+      <ScrollRestoration />
+    </Suspense>
+  );
 }
 
 export default App;

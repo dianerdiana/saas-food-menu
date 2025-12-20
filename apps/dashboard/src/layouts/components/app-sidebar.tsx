@@ -1,9 +1,13 @@
 import * as React from "react";
 import {
   AudioWaveform,
+  Banknote,
+  CircleDollarSign,
   Command,
   GalleryVerticalEnd,
-  SquareTerminal,
+  LayoutDashboard,
+  ShoppingBag,
+  Tag,
 } from "lucide-react";
 
 import { NavMain } from "./nav-main";
@@ -41,29 +45,42 @@ const data = {
       plan: "Free",
     },
   ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-  ],
 };
+
+const dashboardMenu = [
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard,
+    isActive: false,
+  },
+];
+
+const managementSubscriptionNav = [
+  {
+    title: "Subscription",
+    url: "#",
+    icon: Banknote,
+  },
+  {
+    title: "Management Transaction",
+    url: "#",
+    icon: CircleDollarSign,
+  },
+];
+
+const managementMenuNav = [
+  {
+    title: "Product Category",
+    url: "#",
+    icon: Tag,
+  },
+  {
+    title: "Product",
+    url: "#",
+    icon: ShoppingBag,
+  },
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -72,7 +89,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={dashboardMenu} />
+        <NavMain
+          title="Management Subscription"
+          items={managementSubscriptionNav}
+        />
+        <NavMain title="Management Menu" items={managementMenuNav} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

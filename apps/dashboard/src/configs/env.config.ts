@@ -1,0 +1,4 @@
+export const env = {
+  BASE_API_URL: import.meta.env.VITE_BASE_API_URL,
+  BASE_JWT_URL: import.meta.env.VITE_BASE_JWT_URL,
+};
