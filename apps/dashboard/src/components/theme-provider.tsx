@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ThemeProviderContext } from '@/utils/context/theme-context';
+import { ThemeProviderContext } from '@workspace/ui/context/theme-context';
 
 type Theme = 'dark' | 'light' | 'system';
 

@@ -8,9 +8,5 @@ export const DashboardRoute: AppRoute[] = [
   {
     path: '/dashboard',
     element: <DashboardPage />,
-    meta: {
-      layout: 'vertical',
-      publicRoute: true,
-    },
   },
 ];

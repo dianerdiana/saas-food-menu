@@ -10,7 +10,6 @@ export const AuthRoute: AppRoute[] = [
     element: <SignInPage />,
     meta: {
       layout: 'blank',
-      publicRoute: false,
     },
   },
 ];
