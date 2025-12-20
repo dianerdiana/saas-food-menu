@@ -2,7 +2,7 @@ import { lazy } from 'react';
 import type { AppRoute } from '@/types/route.type';
 
 // Pages
-const SignInPage = lazy(() => import('@/pages/signin'));
+const SignInPage = lazy(() => import('@/pages/auth/signin'));
 
 export const AuthRoute: AppRoute[] = [
   {

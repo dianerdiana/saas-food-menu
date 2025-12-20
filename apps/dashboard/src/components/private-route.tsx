@@ -6,7 +6,7 @@ import FallbackSpinner from './fallback-spinner';
 
 // Thirdparty
 import { useAbility } from '@casl/react';
-import { Navigate } from 'react-router';
+import { Navigate } from 'react-router-dom';
 
 // Types
 import type { RouteMeta } from '@/types/route.type';

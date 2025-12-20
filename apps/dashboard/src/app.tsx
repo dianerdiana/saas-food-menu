@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState } from 'react';
-import { Outlet, ScrollRestoration } from 'react-router';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
 
 function App() {
   const [isMounted, setIsMounted] = useState(false);

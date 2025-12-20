@@ -1,8 +1,8 @@
 export const appConfig = {
-  logoUrl: '/logos/logo-brand.svg',
+  logoUrl: '/vite.svg',
   // combination of logo and brand name
-  logoBrandUrl: '/logos/logo-brand.svg',
-  brandName: 'Leadova',
+  logoBrandUrl: '/vite.svg',
+  brandName: 'Food Menu',
   localCurrency: 'id-ID',
   currency: 'IDR',
 };

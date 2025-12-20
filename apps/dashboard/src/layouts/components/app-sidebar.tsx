@@ -1,87 +1,37 @@
-import * as React from "react";
-import {
-  AudioWaveform,
-  Banknote,
-  CircleDollarSign,
-  Command,
-  GalleryVerticalEnd,
-  LayoutDashboard,
-  ShoppingBag,
-  Tag,
-} from "lucide-react";
+import * as React from 'react';
+import { AudioWaveform, Command, GalleryVerticalEnd } from 'lucide-react';
 
-import { NavMain } from "./nav-main";
-import { NavUser } from "./nav-user";
-import { TeamSwitcher } from "./team-switcher";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
-} from "@workspace/ui/components/sidebar";
+import { NavMain } from './nav-main';
+import { NavUser } from './nav-user';
+import { TeamSwitcher } from './team-switcher';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@workspace/ui/components/sidebar';
+import { navigation } from '@/navigation/navigation';
 
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: 'shadcn',
+    email: 'm@example.com',
+    avatar: '/avatars/shadcn.jpg',
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: 'Acme Inc',
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      plan: 'Enterprise',
     },
     {
-      name: "Acme Corp.",
+      name: 'Acme Corp.',
       logo: AudioWaveform,
-      plan: "Startup",
+      plan: 'Startup',
     },
     {
-      name: "Evil Corp.",
+      name: 'Evil Corp.',
       logo: Command,
-      plan: "Free",
+      plan: 'Free',
     },
   ],
 };
-
-const dashboardMenu = [
-  {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: LayoutDashboard,
-    isActive: false,
-  },
-];
-
-const managementSubscriptionNav = [
-  {
-    title: "Subscription",
-    url: "#",
-    icon: Banknote,
-  },
-  {
-    title: "Management Transaction",
-    url: "#",
-    icon: CircleDollarSign,
-  },
-];
-
-const managementMenuNav = [
-  {
-    title: "Product Category",
-    url: "#",
-    icon: Tag,
-  },
-  {
-    title: "Product",
-    url: "#",
-    icon: ShoppingBag,
-  },
-];
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
@@ -89,12 +39,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={dashboardMenu} />
-        <NavMain
-          title="Management Subscription"
-          items={managementSubscriptionNav}
-        />
-        <NavMain title="Management Menu" items={managementMenuNav} />
+        {navigation.map((nav, idx) => (
+          <NavMain key={idx} title={nav.title} items={nav.items} />
+        ))}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

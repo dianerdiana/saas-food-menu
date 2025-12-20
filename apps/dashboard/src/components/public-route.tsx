@@ -1,7 +1,7 @@
 import type { RouteMeta } from '@/types/route.type';
 import { useAuth } from '@/utils/hooks/use-auth';
 import { Suspense } from 'react';
-import { Navigate } from 'react-router';
+import { Navigate } from 'react-router-dom';
 
 type PublicRouteProps = {
   children: React.ReactNode;

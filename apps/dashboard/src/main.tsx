@@ -3,7 +3,7 @@ import { StrictMode, Suspense } from 'react';
 
 // Router Dom
 import { createRoot } from 'react-dom/client';
-import { RouterProvider } from 'react-router';
+import { RouterProvider } from 'react-router-dom';
 import { router } from './router/router';
 import FallbackSpinner from './components/fallback-spinner';
 

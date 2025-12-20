@@ -1,6 +1,6 @@
 import { lazy } from 'react';
-import { createBrowserRouter, redirect, type RouteObject } from 'react-router';
-import { AuthRoute, DashboardRoute } from './routes';
+import { createBrowserRouter, redirect, type RouteObject } from 'react-router-dom';
+import { AuthRoute, DashboardRoute, SubscriptionRoute } from './routes';
 
 // Layouts
 import type { AppRoute, RouteMeta } from '@/types/route.type';
@@ -22,7 +22,7 @@ const resolveLayout = (layout?: string) => {
   }
 };
 
-const routes = [...AuthRoute, ...DashboardRoute];
+const routes = [...AuthRoute, ...DashboardRoute, ...SubscriptionRoute];
 
 const mergeLayoutRoutes = (layout: string, defaultLayout: string): AppRoute[] => {
   const LayoutRoutes: AppRoute[] = [];

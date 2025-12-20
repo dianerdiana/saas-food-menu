@@ -31,6 +31,7 @@
       "@/components/*": ["./src/components/*"],
       "@/configs/*": ["./src/configs/*"],
       "@/layouts/*": ["./src/layouts/*"],
+      "@/navigation/*": ["./src/navigation/*"],
       "@/pages/*": ["./src/pages/*"],
       "@/types/*": ["./src/types/*"],
       "@/utils/*": ["./src/utils/*"],
