@@ -18,12 +18,6 @@ export const navigation = [
         title: 'Subscription',
         url: '/subscription',
         icon: Banknote,
-        items: [
-          {
-            title: 'Subscription List',
-            url: '/subscription/list',
-          },
-        ],
       },
       {
         title: 'Management Transaction',
