@@ -1,10 +1,13 @@
+import { ConfigService } from '@nestjs/config';
 import { createServer } from './server';
 
 const startServer = async (): Promise<void> => {
   try {
     const server = await createServer();
-    const port = process.env.PORT ?? 3000;
-    const host = '127.0.0.1';
+
+    const env = server.get(ConfigService);
+    const port = env.get('port');
+    const host = env.get('host');
 
     await server.listen(port, host);
 
