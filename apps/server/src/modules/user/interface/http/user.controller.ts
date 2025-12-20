@@ -1,12 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
-import { GetUserUseCase } from '../../application/use-cases/get-user.use-case';
+import { GetUserById } from '../../application/use-cases/get-user.use-case';
 
 @Controller()
 export class UserController {
-  constructor(private readonly getUserUseCase: GetUserUseCase) {}
+  constructor(private readonly getUserById: GetUserById) {}
 
   @Get()
   getHello(): string {
-    return this.getUserUseCase.execute();
+    return this.getUserById.execute();
   }
 }

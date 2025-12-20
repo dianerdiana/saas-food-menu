@@ -1,7 +1,7 @@
 export interface DatabaseEnvironmentInterface {
   host: string;
   port: number;
-  user: string;
+  username: string;
   password: string;
   database: string;
 }

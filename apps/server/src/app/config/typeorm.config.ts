@@ -15,13 +15,16 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       type: 'postgres', // or 'postgres', 'mongodb', etc.
       host: config?.host,
       port: config?.port,
-      username: config?.user,
+      username: config?.username,
       password: config?.password,
       database: config?.database,
       autoLoadEntities: true,
       synchronize: false, // Set to false in production
-      entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-      migrations: [__dirname + '/../migrations/*{.ts,.js}'],
+      entities: [__dirname + '../../modules/**/*.entity{.ts,.js}'],
+      migrations: [__dirname + '../../database/migrations/*{.ts,.js}'],
+      migrationsRun: false,
+      migrationsTableName: 'migrations',
+      migrationsTransactionMode: 'all',
     };
   }
 }
