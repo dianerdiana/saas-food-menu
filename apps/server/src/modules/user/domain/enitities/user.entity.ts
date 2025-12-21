@@ -1,3 +1,4 @@
+import { Store } from '@/modules/store/domain/entities/store.entity';
 import { UserRole } from '@/modules/user-role/domain/permission/user-role.entity';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
 import {
@@ -19,8 +20,11 @@ export class User {
   @Column({ type: 'varchar', length: 255, nullable: true })
   avatar!: string;
 
-  @Column({ name: 'full_name', type: 'varchar', length: 100, unique: true })
-  fullName!: string;
+  @Column({ name: 'first_name', type: 'varchar', length: 100 })
+  firstName!: string;
+
+  @Column({ name: 'last_name', type: 'varchar', length: 100 })
+  lastName!: string;
 
   @Column({ type: 'varchar', length: 100, unique: true })
   username!: string;
@@ -31,7 +35,7 @@ export class User {
   @Column({ type: 'varchar', length: 50, unique: true })
   phone!: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 255, select: false })
   password!: string;
 
   @Column({ type: 'varchar', length: 50, default: GENERAL_STATUS.active })
@@ -46,13 +50,16 @@ export class User {
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   updatedAt!: Date;
 
-  @Column({ name: 'created_by', type: 'varchar', length: 36, nullable: true })
+  @Column({ name: 'created_by', type: 'uuid', nullable: true })
   createdBy!: string;
 
-  @Column({ name: 'updated_by', type: 'varchar', length: 36, nullable: true })
+  @Column({ name: 'updated_by', type: 'uuid', nullable: true })
   updatedBy!: string;
 
-  @OneToMany(() => UserRole, (userRole) => userRole.userId)
+  @OneToMany(() => Store, (store) => store.user)
+  stores!: Store[];
+
+  @OneToMany(() => UserRole, (userRole) => userRole.user)
   userRoles!: UserRole[];
 
   @BeforeInsert()

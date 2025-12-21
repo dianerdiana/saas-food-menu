@@ -33,10 +33,10 @@ export class Bank {
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   updatedAt!: Date;
 
-  @Column({ name: 'created_by', type: 'varchar', length: 36, nullable: true })
+  @Column({ name: 'created_by', type: 'uuid', nullable: true })
   createdBy!: string;
 
-  @Column({ name: 'updated_by', type: 'varchar', length: 36, nullable: true })
+  @Column({ name: 'updated_by', type: 'uuid', nullable: true })
   updatedBy!: string;
 
   @ManyToOne(() => Store, (store) => store.id)

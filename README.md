@@ -279,46 +279,48 @@ erDiagram
   direction LR
 
   USERS {
-    string(12) id PK
+    string(36) id PK
     string(255) avatar "nullable"
-    string(50) full_name
-    string(50) username
-    string(100) email
-    string(50) phone
+    string(100) first_name
+    string(100) last_name
+    string(100) username "unique"
+    string(100) email "unique"
+    string(50) phone "unique"
     string(100) password
+    string(50) status
     date last_login
     date created_at
     date updated_at
-    string(12) created_by FK
-    string(12) updated_by FK
+    string(36) created_by FK
+    string(36) updated_by FK
   }
 
   STORES {
-    string(12) id PK
-    string(12) user_id FK
+    string(36) id PK
+    string(36) user_id FK
     string(100) name
     string(255) image
-    string(255) slug
-    string(50) phone
-    text location
-    text description
+    string(255) slug "unique"
+    string(50) phone "unique"
+    text location "nullable"
+    text description "nullable"
     string(50) status
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
+    string(36) created_by FK
+    string(36) updated_by FK
   }
 
   ROLES {
-    string(12) id PK
+    string(36) id PK
     string(100) name
-    string(255) description "optional"
+    string(255) description "nullable"
     date created_at "default now"
     date updated_at "default now"
   }
 
   PERMISSIONS {
-    string(12) id PK
+    string(36) id PK
     string(100) name
     string(100) action
     string(100) subject
@@ -330,49 +332,49 @@ erDiagram
   }
 
   USER_ROLES {
-    string(12) id PK
-    string(12) user_id FK
-    string(12) role_id FK
+    string(36) id PK
+    string(36) user_id FK
+    string(36) role_id FK
     date created_at "default now"
     date updated_at "default now"
   }
 
   ROLE_PERMISSIONS {
-    string(12) id PK
-    string(12) role_id FK
-    string(12) permission_id FK
+    string(36) id PK
+    string(36) role_id FK
+    string(36) permission_id FK
     date created_at "default now"
     date updated_at "default now"
   }
 
   BANKS {
-    string(12) id PK
-    string(12) store_id FK
+    string(36) id PK
+    string(36) store_id FK
     string(100) account
     string(100) name
     string(100) number
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
+    string(36) created_by FK
+    string(36) updated_by FK
   }
 
   SUBSCRIPTIONS {
-    string(12) id PK
-    string(12) store_id FK
-    string(12) user_id FK
+    string(36) id PK
+    string(36) store_id FK
+    string(36) user_id FK
     string(100) status
     date start_date
     date end_date
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
+    string(36) created_by FK
+    string(36) updated_by FK
   }
 
   SUBSCRIPTION_PAYMENTS {
-    string(12) id PK
-    string(12) subscription_id FK
+    string(36) id PK
+    string(36) subscription_id FK
     string(100) payment_method
     string(255) proof
     string(100) bank_account
@@ -381,26 +383,26 @@ erDiagram
     string(100) status
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
+    string(36) created_by FK
+    string(36) updated_by FK
   }
 
   CATEGORIES {
-    string(12) id PK
-    string(12) store_id FK
+    string(36) id PK
+    string(36) store_id FK
     string(255) name
     string(255) slug
     string(255) image
     string(100) status
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
+    string(36) created_by FK
+    string(36) updated_by FK
   }
 
   PRODUCTS {
-    string(12) id PK
-    string(12) store_id FK
+    string(36) id PK
+    string(36) store_id FK
     string(255) code
     string(255) name
     string(255) slug
@@ -410,43 +412,43 @@ erDiagram
     string(100) status
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
+    string(36) created_by FK
+    string(36) updated_by FK
   }
 
   INGREDIENTS {
-    string(12) id PK
+    string(36) id PK
     string(255) name
     string(100) status
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
+    string(36) created_by FK
+    string(36) updated_by FK
   }
 
   PRODUCT_CATEGORIES {
-    string(12) id PK
-    string(12) product_id FK
-    string(12) category_id FK
+    string(36) id PK
+    string(36) product_id FK
+    string(36) category_id FK
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
+    string(36) created_by FK
+    string(36) updated_by FK
   }
 
   PRODUCT_INGREDIENTS {
-    string(12) id PK
-    string(12) product_id FK
-    string(12) ingredient_id FK
+    string(36) id PK
+    string(36) product_id FK
+    string(36) ingredient_id FK
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
+    string(36) created_by FK
+    string(36) updated_by FK
   }
 
   TRANSACTIONS {
-    string(12) id PK
-    string(12) store_id FK
+    string(36) id PK
+    string(36) store_id FK
     string(100) code
     string(100) name
     string(100) table_number
@@ -455,21 +457,21 @@ erDiagram
     string(100) status
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
+    string(36) created_by FK
+    string(36) updated_by FK
   }
 
   TRANSACTION_DETAILS {
-    string(12) id PK
-    string(12) transaction_id FK
-    string(12) product_id FK
+    string(36) id PK
+    string(36) transaction_id FK
+    string(36) product_id FK
     int quantity
     string(255) note
     string(100) status
     date created_at "default now"
     date updated_at "default now"
-    string(12) created_by FK
-    string(12) updated_by FK
+    string(36) created_by FK
+    string(36) updated_by FK
   }
 
   STORES ||--o{ SUBSCRIPTIONS : "one-to-many"

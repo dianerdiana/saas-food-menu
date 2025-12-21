@@ -1,3 +1,4 @@
+import { User } from '@/modules/user/domain/enitities/user.entity';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
 import {
   BeforeInsert,
@@ -6,6 +7,7 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 
@@ -17,7 +19,7 @@ export class Store {
   @Column({ name: 'user_id', type: 'varchar', length: 36 })
   userId!: string;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 100 })
   name!: string;
 
   @Column({ type: 'varchar', length: 255 })
@@ -44,11 +46,14 @@ export class Store {
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   updatedAt!: Date;
 
-  @Column({ name: 'created_by', type: 'varchar', length: 36, nullable: true })
+  @Column({ name: 'created_by', type: 'uuid', nullable: true })
   createdBy!: string;
 
-  @Column({ name: 'updated_by', type: 'varchar', length: 36, nullable: true })
+  @Column({ name: 'updated_by', type: 'uuid', nullable: true })
   updatedBy!: string;
+
+  @ManyToOne(() => User, (user) => user.stores)
+  user!: User;
 
   @BeforeInsert()
   generateId() {
