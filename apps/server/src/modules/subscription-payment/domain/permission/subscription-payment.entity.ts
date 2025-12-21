@@ -32,6 +32,9 @@ export class SubscriptionPayment {
   @Column({ name: 'bank_number', type: 'varchar', length: 100 })
   bankNumber!: string;
 
+  @Column({ type: 'varchar', length: 50 })
+  status!: string;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt!: Date;
 

@@ -378,6 +378,7 @@ erDiagram
     string(100) bank_account
     string(100) bank_name
     string(100) bank_number
+    string(100) status
     date created_at "default now"
     date updated_at "default now"
     string(12) created_by FK
@@ -390,6 +391,7 @@ erDiagram
     string(255) name
     string(255) slug
     string(255) image
+    string(100) status
     date created_at "default now"
     date updated_at "default now"
     string(12) created_by FK
@@ -404,6 +406,7 @@ erDiagram
     string(255) image
     text description
     decimal price
+    string(100) status
     date created_at "default now"
     date updated_at "default now"
     string(12) created_by FK
@@ -452,6 +455,7 @@ erDiagram
     string(12) product_id FK
     int quantity
     string(255) note
+    string(100) status
     date created_at "default now"
     date updated_at "default now"
     string(12) created_by FK

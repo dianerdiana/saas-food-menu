@@ -9,25 +9,25 @@ import {
 } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 
-@Entity('subscriptions')
-export class Subscription {
+@Entity('categories')
+export class Category {
   @PrimaryColumn('uuid')
   id!: string;
 
   @Column({ name: 'store_id', type: 'varchar', length: 36 })
   storeId!: string;
 
-  @Column({ name: 'user_id', type: 'varchar', length: 36 })
-  userId!: string;
+  @Column({ type: 'varchar', length: 255 })
+  name!: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  slug!: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  image!: string;
 
   @Column({ type: 'varchar', length: 50 })
   status!: string;
-
-  @Column({ name: 'start_date', type: 'timestamptz' })
-  startData!: Date;
-
-  @Column({ name: 'end_date', type: 'timestamptz' })
-  endDate!: Date;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt!: Date;
