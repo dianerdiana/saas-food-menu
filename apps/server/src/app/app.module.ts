@@ -1,11 +1,18 @@
+// Library
 import { Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { InjectDataSource, TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfigService } from './config/typeorm.config';
 import { DataSource } from 'typeorm';
-import { UserModule } from '../modules/user/user.module';
+
+// Config
 import configuration from './config/env.config';
-import { PasswordService } from '@/shared/services/password.service';
+import { TypeOrmConfigService } from './config/typeorm.config';
+
+// Modules
+import { UserModule } from '@/modules/user/user.module';
+import { AuthModule } from '@/modules/auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from '@/modules/auth/infrastructure/guards/auth-jwt.guard';
 
 @Module({
   imports: [
@@ -20,9 +27,14 @@ import { PasswordService } from '@/shared/services/password.service';
       inject: [ConfigService],
     }),
     UserModule,
+    AuthModule,
   ],
-  providers: [PasswordService],
-  exports: [PasswordService],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AppModule implements OnModuleInit {
   constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
