@@ -4,10 +4,10 @@ import { Column, Entity, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('subscriptions')
 export class Subscription extends BaseAuditEntity {
-  @Column({ name: 'store_id', type: 'varchar', length: 36 })
+  @Column({ name: 'store_id', type: 'uuid' })
   storeId!: string;
 
-  @Column({ name: 'user_id', type: 'varchar', length: 36 })
+  @Column({ name: 'user_id', type: 'uuid' })
   userId!: string;
 
   @Column({ type: 'varchar', length: 50 })

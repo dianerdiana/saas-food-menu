@@ -26,10 +26,10 @@ export class Store extends BaseAuditEntity {
   phone!: string;
 
   @Column({ type: 'text', nullable: true })
-  location!: string;
+  location?: string | null;
 
   @Column({ type: 'text', nullable: true })
-  description!: string;
+  description?: string | null;
 
   @Column({ type: 'varchar', length: 50, default: GENERAL_STATUS.active })
   status!: string;

@@ -3,7 +3,7 @@ import { Column, Entity } from 'typeorm';
 
 @Entity('subscription_payments')
 export class SubscriptionPayment extends BaseAuditEntity {
-  @Column({ name: 'store_id', type: 'varchar', length: 36 })
+  @Column({ name: 'store_id', type: 'uuid' })
   storeId!: string;
 
   @Column({ name: 'payment_method', type: 'varchar', length: 100 })

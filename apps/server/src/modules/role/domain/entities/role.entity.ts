@@ -5,11 +5,12 @@ import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('roles')
 export class Role extends BaseEntity {
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column({ type: 'varchar', length: 255 })
   name!: string;
 
   @Column({ type: 'text', nullable: true })
-  description!: string;
+  description?: string | null;
+
   @OneToMany(() => UserRole, (userRole) => userRole.roleId)
   userRoles!: UserRole[];
 

@@ -5,10 +5,10 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity('role_permissions')
 export class RolePermission extends BaseEntity {
-  @Column({ name: 'role_id', type: 'varchar', length: 36 })
+  @Column({ name: 'role_id', type: 'uuid' })
   roleId!: string;
 
-  @Column({ name: 'permission_id', type: 'varchar', length: 36 })
+  @Column({ name: 'permission_id', type: 'uuid' })
   permissionId!: string;
 
   @ManyToOne(() => Role, (role) => role.id)

@@ -4,7 +4,7 @@ import { Column, Entity, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('categories')
 export class Category extends BaseAuditEntity {
-  @Column({ name: 'store_id', type: 'varchar', length: 36 })
+  @Column({ name: 'store_id', type: 'uuid' })
   storeId!: string;
 
   @Column({ type: 'varchar', length: 255 })

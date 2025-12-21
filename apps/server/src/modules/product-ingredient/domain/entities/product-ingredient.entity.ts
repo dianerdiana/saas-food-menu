@@ -3,9 +3,9 @@ import { Column, Entity } from 'typeorm';
 
 @Entity('product_ingredients')
 export class ProductIngredients extends BaseAuditEntity {
-  @Column({ name: 'product_id', type: 'varchar', length: 36 })
+  @Column({ name: 'product_id', type: 'uuid' })
   productId!: string;
 
-  @Column({ name: 'ingredient_id', type: 'varchar', length: 36 })
+  @Column({ name: 'ingredient_id', type: 'uuid' })
   ingredientId!: string;
 }

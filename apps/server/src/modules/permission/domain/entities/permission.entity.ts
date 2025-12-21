@@ -10,17 +10,17 @@ export class Permission extends BaseEntity {
   @Column({ type: 'varchar', length: 100 })
   action!: string;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
+  @Column({ type: 'varchar', length: 100 })
   subject!: string;
 
   @Column({ type: 'text', nullable: true })
-  conditions!: string;
+  conditions?: string | null;
 
   @Column({ type: 'boolean', default: false })
   inverted!: string;
 
   @Column({ type: 'text', nullable: true })
-  reason!: string;
+  reason?: string | null;
 
   @OneToMany(
     () => RolePermission,

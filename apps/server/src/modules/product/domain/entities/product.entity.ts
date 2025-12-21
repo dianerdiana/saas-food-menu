@@ -4,7 +4,7 @@ import { Column, Entity, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('products')
 export class Product extends BaseAuditEntity {
-  @Column({ name: 'store_id', type: 'varchar', length: 36 })
+  @Column({ name: 'store_id', type: 'uuid' })
   storeId!: string;
 
   @Column({ type: 'varchar', length: 255 })
@@ -20,7 +20,7 @@ export class Product extends BaseAuditEntity {
   price!: number;
 
   @Column({ type: 'text', nullable: true })
-  description!: string;
+  description?: string | null;
 
   @Column({ type: 'varchar', length: 50 })
   status!: string;

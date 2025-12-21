@@ -3,10 +3,10 @@ import { Column, Entity } from 'typeorm';
 
 @Entity('transaction_details')
 export class TransactionDetail extends BaseAuditEntity {
-  @Column({ name: 'transaction_id', type: 'varchar', length: 36 })
+  @Column({ name: 'transaction_id', type: 'uuid' })
   transactionId!: string;
 
-  @Column({ name: 'product_id', type: 'varchar', length: 36 })
+  @Column({ name: 'product_id', type: 'uuid' })
   productId!: string;
 
   @Column({ type: 'integer' })
