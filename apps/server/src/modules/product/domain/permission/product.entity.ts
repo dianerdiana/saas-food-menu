@@ -1,3 +1,4 @@
+import { Store } from '@/modules/store/domain/entities/store.entity';
 import {
   BeforeInsert,
   Column,
@@ -6,6 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 
@@ -26,7 +28,7 @@ export class Product {
   @Column({ type: 'varchar', length: 255 })
   image!: string;
 
-  @Column({ type: 'decimal', length: 255 })
+  @Column({ type: 'decimal' })
   price!: number;
 
   @Column({ type: 'text', nullable: true })
@@ -46,6 +48,10 @@ export class Product {
 
   @Column({ name: 'updated_by', type: 'uuid', nullable: true })
   updatedBy!: string;
+
+  @ManyToOne(() => Store, (store) => store.products)
+  @JoinColumn({ name: 'store_id' })
+  store!: Store;
 
   @BeforeInsert()
   generateId() {

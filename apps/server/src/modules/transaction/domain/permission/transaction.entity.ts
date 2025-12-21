@@ -1,3 +1,4 @@
+import { Store } from '@/modules/store/domain/entities/store.entity';
 import {
   BeforeInsert,
   Column,
@@ -5,6 +6,8 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 
@@ -42,6 +45,10 @@ export class Transaction {
 
   @Column({ name: 'updated_by', type: 'uuid', nullable: true })
   updatedBy!: string;
+
+  @ManyToOne(() => Store, (store) => store.transactions)
+  @JoinColumn({ name: 'store_id' })
+  store!: Store;
 
   @BeforeInsert()
   generateId() {

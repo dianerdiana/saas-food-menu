@@ -7,6 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 
@@ -39,7 +40,8 @@ export class Bank {
   @Column({ name: 'updated_by', type: 'uuid', nullable: true })
   updatedBy!: string;
 
-  @ManyToOne(() => Store, (store) => store.id)
+  @ManyToOne(() => Store, (store) => store.banks)
+  @JoinColumn({ name: 'store_id' })
   store!: Store;
 
   @BeforeInsert()
