@@ -1,3 +1,4 @@
+import { RolePermission } from '@/modules/role-permission/domain/permission/role-permission.entity';
 import { UserRole } from '@/modules/user-role/domain/permission/user-role.entity';
 import {
   BeforeInsert,
@@ -29,6 +30,9 @@ export class Role {
 
   @OneToMany(() => UserRole, (userRole) => userRole.roleId)
   userRoles!: UserRole[];
+
+  @OneToMany(() => RolePermission, (rolePermission) => rolePermission.roleId)
+  rolePermissions!: RolePermission[];
 
   @BeforeInsert()
   generateId() {

@@ -1,3 +1,4 @@
+import { RolePermission } from '@/modules/role-permission/domain/permission/role-permission.entity';
 import {
   BeforeInsert,
   Column,
@@ -5,6 +6,7 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 
@@ -36,6 +38,12 @@ export class Permission {
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   updatedAt!: Date;
+
+  @OneToMany(
+    () => RolePermission,
+    (rolePermission) => rolePermission.permissionId,
+  )
+  rolePermissions!: RolePermission[];
 
   @BeforeInsert()
   generateId() {
