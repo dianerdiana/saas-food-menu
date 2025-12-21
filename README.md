@@ -413,6 +413,16 @@ erDiagram
     string(12) updated_by FK
   }
 
+  INGREDIENTS {
+    string(12) id PK
+    string(255) name
+    string(100) status
+    date created_at "default now"
+    date updated_at "default now"
+    string(12) created_by FK
+    string(12) updated_by FK
+  }
+
   PRODUCT_CATEGORIES {
     string(12) id PK
     string(12) product_id FK
@@ -423,11 +433,10 @@ erDiagram
     string(12) updated_by FK
   }
 
-  MENU_INGREDIENTS {
+  PRODUCT_INGREDIENTS {
     string(12) id PK
-    string(12) store_id FK
     string(12) product_id FK
-    string(100) name
+    string(12) ingredient_id FK
     date created_at "default now"
     date updated_at "default now"
     string(12) created_by FK
@@ -467,7 +476,6 @@ erDiagram
   STORES ||--o{ CATEGORIES : "one-to-many"
   STORES ||--o{ PRODUCTS : "one-to-many"
   STORES ||--o{ TRANSACTIONS : "one-to-many"
-  STORES ||--o{ MENU_INGREDIENTS: "one-to-many"
 
 
   USERS ||--o{ STORES : "one-to-many"
@@ -482,7 +490,8 @@ erDiagram
 
   PRODUCTS ||--o{ PRODUCT_CATEGORIES: "one-to-many"
   CATEGORIES ||--o{ PRODUCT_CATEGORIES: "one-to-many"
-  PRODUCTS ||--o{ MENU_INGREDIENTS: "one-to-many"
+  PRODUCTS ||--o{ PRODUCT_INGREDIENTS: "one-to-many"
+  INGREDIENTS ||--o{ PRODUCT_INGREDIENTS: "one-to-many"
 
   PRODUCTS ||--o{ TRANSACTION_DETAILS: "one-to-many"
 
@@ -495,7 +504,8 @@ erDiagram
   USERS ||--o{ PRODUCT_CATEGORIES : "one-to-many (creator/updater)"
   USERS ||--o{ TRANSACTIONS : "one-to-many (creator/updater)"
   USERS ||--o{ TRANSACTION_DETAILS : "one-to-many (creator/updater)"
-  USERS ||--o{ MENU_INGREDIENTS : "one-to-many (creator/updater)"
+  USERS ||--o{ PRODUCT_INGREDIENTS : "one-to-many (creator/updater)"
+  USERS ||--o{ INGREDIENTS : "one-to-many (creator/updater)"
 
 ```
 
