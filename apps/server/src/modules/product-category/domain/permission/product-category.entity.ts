@@ -1,39 +1,11 @@
-import {
-  BeforeInsert,
-  Column,
-  Entity,
-  PrimaryColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
-} from 'typeorm';
-import { v7 as uuidv7 } from 'uuid';
+import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
+import { Column, Entity } from 'typeorm';
 
 @Entity('product_categories')
-export class ProductCategory {
-  @PrimaryColumn('uuid')
-  id!: string;
-
-  @Column({ name: 'product_id', type: 'varchar', length: 36 })
+export class ProductCategory extends BaseAuditEntity {
+  @Column({ name: 'product_id', type: 'uuid' })
   productId!: string;
 
-  @Column({ name: 'category_id', type: 'varchar', length: 36 })
+  @Column({ name: 'category_id', type: 'uuid' })
   categoryId!: string;
-
-  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
-  createdAt!: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
-  updatedAt!: Date;
-
-  @Column({ name: 'created_by', type: 'uuid', nullable: true })
-  createdBy!: string;
-
-  @Column({ name: 'updated_by', type: 'uuid', nullable: true })
-  updatedBy!: string;
-
-  @BeforeInsert()
-  generateId() {
-    this.id = uuidv7();
-  }
 }

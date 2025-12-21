@@ -1,20 +1,9 @@
 import { RolePermission } from '@/modules/role-permission/domain/permission/role-permission.entity';
-import {
-  BeforeInsert,
-  Column,
-  Entity,
-  PrimaryColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-} from 'typeorm';
-import { v7 as uuidv7 } from 'uuid';
+import { BaseEntity } from '@/shared/domains/entities/base.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('permissions')
-export class Permission {
-  @PrimaryColumn('uuid')
-  id!: string;
-
+export class Permission extends BaseEntity {
   @Column({ type: 'varchar', length: 100 })
   name!: string;
 
@@ -33,20 +22,9 @@ export class Permission {
   @Column({ type: 'text', nullable: true })
   reason!: string;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
-  createdAt!: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
-  updatedAt!: Date;
-
   @OneToMany(
     () => RolePermission,
     (rolePermission) => rolePermission.permissionId,
   )
   rolePermissions!: RolePermission[];
-
-  @BeforeInsert()
-  generateId() {
-    this.id = uuidv7();
-  }
 }

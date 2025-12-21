@@ -2,27 +2,14 @@ import { Bank } from '@/modules/bank/domain/permission/bank.entity';
 import { Category } from '@/modules/category/domain/permission/category.entity';
 import { Product } from '@/modules/product/domain/permission/product.entity';
 import { Subscription } from '@/modules/subscription/domain/permission/subscription.entity';
-import { Transaction } from '@/modules/transaction/domain/permission/transaction.entity';
+import { Transaction } from '@/modules/transaction/domain/entities/transaction.entity';
 import { User } from '@/modules/user/domain/enitities/user.entity';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
-import {
-  BeforeInsert,
-  Column,
-  Entity,
-  PrimaryColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
-  JoinColumn,
-  OneToMany,
-} from 'typeorm';
-import { v7 as uuidv7 } from 'uuid';
+import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
+import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 @Entity('stores')
-export class Store {
-  @PrimaryColumn('uuid')
-  id!: string;
-
+export class Store extends BaseAuditEntity {
   @Column({ name: 'owner', type: 'uuid' })
   owner!: string;
 
@@ -47,18 +34,6 @@ export class Store {
   @Column({ type: 'varchar', length: 50, default: GENERAL_STATUS.active })
   status!: string;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
-  createdAt!: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
-  updatedAt!: Date;
-
-  @Column({ name: 'created_by', type: 'uuid', nullable: true })
-  createdBy!: string;
-
-  @Column({ name: 'updated_by', type: 'uuid', nullable: true })
-  updatedBy!: string;
-
   @ManyToOne(() => User, (user) => user.stores)
   @JoinColumn({ name: 'owner' })
   user!: User;
@@ -77,9 +52,4 @@ export class Store {
 
   @OneToMany(() => Transaction, (transaction) => transaction.store)
   transactions!: Transaction[];
-
-  @BeforeInsert()
-  generateId() {
-    this.id = uuidv7();
-  }
 }

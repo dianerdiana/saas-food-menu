@@ -1,21 +1,9 @@
 import { Store } from '@/modules/store/domain/entities/store.entity';
-import {
-  BeforeInsert,
-  Column,
-  Entity,
-  PrimaryColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
-import { v7 as uuidv7 } from 'uuid';
+import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
+import { Column, Entity, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('subscriptions')
-export class Subscription {
-  @PrimaryColumn('uuid')
-  id!: string;
-
+export class Subscription extends BaseAuditEntity {
   @Column({ name: 'store_id', type: 'varchar', length: 36 })
   storeId!: string;
 
@@ -31,24 +19,7 @@ export class Subscription {
   @Column({ name: 'end_date', type: 'timestamptz' })
   endDate!: Date;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
-  createdAt!: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
-  updatedAt!: Date;
-
-  @Column({ name: 'created_by', type: 'uuid', nullable: true })
-  createdBy!: string;
-
-  @Column({ name: 'updated_by', type: 'uuid', nullable: true })
-  updatedBy!: string;
-
   @ManyToOne(() => Store, (store) => store.subscriptions)
   @JoinColumn({ name: 'store_id' })
   store!: Store;
-
-  @BeforeInsert()
-  generateId() {
-    this.id = uuidv7();
-  }
 }

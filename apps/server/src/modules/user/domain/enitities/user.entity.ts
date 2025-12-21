@@ -1,22 +1,11 @@
 import { Store } from '@/modules/store/domain/entities/store.entity';
 import { UserRole } from '@/modules/user-role/domain/permission/user-role.entity';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
-import {
-  BeforeInsert,
-  Column,
-  Entity,
-  PrimaryColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-} from 'typeorm';
-import { v7 as uuidv7 } from 'uuid';
+import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('users')
-export class User {
-  @PrimaryColumn('uuid')
-  id!: string;
-
+export class User extends BaseAuditEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   avatar!: string;
 
@@ -44,26 +33,9 @@ export class User {
   @Column({ name: 'last_login', type: 'timestamptz', nullable: true })
   lastLogin!: Date;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
-  createdAt!: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
-  updatedAt!: Date;
-
-  @Column({ name: 'created_by', type: 'uuid', nullable: true })
-  createdBy!: string;
-
-  @Column({ name: 'updated_by', type: 'uuid', nullable: true })
-  updatedBy!: string;
-
   @OneToMany(() => Store, (store) => store.user)
   stores!: Store[];
 
   @OneToMany(() => UserRole, (userRole) => userRole.user)
   userRoles!: UserRole[];
-
-  @BeforeInsert()
-  generateId() {
-    this.id = uuidv7();
-  }
 }

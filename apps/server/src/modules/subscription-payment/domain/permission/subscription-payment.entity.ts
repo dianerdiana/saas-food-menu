@@ -1,19 +1,8 @@
-import {
-  BeforeInsert,
-  Column,
-  Entity,
-  PrimaryColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
-} from 'typeorm';
-import { v7 as uuidv7 } from 'uuid';
+import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
+import { Column, Entity } from 'typeorm';
 
 @Entity('subscription_payments')
-export class SubscriptionPayment {
-  @PrimaryColumn('uuid')
-  id!: string;
-
+export class SubscriptionPayment extends BaseAuditEntity {
   @Column({ name: 'store_id', type: 'varchar', length: 36 })
   storeId!: string;
 
@@ -34,21 +23,4 @@ export class SubscriptionPayment {
 
   @Column({ type: 'varchar', length: 50 })
   status!: string;
-
-  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
-  createdAt!: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
-  updatedAt!: Date;
-
-  @Column({ name: 'created_by', type: 'uuid', nullable: true })
-  createdBy!: string;
-
-  @Column({ name: 'updated_by', type: 'uuid', nullable: true })
-  updatedBy!: string;
-
-  @BeforeInsert()
-  generateId() {
-    this.id = uuidv7();
-  }
 }
