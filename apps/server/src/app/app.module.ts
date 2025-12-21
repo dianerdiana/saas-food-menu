@@ -5,6 +5,7 @@ import { TypeOrmConfigService } from './config/typeorm.config';
 import { DataSource } from 'typeorm';
 import { UserModule } from '../modules/user/user.module';
 import configuration from './config/env.config';
+import { PasswordService } from '@/shared/services/password.service';
 
 @Module({
   imports: [
@@ -20,6 +21,8 @@ import configuration from './config/env.config';
     }),
     UserModule,
   ],
+  providers: [PasswordService],
+  exports: [PasswordService],
 })
 export class AppModule implements OnModuleInit {
   constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
