@@ -401,6 +401,7 @@ erDiagram
   PRODUCTS {
     string(12) id PK
     string(12) store_id FK
+    string(255) code
     string(255) name
     string(255) slug
     string(255) image
