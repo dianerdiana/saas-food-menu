@@ -1,4 +1,3 @@
-import { Store } from '@/modules/store/domain/entities/store.entity';
 import {
   BeforeInsert,
   Column,
@@ -10,22 +9,25 @@ import {
 } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 
-@Entity('banks')
-export class Bank {
+@Entity('subscription')
+export class Subscription {
   @PrimaryColumn('uuid')
   id!: string;
 
   @Column({ name: 'store_id', type: 'varchar', length: 36 })
   storeId!: string;
 
-  @Column({ type: 'varchar', length: 100 })
-  account!: string;
+  @Column({ name: 'user_id', type: 'varchar', length: 36 })
+  userId!: string;
 
-  @Column({ type: 'varchar', length: 100 })
-  name!: string;
+  @Column({ type: 'varchar', length: 50 })
+  status!: string;
 
-  @Column({ type: 'varchar', length: 100 })
-  number!: string;
+  @Column({ name: 'start_date', type: 'timestamptz' })
+  startData!: Date;
+
+  @Column({ name: 'end_date', type: 'timestamptz' })
+  endDate!: Date;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt!: Date;
@@ -38,9 +40,6 @@ export class Bank {
 
   @Column({ name: 'updated_by', type: 'varchar', length: 36, nullable: true })
   updatedBy!: string;
-
-  @ManyToOne(() => Store, (store) => store.id)
-  store!: Store;
 
   @BeforeInsert()
   generateId() {
