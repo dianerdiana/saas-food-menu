@@ -1,5 +1,5 @@
 import { Store } from '@/modules/store/domain/entities/store.entity';
-import { UserRole } from '@/modules/user-role/domain/permission/user-role.entity';
+import { UserRole } from '@/modules/user-role/domain/entities/user-role.entity';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
 import { Column, Entity, OneToMany } from 'typeorm';

@@ -1,9 +1,9 @@
-import { Bank } from '@/modules/bank/domain/permission/bank.entity';
-import { Category } from '@/modules/category/domain/permission/category.entity';
-import { Product } from '@/modules/product/domain/permission/product.entity';
-import { Subscription } from '@/modules/subscription/domain/permission/subscription.entity';
+import { Bank } from '@/modules/bank/domain/entities/bank.entity';
+import { Category } from '@/modules/category/domain/entities/category.entity';
+import { Product } from '@/modules/product/domain/entities/product.entity';
+import { Subscription } from '@/modules/subscription/domain/entities/subscription.entity';
 import { Transaction } from '@/modules/transaction/domain/entities/transaction.entity';
-import { User } from '@/modules/user/domain/enitities/user.entity';
+import { User } from '@/modules/user/domain/entities/user.entity';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
 import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';

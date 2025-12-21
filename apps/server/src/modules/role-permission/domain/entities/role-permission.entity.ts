@@ -1,4 +1,4 @@
-import { Permission } from '@/modules/permission/domain/permission/permission.entity';
+import { Permission } from '@/modules/permission/domain/entities/permission.entity';
 import { Role } from '@/modules/role/domain/entities/role.entity';
 import { BaseEntity } from '@/shared/domains/entities/base.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';

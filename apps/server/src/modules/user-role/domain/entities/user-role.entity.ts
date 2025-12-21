@@ -1,5 +1,5 @@
 import { Role } from '@/modules/role/domain/entities/role.entity';
-import { User } from '@/modules/user/domain/enitities/user.entity';
+import { User } from '@/modules/user/domain/entities/user.entity';
 import { BaseEntity } from '@/shared/domains/entities/base.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 
