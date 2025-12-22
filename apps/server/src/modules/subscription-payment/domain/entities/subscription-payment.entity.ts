@@ -1,9 +1,10 @@
+import { SubscriptionEntity } from '@/modules/subscription/domain/entities/subscription.entity';
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('subscription_payments')
 export class SubscriptionPaymentEntity extends BaseAuditEntity {
-  @Column({ name: 'store_id', type: 'uuid' })
+  @Column({ name: 'subscription_id', type: 'uuid' })
   storeId!: string;
 
   @Column({ name: 'payment_method', type: 'varchar', length: 100 })
@@ -23,4 +24,8 @@ export class SubscriptionPaymentEntity extends BaseAuditEntity {
 
   @Column({ type: 'varchar', length: 50 })
   status!: string;
+
+  @ManyToOne(() => SubscriptionEntity, (subscription) => subscription.subscriptionPayments)
+  @JoinColumn({ name: 'subscription_id' })
+  subscription!: SubscriptionEntity;
 }

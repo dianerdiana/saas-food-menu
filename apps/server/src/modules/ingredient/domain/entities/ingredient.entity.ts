@@ -1,5 +1,6 @@
+import { ProductIngredientEntity } from '@/modules/product-ingredient/domain/entities/product-ingredient.entity';
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('ingredients')
 export class IngredientEntity extends BaseAuditEntity {
@@ -8,4 +9,7 @@ export class IngredientEntity extends BaseAuditEntity {
 
   @Column({ type: 'varchar', length: 50 })
   status!: string;
+
+  @OneToMany(() => ProductIngredientEntity, (productIngredient) => productIngredient.ingredient)
+  productIngredients!: ProductIngredientEntity[];
 }

@@ -1,4 +1,5 @@
 import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
+import { SubscriptionEntity } from '@/modules/subscription/domain/entities/subscription.entity';
 import { UserRoleEntity } from '@/modules/user-role/domain/entities/user-role.entity';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
@@ -38,4 +39,7 @@ export class UserEntity extends BaseAuditEntity {
 
   @OneToMany(() => UserRoleEntity, (userRole) => userRole.user)
   userRoles!: UserRoleEntity[];
+
+  @OneToMany(() => SubscriptionEntity, (subscription) => subscription.user)
+  subscriptions!: SubscriptionEntity[];
 }

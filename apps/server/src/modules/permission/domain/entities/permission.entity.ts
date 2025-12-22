@@ -22,6 +22,6 @@ export class PermissionEntity extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   reason?: string | null;
 
-  @OneToMany(() => RolePermissionEntity, (rolePermission) => rolePermission.permissionId)
+  @OneToMany(() => RolePermissionEntity, (rolePermission) => rolePermission.permission)
   rolePermissions!: RolePermissionEntity[];
 }

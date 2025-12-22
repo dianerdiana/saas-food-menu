@@ -1,6 +1,7 @@
 import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
+import { TransactionDetailEntity } from '@/modules/transaction-detail/domain/entities/transaction-detail.entity';
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
-import { Column, Entity, ManyToOne, JoinColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 @Entity('transactions')
 export class TransactionEntity extends BaseAuditEntity {
@@ -25,4 +26,7 @@ export class TransactionEntity extends BaseAuditEntity {
   @ManyToOne(() => StoreEntity, (store) => store.transactions)
   @JoinColumn({ name: 'store_id' })
   store!: StoreEntity;
+
+  @OneToMany(() => TransactionDetailEntity, (transactionDetail) => transactionDetail.transaction)
+  transactionDetails!: TransactionDetailEntity[];
 }
