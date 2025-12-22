@@ -1,9 +1,9 @@
-import { Store } from '@/modules/store/domain/entities/store.entity';
+import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
 import { Column, Entity, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('products')
-export class Product extends BaseAuditEntity {
+export class ProductEntity extends BaseAuditEntity {
   @Column({ name: 'store_id', type: 'uuid' })
   storeId!: string;
 
@@ -25,7 +25,7 @@ export class Product extends BaseAuditEntity {
   @Column({ type: 'varchar', length: 50 })
   status!: string;
 
-  @ManyToOne(() => Store, (store) => store.products)
+  @ManyToOne(() => StoreEntity, (store) => store.products)
   @JoinColumn({ name: 'store_id' })
-  store!: Store;
+  store!: StoreEntity;
 }

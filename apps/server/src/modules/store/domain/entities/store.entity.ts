@@ -1,15 +1,15 @@
-import { Bank } from '@/modules/bank/domain/entities/bank.entity';
-import { Category } from '@/modules/category/domain/entities/category.entity';
-import { Product } from '@/modules/product/domain/entities/product.entity';
-import { Subscription } from '@/modules/subscription/domain/entities/subscription.entity';
-import { Transaction } from '@/modules/transaction/domain/entities/transaction.entity';
-import { User } from '@/modules/user/domain/entities/user.entity';
+import { BankEntity } from '@/modules/bank/domain/entities/bank.entity';
+import { CategoryEntity } from '@/modules/category/domain/entities/category.entity';
+import { ProductEntity } from '@/modules/product/domain/entities/product.entity';
+import { SubscriptionEntity } from '@/modules/subscription/domain/entities/subscription.entity';
+import { TransactionEntity } from '@/modules/transaction/domain/entities/transaction.entity';
+import { UserEntity } from '@/modules/user/domain/entities/user.entity';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
 import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 @Entity('stores')
-export class Store extends BaseAuditEntity {
+export class StoreEntity extends BaseAuditEntity {
   @Column({ name: 'owner', type: 'uuid' })
   owner!: string;
 
@@ -34,22 +34,22 @@ export class Store extends BaseAuditEntity {
   @Column({ type: 'varchar', length: 50, default: GENERAL_STATUS.active })
   status!: string;
 
-  @ManyToOne(() => User, (user) => user.stores)
+  @ManyToOne(() => UserEntity, (user) => user.stores)
   @JoinColumn({ name: 'owner' })
-  user!: User;
+  user!: UserEntity;
 
-  @OneToMany(() => Subscription, (subscription) => subscription.store)
-  subscriptions!: Subscription[];
+  @OneToMany(() => SubscriptionEntity, (subscription) => subscription.store)
+  subscriptions!: SubscriptionEntity[];
 
-  @OneToMany(() => Bank, (bank) => bank.store)
-  banks!: Bank[];
+  @OneToMany(() => BankEntity, (bank) => bank.store)
+  banks!: BankEntity[];
 
-  @OneToMany(() => Category, (category) => category.store)
-  categories!: Category[];
+  @OneToMany(() => CategoryEntity, (category) => category.store)
+  categories!: CategoryEntity[];
 
-  @OneToMany(() => Product, (product) => product.store)
-  products!: Product[];
+  @OneToMany(() => ProductEntity, (product) => product.store)
+  products!: ProductEntity[];
 
-  @OneToMany(() => Transaction, (transaction) => transaction.store)
-  transactions!: Transaction[];
+  @OneToMany(() => TransactionEntity, (transaction) => transaction.store)
+  transactions!: TransactionEntity[];
 }

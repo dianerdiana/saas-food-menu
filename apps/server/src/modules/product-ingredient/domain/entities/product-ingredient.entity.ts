@@ -2,7 +2,7 @@ import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
 import { Column, Entity } from 'typeorm';
 
 @Entity('product_ingredients')
-export class ProductIngredients extends BaseAuditEntity {
+export class ProductIngredientEntity extends BaseAuditEntity {
   @Column({ name: 'product_id', type: 'uuid' })
   productId!: string;
 

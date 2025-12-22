@@ -1,9 +1,9 @@
-import { Store } from '@/modules/store/domain/entities/store.entity';
+import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
 import { Column, Entity, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('subscriptions')
-export class Subscription extends BaseAuditEntity {
+export class SubscriptionEntity extends BaseAuditEntity {
   @Column({ name: 'store_id', type: 'uuid' })
   storeId!: string;
 
@@ -19,7 +19,7 @@ export class Subscription extends BaseAuditEntity {
   @Column({ name: 'end_date', type: 'timestamptz' })
   endDate!: Date;
 
-  @ManyToOne(() => Store, (store) => store.subscriptions)
+  @ManyToOne(() => StoreEntity, (store) => store.subscriptions)
   @JoinColumn({ name: 'store_id' })
-  store!: Store;
+  store!: StoreEntity;
 }

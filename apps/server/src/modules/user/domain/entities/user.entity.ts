@@ -1,5 +1,5 @@
-import { Store } from '@/modules/store/domain/entities/store.entity';
-import { UserRole } from '@/modules/user-role/domain/entities/user-role.entity';
+import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
+import { UserRoleEntity } from '@/modules/user-role/domain/entities/user-role.entity';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
@@ -33,9 +33,9 @@ export class UserEntity extends BaseAuditEntity {
   @Column({ name: 'last_login', type: 'timestamptz', nullable: true })
   lastLogin!: Date;
 
-  @OneToMany(() => Store, (store) => store.user)
-  stores!: Store[];
+  @OneToMany(() => StoreEntity, (store) => store.user)
+  stores!: StoreEntity[];
 
-  @OneToMany(() => UserRole, (userRole) => userRole.user)
-  userRoles!: UserRole[];
+  @OneToMany(() => UserRoleEntity, (userRole) => userRole.user)
+  userRoles!: UserRoleEntity[];
 }

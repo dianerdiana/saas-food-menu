@@ -2,7 +2,7 @@ import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
 import { Column, Entity } from 'typeorm';
 
 @Entity('subscription_payments')
-export class SubscriptionPayment extends BaseAuditEntity {
+export class SubscriptionPaymentEntity extends BaseAuditEntity {
   @Column({ name: 'store_id', type: 'uuid' })
   storeId!: string;
 

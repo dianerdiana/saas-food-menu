@@ -1,9 +1,9 @@
-import { RolePermission } from '@/modules/role-permission/domain/entities/role-permission.entity';
+import { RolePermissionEntity } from '@/modules/role-permission/domain/entities/role-permission.entity';
 import { BaseEntity } from '@/shared/domains/entities/base.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('permissions')
-export class Permission extends BaseEntity {
+export class PermissionEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 100 })
   name!: string;
 
@@ -22,9 +22,6 @@ export class Permission extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   reason?: string | null;
 
-  @OneToMany(
-    () => RolePermission,
-    (rolePermission) => rolePermission.permissionId,
-  )
-  rolePermissions!: RolePermission[];
+  @OneToMany(() => RolePermissionEntity, (rolePermission) => rolePermission.permissionId)
+  rolePermissions!: RolePermissionEntity[];
 }
