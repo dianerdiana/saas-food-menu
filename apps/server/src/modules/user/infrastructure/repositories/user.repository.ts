@@ -22,7 +22,12 @@ export class UserRepository {
     return this.repository.findOneBy({ id });
   }
 
-  async findByUsername(username: string) {
-    return this.repository.findOneBy({ username });
+  async findByUsernameForAuth(username: string) {
+    return this.repository
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.email = :username', { username })
+      .orWhere('user.username = :username', { username })
+      .getOne();
   }
 }

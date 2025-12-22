@@ -5,13 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './domain/entities/user.entity';
 import { UserRepository } from './infrastructure/repositories/user.repository';
 import { PasswordService } from '../auth/infrastructure/config/password.service';
-import { AuthModule } from '../auth/auth.module';
 import { CreateUser } from './application/use-cases/create-user.use-case';
+import { GetUserByUsernameForAuth } from './application/use-cases/get-user-by-username.use-case';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity]), AuthModule],
+  imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UserController],
-  providers: [UserRepository, PasswordService, GetUserById, CreateUser],
-  exports: [GetUserById, CreateUser],
+  providers: [UserRepository, PasswordService, GetUserById, CreateUser, GetUserByUsernameForAuth],
+  exports: [GetUserById, CreateUser, GetUserByUsernameForAuth],
 })
 export class UserModule {}

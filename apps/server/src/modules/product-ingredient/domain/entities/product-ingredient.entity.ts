@@ -16,6 +16,6 @@ export class ProductIngredientEntity extends BaseAuditEntity {
   product!: ProductEntity;
 
   @ManyToOne(() => IngredientEntity, (ingredient) => ingredient.productIngredients)
-  @JoinColumn({ name: 'product_id' })
+  @JoinColumn({ name: 'ingredient_id' })
   ingredient!: IngredientEntity;
 }

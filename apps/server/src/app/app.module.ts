@@ -11,8 +11,6 @@ import { TypeOrmConfigService } from './config/typeorm.config';
 // Modules
 import { UserModule } from '@/modules/user/user.module';
 import { AuthModule } from '@/modules/auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from '@/modules/auth/infrastructure/guards/auth-jwt.guard';
 
 @Module({
   imports: [
@@ -29,12 +27,7 @@ import { AuthGuard } from '@/modules/auth/infrastructure/guards/auth-jwt.guard';
     UserModule,
     AuthModule,
   ],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-  ],
+  providers: [],
 })
 export class AppModule implements OnModuleInit {
   constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
