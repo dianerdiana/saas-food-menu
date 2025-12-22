@@ -5,7 +5,7 @@ import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('users')
-export class User extends BaseAuditEntity {
+export class UserEntity extends BaseAuditEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   avatar!: string;
 

@@ -1,4 +1,4 @@
-import { EnvironmentInterface } from '@/shared/types/env.type';
+import { EnvironmentInterface } from '../../shared/types/env.type';
 
 export default (): EnvironmentInterface => ({
   port: Number(process.env.PORT) || 3000,

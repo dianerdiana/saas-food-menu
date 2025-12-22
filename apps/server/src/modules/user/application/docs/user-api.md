@@ -37,7 +37,6 @@ type ApiResponse<T = undefined, P = undefined> = {
 ```ts
 type UserResponse = {
   id: string;
-  storeId: string;
   fullName: string;
   avatar?: string | null;
   username: string;
@@ -66,7 +65,6 @@ type UserResponse = {
     "data": [
       {
         "id": "string",
-        "storeId": "string",
         "fullName": "string",
         "avatar": "string",
         "username": "string",
@@ -76,7 +74,6 @@ type UserResponse = {
       },
       {
         "id": "string",
-        "storeId": "string",
         "fullName": "string",
         "avatar": "string",
         "username": "string",
@@ -102,7 +99,6 @@ type UserResponse = {
     "status": "string",
     "data": {
       "id": "string",
-      "storeId": "string",
       "fullName": "string",
       "avatar": "string",
       "username": "string",
@@ -124,10 +120,9 @@ type UserResponse = {
   - Body:
     ```json
     {
-      "storeId": "string",
-      "fullName": "string",
+      "firstName": "string",
+      "lastName": "string",
       "username": "string",
-      "avatar": "string",
       "email": "string,email",
       "phone": "string",
       "status": "string",
@@ -143,8 +138,8 @@ type UserResponse = {
     "message": "string",
     "data": {
       "id": "string",
-      "storeId": "string",
-      "fullName": "string",
+      "firstName": "string",
+      "lastName": "string",
       "avatar": "string",
       "username": "string",
       "email": "string",
@@ -165,7 +160,6 @@ type UserResponse = {
   - Body:
     ```json
     {
-      "storeId": "string",
       "fullName": "string",
       "username": "string",
       "avatar": "string",
@@ -184,7 +178,6 @@ type UserResponse = {
     "message": "string",
     "data": {
       "id": "string",
-      "storeId": "string",
       "fullName": "string",
       "avatar": "string",
       "username": "string",

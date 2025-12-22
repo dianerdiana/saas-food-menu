@@ -29,7 +29,6 @@ type ApiResponse<T = undefined, P = undefined> = {
 ```ts
 type UserResponse = {
   id: string;
-  storeId: string;
   fullName: string;
   avatar?: string | null;
   username: string;
@@ -100,7 +99,6 @@ type UserResponse = {
       "refreshToken": "string",
       "userData": {
         "id": "string",
-        "storeId": "string",
         "fullName": "string",
         "avatar": "string",
         "username": "string",
