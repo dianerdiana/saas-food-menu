@@ -9,6 +9,9 @@ import { LocalStrategy } from './infrastructure/strategies/local.strategy';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './interface/controllers/auth.controller';
 import { SignIn } from './application/use-cases/sign-in.use-case';
+import { JwtStrategy } from './infrastructure/strategies/jwt.strategy';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './infrastructure/guards/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -22,7 +25,17 @@ import { SignIn } from './application/use-cases/sign-in.use-case';
     UserModule,
   ],
   controllers: [AuthController],
-  providers: [PasswordService, LocalStrategy, ValidateUser, SignIn],
+  providers: [
+    PasswordService,
+    LocalStrategy,
+    ValidateUser,
+    SignIn,
+    JwtStrategy,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
   exports: [PasswordService],
 })
 export class AuthModule {}

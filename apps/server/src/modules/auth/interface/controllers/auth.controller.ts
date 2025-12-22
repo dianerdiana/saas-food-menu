@@ -8,9 +8,9 @@ export class AuthController {
   constructor(private signIn: SignIn) {}
 
   @Public()
-  @Post('signin')
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
+  @Post('signin')
   async login(@Request() req) {
     return this.signIn.execute(req.user);
   }
