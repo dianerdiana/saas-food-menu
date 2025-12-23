@@ -1,4 +1,4 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Transform } from 'class-transformer';
 
 @Exclude()
 export class UserModel {
@@ -6,16 +6,23 @@ export class UserModel {
   id!: string;
 
   @Expose()
-  firstName!: string;
+  @Transform(({ obj }) => `${obj.firstName}${obj.lastName ? ' ' + obj.lastName : ''}`)
+  fullName!: string;
 
   @Expose()
-  lastName!: string;
+  avatar!: string;
 
   @Expose()
   username!: string;
 
   @Expose()
   email!: string;
+
+  @Expose()
+  phone!: string;
+
+  @Expose()
+  status!: string;
 
   constructor(partial: Partial<UserModel>) {
     Object.assign(this, partial);

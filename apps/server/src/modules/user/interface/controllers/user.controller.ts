@@ -1,16 +1,19 @@
 // NestJs
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 
 // Application
 import { GetUserById } from '../../application/use-cases/get-user-by-id.use-case';
 import { CreateUserDto } from '../../application/dtos/create-user.dto';
 import { CreateUser } from '../../application/use-cases/create-user.use-case';
+import { PaginationDto } from '@/shared/dtos/pagination.dto';
+import { GetAllUser } from '../../application/use-cases/get-all-user.use-case';
 
 @Controller('users')
 export class UserController {
   constructor(
     private getUserById: GetUserById,
     private createUser: CreateUser,
+    private getAllUserUseCase: GetAllUser,
   ) {}
 
   @Get(':id')
@@ -22,4 +25,16 @@ export class UserController {
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.createUser.execute(createUserDto);
   }
+
+  @Get()
+  async getAllUser(@Query() paginationDto: PaginationDto) {
+    const response = await this.getAllUserUseCase.execute(paginationDto);
+    return {
+      data: response.users,
+      meta: response.meta,
+    };
+  }
+
+  @Put(':id')
+  async updateUser(@Body() updateUserDto: CreateUserDto) {}
 }

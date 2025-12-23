@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../../domain/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PaginationDto } from '@/shared/dtos/pagination.dto';
 
 @Injectable()
 export class UserRepository {
@@ -29,5 +30,12 @@ export class UserRepository {
       .where('user.email = :username', { username })
       .orWhere('user.username = :username', { username })
       .getOne();
+  }
+
+  async findAll({ limit, skip }: PaginationDto) {
+    return this.repository.findAndCount({
+      take: limit,
+      skip,
+    });
   }
 }
