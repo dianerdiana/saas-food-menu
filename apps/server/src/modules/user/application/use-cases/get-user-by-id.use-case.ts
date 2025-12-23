@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserRepository } from '../../infrastructure/repositories/user.repository';
-import { UserModel } from '../../domain/models/user.model';
+import { UserDetailModel } from '../../domain/models/user-detail.model';
 
 @Injectable()
 export class GetUserById {
@@ -11,6 +11,6 @@ export class GetUserById {
 
     if (!user) throw new NotFoundException('User not found');
 
-    return new UserModel(user);
+    return new UserDetailModel(user);
   }
 }

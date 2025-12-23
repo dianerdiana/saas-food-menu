@@ -139,8 +139,7 @@ type UserResponse = {
     "message": "string",
     "data": {
       "id": "string",
-      "firstName": "string",
-      "lastName": "string",
+      "fullName": "string",
       "avatar": "string",
       "username": "string",
       "email": "string",
@@ -161,9 +160,9 @@ type UserResponse = {
   - Body:
     ```json
     {
-      "fullName": "string",
+      "firstName": "string",
+      "lastName": "string",
       "username": "string",
-      "avatar": "string",
       "email": "string,email",
       "phone": "string",
       "status": "string",

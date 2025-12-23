@@ -9,10 +9,10 @@ export interface PaginationMeta {
 }
 
 export class Response<T> {
-  status: string;
+  status?: string;
   message?: string;
   data?: T;
-  statusCode: number;
+  statusCode?: number;
   meta?: PaginationMeta;
 
   constructor({
