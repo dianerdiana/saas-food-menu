@@ -21,7 +21,7 @@ type ApiResponse<T = undefined, P = undefined> = {
   status: string;
   message?: string | undefined;
   data?: string | undefined;
-  pagination?: ApiPagination | undefined;
+  meta?: ApiPagination | undefined;
 };
 ```
 
