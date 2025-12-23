@@ -51,7 +51,6 @@ type UserResponse = {
     {
       "fullName": "string",
       "username": "string",
-      "avatar": "string",
       "email": "string,email",
       "phone": "string",
       "password": "string,min(6)",
@@ -100,7 +99,6 @@ type UserResponse = {
       "userData": {
         "id": "string",
         "fullName": "string",
-        "avatar": "string",
         "username": "string",
         "email": "string",
         "phone": "string",
