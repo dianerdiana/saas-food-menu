@@ -14,9 +14,10 @@ All API must use this authentication
 
 ```ts
 type ApiPagination = {
-  limit: number;
   page: number;
-  search?: string | undefined;
+  limit: number;
+  totalItems: number;
+  totalPages: number;
 };
 ```
 
