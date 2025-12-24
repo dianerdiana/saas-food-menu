@@ -1,3 +1,4 @@
+import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
 import { Exclude, Expose } from 'class-transformer';
 
 @Exclude()
@@ -16,6 +17,9 @@ export class SignInModel {
 
   @Expose()
   username!: string;
+
+  @Expose()
+  stores!: StoreEntity[];
 
   constructor(partial: Partial<SignInModel>) {
     Object.assign(this, partial);

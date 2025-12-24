@@ -39,6 +39,7 @@ export class UserRepository {
     return this.repository
       .createQueryBuilder('user')
       .addSelect('user.password')
+      .leftJoinAndSelect('user.stores', 'store')
       .where('user.email = :username', { username })
       .orWhere('user.username = :username', { username })
       .getOne();
