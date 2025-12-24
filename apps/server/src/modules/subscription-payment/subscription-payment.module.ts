@@ -7,8 +7,14 @@ import { SubscriptionPaymentEntity } from './domain/entities/subscription-paymen
 // Repository
 import { SubscriptionPaymentRepository } from './infrastructure/repositories/subscription-payment.repository';
 
+// Controller
+import { SubscriptionPaymentController } from './interface/controllers/subscription-payment.controller';
+
+// Use Case
+
 @Module({
   imports: [TypeOrmModule.forFeature([SubscriptionPaymentEntity])],
+  controllers: [SubscriptionPaymentController],
   providers: [SubscriptionPaymentRepository],
 })
 export class SubscriptionPaymentModule {}
