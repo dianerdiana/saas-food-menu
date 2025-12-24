@@ -9,6 +9,9 @@ import { GetAllUserUseCase } from '../../application/use-cases/get-all-user.use-
 import { UpdateUserDto } from '../../application/dtos/update-user.dto';
 import { UpdateUserUseCase } from '../../application/use-cases/update-user.use-case';
 import { DeleteUserUseCase } from '../../application/use-cases/delete-user.use-case';
+import { GetUserByEmailUseCase } from '../../application/use-cases/get-user-by-email.use-case';
+import { GetUserByPhoneUseCase } from '../../application/use-cases/get-user-by-phone.use-case';
+import { GetUserByUsernameUseCase } from '../../application/use-cases/get-user-by-username.use-case';
 
 // Shared
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
@@ -21,6 +24,9 @@ export class UserController {
     private getAllUserUseCase: GetAllUserUseCase,
     private updateUserUseCase: UpdateUserUseCase,
     private deleteUserUseCase: DeleteUserUseCase,
+    private getUserByEmailUseCase: GetUserByEmailUseCase,
+    private getUserByPhoneUseCase: GetUserByPhoneUseCase,
+    private getUserByUsernameUseCase: GetUserByUsernameUseCase,
   ) {}
 
   @Get(':id')
@@ -35,10 +41,10 @@ export class UserController {
 
   @Get()
   async getAllUser(@Query() paginationDto: PaginationDto) {
-    const response = await this.getAllUserUseCase.execute(paginationDto);
+    const result = await this.getAllUserUseCase.execute(paginationDto);
     return {
-      data: response.users,
-      meta: response.meta,
+      data: result.users,
+      meta: result.meta,
     };
   }
 
@@ -52,6 +58,24 @@ export class UserController {
 
   @Delete(':id')
   async deleteUser(@Param('id') id: string) {
-    return await this.deleteUserUseCase.execute(id);
+    const result = await this.deleteUserUseCase.execute(id);
+    return {
+      message: `Successfuly deleted ${result} user`,
+    };
+  }
+
+  @Get('/email/:email')
+  async getUserByEmail(@Param('email') email: string) {
+    return await this.getUserByEmailUseCase.execute(email);
+  }
+
+  @Get('/phone/:phone')
+  async getUserByPhone(@Param('phone') phone: string) {
+    return await this.getUserByPhoneUseCase.execute(phone);
+  }
+
+  @Get('/username/:username')
+  async getUserByUsername(@Param('username') username: string) {
+    return await this.getUserByUsernameUseCase.execute(username);
   }
 }

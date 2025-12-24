@@ -21,6 +21,9 @@ import { GetUserByUsernameForAuth } from './application/use-cases/get-user-by-us
 import { GetAllUserUseCase } from './application/use-cases/get-all-user.use-case';
 import { UpdateUserUseCase } from './application/use-cases/update-user.use-case';
 import { DeleteUserUseCase } from './application/use-cases/delete-user.use-case';
+import { GetUserByEmailUseCase } from './application/use-cases/get-user-by-email.use-case';
+import { GetUserByPhoneUseCase } from './application/use-cases/get-user-by-phone.use-case';
+import { GetUserByUsernameUseCase } from './application/use-cases/get-user-by-username.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
@@ -34,6 +37,9 @@ import { DeleteUserUseCase } from './application/use-cases/delete-user.use-case'
     GetAllUserUseCase,
     UpdateUserUseCase,
     DeleteUserUseCase,
+    GetUserByEmailUseCase,
+    GetUserByPhoneUseCase,
+    GetUserByUsernameUseCase,
   ],
   exports: [GetUserByIdUseCase, CreateUserUseCase, GetUserByUsernameForAuth],
 })

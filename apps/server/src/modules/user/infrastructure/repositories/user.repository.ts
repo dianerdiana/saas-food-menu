@@ -23,6 +23,18 @@ export class UserRepository {
     return this.repository.findOneBy({ id });
   }
 
+  async findByEmail(email: string) {
+    return this.repository.findOneBy({ email });
+  }
+
+  async findByUsername(username: string) {
+    return this.repository.findOneBy({ username });
+  }
+
+  async findByPhone(phone: string) {
+    return this.repository.findOneBy({ phone });
+  }
+
   async findByUsernameForAuth(username: string) {
     return this.repository
       .createQueryBuilder('user')
