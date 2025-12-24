@@ -15,6 +15,7 @@ import { CaslAbilityFactory } from '@/shared/factories/casl-ability.factory';
 import { UserModule } from '@/modules/user/user.module';
 import { AuthModule } from '@/modules/auth/auth.module';
 import { PermissionModule } from '@/modules/permission/permission.module';
+import { StoreModule } from '@/modules/store/store.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { PermissionModule } from '@/modules/permission/permission.module';
     }),
     UserModule,
     AuthModule,
+    StoreModule,
     PermissionModule,
   ],
   providers: [CaslAbilityFactory],

@@ -42,7 +42,9 @@ type StoreResponse = {
   image: string;
   slug: string;
   phone: string;
-  location: string;
+  latitude: string;
+  longitude: string;
+  address: string;
   description: string;
   status: string;
 };
@@ -71,7 +73,9 @@ type StoreResponse = {
         "image": "string",
         "slug": "string",
         "phone": "string",
-        "location": "string",
+        "latitude": "string",
+        "longitude": "string",
+        "address": "string",
         "description": "string",
         "status": "string"
       },
@@ -81,7 +85,9 @@ type StoreResponse = {
         "image": "string",
         "slug": "string",
         "phone": "string",
-        "location": "string",
+        "latitude": "string",
+        "longitude": "string",
+        "address": "string",
         "description": "string",
         "status": "string"
       }
@@ -107,7 +113,9 @@ type StoreResponse = {
       "image": "string",
       "slug": "string",
       "phone": "string",
-      "location": "string",
+      "latitude": "string",
+      "longitude": "string",
+      "address": "string",
       "description": "string",
       "status": "string"
     }
@@ -126,10 +134,11 @@ type StoreResponse = {
     ```json
     {
       "name": "string",
-      "image": "string",
       "slug": "string",
       "phone": "string",
-      "location": "string",
+      "latitude": "string",
+      "longitude": "string",
+      "address": "string",
       "description": "string"
     }
     ```
@@ -145,7 +154,9 @@ type StoreResponse = {
       "image": "string",
       "slug": "string",
       "phone": "string",
-      "location": "string",
+      "latitude": "string",
+      "longitude": "string",
+      "address": "string",
       "description": "string",
       "status": "string"
     }
@@ -167,7 +178,9 @@ type StoreResponse = {
       "image": "string",
       "slug": "string",
       "phone": "string",
-      "location": "string",
+      "latitude": "string",
+      "longitude": "string",
+      "address": "string",
       "description": "string"
     }
     ```
@@ -183,7 +196,9 @@ type StoreResponse = {
       "image": "string",
       "slug": "string",
       "phone": "string",
-      "location": "string",
+      "latitude": "string",
+      "longitude": "string",
+      "address": "string",
       "description": "string",
       "status": "string"
     }

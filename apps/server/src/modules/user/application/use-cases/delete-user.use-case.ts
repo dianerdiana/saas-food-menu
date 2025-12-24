@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserRepository } from '../../infrastructure/repositories/user.repository';
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class DeleteUserUseCase {
@@ -9,7 +8,7 @@ export class DeleteUserUseCase {
   async execute(id: string) {
     const user = await this.userRepository.findById(id);
 
-    if (!user) throw new NotFoundError('User is not found');
+    if (!user) throw new NotFoundException('User is not found');
     const updateResult = await this.userRepository.deleteById(user.id);
     return updateResult.affected && true;
   }
