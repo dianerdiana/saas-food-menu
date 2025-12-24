@@ -1,10 +1,10 @@
 import { UserEntity } from '@/modules/user/domain/entities/user.entity';
-import { Action, Subject } from '../types/access-control.type';
+import { ActionControl, Subject } from '../types/access-control.type';
 import { PermissionEntity } from '@/modules/permission/domain/entities/permission.entity';
 import { AbilityBuilder, createMongoAbility, MongoAbility, ExtractSubjectType } from '@casl/ability';
 import { Injectable } from '@nestjs/common';
 
-export type AppAbility = MongoAbility<[Action, Subject]>;
+export type AppAbility = MongoAbility<[ActionControl, Subject]>;
 
 @Injectable()
 export class CaslAbilityFactory {

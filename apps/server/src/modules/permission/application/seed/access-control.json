@@ -1,0 +1,345 @@
+[
+  {
+    "name": "ManageAll",
+    "action": "manage",
+    "subject": "all",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "Bank",
+    "action": "create",
+    "subject": "Bank",
+    "conditions": "{\"store_id\": \"{{current_store_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Bank",
+    "action": "read",
+    "subject": "Bank",
+    "conditions": "{\"store_id\": \"{{current_store_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Bank",
+    "action": "update",
+    "subject": "Bank",
+    "conditions": "{\"store_id\": \"{{current_store_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Bank",
+    "action": "delete",
+    "subject": "Bank",
+    "conditions": "{\"store_id\": \"{{current_store_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Category",
+    "action": "create",
+    "subject": "Category",
+    "conditions": "{\"store_id\": \"{{current_store_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Category",
+    "action": "read",
+    "subject": "Category",
+    "conditions": "{\"store_id\": \"{{current_store_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Category",
+    "action": "update",
+    "subject": "Category",
+    "conditions": "{\"store_id\": \"{{current_store_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Category",
+    "action": "delete",
+    "subject": "Category",
+    "conditions": "{\"store_id\": \"{{current_store_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Ingredient",
+    "action": "create",
+    "subject": "Ingredient",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "Ingredient",
+    "action": "read",
+    "subject": "Ingredient",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "Ingredient",
+    "action": "update",
+    "subject": "Ingredient",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "Ingredient",
+    "action": "delete",
+    "subject": "Ingredient",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "Product",
+    "action": "create",
+    "subject": "Product",
+    "conditions": "{\"store_id\": \"{{current_store_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Product",
+    "action": "read",
+    "subject": "Product",
+    "conditions": "{\"store_id\": \"{{current_store_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Product",
+    "action": "update",
+    "subject": "Product",
+    "conditions": "{\"store_id\": \"{{current_store_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Product",
+    "action": "delete",
+    "subject": "Product",
+    "conditions": "{\"store_id\": \"{{current_store_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "ProductCategory",
+    "action": "create",
+    "subject": "ProductCategory",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "ProductCategory",
+    "action": "read",
+    "subject": "ProductCategory",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "ProductCategory",
+    "action": "update",
+    "subject": "ProductCategory",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "ProductCategory",
+    "action": "delete",
+    "subject": "ProductCategory",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "ProductIngredient",
+    "action": "create",
+    "subject": "ProductIngredient",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "ProductIngredient",
+    "action": "read",
+    "subject": "ProductIngredient",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "ProductIngredient",
+    "action": "update",
+    "subject": "ProductIngredient",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "ProductIngredient",
+    "action": "delete",
+    "subject": "ProductIngredient",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "Store",
+    "action": "create",
+    "subject": "Store",
+    "conditions": "{\"owner\": \"{{current_user_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Store",
+    "action": "read",
+    "subject": "Store",
+    "conditions": "{\"owner\": \"{{current_user_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Store",
+    "action": "update",
+    "subject": "Store",
+    "conditions": "{\"owner\": \"{{current_user_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Store",
+    "action": "delete",
+    "subject": "Store",
+    "conditions": "{\"owner\": \"{{current_user_id}}\"}",
+    "inverted": "false"
+  },
+  {
+    "name": "Subscription",
+    "action": "create",
+    "subject": "Subscription",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "Subscription",
+    "action": "read",
+    "subject": "Subscription",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "Subscription",
+    "action": "update",
+    "subject": "Subscription",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "Subscription",
+    "action": "delete",
+    "subject": "Subscription",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "SubscriptionPayment",
+    "action": "create",
+    "subject": "SubscriptionPayment",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "SubscriptionPayment",
+    "action": "read",
+    "subject": "SubscriptionPayment",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "SubscriptionPayment",
+    "action": "update",
+    "subject": "SubscriptionPayment",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "SubscriptionPayment",
+    "action": "delete",
+    "subject": "SubscriptionPayment",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "Transaction",
+    "action": "create",
+    "subject": "Transaction",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "Transaction",
+    "action": "read",
+    "subject": "Transaction",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "Transaction",
+    "action": "update",
+    "subject": "Transaction",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "Transaction",
+    "action": "delete",
+    "subject": "Transaction",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "TransactionDetail",
+    "action": "create",
+    "subject": "TransactionDetail",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "TransactionDetail",
+    "action": "read",
+    "subject": "TransactionDetail",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "TransactionDetail",
+    "action": "update",
+    "subject": "TransactionDetail",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "TransactionDetail",
+    "action": "delete",
+    "subject": "TransactionDetail",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "User",
+    "action": "create",
+    "subject": "User",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "User",
+    "action": "read",
+    "subject": "User",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "User",
+    "action": "update",
+    "subject": "User",
+    "conditions": "",
+    "inverted": "false"
+  },
+  {
+    "name": "User",
+    "action": "delete",
+    "subject": "User",
+    "conditions": "",
+    "inverted": "false"
+  }
+]

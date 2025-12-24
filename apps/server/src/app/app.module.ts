@@ -8,10 +8,13 @@ import { DataSource } from 'typeorm';
 import configuration from './config/env.config';
 import { TypeOrmConfigService } from './config/typeorm.config';
 
+// Shared
+import { CaslAbilityFactory } from '@/shared/factories/casl-ability.factory';
+
 // Modules
 import { UserModule } from '@/modules/user/user.module';
 import { AuthModule } from '@/modules/auth/auth.module';
-import { CaslAbilityFactory } from '@/shared/factories/casl-ability.factory';
+import { PermissionModule } from '@/modules/permission/permission.module';
 
 @Module({
   imports: [
@@ -27,6 +30,7 @@ import { CaslAbilityFactory } from '@/shared/factories/casl-ability.factory';
     }),
     UserModule,
     AuthModule,
+    PermissionModule,
   ],
   providers: [CaslAbilityFactory],
   exports: [CaslAbilityFactory],

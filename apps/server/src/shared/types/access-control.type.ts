@@ -1,10 +1,11 @@
-import { BankEntity } from '@/modules/bank/domain/entities/bank.entity';
-import { CategoryEntity } from '@/modules/category/domain/entities/category.entity';
-import { PermissionEntity } from '@/modules/permission/domain/entities/permission.entity';
-import { InferSubjects } from '@casl/ability';
+export enum SubjectControl {
+  Bank = 'Bank',
+  Store = 'Store',
+}
 
-export type Subject = InferSubjects<typeof BankEntity | typeof CategoryEntity | 'all'>;
-export enum Action {
+export type Subject = typeof SubjectControl;
+
+export enum ActionControl {
   Manage = 'manage',
   Create = 'create',
   Read = 'read',
@@ -13,6 +14,6 @@ export enum Action {
 }
 
 export interface RequiredRule {
-  action: string;
-  subject: string;
+  action: ActionControl;
+  subject: SubjectControl;
 }

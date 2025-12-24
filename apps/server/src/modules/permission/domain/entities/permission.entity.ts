@@ -17,7 +17,7 @@ export class PermissionEntity extends BaseEntity {
   conditions?: string | null;
 
   @Column({ type: 'boolean', default: false })
-  inverted!: string;
+  inverted!: boolean;
 
   @Column({ type: 'text', nullable: true })
   reason?: string | null;
