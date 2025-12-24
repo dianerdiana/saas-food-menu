@@ -5,7 +5,7 @@ import { UserModel } from '../../domain/models/user.model';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 
 @Injectable()
-export class UpdateUser {
+export class UpdateUserUseCase {
   constructor(
     private userRepository: UserRepository,
     private passwordService: PasswordService,

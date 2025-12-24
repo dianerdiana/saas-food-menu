@@ -1,13 +1,13 @@
 import { CreateUserDto } from '@/modules/user/application/dtos/create-user.dto';
-import { CreateUser } from '@/modules/user/application/use-cases/create-user.use-case';
+import { CreateUserUseCase } from '@/modules/user/application/use-cases/create-user.use-case';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class SignUp {
-  constructor(private createUser: CreateUser) {}
+export class SignUpUseCase {
+  constructor(private createUserUseCase: CreateUserUseCase) {}
 
   async execute(createUserDto: CreateUserDto) {
-    const user = this.createUser.execute(createUserDto);
+    const user = this.createUserUseCase.execute(createUserDto);
     return user;
   }
 }

@@ -8,10 +8,10 @@ import { APP_GUARD } from '@nestjs/core';
 // Import Modules
 import { UserModule } from '../user/user.module';
 
-// Application
-import { ValidateUser } from './application/use-cases/validate-user.use-case';
-import { SignIn } from './application/use-cases/sign-in.use-case';
-import { SignUp } from './application/use-cases/sign-up.use-case';
+// Use-cases
+import { ValidateUserUseCase } from './application/use-cases/validate-user.use-case';
+import { SignInUseCase } from './application/use-cases/sign-in.use-case';
+import { SignUpUseCase } from './application/use-cases/sign-up.use-case';
 
 // Infrastructure
 import { JwtConfigService } from './infrastructure/config/jwt-config.service';
@@ -41,9 +41,9 @@ import { JwtAuthGuard } from './infrastructure/guards/jwt-auth.guard';
     },
     PasswordService,
     LocalStrategy,
-    ValidateUser,
-    SignIn,
-    SignUp,
+    ValidateUserUseCase,
+    SignInUseCase,
+    SignUpUseCase,
   ],
   exports: [PasswordService],
 })

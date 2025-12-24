@@ -5,7 +5,7 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserModel } from '../../domain/models/user.model';
 
 @Injectable()
-export class CreateUser {
+export class CreateUserUseCase {
   constructor(
     private userRepository: UserRepository,
     private passwordService: PasswordService,

@@ -2,8 +2,8 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
 
 // Application
-import { SignIn } from '../../application/use-cases/sign-in.use-case';
-import { SignUp } from '../../application/use-cases/sign-up.use-case';
+import { SignInUseCase } from '../../application/use-cases/sign-in.use-case';
+import { SignUpUseCase } from '../../application/use-cases/sign-up.use-case';
 import { SignUpDto } from '../../application/dtos/sign-up.dto';
 
 // Infrastructure
@@ -15,8 +15,8 @@ import { Public } from '@/shared/decorators/public.decorator';
 @Controller('auth')
 export class AuthController {
   constructor(
-    private signInUseCase: SignIn,
-    private signUpUseCase: SignUp,
+    private signInUseCase: SignInUseCase,
+    private signUpUseCase: SignUpUseCase,
   ) {}
 
   @Public()

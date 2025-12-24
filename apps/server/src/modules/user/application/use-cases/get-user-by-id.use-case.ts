@@ -3,7 +3,7 @@ import { UserRepository } from '../../infrastructure/repositories/user.repositor
 import { UserDetailModel } from '../../domain/models/user-detail.model';
 
 @Injectable()
-export class GetUserById {
+export class GetUserByIdUseCase {
   constructor(private userRepository: UserRepository) {}
 
   async execute(id: string) {

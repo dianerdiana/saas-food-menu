@@ -4,7 +4,7 @@ import { PaginationDto } from '@/shared/dtos/pagination.dto';
 import { UserModel } from '../../domain/models/user.model';
 
 @Injectable()
-export class GetAllUser {
+export class GetAllUserUseCase {
   constructor(private userRepository: UserRepository) {}
 
   async execute(paginationDto: PaginationDto) {

@@ -7,7 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { JWT_CONFIG } from '@/shared/constants/jwt-config.constant';
 
 @Injectable()
-export class SignIn {
+export class SignInUseCase {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,

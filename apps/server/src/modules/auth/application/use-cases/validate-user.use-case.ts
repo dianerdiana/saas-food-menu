@@ -4,7 +4,7 @@ import { ValidateUserDto } from '../dtos/validate-user.dto';
 import { GetUserByUsernameForAuth } from '@/modules/user/application/use-cases/get-user-by-username-for-auth.use-case';
 
 @Injectable()
-export class ValidateUser {
+export class ValidateUserUseCase {
   constructor(
     private passwordService: PasswordService,
     private getUserByUsernameForAuth: GetUserByUsernameForAuth,
