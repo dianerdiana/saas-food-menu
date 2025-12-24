@@ -25,8 +25,32 @@ export class StoreEntity extends BaseAuditEntity {
   @Column({ type: 'varchar', length: 50, unique: true })
   phone!: string;
 
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 8,
+    nullable: true,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
+  latitude?: string | null;
+
+  @Column({
+    type: 'decimal',
+    precision: 11, // Longitude need 1 more number (180)
+    scale: 8,
+    nullable: true,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
+  longitude?: string | null;
+
   @Column({ type: 'text', nullable: true })
-  location?: string | null;
+  address?: string | null;
 
   @Column({ type: 'text', nullable: true })
   description?: string | null;
