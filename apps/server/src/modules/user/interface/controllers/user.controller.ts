@@ -1,5 +1,5 @@
 // NestJs
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 
 // Application
 import { GetUserByIdUseCase } from '../../application/use-cases/get-user-by-id.use-case';
@@ -8,6 +8,7 @@ import { CreateUserUseCase } from '../../application/use-cases/create-user.use-c
 import { GetAllUserUseCase } from '../../application/use-cases/get-all-user.use-case';
 import { UpdateUserDto } from '../../application/dtos/update-user.dto';
 import { UpdateUserUseCase } from '../../application/use-cases/update-user.use-case';
+import { DeleteUserUseCase } from '../../application/use-cases/delete-user.use-case';
 
 // Shared
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
@@ -19,6 +20,7 @@ export class UserController {
     private createUserUseCase: CreateUserUseCase,
     private getAllUserUseCase: GetAllUserUseCase,
     private updateUserUseCase: UpdateUserUseCase,
+    private deleteUserUseCase: DeleteUserUseCase,
   ) {}
 
   @Get(':id')
@@ -46,5 +48,10 @@ export class UserController {
       message: 'Successfuly updated user',
       data: await this.updateUserUseCase.execute(updateUserDto, id),
     };
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id') id: string) {
+    return await this.deleteUserUseCase.execute(id);
   }
 }

@@ -20,6 +20,7 @@ import { GetUserByIdUseCase } from './application/use-cases/get-user-by-id.use-c
 import { GetUserByUsernameForAuth } from './application/use-cases/get-user-by-username-for-auth.use-case';
 import { GetAllUserUseCase } from './application/use-cases/get-all-user.use-case';
 import { UpdateUserUseCase } from './application/use-cases/update-user.use-case';
+import { DeleteUserUseCase } from './application/use-cases/delete-user.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
@@ -32,6 +33,7 @@ import { UpdateUserUseCase } from './application/use-cases/update-user.use-case'
     CreateUserUseCase,
     GetAllUserUseCase,
     UpdateUserUseCase,
+    DeleteUserUseCase,
   ],
   exports: [GetUserByIdUseCase, CreateUserUseCase, GetUserByUsernameForAuth],
 })

@@ -38,4 +38,8 @@ export class UserRepository {
       skip,
     });
   }
+
+  async deleteById(id: string) {
+    return this.repository.softDelete({ id });
+  }
 }
