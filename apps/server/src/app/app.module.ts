@@ -11,6 +11,7 @@ import { TypeOrmConfigService } from './config/typeorm.config';
 // Modules
 import { UserModule } from '@/modules/user/user.module';
 import { AuthModule } from '@/modules/auth/auth.module';
+import { CaslAbilityFactory } from '@/shared/factories/casl-ability.factory';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { AuthModule } from '@/modules/auth/auth.module';
     UserModule,
     AuthModule,
   ],
-  providers: [],
+  providers: [CaslAbilityFactory],
+  exports: [CaslAbilityFactory],
 })
 export class AppModule implements OnModuleInit {
   constructor(@InjectDataSource() private readonly dataSource: DataSource) {}

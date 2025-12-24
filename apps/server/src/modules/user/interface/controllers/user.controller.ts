@@ -1,5 +1,5 @@
 // NestJs
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 
 // Application
 import { GetUserByIdUseCase } from '../../application/use-cases/get-user-by-id.use-case';
@@ -15,6 +15,9 @@ import { GetUserByUsernameUseCase } from '../../application/use-cases/get-user-b
 
 // Shared
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
+import { PoliciesGuard } from '@/shared/guards/policies.guard';
+import { CheckPolicies } from '@/shared/decorators/check-policies.decorator';
+import { Action, Subject } from '@/shared/types/access-control.type';
 
 @Controller('users')
 export class UserController {
@@ -39,6 +42,8 @@ export class UserController {
     return await this.createUserUseCase.execute(createUserDto);
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies({ action: Action.Read, subject: 'User' })
   @Get()
   async getAllUser(@Query() paginationDto: PaginationDto) {
     const result = await this.getAllUserUseCase.execute(paginationDto);
