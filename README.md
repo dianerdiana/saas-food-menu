@@ -302,7 +302,9 @@ erDiagram
     string(255) image
     string(255) slug "unique"
     string(50) phone "unique"
-    text location "nullable"
+    string(255) latitude "unique"
+    string(255) longitude "unique"
+    text address "nullable"
     text description "nullable"
     string(50) status
     date created_at "default now"

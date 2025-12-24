@@ -16,6 +16,9 @@ export class BankEntity extends BaseAuditEntity {
   @Column({ type: 'varchar', length: 100 })
   number!: string;
 
+  @Column({ type: 'varchar', length: 50 })
+  status!: string;
+
   @ManyToOne(() => StoreEntity, (store) => store.banks)
   @JoinColumn({ name: 'store_id' })
   store!: StoreEntity;

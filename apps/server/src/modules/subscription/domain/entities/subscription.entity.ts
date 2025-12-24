@@ -12,14 +12,14 @@ export class SubscriptionEntity extends BaseAuditEntity {
   @Column({ name: 'user_id', type: 'uuid' })
   userId!: string;
 
-  @Column({ type: 'varchar', length: 50 })
-  status!: string;
-
   @Column({ name: 'start_date', type: 'timestamptz' })
-  startData!: Date;
+  startDate!: Date;
 
   @Column({ name: 'end_date', type: 'timestamptz' })
   endDate!: Date;
+
+  @Column({ type: 'varchar', length: 50 })
+  status!: string;
 
   @ManyToOne(() => StoreEntity, (store) => store.subscriptions)
   @JoinColumn({ name: 'store_id' })
