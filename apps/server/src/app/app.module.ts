@@ -16,6 +16,14 @@ import { UserModule } from '@/modules/user/user.module';
 import { AuthModule } from '@/modules/auth/auth.module';
 import { PermissionModule } from '@/modules/permission/permission.module';
 import { StoreModule } from '@/modules/store/store.module';
+import { BankModule } from '@/modules/bank/bank.module';
+import { CategoryModule } from '@/modules/category/category.module';
+import { IngredientModule } from '@/modules/ingredient/ingredient.module';
+import { ProductModule } from '@/modules/product/product.module';
+import { SubscriptionModule } from '@/modules/subscription/subscription.module';
+import { SubscriptionPaymentModule } from '@/modules/subscription-payment/subscription-payment.module';
+import { TransactionModule } from '@/modules/transaction/transaction.module';
+import { TransactionDetailModule } from '@/modules/transaction-detail/transaction-detail.module';
 
 @Module({
   imports: [
@@ -31,8 +39,16 @@ import { StoreModule } from '@/modules/store/store.module';
     }),
     UserModule,
     AuthModule,
-    StoreModule,
     PermissionModule,
+    BankModule,
+    CategoryModule,
+    IngredientModule,
+    ProductModule,
+    StoreModule,
+    SubscriptionModule,
+    SubscriptionPaymentModule,
+    TransactionModule,
+    TransactionDetailModule,
   ],
   providers: [CaslAbilityFactory],
   exports: [CaslAbilityFactory],
@@ -45,7 +61,6 @@ export class AppModule implements OnModuleInit {
       if (this.dataSource.isInitialized) {
         console.log('---');
         console.log('✅ DATABASE CONNECTED SUCCESSFULLY');
-        // console.log(`📡 Host: ${this.dataSource.options.host}`);
         console.log(`🗄️  Database: ${this.dataSource.options.database}`);
         console.log('---');
       }
