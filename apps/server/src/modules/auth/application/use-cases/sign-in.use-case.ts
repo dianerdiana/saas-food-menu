@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { SignInModel } from '../../domain/models/sign-in.model';
-import { UserEntity } from '@/modules/user/domain/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { SignInModel } from '../../domain/models/sign-in.model';
+import { UserEntity } from '@/modules/user/domain/entities/user.entity';
 import { JWT_CONFIG } from '@/shared/constants/jwt-config.constant';
 import { AuthUser } from '@/shared/types/auth-user.type';
 
@@ -14,7 +14,8 @@ export class SignInUseCase {
   ) {}
 
   async execute(user: UserEntity) {
-    const userData = new SignInModel(user);
+    const storeId = user.stores[0]?.id || '';
+    const userData = new SignInModel({ ...user, storeId });
 
     const jwtAuthPayload: AuthUser = {
       userId: userData.id,
