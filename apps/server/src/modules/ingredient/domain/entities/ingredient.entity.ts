@@ -10,6 +10,9 @@ export class IngredientEntity extends BaseAuditEntity {
   @Column({ type: 'varchar', length: 255 })
   slug!: string;
 
+  @Column({ type: 'int' })
+  sequence!: number;
+
   @Column({ type: 'varchar', length: 50 })
   status!: string;
 
