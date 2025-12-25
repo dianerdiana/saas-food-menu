@@ -11,10 +11,22 @@ import { TransactionRepository } from './infrastructure/repositories/transaction
 import { TransactionController } from './interface/controllers/transaction.controller';
 
 // Use Case
+import { CreateTransactionUseCase } from './application/use-case/create-transaction.use-case';
+import { DeleteTransactionUseCase } from './application/use-case/delete-transaction.use-case';
+import { GetAllTransactionUseCase } from './application/use-case/get-all-transaction.use-case';
+import { GetTransactionByIdUseCase } from './application/use-case/get-transaction-by-id.use-case';
+import { UpdateTransactionUseCase } from './application/use-case/update-transaction.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([TransactionEntity])],
   controllers: [TransactionController],
-  providers: [TransactionRepository],
+  providers: [
+    TransactionRepository,
+    CreateTransactionUseCase,
+    DeleteTransactionUseCase,
+    GetAllTransactionUseCase,
+    GetTransactionByIdUseCase,
+    UpdateTransactionUseCase,
+  ],
 })
 export class TransactionModule {}

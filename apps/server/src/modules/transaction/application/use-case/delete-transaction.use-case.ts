@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { TransactionRepository } from '../../infrastructure/repositories/transaction.repository';
+import { AuthUser } from '@/shared/types/auth-user.type';
 
 @Injectable()
 export class DeleteTransactionUseCase {
   constructor(private transactionRepository: TransactionRepository) {}
 
-  async execute(id: string) {
+  async execute(id: string, authUser: AuthUser) {
     const transaction = await this.transactionRepository.findById(id);
 
     if (!transaction) throw new NotFoundException('Transaction is not found');
