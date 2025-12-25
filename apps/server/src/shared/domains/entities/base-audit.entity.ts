@@ -16,4 +16,8 @@ export abstract class BaseAuditEntity extends BaseEntity {
   @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'updated_by' })
   updater?: UserEntity | null;
+
+  @ManyToOne(() => UserEntity)
+  @JoinColumn({ name: 'deleted_by' })
+  deleter?: UserEntity | null;
 }

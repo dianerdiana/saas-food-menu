@@ -1,4 +1,4 @@
-import { Transform } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreatePermissionDto {
@@ -20,7 +20,7 @@ export class CreatePermissionDto {
 
   @IsBoolean()
   @IsOptional()
-  @Transform(Boolean)
+  @Type(() => Boolean)
   inverted: boolean = false;
 
   @IsString()

@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StoreEntity } from '../../domain/entities/store.entity';
 import { Repository } from 'typeorm';
-import { CreateStoreDto } from '../../application/dtos/create-store.dto';
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
 
 @Injectable()
@@ -12,7 +11,7 @@ export class StoreRepository {
     private repository: Repository<StoreEntity>,
   ) {}
 
-  create(store: CreateStoreDto) {
+  create(store: Partial<StoreEntity>) {
     return this.repository.create(store);
   }
 
@@ -26,6 +25,10 @@ export class StoreRepository {
 
   async findBySlug(slug: string) {
     return this.repository.findOneBy({ slug });
+  }
+
+  async findByPhone(phone: string) {
+    return this.repository.findOneBy({ phone });
   }
 
   async findAll({ limit, skip }: PaginationDto) {

@@ -18,10 +18,10 @@ export class StoreModel {
   phone!: string;
 
   @Expose()
-  latitude?: string | null;
+  latitude?: number | null;
 
   @Expose()
-  longitude?: string | null;
+  longitude?: number | null;
 
   @Expose()
   address?: string | null;

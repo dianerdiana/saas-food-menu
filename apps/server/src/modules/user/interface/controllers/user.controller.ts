@@ -29,11 +29,6 @@ export class UserController {
     private getUserByUsernameUseCase: GetUserByUsernameUseCase,
   ) {}
 
-  @Get(':id')
-  async getUser(@Param('id') id: string) {
-    return await this.getUserByIdUseCase.execute(id);
-  }
-
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.createUserUseCase.execute(createUserDto);
@@ -46,6 +41,26 @@ export class UserController {
       data: result.users,
       meta: result.meta,
     };
+  }
+
+  @Get('id/:id')
+  async getUser(@Param('id') id: string) {
+    return await this.getUserByIdUseCase.execute(id);
+  }
+
+  @Get('/email/:email')
+  async getUserByEmail(@Param('email') email: string) {
+    return await this.getUserByEmailUseCase.execute(email);
+  }
+
+  @Get('/phone/:phone')
+  async getUserByPhone(@Param('phone') phone: string) {
+    return await this.getUserByPhoneUseCase.execute(phone);
+  }
+
+  @Get('/username/:username')
+  async getUserByUsername(@Param('username') username: string) {
+    return await this.getUserByUsernameUseCase.execute(username);
   }
 
   @Put(':id')
@@ -62,20 +77,5 @@ export class UserController {
     return {
       message: `Successfuly deleted ${result} user`,
     };
-  }
-
-  @Get('/email/:email')
-  async getUserByEmail(@Param('email') email: string) {
-    return await this.getUserByEmailUseCase.execute(email);
-  }
-
-  @Get('/phone/:phone')
-  async getUserByPhone(@Param('phone') phone: string) {
-    return await this.getUserByPhoneUseCase.execute(phone);
-  }
-
-  @Get('/username/:username')
-  async getUserByUsername(@Param('username') username: string) {
-    return await this.getUserByUsernameUseCase.execute(username);
   }
 }

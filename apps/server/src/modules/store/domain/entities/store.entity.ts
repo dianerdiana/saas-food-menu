@@ -35,7 +35,7 @@ export class StoreEntity extends BaseAuditEntity {
       from: (value: string) => parseFloat(value),
     },
   })
-  latitude?: string | null;
+  latitude?: number | null;
 
   @Column({
     type: 'decimal',
@@ -47,7 +47,7 @@ export class StoreEntity extends BaseAuditEntity {
       from: (value: string) => parseFloat(value),
     },
   })
-  longitude?: string | null;
+  longitude?: number | null;
 
   @Column({ type: 'text', nullable: true })
   address?: string | null;

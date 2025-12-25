@@ -12,7 +12,6 @@ export class GetAllStoreUseCase {
 
     const [data, count] = await this.storeRepository.findAll(paginationDto);
     const stores = data.map((store) => new StoreModel(store));
-
     const totalPages = Math.ceil(count / limit);
 
     return {
