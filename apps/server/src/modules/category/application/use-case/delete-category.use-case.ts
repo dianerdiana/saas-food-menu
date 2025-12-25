@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CategoryRepository } from '../../infrastructure/repositories/category.repository';
+import { AuthUser } from '@/shared/types/auth-user.type';
 
 @Injectable()
 export class DeleteCategoryUseCase {
   constructor(private categoryRepository: CategoryRepository) {}
 
-  async execute(id: string) {
+  async execute(id: string, authUser: AuthUser) {
     const category = await this.categoryRepository.findById(id);
 
     if (!category) throw new NotFoundException('Category is not found');
