@@ -9,6 +9,9 @@ export abstract class BaseAuditEntity extends BaseEntity {
   @Column({ name: 'updated_by', type: 'uuid', nullable: true })
   updatedBy?: string | null;
 
+  @Column({ name: 'deleted_by', type: 'uuid', nullable: true })
+  deletedBy?: string | null;
+
   @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'created_by' })
   creator?: UserEntity | null;

@@ -15,8 +15,8 @@ export class UpdateStoreUseCase {
     if (!store) throw new NotFoundException('Store is not found');
 
     store.name = name;
-    store.name = phone;
-    store.name = slug;
+    store.phone = phone;
+    store.slug = slug;
 
     if (store.address) store.address = address;
     if (store.description) store.description = description;
