@@ -18,7 +18,7 @@ export class TransactionEntity extends BaseAuditEntity {
   paymentMethod!: string;
 
   @Column({ name: 'total_price', type: 'decimal' })
-  totalPrice!: string;
+  totalPrice!: number;
 
   @Column({ type: 'varchar', length: 50 })
   status!: string;
