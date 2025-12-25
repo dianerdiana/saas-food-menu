@@ -1,3 +1,4 @@
+// NestJS
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -11,10 +12,22 @@ import { BankRepository } from './infrastructure/repositories/bank.repository';
 import { BankController } from './interface/controllers/bank.controller';
 
 // Use Case
+import { CreateBankUseCase } from './application/use-case/create-bank.use-case';
+import { DeleteBankUseCase } from './application/use-case/delete-bank.use-case';
+import { GetAllBankUseCase } from './application/use-case/get-all-bank.use-case';
+import { GetBankByIdUseCase } from './application/use-case/get-bank-by-id.use-case';
+import { UpdateBankUseCase } from './application/use-case/update-bank.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([BankEntity])],
   controllers: [BankController],
-  providers: [BankRepository],
+  providers: [
+    BankRepository,
+    CreateBankUseCase,
+    DeleteBankUseCase,
+    GetAllBankUseCase,
+    GetBankByIdUseCase,
+    UpdateBankUseCase,
+  ],
 })
 export class BankModule {}
