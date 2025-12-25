@@ -1,5 +1,5 @@
-import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
-import { Exclude, Expose } from 'class-transformer';
+import { StoreModel } from '@/modules/store/domain/models/store.model';
+import { Exclude, Expose, Transform } from 'class-transformer';
 
 @Exclude()
 export class SignInModel {
@@ -7,19 +7,19 @@ export class SignInModel {
   id!: string;
 
   @Expose()
-  avatar!: string;
-
-  @Expose()
-  firstName!: string;
-
-  @Expose()
-  lastName!: string;
+  email!: string;
 
   @Expose()
   username!: string;
 
   @Expose()
-  stores!: StoreEntity[];
+  @Transform(({ obj }) => {
+    if (obj.stores && obj.stores.length > 0) {
+      return new StoreModel(obj.stores[0]).id;
+    }
+    return null;
+  })
+  storeId!: string;
 
   constructor(partial: Partial<SignInModel>) {
     Object.assign(this, partial);
