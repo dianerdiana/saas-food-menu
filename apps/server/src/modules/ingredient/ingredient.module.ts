@@ -1,3 +1,4 @@
+// NestJs
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -11,10 +12,22 @@ import { IngredientRepository } from './infrastructure/repositories/ingredient.r
 import { IngredientController } from './interface/controllers/ingredient.controller';
 
 // Use Case
+import { CreateIngredientUseCase } from './application/use-case/create-ingredient.use-case';
+import { DeleteIngredientUseCase } from './application/use-case/delete-ingredient.use-case';
+import { GetAllIngredientUseCase } from './application/use-case/get-all-ingredient.use-case';
+import { GetIngredientByIdUseCase } from './application/use-case/get-ingredient-by-id.use-case';
+import { UpdateIngredientUseCase } from './application/use-case/update-ingredient.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([IngredientEntity])],
   controllers: [IngredientController],
-  providers: [IngredientRepository],
+  providers: [
+    IngredientRepository,
+    CreateIngredientUseCase,
+    DeleteIngredientUseCase,
+    GetAllIngredientUseCase,
+    GetIngredientByIdUseCase,
+    UpdateIngredientUseCase,
+  ],
 })
 export class IngredientModule {}
