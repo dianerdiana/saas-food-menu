@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BankRepository } from '../../infrastructure/repositories/bank.repository';
-import { PaginationDto } from '@/shared/dtos/pagination.dto';
 import { BankModel } from '../../domain/models/bank.model';
+import { PaginationDto } from '@/shared/dtos/pagination.dto';
 
 @Injectable()
 export class GetAllBankUseCase {

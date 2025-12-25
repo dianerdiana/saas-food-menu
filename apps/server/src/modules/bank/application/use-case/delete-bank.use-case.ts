@@ -8,9 +8,14 @@ export class DeleteBankUseCase {
 
   async execute(id: string, authUser: AuthUser) {
     const bank = await this.bankRepository.findById(id);
-
     if (!bank) throw new NotFoundException('Bank is not found');
+
+    bank.deletedBy = authUser.userId;
+
+    await this.bankRepository.save(bank);
+
     const updateResult = await this.bankRepository.deleteById(bank.id);
+
     return updateResult.affected && true;
   }
 }

@@ -9,12 +9,18 @@ export class UpdateBankUseCase {
   constructor(private bankRepository: BankRepository) {}
 
   async execute(updateBankDto: UpdateBankDto, bankId: string, authUser: AuthUser) {
-    const {} = updateBankDto;
-    const bank = await this.bankRepository.findById(bankId);
+    const { account, name, number } = updateBankDto;
 
+    const bank = await this.bankRepository.findById(bankId);
     if (!bank) throw new NotFoundException('Bank is not found');
 
+    bank.account = account;
+    bank.name = name;
+    bank.number = number;
+    bank.updatedBy = authUser.userId;
+
     await this.bankRepository.save(bank);
+
     return new BankModel(bank);
   }
 }

@@ -11,7 +11,7 @@ export class BankRepository {
     private repository: Repository<BankEntity>,
   ) {}
 
-  create(bank: any) {
+  create(bank: Partial<BankEntity>) {
     return this.repository.create(bank);
   }
 

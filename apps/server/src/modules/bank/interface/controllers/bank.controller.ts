@@ -34,7 +34,12 @@ export class BankController {
 
   @Get()
   async getAllBank(@Query() paginationDto: PaginationDto) {
-    return await this.getAllBankUseCase.execute(paginationDto);
+    const result = await this.getAllBankUseCase.execute(paginationDto);
+
+    return {
+      data: result.banks,
+      meta: result.meta,
+    };
   }
 
   @Get('id/:id')
@@ -44,11 +49,16 @@ export class BankController {
 
   @Put(':id')
   async updateBank(@Body() updateBankDto: UpdateBankDto, @Param('id') id: string, @GetAuthUser() authUser: AuthUser) {
-    return await this.updateBankUseCase.execute(updateBankDto, id, authUser);
+    const result = await this.updateBankUseCase.execute(updateBankDto, id, authUser);
+    return {
+      message: 'Successfuly updated bank',
+      data: result,
+    };
   }
 
   @Delete(':id')
   async deleteBank(@Param('id') id: string, @GetAuthUser() authUser: AuthUser) {
-    return await this.deleteBankUseCase.execute(id, authUser);
+    await this.deleteBankUseCase.execute(id, authUser);
+    return { message: 'Successfuly deleted bank' };
   }
 }
