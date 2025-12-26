@@ -11,7 +11,7 @@ export class ProductRepository {
     private repository: Repository<ProductEntity>,
   ) {}
 
-  create(product: any) {
+  create(product: Partial<ProductEntity>) {
     return this.repository.create(product);
   }
 

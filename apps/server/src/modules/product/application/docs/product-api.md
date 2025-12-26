@@ -113,8 +113,6 @@ type Product = {
 
     ```json
     {
-      "id": "string",
-      "storeId": "string",
       "name": "string",
       "slug": "string",
       "image": "file",

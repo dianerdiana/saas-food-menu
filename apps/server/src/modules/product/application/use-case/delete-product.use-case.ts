@@ -8,9 +8,13 @@ export class DeleteProductUseCase {
 
   async execute(id: string, authUser: AuthUser) {
     const product = await this.productRepository.findById(id);
-
     if (!product) throw new NotFoundException('Product is not found');
+
+    product.deletedBy = authUser.userId;
+    await this.productRepository.save(product);
+
     const updateResult = await this.productRepository.deleteById(product.id);
+
     return updateResult.affected && true;
   }
 }

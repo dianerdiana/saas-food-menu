@@ -3,7 +3,7 @@ import { ProductRepository } from '../../infrastructure/repositories/product.rep
 import { ProductModel } from '../../domain/models/product.model';
 
 @Injectable()
-export class GetProductByEmailUseCase {
+export class GetProductBySlugUseCase {
   constructor(private productRepository: ProductRepository) {}
 
   async execute(slug: string) {
