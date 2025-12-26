@@ -14,4 +14,10 @@ export default (): EnvironmentInterface => ({
     accessToken: process.env.ACCESS_TOKEN_KEY || 'accessToken',
     refreshToken: process.env.REFRESH_TOKEN_KEY || 'refreshToken',
   },
+  bucket: {
+    gcpProjectId: process.env.GCP_PROJECT_ID || '',
+    gcpClientEmail: process.env.GCP_CLIENT_EMAIL || '',
+    gcpPrivateKey: process.env.GCP_PRIVATE_KEY || '',
+    gcpBucketName: process.env.GCP_BUCKET_NAME || '',
+  },
 });

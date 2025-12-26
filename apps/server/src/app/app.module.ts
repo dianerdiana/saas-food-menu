@@ -10,6 +10,7 @@ import { TypeOrmConfigService } from './config/typeorm.config';
 
 // Shared
 import { CaslAbilityFactory } from '@/shared/factories/casl-ability.factory';
+import { StorageService } from '@/shared/services/storage.service';
 
 // Modules
 import { UserModule } from '@/modules/user/user.module';
@@ -50,8 +51,8 @@ import { TransactionDetailModule } from '@/modules/transaction-detail/transactio
     TransactionModule,
     TransactionDetailModule,
   ],
-  providers: [CaslAbilityFactory],
-  exports: [CaslAbilityFactory],
+  providers: [CaslAbilityFactory, StorageService],
+  exports: [CaslAbilityFactory, StorageService],
 })
 export class AppModule implements OnModuleInit {
   constructor(@InjectDataSource() private readonly dataSource: DataSource) {}

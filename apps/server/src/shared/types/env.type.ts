@@ -12,4 +12,10 @@ export interface EnvironmentInterface {
     accessToken: string;
     refreshToken: string;
   };
+  bucket: {
+    gcpProjectId: string;
+    gcpClientEmail: string;
+    gcpPrivateKey: string;
+    gcpBucketName: string;
+  };
 }
