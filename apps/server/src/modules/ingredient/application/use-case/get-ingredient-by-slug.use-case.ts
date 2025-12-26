@@ -3,7 +3,7 @@ import { IngredientRepository } from '../../infrastructure/repositories/ingredie
 import { IngredientModel } from '../../domain/models/ingredient.model';
 
 @Injectable()
-export class GetIngredientByEmailUseCase {
+export class GetIngredientBySlugUseCase {
   constructor(private ingredientRepository: IngredientRepository) {}
 
   async execute(slug: string) {

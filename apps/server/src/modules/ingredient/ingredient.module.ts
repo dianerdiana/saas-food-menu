@@ -17,6 +17,7 @@ import { DeleteIngredientUseCase } from './application/use-case/delete-ingredien
 import { GetAllIngredientUseCase } from './application/use-case/get-all-ingredient.use-case';
 import { GetIngredientByIdUseCase } from './application/use-case/get-ingredient-by-id.use-case';
 import { UpdateIngredientUseCase } from './application/use-case/update-ingredient.use-case';
+import { GetIngredientBySlugUseCase } from './application/use-case/get-ingredient-by-slug.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([IngredientEntity])],
@@ -27,6 +28,7 @@ import { UpdateIngredientUseCase } from './application/use-case/update-ingredien
     DeleteIngredientUseCase,
     GetAllIngredientUseCase,
     GetIngredientByIdUseCase,
+    GetIngredientBySlugUseCase,
     UpdateIngredientUseCase,
   ],
 })

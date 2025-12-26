@@ -11,7 +11,7 @@ export class IngredientRepository {
     private repository: Repository<IngredientEntity>,
   ) {}
 
-  create(ingredient: any) {
+  create(ingredient: Partial<IngredientEntity>) {
     return this.repository.create(ingredient);
   }
 

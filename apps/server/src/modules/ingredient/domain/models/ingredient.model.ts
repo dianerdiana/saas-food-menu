@@ -12,6 +12,9 @@ export class IngredientModel {
   slug!: string;
 
   @Expose()
+  sequence!: number;
+
+  @Expose()
   status!: string;
 
   constructor(partial: Partial<IngredientModel>) {

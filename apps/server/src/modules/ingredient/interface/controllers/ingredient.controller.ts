@@ -16,30 +16,46 @@ import { DeleteIngredientUseCase } from '../../application/use-case/delete-ingre
 import { GetAllIngredientUseCase } from '../../application/use-case/get-all-ingredient.use-case';
 import { GetIngredientByIdUseCase } from '../../application/use-case/get-ingredient-by-id.use-case';
 import { UpdateIngredientUseCase } from '../../application/use-case/update-ingredient.use-case';
+import { GetIngredientBySlugUseCase } from '../../application/use-case/get-ingredient-by-slug.use-case';
 
-@Controller('ingredients')
+@Controller('categories')
 export class IngredientController {
   constructor(
     private createIngredientUseCase: CreateIngredientUseCase,
     private deleteIngredientUseCase: DeleteIngredientUseCase,
     private getAllIngredientUseCase: GetAllIngredientUseCase,
     private getIngredientByIdUseCase: GetIngredientByIdUseCase,
+    private getIngredientSlugUseCase: GetIngredientBySlugUseCase,
     private updateIngredientUseCase: UpdateIngredientUseCase,
   ) {}
 
   @Post()
   async createIngredient(@Body() createIngredientDto: CreateIngredientDto, @GetAuthUser() authUser: AuthUser) {
-    return await this.createIngredientUseCase.execute(createIngredientDto, authUser);
+    const result = await this.createIngredientUseCase.execute(createIngredientDto, authUser);
+
+    return {
+      message: 'Successfuly created ingredient',
+      data: result,
+    };
   }
 
   @Get()
   async getAllIngredient(@Query() paginationDto: PaginationDto) {
-    return await this.getAllIngredientUseCase.execute(paginationDto);
+    const result = await this.getAllIngredientUseCase.execute(paginationDto);
+    return {
+      data: result.ingredients,
+      meta: result.meta,
+    };
   }
 
   @Get('id/:id')
   async getIngredientById(@Param('id') id: string) {
     return await this.getIngredientByIdUseCase.execute(id);
+  }
+
+  @Get('slug/:slug')
+  async getIngredientBySlug(@Param('slug') slug: string) {
+    return await this.getIngredientSlugUseCase.execute(slug);
   }
 
   @Put(':id')
@@ -48,11 +64,21 @@ export class IngredientController {
     @Param('id') id: string,
     @GetAuthUser() authUser: AuthUser,
   ) {
-    return await this.updateIngredientUseCase.execute(updateIngredientDto, id, authUser);
+    const result = await this.updateIngredientUseCase.execute(updateIngredientDto, id, authUser);
+
+    return {
+      message: 'Successfuly updated ingredient',
+      data: result,
+    };
   }
 
   @Delete(':id')
   async deleteIngredient(@Param('id') id: string, @GetAuthUser() authUser: AuthUser) {
-    return await this.deleteIngredientUseCase.execute(id, authUser);
+    const result = await this.deleteIngredientUseCase.execute(id, authUser);
+
+    return {
+      message: 'Successfuly deleted ingredient',
+      data: result,
+    };
   }
 }
