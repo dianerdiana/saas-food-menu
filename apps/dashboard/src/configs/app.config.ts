@@ -1,8 +1,7 @@
 export const appConfig = {
-  logoUrl: '/vite.svg',
-  // combination of logo and brand name
-  logoBrandUrl: '/vite.svg',
-  brandName: 'Food Menu',
+  logoUrl: 'https://ik.imagekit.io/dianerdiana/saas-food-menu/logo/tooang.svg',
+  logoBrandUrl: 'https://ik.imagekit.io/dianerdiana/saas-food-menu/logo/tooang-name.svg',
+  brandName: 'Tooang',
   localCurrency: 'id-ID',
   currency: 'IDR',
 };
