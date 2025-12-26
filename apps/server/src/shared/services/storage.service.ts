@@ -25,8 +25,9 @@ export class StorageService {
 
   async uploadSingleImage(file: Express.Multer.File, folderName: string): Promise<string> {
     const bucket = this.storage.bucket(this.bucketName);
-    const fileName = `${folderName}/${Date.now()}-${file.originalname}`;
-    const blob = bucket.file(fileName);
+    const fileName = `${Date.now()}-${file.originalname}`;
+    const fullPath = `${folderName}/${fileName}`;
+    const blob = bucket.file(fullPath);
 
     const blobStream = blob.createWriteStream({
       resumable: false,
@@ -37,11 +38,16 @@ export class StorageService {
       blobStream.on('error', (err) => reject(err));
 
       blobStream.on('finish', () => {
-        const endpoint = `/${blob.name}`;
+        const endpoint = `${blob.name}`;
         resolve(endpoint);
       });
 
       blobStream.end(file.buffer);
     });
+  }
+
+  async deleteFile(fileName: string) {
+    await this.storage.bucket(this.bucketName).file(fileName).delete();
+    return `Successfuly deleted file`;
   }
 }

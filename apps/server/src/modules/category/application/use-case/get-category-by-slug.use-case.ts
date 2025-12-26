@@ -3,7 +3,7 @@ import { CategoryRepository } from '../../infrastructure/repositories/category.r
 import { CategoryModel } from '../../domain/models/category.model';
 
 @Injectable()
-export class GetCategoryByEmailUseCase {
+export class GetCategoryBySlugUseCase {
   constructor(private categoryRepository: CategoryRepository) {}
 
   async execute(slug: string) {

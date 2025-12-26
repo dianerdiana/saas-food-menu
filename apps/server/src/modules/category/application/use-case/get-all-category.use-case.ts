@@ -11,12 +11,12 @@ export class GetAllCategoryUseCase {
     const { limit, page } = paginationDto;
 
     const [data, count] = await this.categoryRepository.findAll(paginationDto);
-    const categorys = data.map((category) => new CategoryModel(category));
+    const categories = data.map((category) => new CategoryModel(category));
 
     const totalPages = Math.ceil(count / limit);
 
     return {
-      categorys,
+      categories,
       meta: {
         page,
         limit,

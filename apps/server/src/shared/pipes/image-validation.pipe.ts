@@ -1,14 +1,25 @@
-import { ParseFilePipe, MaxFileSizeValidator, FileTypeValidator } from '@nestjs/common';
+import { ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, BadRequestException } from '@nestjs/common';
 import { IMAGE_UPLOAD_CONFIG } from '../constants/image-upload-config.constant';
 
-export const ImageValidationPipe = new ParseFilePipe({
-  validators: [
-    new MaxFileSizeValidator({
-      maxSize: IMAGE_UPLOAD_CONFIG.maxSize,
-      message: 'Ukuran file terlalu besar (Maks 5MB)',
-    }),
-    new FileTypeValidator({
-      fileType: IMAGE_UPLOAD_CONFIG.fileType,
-    }),
-  ],
-});
+export class ImageValidationPipe extends ParseFilePipe {
+  constructor(isRequired: boolean = true) {
+    super({
+      validators: [
+        new MaxFileSizeValidator({
+          maxSize: IMAGE_UPLOAD_CONFIG.maxSize,
+          message: 'Ukuran file terlalu besar (Maks 5MB)',
+        }),
+        new FileTypeValidator({
+          fileType: IMAGE_UPLOAD_CONFIG.fileType,
+        }),
+      ],
+      fileIsRequired: isRequired,
+      exceptionFactory: (error) => {
+        if (error.includes('required')) {
+          return new BadRequestException('Image is required!');
+        }
+        return new BadRequestException(error);
+      },
+    });
+  }
+}

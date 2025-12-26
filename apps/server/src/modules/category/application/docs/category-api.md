@@ -42,6 +42,7 @@ type Category = {
   name: string;
   slug: string;
   image: string;
+  description?: string | null;
 };
 ```
 
@@ -67,14 +68,16 @@ type Category = {
         "storeId": "string",
         "name": "string",
         "slug": "string",
-        "image": "string"
+        "image": "string",
+        "description": "string"
       },
       {
         "id": "string",
         "storeId": "string",
         "name": "string",
         "slug": "string",
-        "image": "string"
+        "image": "string",
+        "description": "string"
       }
     ]
   }
@@ -97,7 +100,8 @@ type Category = {
       "storeId": "string",
       "name": "string",
       "slug": "string",
-      "image": "string"
+      "image": "string",
+      "description": "string"
     }
   }
   ```
@@ -114,11 +118,10 @@ type Category = {
 
     ```json
     {
-      "id": "string",
-      "storeId": "string",
       "name": "string",
       "slug": "string",
-      "image": "file"
+      "image": "file",
+      "description": "string"
     }
     ```
 
@@ -133,7 +136,8 @@ type Category = {
       "storeId": "string",
       "name": "string",
       "slug": "string",
-      "image": "string"
+      "image": "string",
+      "description": "string"
     }
   }
   ```
@@ -153,7 +157,8 @@ type Category = {
       "storeId": "string",
       "name": "string",
       "slug": "string",
-      "image": "file"
+      "image": "file",
+      "description": "string"
     }
     ```
 - Response: `ApiResponse<Category>`
@@ -167,7 +172,8 @@ type Category = {
       "storeId": "string",
       "name": "string",
       "slug": "string",
-      "image": "string"
+      "image": "string",
+      "description": "string"
     }
   }
   ```

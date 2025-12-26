@@ -17,6 +17,9 @@ export class CategoryEntity extends BaseAuditEntity {
   @Column({ type: 'varchar', length: 255 })
   image!: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  description?: string | null;
+
   @Column({ type: 'varchar', length: 50 })
   status!: string;
 

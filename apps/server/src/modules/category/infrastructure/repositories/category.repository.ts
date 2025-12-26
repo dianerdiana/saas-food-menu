@@ -11,7 +11,7 @@ export class CategoryRepository {
     private repository: Repository<CategoryEntity>,
   ) {}
 
-  create(category: any) {
+  create(category: Partial<CategoryEntity>) {
     return this.repository.create(category);
   }
 

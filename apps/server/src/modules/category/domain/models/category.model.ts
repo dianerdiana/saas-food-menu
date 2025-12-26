@@ -18,6 +18,9 @@ export class CategoryModel {
   image!: string;
 
   @Expose()
+  description?: string | null;
+
+  @Expose()
   status!: string;
 
   constructor(partial: Partial<CategoryModel>) {

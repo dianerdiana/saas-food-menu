@@ -8,9 +8,13 @@ export class DeleteCategoryUseCase {
 
   async execute(id: string, authUser: AuthUser) {
     const category = await this.categoryRepository.findById(id);
-
     if (!category) throw new NotFoundException('Category is not found');
+
+    category.deletedBy = authUser.userId;
+    await this.categoryRepository.save(category);
+
     const updateResult = await this.categoryRepository.deleteById(category.id);
+
     return updateResult.affected && true;
   }
 }
