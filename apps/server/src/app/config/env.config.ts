@@ -20,4 +20,7 @@ export default (): EnvironmentInterface => ({
     gcpPrivateKey: process.env.GCP_PRIVATE_KEY || '',
     gcpBucketName: process.env.GCP_BUCKET_NAME || '',
   },
+  image: {
+    baseUrl: process.env.IMAGE_BASE_URL || '',
+  },
 });

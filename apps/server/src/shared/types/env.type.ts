@@ -18,4 +18,7 @@ export interface EnvironmentInterface {
     gcpPrivateKey: string;
     gcpBucketName: string;
   };
+  image: {
+    baseUrl: string;
+  };
 }

@@ -1,7 +1,8 @@
 // Library
-import { Module, OnModuleInit } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { InjectDataSource, TypeOrmModule } from '@nestjs/typeorm';
+import { APP_FILTER, APP_INTERCEPTOR, Reflector } from '@nestjs/core';
 import { DataSource } from 'typeorm';
 
 // Config
@@ -10,7 +11,10 @@ import { TypeOrmConfigService } from './config/typeorm.config';
 
 // Shared
 import { CaslAbilityFactory } from '@/shared/factories/casl-ability.factory';
+import { GlobalExceptionFilter } from '@/shared/filters/http-exception.filter';
 import { StorageService } from '@/shared/services/storage.service';
+import { ImageUrlInterceptor } from '@/shared/interceptors/image-url.interceptor';
+import { TransformInterceptor } from '@/shared/interceptors/transform.interceptor';
 
 // Modules
 import { UserModule } from '@/modules/user/user.module';
@@ -51,7 +55,27 @@ import { TransactionDetailModule } from '@/modules/transaction-detail/transactio
     TransactionModule,
     TransactionDetailModule,
   ],
-  providers: [CaslAbilityFactory, StorageService],
+  providers: [
+    CaslAbilityFactory,
+    StorageService,
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TransformInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ImageUrlInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      inject: [Reflector],
+      useFactory: (reflector: Reflector) => new ClassSerializerInterceptor(reflector),
+    },
+  ],
   exports: [CaslAbilityFactory, StorageService],
 })
 export class AppModule implements OnModuleInit {

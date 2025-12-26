@@ -1,10 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CategoryRepository } from '../../infrastructure/repositories/category.repository';
 import { AuthUser } from '@/shared/types/auth-user.type';
+import { StorageService } from '@/shared/services/storage.service';
 
 @Injectable()
 export class DeleteCategoryUseCase {
-  constructor(private categoryRepository: CategoryRepository) {}
+  constructor(
+    private categoryRepository: CategoryRepository,
+    private storageService: StorageService,
+  ) {}
 
   async execute(id: string, authUser: AuthUser) {
     const category = await this.categoryRepository.findById(id);
@@ -12,6 +16,7 @@ export class DeleteCategoryUseCase {
 
     category.deletedBy = authUser.userId;
     await this.categoryRepository.save(category);
+    await this.storageService.deleteFile(category.image);
 
     const updateResult = await this.categoryRepository.deleteById(category.id);
 

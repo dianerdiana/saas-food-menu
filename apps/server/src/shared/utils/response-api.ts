@@ -8,7 +8,7 @@ export interface PaginationMeta {
   totalPages: number;
 }
 
-export class Response<T> {
+export class ResponseApi<T> {
   status?: string;
   message?: string;
   data?: T;
