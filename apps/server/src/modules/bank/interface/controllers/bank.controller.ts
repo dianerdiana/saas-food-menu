@@ -29,7 +29,11 @@ export class BankController {
 
   @Post()
   async createBank(@Body() createBankDto: CreateBankDto, @GetAuthUser() authUser: AuthUser) {
-    return await this.createBankUseCase.execute(createBankDto, authUser);
+    const result = await this.createBankUseCase.execute(createBankDto, authUser);
+    return {
+      message: 'Successfuly created bank',
+      data: result,
+    };
   }
 
   @Get()
@@ -58,7 +62,7 @@ export class BankController {
 
   @Delete(':id')
   async deleteBank(@Param('id') id: string, @GetAuthUser() authUser: AuthUser) {
-    await this.deleteBankUseCase.execute(id, authUser);
-    return { message: 'Successfuly deleted bank' };
+    const result = await this.deleteBankUseCase.execute(id, authUser);
+    return { message: 'Successfuly deleted bank', data: result };
   }
 }

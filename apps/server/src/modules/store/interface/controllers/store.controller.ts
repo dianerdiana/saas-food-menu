@@ -31,12 +31,20 @@ export class StoreController {
 
   @Post()
   async createStore(@Body() createStoreDto: CreateStoreDto, @GetAuthUser() authUser: AuthUser) {
-    return await this.createStoreUseCase.execute(createStoreDto, authUser);
+    const result = await this.createStoreUseCase.execute(createStoreDto, authUser);
+    return {
+      message: 'Successfuly created store',
+      data: result,
+    };
   }
 
   @Get()
   async getAllStore(@Query() paginationDto: PaginationDto) {
-    return await this.getAllStoreUseCase.execute(paginationDto);
+    const result = await this.getAllStoreUseCase.execute(paginationDto);
+    return {
+      data: result.stores,
+      meta: result.meta,
+    };
   }
 
   @Get('id/:id')
@@ -55,11 +63,19 @@ export class StoreController {
     @Param('id') id: string,
     @GetAuthUser() authUser: AuthUser,
   ) {
-    return await this.updateStoreUseCase.execute(updateStoreDto, id, authUser);
+    const result = await this.updateStoreUseCase.execute(updateStoreDto, id, authUser);
+    return {
+      message: 'Successfuly updated store',
+      data: result,
+    };
   }
 
   @Delete(':id')
   async deleteStore(@Param('id') id: string, @GetAuthUser() authUser: AuthUser) {
-    return await this.deleteStoreUseCase.execute(id, authUser);
+    const result = await this.deleteStoreUseCase.execute(id, authUser);
+    return {
+      message: 'Successfuly deleted store',
+      data: result,
+    };
   }
 }
