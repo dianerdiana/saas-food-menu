@@ -1,4 +1,5 @@
 export interface EnvironmentInterface {
+  nodeEnv: string;
   host: string;
   port: number;
   database: {
@@ -11,6 +12,8 @@ export interface EnvironmentInterface {
   jwt: {
     accessToken: string;
     refreshToken: string;
+    accessTokenExpire: string;
+    refreshTokenExpire: string;
   };
   bucket: {
     gcpProjectId: string;

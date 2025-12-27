@@ -20,6 +20,7 @@ import { LocalStrategy } from './infrastructure/strategies/local.strategy';
 import { AuthController } from './interface/controllers/auth.controller';
 import { JwtStrategy } from './infrastructure/strategies/jwt.strategy';
 import { JwtAuthGuard } from './infrastructure/guards/jwt-auth.guard';
+import { JwtRefreshStrategy } from './infrastructure/strategies/jwt-refresh.strategy';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { JwtAuthGuard } from './infrastructure/guards/jwt-auth.guard';
   controllers: [AuthController],
   providers: [
     JwtStrategy,
+    JwtRefreshStrategy,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,

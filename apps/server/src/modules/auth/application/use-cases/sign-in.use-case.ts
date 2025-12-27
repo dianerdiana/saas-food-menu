@@ -23,9 +23,13 @@ export class SignInUseCase {
       username: userData.username,
       storeId: userData.storeId,
     };
-    const accessToken = await this.jwtService.signAsync(jwtAuthPayload);
+    const accessToken = await this.jwtService.signAsync(jwtAuthPayload, {
+      secret: this.configService.get<string>(JWT_CONFIG.accessToken),
+      expiresIn: this.configService.get<number>(JWT_CONFIG.accessTokenExpire),
+    });
     const refreshToken = await this.jwtService.signAsync(jwtAuthPayload, {
       secret: this.configService.get<string>(JWT_CONFIG.refreshToken),
+      expiresIn: this.configService.get<number>(JWT_CONFIG.refreshTokenExpire),
     });
 
     return {

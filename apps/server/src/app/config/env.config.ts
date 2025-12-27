@@ -3,6 +3,7 @@ import { EnvironmentInterface } from '../../shared/types/env.type';
 export default (): EnvironmentInterface => ({
   port: Number(process.env.PORT) || 3000,
   host: process.env.HOST || 'localhost',
+  nodeEnv: process.env.NODE_ENV || 'production',
   database: {
     host: process.env.DB_HOST || '',
     port: Number(process.env.DB_PORT),
@@ -13,6 +14,8 @@ export default (): EnvironmentInterface => ({
   jwt: {
     accessToken: process.env.ACCESS_TOKEN_KEY || 'accessToken',
     refreshToken: process.env.REFRESH_TOKEN_KEY || 'refreshToken',
+    accessTokenExpire: process.env.ACCESS_TOKEN_EXPIRE || '1h',
+    refreshTokenExpire: process.env.REFRESH_TOKEN_EXPIRE || '7d',
   },
   bucket: {
     gcpProjectId: process.env.GCP_PROJECT_ID || '',

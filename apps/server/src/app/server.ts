@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { AppModule } from './app.module';
+import cookieParser from 'cookie-parser';
 
 export async function createServer() {
   const app = await NestFactory.create(AppModule, { cors: true });
@@ -13,6 +14,9 @@ export async function createServer() {
       forbidNonWhitelisted: true,
     }),
   );
+
+  // Use cookie parser
+  app.use(cookieParser());
 
   return app;
 }
