@@ -251,7 +251,7 @@ export function SignUpForm() {
             Sign Up
           </Button>
           <p className='text-muted-foreground text-sm text-center'>
-            Alread have an account?{' '}
+            Already have an account?{' '}
             <Link to='/signin' className='text-primary'>
               Sign In
             </Link>
