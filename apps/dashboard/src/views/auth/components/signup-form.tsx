@@ -8,6 +8,7 @@ import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
+import { toast } from '@workspace/ui/components/sonner';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeClosed, KeyRound, Mail, PhoneCall, User2, UserRoundPen } from 'lucide-react';
@@ -25,6 +26,7 @@ export function SignUpForm() {
 
   const { control, handleSubmit } = useForm<SignUpDto>({
     resolver: zodResolver(signUpSchema),
+    mode: 'onChange',
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -41,6 +43,7 @@ export function SignUpForm() {
 
     if (response.data.status === RESPONSE_STATUS.success) {
       navigate('/signin');
+      toast.success('Please login with registered username/email');
     }
   };
 

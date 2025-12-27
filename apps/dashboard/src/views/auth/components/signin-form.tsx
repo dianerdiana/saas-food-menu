@@ -8,6 +8,7 @@ import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
+import { toast } from '@workspace/ui/components/sonner';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeClosed, KeyRound, User2 } from 'lucide-react';
@@ -50,6 +51,18 @@ export function SignInForm() {
         <CardDescription className='text-center'>
           Welcome to {appConfig.brandName} where flavor meets your favorit
         </CardDescription>
+
+        <Button
+          onClick={() =>
+            toast.success('Welcome to Tooang!', {
+              position: 'top-right',
+              duration: 5000,
+              richColors: true,
+            })
+          }
+        >
+          Toast
+        </Button>
       </CardHeader>
       <CardContent>
         <form id='form-signin' onSubmit={handleSubmit(onSubmit)}>
