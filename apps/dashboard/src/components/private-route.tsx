@@ -1,20 +1,14 @@
-// React
 import { Suspense } from 'react';
-
-// Custom Components
-import FallbackSpinner from './fallback-spinner';
-
-// Thirdparty
-import { useAbility } from '@casl/react';
 import { Navigate } from 'react-router-dom';
 
-// Types
-import type { RouteMeta } from '@/types/route.type';
+import { useAbility } from '@casl/react';
 
-// Utils
+import type { RouteMeta } from '@/types/route.type';
 import { AbilityContext } from '@/utils/context/ability-context';
 import { useAuth } from '@/utils/hooks/use-auth';
-import { getHomeRouteForLoggedInUser, getUserData } from '@/utils/utility';
+import { getHomeRouteForLoggedInUser } from '@/utils/utility';
+
+import FallbackSpinner from './fallback-spinner';
 
 type PrivateRouteProps = {
   children: React.ReactNode;
@@ -22,16 +16,14 @@ type PrivateRouteProps = {
 };
 
 export const PrivateRoute = ({ children, routeMeta }: PrivateRouteProps) => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isInitialLoading, userData } = useAuth();
   const ability = useAbility(AbilityContext);
 
   const restricted = routeMeta?.restricted || false;
   const action = (routeMeta?.action as string) || null;
   const resource = (routeMeta?.resource as string) || null;
 
-  const userData = getUserData();
-
-  if (isLoading) {
+  if (isInitialLoading) {
     return <FallbackSpinner />;
   }
 

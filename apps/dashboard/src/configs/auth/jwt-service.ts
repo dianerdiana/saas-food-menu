@@ -1,7 +1,8 @@
-import axios from 'axios';
+import axios, { type AxiosResponse } from 'axios';
+
+import { env } from '../env.config';
 import { ApiService } from './api-service';
 import jwtDefaultConfig from './jwt-default-config';
-import { env } from '../env.config';
 
 export type JwtServiceConfig = {
   baseURL?: string;
@@ -11,6 +12,9 @@ export type JwtServiceConfig = {
 
 export class JwtService extends ApiService {
   jwtConfig = { ...jwtDefaultConfig };
+  accessToken: string | null = null;
+  isAlreadyFetchingAccessToken = false;
+  subscribers: Function[] = [];
 
   constructor({ baseURL, ...overrideServiceConfig }: JwtServiceConfig) {
     super({ baseURL });
@@ -18,16 +22,14 @@ export class JwtService extends ApiService {
 
     this.axin = axios.create({
       baseURL: this.jwtConfig.baseURL || env.BASE_API_URL || '',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      withCredentials: true, // WAJIB untuk HttpOnly Cookie
+      headers: { 'Content-Type': 'application/json' },
     });
 
     this.axin.interceptors.request.use(
       (config) => {
-        const accessToken = this.getToken();
-        if (accessToken) {
-          config.headers.Authorization = `${this.jwtConfig.tokenType} ${accessToken}`;
+        if (this.accessToken) {
+          config.headers.Authorization = `${this.jwtConfig.tokenType} ${this.accessToken}`;
         }
         return config;
       },
@@ -36,27 +38,88 @@ export class JwtService extends ApiService {
 
     this.axin.interceptors.response.use(
       (response) => response,
-      (error) => {
-        console.error('API Error:', error.response?.status, error.response?.data);
+      async (error) => {
+        const { config, response } = error;
+        const originalRequest = config;
+
+        if (config.url === this.jwtConfig.refreshTokenUrl) {
+          return Promise.reject(error);
+        }
+
+        // Cek jika error 401 dan bukan request refresh itu sendiri yang error
+        if (response.status === 401 && !originalRequest._retry) {
+          if (!this.isAlreadyFetchingAccessToken) {
+            this.isAlreadyFetchingAccessToken = true;
+
+            this.refreshToken()
+              .then((res) => {
+                this.isAlreadyFetchingAccessToken = false;
+                const newVisibleToken = res.data.accessToken;
+                this.setToken(newVisibleToken);
+                this.onAccessTokenFetched(newVisibleToken);
+              })
+              .catch((err) => {
+                this.isAlreadyFetchingAccessToken = false;
+                this.subscribers = []; // Bersihkan antrean jika refresh gagal
+                this.removeToken();
+                window.location.href = '/signin';
+                return Promise.reject(err);
+              });
+          }
+
+          // Flag agar request ini tidak mengulang refresh jika nanti gagal lagi
+          originalRequest._retry = true;
+
+          return new Promise((resolve) => {
+            this.addSubscriber((token: string) => {
+              originalRequest.headers.Authorization = `${this.jwtConfig.tokenType} ${token}`;
+              resolve(this.axin(originalRequest));
+            });
+          });
+        }
+
         return Promise.reject(error);
       },
     );
   }
 
+  onAccessTokenFetched(accessToken: string) {
+    this.subscribers.forEach((callback) => callback(accessToken));
+    this.subscribers = [];
+  }
+
+  addSubscriber(callback: Function) {
+    this.subscribers.push(callback);
+  }
+
   getToken() {
-    try {
-      return JSON.parse(localStorage.getItem(this.jwtConfig.storageTokenKeyName) || '""');
-    } catch {
-      return null;
-    }
+    return this.accessToken;
   }
 
   setToken(token: string) {
-    localStorage.setItem(this.jwtConfig.storageTokenKeyName, JSON.stringify(token));
+    this.accessToken = token;
   }
 
   removeToken() {
-    localStorage.removeItem(this.jwtConfig.storageTokenKeyName);
+    this.accessToken = null;
+  }
+
+  refreshToken(): Promise<AxiosResponse> {
+    // Gunakan axios instance murni atau instance tanpa interceptor
+    // agar tidak terjadi loop jika endpoint refresh return 401
+    return this.axin.post(this.jwtConfig.refreshTokenUrl, {}, { withCredentials: true });
+  }
+
+  signIn(credentials: any) {
+    return this.axin.post(this.jwtConfig.signInUrl, credentials);
+  }
+
+  signUp(credentials: any) {
+    return this.axin.post(this.jwtConfig.signUpUrl, credentials);
+  }
+
+  signOut() {
+    return this.axin.post(this.jwtConfig.signOutUrl, {}, { withCredentials: true });
   }
 }
 

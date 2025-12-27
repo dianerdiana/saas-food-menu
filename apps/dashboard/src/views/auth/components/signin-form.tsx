@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { appConfig } from '@/configs/app.config';
 
@@ -12,11 +12,15 @@ import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeClosed, KeyRound, User2 } from 'lucide-react';
 
+import { useAuth } from '@/utils/hooks/use-auth';
+
 import type { SignInDto } from '../dto/signin.dto';
 import { signInSchema } from '../schema/signin.schema';
 
 export function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
 
   const { control, handleSubmit } = useForm<SignInDto>({
     resolver: zodResolver(signInSchema),
@@ -26,8 +30,12 @@ export function SignInForm() {
     },
   });
 
-  const onSubmit = (data: SignInDto) => {
-    console.log(data);
+  const onSubmit = async (data: SignInDto) => {
+    const response = await signIn(data);
+
+    if (response.data.status === 'success') {
+      navigate('/dashboard');
+    }
   };
 
   const toggleShowPassword = () => setShowPassword((prevState) => !prevState);

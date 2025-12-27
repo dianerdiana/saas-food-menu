@@ -4,7 +4,12 @@ import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
 
 export async function createServer() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: ['http://localhost:7000'],
+    credentials: true,
+  });
 
   // Validation pipe for class-validator
   app.useGlobalPipes(

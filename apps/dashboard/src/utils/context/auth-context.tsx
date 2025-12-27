@@ -1,43 +1,70 @@
 import { createContext, useLayoutEffect, useState } from 'react';
-// import { getAccessToken } from '@/views/authentication/services/auth.service';
 
-const getAccessToken = () => 'accessToken';
+import { jwt } from '@/configs/api.config';
 
 type AuthContextType = {
   isAuthenticated: boolean;
-  isLoading: boolean;
-  refreshAuth: () => void;
+  isInitialLoading: boolean;
+  signIn: (credentials: any) => Promise<any>;
+  signUp: (credentials: any) => Promise<any>;
+  signOut: () => void;
+  userData: any;
 };
 
-const AuthContext = createContext<AuthContextType>({
-  isAuthenticated: false,
-  isLoading: true,
-  refreshAuth: () => {},
-});
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [accessToken, setAccessToken] = useState(() => getAccessToken() || null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [userData, setUserData] = useState<any | null>(null);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
-  useLayoutEffect(() => {
-    if (accessToken) {
-      setIsAuthenticated(true);
-      setAccessToken(accessToken);
-    } else {
-      setIsAuthenticated(false);
-      setAccessToken(null);
+  const silentRefresh = async () => {
+    try {
+      const response = await jwt.refreshToken();
+      const { data } = response.data;
+
+      setUserData(data.userData);
+      jwt.setToken(data.accessToken);
+    } catch (error) {
+      setUserData(null);
+    } finally {
+      setIsInitialLoading(false);
     }
-
-    setIsLoading(false);
-  }, [accessToken]);
-
-  const refreshAuth = () => {
-    const token = getAccessToken();
-    setAccessToken(token);
   };
 
-  return <AuthContext.Provider value={{ isAuthenticated, isLoading, refreshAuth }}>{children}</AuthContext.Provider>;
+  const signIn = async (credentials: any) => {
+    const response = await jwt.signIn(credentials);
+    const { data } = response.data;
+
+    jwt.setToken(data.accessToken);
+    setUserData(data.userData);
+    setIsInitialLoading(false);
+
+    return response;
+  };
+
+  const signUp = async (credentials: any) => {
+    const response = await jwt.signUp(credentials);
+    const { data } = response.data;
+
+    setIsInitialLoading(false);
+
+    return data;
+  };
+
+  const signOut = async () => {
+    await jwt.signOut();
+    window.location.href = '/signin';
+  };
+
+  useLayoutEffect(() => {
+    silentRefresh();
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated: !!userData, isInitialLoading, signIn, signUp, signOut, userData }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export { AuthContext, AuthContextProvider };

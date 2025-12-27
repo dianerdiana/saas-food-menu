@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+
 import type { AppRoute } from '@/types/route.type';
 
 // Pages
@@ -11,6 +12,8 @@ export const AuthRoute: AppRoute[] = [
     element: <SignInPage />,
     meta: {
       layout: 'blank',
+      publicRoute: true,
+      restricted: true,
     },
   },
   {
@@ -18,6 +21,8 @@ export const AuthRoute: AppRoute[] = [
     element: <SignUpPage />,
     meta: {
       layout: 'blank',
+      publicRoute: true,
+      restricted: true,
     },
   },
 ];

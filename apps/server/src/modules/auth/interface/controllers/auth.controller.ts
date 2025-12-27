@@ -32,13 +32,13 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
   @Post('signin')
-  async signin(@Request() req, @Res({ passthrough: true }) response: Response) {
+  async signIn(@Request() req, @Res({ passthrough: true }) response: Response) {
     const { accessToken, refreshToken, userData } = await this.signInUseCase.execute(req.user);
 
     response.cookie(REFRESH_TOKEN_KEY, refreshToken, {
       httpOnly: true,
       secure: this.configService.get<string>('nodeEnv') === 'production',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 Days
       path: '/auth/refresh',
     });
 
@@ -52,7 +52,7 @@ export class AuthController {
 
   @Public()
   @Post('signup')
-  async signup(@Body() signUpDto: SignUpDto) {
+  async signUp(@Body() signUpDto: SignUpDto) {
     return await this.signUpUseCase.execute(signUpDto);
   }
 
@@ -62,20 +62,20 @@ export class AuthController {
   async refresh(@Req() req) {
     const user: AuthUser = req.user;
 
-    const newAccessToken = await this.generateAccessTokenUseCase.execute(user);
+    const { accessToken, userData } = await this.generateAccessTokenUseCase.execute(user);
 
-    return newAccessToken;
+    return { data: { accessToken, userData } };
   }
 
   @Public()
-  @UseGuards(AuthGuard('jwt-refresh'))
-  @Post('logout')
-  async logout(@Res({ passthrough: true }) response: Response) {
+  @Post('signout')
+  async signOut(@Res({ passthrough: true }) response: Response) {
     response.clearCookie(REFRESH_TOKEN_KEY, {
       httpOnly: true,
-      sameSite: 'strict',
+      secure: this.configService.get<string>('nodeEnv') === 'production',
       path: '/auth/refresh',
     });
+
     return { message: 'Logged out' };
   }
 }
