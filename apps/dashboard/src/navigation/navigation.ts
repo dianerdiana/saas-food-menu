@@ -1,4 +1,4 @@
-import { Banknote, CircleDollarSign, LayoutDashboard, ShoppingBag, Tag } from 'lucide-react';
+import { Banknote, CircleDollarSign, LayoutDashboard, ShoppingBag, Store, Tag } from 'lucide-react';
 
 export const navigation = [
   {
@@ -30,14 +30,24 @@ export const navigation = [
     title: 'Management Product',
     items: [
       {
-        title: 'Product Category',
-        url: '#',
+        title: 'Category',
+        url: '/categories',
         icon: Tag,
       },
       {
         title: 'Product',
-        url: '#',
+        url: '/products',
         icon: ShoppingBag,
+      },
+    ],
+  },
+  {
+    title: 'Settings',
+    items: [
+      {
+        title: 'Store',
+        url: '/stores',
+        icon: Store,
       },
     ],
   },
