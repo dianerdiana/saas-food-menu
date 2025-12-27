@@ -12,6 +12,7 @@ import { UserModule } from '../user/user.module';
 import { ValidateUserUseCase } from './application/use-cases/validate-user.use-case';
 import { SignInUseCase } from './application/use-cases/sign-in.use-case';
 import { SignUpUseCase } from './application/use-cases/sign-up.use-case';
+import { GenerateAccessTokenUseCase } from './application/use-cases/generate-access-token.use-case';
 
 // Infrastructure
 import { JwtConfigService } from './infrastructure/config/jwt-config.service';
@@ -46,6 +47,7 @@ import { JwtRefreshStrategy } from './infrastructure/strategies/jwt-refresh.stra
     ValidateUserUseCase,
     SignInUseCase,
     SignUpUseCase,
+    GenerateAccessTokenUseCase,
   ],
   exports: [PasswordService],
 })

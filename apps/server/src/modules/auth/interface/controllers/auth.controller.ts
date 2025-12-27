@@ -1,19 +1,21 @@
 // NestJs
 import { Body, Controller, HttpCode, HttpStatus, Post, Req, Request, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AuthGuard } from '@nestjs/passport';
 import type { Response } from 'express';
 
 // Application
 import { SignInUseCase } from '../../application/use-cases/sign-in.use-case';
 import { SignUpUseCase } from '../../application/use-cases/sign-up.use-case';
 import { SignUpDto } from '../../application/dtos/sign-up.dto';
+import { GenerateAccessTokenUseCase } from '../../application/use-cases/generate-access-token.use-case';
 
 // Infrastructure
 import { LocalAuthGuard } from '../../infrastructure/guards/local-auth.guard';
 
 // Shared
 import { Public } from '@/shared/decorators/public.decorator';
-import { AuthGuard } from '@nestjs/passport';
+import { AuthUser } from '@/shared/types/auth-user.type';
 
 const REFRESH_TOKEN_KEY = 'refreshToken';
 
@@ -22,6 +24,7 @@ export class AuthController {
   constructor(
     private signInUseCase: SignInUseCase,
     private signUpUseCase: SignUpUseCase,
+    private generateAccessTokenUseCase: GenerateAccessTokenUseCase,
     private configService: ConfigService,
   ) {}
 
@@ -57,13 +60,11 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt-refresh'))
   @Post('refresh')
   async refresh(@Req() req) {
-    // User didefinisikan oleh JwtRefreshStrategy setelah validasi cookie berhasil
-    const user = req.user;
+    const user: AuthUser = req.user;
 
-    // Generate Access Token baru
-    // const newAccessToken = await this.authService.generateAccessToken(user);
+    const newAccessToken = await this.generateAccessTokenUseCase.execute(user);
 
-    return user;
+    return newAccessToken;
   }
 
   @Public()
