@@ -29,6 +29,7 @@ import { SubscriptionModule } from '@/modules/subscription/subscription.module';
 import { SubscriptionPaymentModule } from '@/modules/subscription-payment/subscription-payment.module';
 import { TransactionModule } from '@/modules/transaction/transaction.module';
 import { TransactionDetailModule } from '@/modules/transaction-detail/transaction-detail.module';
+import { RoleModule } from '@/modules/role/role.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { TransactionDetailModule } from '@/modules/transaction-detail/transactio
     SubscriptionPaymentModule,
     TransactionModule,
     TransactionDetailModule,
+    RoleModule,
   ],
   providers: [
     CaslAbilityFactory,
