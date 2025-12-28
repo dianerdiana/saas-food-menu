@@ -31,6 +31,7 @@ import { TransactionModule } from '@/modules/transaction/transaction.module';
 import { TransactionDetailModule } from '@/modules/transaction-detail/transaction-detail.module';
 import { RoleModule } from '@/modules/role/role.module';
 import { RolePermissionModule } from '@/modules/role-permission/role-permission.module';
+import { UserRoleModule } from '@/modules/user-role/user-role.module';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { RolePermissionModule } from '@/modules/role-permission/role-permission.
     TransactionDetailModule,
     RoleModule,
     RolePermissionModule,
+    UserRoleModule,
   ],
   providers: [
     CaslAbilityFactory,
