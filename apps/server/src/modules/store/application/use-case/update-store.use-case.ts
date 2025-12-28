@@ -3,13 +3,14 @@ import { StoreRepository } from '../../infrastructure/repositories/store.reposit
 import { StoreModel } from '../../domain/models/store.model';
 import { UpdateStoreDto } from '../dtos/update-store.dto';
 import { AuthUser } from '@/shared/types/auth-user.type';
+import { ImageOptionalDto } from '@/shared/dtos/image.dto';
 
 @Injectable()
 export class UpdateStoreUseCase {
   constructor(private storeRepository: StoreRepository) {}
 
-  async execute(updateStoreDto: UpdateStoreDto, storeId: string, authUser: AuthUser) {
-    const { name, phone, slug, address, description, latitude, longitude } = updateStoreDto;
+  async execute(updateStoreDto: UpdateStoreDto & ImageOptionalDto, storeId: string, authUser: AuthUser) {
+    const { name, phone, slug, address, description, latitude, longitude, image } = updateStoreDto;
 
     const store = await this.storeRepository.findById(storeId);
     if (!store) throw new NotFoundException('Store is not found');
@@ -18,10 +19,11 @@ export class UpdateStoreUseCase {
     store.phone = phone;
     store.slug = slug;
 
-    if (store.address) store.address = address;
-    if (store.description) store.description = description;
-    if (store.latitude) store.latitude = latitude;
-    if (store.longitude) store.longitude = longitude;
+    if (address !== undefined) store.address = address;
+    if (description !== undefined) store.description = description;
+    if (latitude !== undefined) store.latitude = latitude;
+    if (longitude !== undefined) store.longitude = longitude;
+    if (image) store.image = image;
 
     store.updatedBy = authUser.userId;
 

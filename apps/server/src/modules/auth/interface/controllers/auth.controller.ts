@@ -9,15 +9,18 @@ import { SignInUseCase } from '../../application/use-cases/sign-in.use-case';
 import { SignUpUseCase } from '../../application/use-cases/sign-up.use-case';
 import { SignUpDto } from '../../application/dtos/sign-up.dto';
 import { GenerateAccessTokenUseCase } from '../../application/use-cases/generate-access-token.use-case';
+import { ChangeStoreUseCase } from '../../application/use-cases/change-store.use-case';
 
 // Infrastructure
 import { LocalAuthGuard } from '../../infrastructure/guards/local-auth.guard';
 
 // Shared
 import { Public } from '@/shared/decorators/public.decorator';
-import { AuthUser } from '@/shared/types/auth-user.type';
+import type { AuthUser } from '@/shared/types/auth-user.type';
+import { GetAuthUser } from '@/shared/decorators/get-user.decorator';
 
 const REFRESH_TOKEN_KEY = 'refreshToken';
+const MAX_AGE_COOKIE = 7 * 24 * 60 * 60 * 1000;
 
 @Controller('auth')
 export class AuthController {
@@ -26,6 +29,7 @@ export class AuthController {
     private signUpUseCase: SignUpUseCase,
     private generateAccessTokenUseCase: GenerateAccessTokenUseCase,
     private configService: ConfigService,
+    private changeStoreUseCase: ChangeStoreUseCase,
   ) {}
 
   @Public()
@@ -38,7 +42,7 @@ export class AuthController {
     response.cookie(REFRESH_TOKEN_KEY, refreshToken, {
       httpOnly: true,
       secure: this.configService.get<string>('nodeEnv') === 'production',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 Days
+      maxAge: MAX_AGE_COOKIE, // 7 Days
       path: '/auth/refresh',
     });
 
@@ -77,5 +81,29 @@ export class AuthController {
     });
 
     return { message: 'Logged out' };
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('change-store')
+  async changeStore(
+    @Res({ passthrough: true }) response: Response,
+    @GetAuthUser() authUser: AuthUser,
+    @Body('storeId') storeId: string,
+  ) {
+    const { accessToken, refreshToken, userData } = await this.changeStoreUseCase.execute(authUser, storeId);
+
+    response.cookie(REFRESH_TOKEN_KEY, refreshToken, {
+      httpOnly: true,
+      secure: this.configService.get<string>('nodeEnv') === 'production',
+      maxAge: MAX_AGE_COOKIE, // 7 Days
+      path: '/auth/refresh',
+    });
+
+    return {
+      data: {
+        accessToken,
+        userData,
+      },
+    };
   }
 }

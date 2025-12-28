@@ -17,6 +17,7 @@ import { GetAllStoreUseCase } from './application/use-case/get-all-store.use-cas
 import { GetStoreByIdUseCase } from './application/use-case/get-store-by-id.use-case';
 import { GetStoreBySlugUseCase } from './application/use-case/get-store-by-slug.use-case';
 import { UpdateStoreUseCase } from './application/use-case/update-store.use-case';
+import { StorageService } from '@/shared/services/storage.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([StoreEntity])],
@@ -29,6 +30,8 @@ import { UpdateStoreUseCase } from './application/use-case/update-store.use-case
     GetStoreByIdUseCase,
     GetStoreBySlugUseCase,
     UpdateStoreUseCase,
+    StorageService,
   ],
+  exports: [GetStoreByIdUseCase],
 })
 export class StoreModule {}

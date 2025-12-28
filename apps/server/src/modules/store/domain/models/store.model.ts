@@ -9,6 +9,9 @@ export class StoreModel {
   name!: string;
 
   @Expose()
+  owner!: string;
+
+  @Expose()
   image?: string | null;
 
   @Expose()

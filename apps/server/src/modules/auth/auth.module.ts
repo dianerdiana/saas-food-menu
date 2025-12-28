@@ -7,12 +7,14 @@ import { APP_GUARD } from '@nestjs/core';
 
 // Import Modules
 import { UserModule } from '../user/user.module';
+import { StoreModule } from '../store/store.module';
 
 // Use-cases
 import { ValidateUserUseCase } from './application/use-cases/validate-user.use-case';
 import { SignInUseCase } from './application/use-cases/sign-in.use-case';
 import { SignUpUseCase } from './application/use-cases/sign-up.use-case';
 import { GenerateAccessTokenUseCase } from './application/use-cases/generate-access-token.use-case';
+import { ChangeStoreUseCase } from './application/use-cases/change-store.use-case';
 
 // Infrastructure
 import { JwtConfigService } from './infrastructure/config/jwt-config.service';
@@ -33,6 +35,7 @@ import { JwtRefreshStrategy } from './infrastructure/strategies/jwt-refresh.stra
     }),
     PassportModule,
     UserModule,
+    StoreModule,
   ],
   controllers: [AuthController],
   providers: [
@@ -48,6 +51,7 @@ import { JwtRefreshStrategy } from './infrastructure/strategies/jwt-refresh.stra
     SignInUseCase,
     SignUpUseCase,
     GenerateAccessTokenUseCase,
+    ChangeStoreUseCase,
   ],
   exports: [PasswordService],
 })
