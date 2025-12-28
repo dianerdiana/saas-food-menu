@@ -13,11 +13,16 @@ import type { StoreModel } from '../models/store.model';
 import { createStoreSchema } from '../schema/create-store.schema';
 import type { CreateStoreType } from '../types/create-store.type';
 
-type FormUpdateStoreProps = {
-  store: StoreModel;
+const store: StoreModel = {
+  name: 'Toko Dian Erdiana',
+  slug: 'dianerdiana',
+  phone: '08123456789',
+  description: 'Welcome to my store',
+  address: '',
+  image: null,
 };
 
-export function FormUpdateStore({ store }: FormUpdateStoreProps) {
+export function FormCreateStore() {
   const { control, reset } = useForm<CreateStoreType>({
     resolver: zodResolver(createStoreSchema),
     defaultValues: {

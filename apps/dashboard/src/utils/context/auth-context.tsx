@@ -14,7 +14,7 @@ type AuthContextType = {
   signIn: (credentials: any) => Promise<AxiosResponse<ResponseApi<SignInModel>>>;
   signUp: (credentials: any) => Promise<AxiosResponse<ResponseApi<SignInModel>>>;
   signOut: () => void;
-  userData: AuthUser | null;
+  userData: AuthUser;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -71,7 +71,23 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated: !!userData, isInitialLoading, signIn, signUp, signOut, userData }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated: !!userData,
+        isInitialLoading,
+        signIn,
+        signUp,
+        signOut,
+        userData: userData
+          ? userData
+          : ({
+              email: '',
+              username: '',
+              storeId: '',
+              userId: '',
+            } as AuthUser),
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
