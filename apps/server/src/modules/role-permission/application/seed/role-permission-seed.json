@@ -1,0 +1,198 @@
+[
+  {
+    "roleId": "019b6490-95c3-73ad-9101-93d04967c777",
+    "permissionId": "019b5061-d8f0-77e8-aabf-a48280ec67c8"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5a-f18d1bbd9245"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5a-f59d286bfbda"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5a-f9d6f8f325c8"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5a-feb5cd1e20c9"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-03baf54bd772"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-05c2bb7db954"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-0b482ad11ec3"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-0df3a27f696f"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-10bb5afdadfd"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-179b26d9f2e7"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-1aadf0e95f2f"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-1f9af59f9b89"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-20d3d38ce4a2"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-24030be96d83"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-2a45849372d7"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-2d08194972a4"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-313845d85be1"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-356e9632efcc"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-38b6c00ec109"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-3e3469596645"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-401d91522e4c"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-443c83daa171"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-486f5aca6645"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-4cd26a1baa24"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-53f74adc1ff7"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-56728fe95dd9"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-5a228edb902c"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-5f922d0dc0bb"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-63b864aa2b52"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-67e2ecfeb4d3"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-69e50c45bc5c"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-6f83a1b2cf43"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-725fa359aa47"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-75b6d0244416"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-795d73941d90"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-7ed81f8f6b6b"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-8271d1836485"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-86eb764e0122"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-8b9d08e64207"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-8f86d35d341f"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-9286ea20b795"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-9667dd89f756"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-9bf0a44de70a"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-9f91e4f522e4"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-a2a77f49138c"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-a49313bd290b"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-ab83091729e0"
+  },
+  {
+    "roleId": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+    "permissionId": "019b5061-d8f1-75ca-bd5b-ac0788ce18de"
+  }
+]

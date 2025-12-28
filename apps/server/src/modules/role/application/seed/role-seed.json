@@ -1,11 +1,19 @@
-[
-  {
-    "name": "SUPER ADMIN"
-  },
-  {
-    "name": "ADMIN"
-  },
-  {
-    "name": "USER"
-  }
-]
+{
+	"records": [
+		{
+			"id": "019b6490-95c3-73ad-9101-93d04967c777",
+			"name": "SUPER ADMIN",
+			"description": null
+		},
+		{
+			"id": "019b6490-95c4-7693-abd0-92395f3ae5a7",
+			"name": "ADMIN",
+			"description": null
+		},
+		{
+			"id": "019b6490-95c4-7693-abd0-95451672a814",
+			"name": "USER",
+			"description": null
+		}
+	]
+}

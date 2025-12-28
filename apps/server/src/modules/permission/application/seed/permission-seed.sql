@@ -8,7 +8,7 @@
 -- Populate Tables
 -- --------------------------------------------------------------------------------
 
-INSERT INTO "permissions" ("id","name","action","subject","conditions","inverted","reason") VALUES 
+INSERT INTO `permissions` (`id`,`name`,`action`,`subject`,`conditions`,`inverted`,`reason`) VALUES 
 ( '019b5061-d8f0-77e8-aabf-a48280ec67c8','ManageAll','manage','all','','0',NULL ),
 ( '019b5061-d8f1-75ca-bd5a-f18d1bbd9245','Bank','create','Bank','{"store_id": "{{current_store_id}}"}','0',NULL ),
 ( '019b5061-d8f1-75ca-bd5a-f59d286bfbda','Bank','read','Bank','{"store_id": "{{current_store_id}}"}','0',NULL ),
