@@ -1,4 +1,5 @@
 export type StoreModel = {
+  id: string;
   name: string;
   slug: string;
   image?: string | null;

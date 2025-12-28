@@ -8,9 +8,9 @@ export const useCreateStore = () => {
 
   return useMutation({
     mutationFn: createStore,
-    onSuccess: () => {
+    onSuccess: (payload) => {
       queryClient.invalidateQueries({
-        queryKey: storeKeys.create(),
+        queryKey: [storeKeys.create(), storeKeys.detail(payload.data?.id || '')],
         exact: false,
       });
     },

@@ -121,6 +121,10 @@ export class JwtService extends ApiService {
   signOut() {
     return this.axin.post(this.jwtConfig.signOutUrl, {}, { withCredentials: true });
   }
+
+  changeStore(storeId: string) {
+    return this.axin.post(this.jwtConfig.changeStoreUrl, { storeId }, { withCredentials: true });
+  }
 }
 
 export const createJwt = (jwtConfig: JwtServiceConfig) => {

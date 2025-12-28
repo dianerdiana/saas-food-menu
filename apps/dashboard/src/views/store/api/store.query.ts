@@ -10,3 +10,11 @@ export const useGetStoreById = (storeId: string) => {
     retry: 1,
   });
 };
+
+export const useGetStoreBySlug = (slug: string) => {
+  return useQuery({
+    queryKey: storeKeys.detail(slug),
+    queryFn: () => getStoreById(slug),
+    retry: 0,
+  });
+};

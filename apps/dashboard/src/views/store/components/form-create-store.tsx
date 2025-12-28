@@ -1,48 +1,61 @@
-import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
-import { Field, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@workspace/ui/components/input-group';
+import { toast } from '@workspace/ui/components/sonner';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Camera, ClipboardList, MapPin, PhoneCall, Store, Tag } from 'lucide-react';
+import { ClipboardList, MapPin, PhoneCall, Store, Tag } from 'lucide-react';
 
-import type { StoreModel } from '../models/store.model';
+import { useAuth } from '@/utils/hooks/use-auth';
+
+import { useCreateStore } from '../api/store.mutation';
 import { createStoreSchema } from '../schema/create-store.schema';
 import type { CreateStoreType } from '../types/create-store.type';
-
-const store: StoreModel = {
-  name: 'Toko Dian Erdiana',
-  slug: 'dianerdiana',
-  phone: '08123456789',
-  description: 'Welcome to my store',
-  address: '',
-  image: null,
-};
+import { ImageUpload } from './image-store-upload';
 
 export function FormCreateStore() {
-  const { control, reset } = useForm<CreateStoreType>({
+  const { control, handleSubmit } = useForm<CreateStoreType>({
     resolver: zodResolver(createStoreSchema),
+    mode: 'onBlur',
     defaultValues: {
       name: '',
       slug: '',
       phone: '',
       address: '',
       description: '',
+      image: '',
     },
   });
+  const { mutate, isPending } = useCreateStore();
+  const { changeStore } = useAuth();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    reset({
-      name: store.name,
-      slug: store.slug,
-      phone: store.phone,
-      address: store.address ? store.address : '',
-      description: store.description ? store.description : '',
+  const onSubmit = (data: CreateStoreType) => {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('slug', data.slug);
+    formData.append('phone', data.phone);
+    formData.append('image', data.image);
+
+    if (data.address) formData.append('address', data.address);
+    if (data.description) formData.append('description', data.description);
+
+    mutate(formData, {
+      onSuccess: (payload) => {
+        if (payload.data) {
+          toast.success(payload.message);
+          changeStore(payload.data?.id).finally(() => navigate('/stores'));
+        }
+      },
+      onError: (payload) => {
+        toast.error(payload.message);
+      },
     });
-  }, []);
+  };
 
   return (
     <Card>
@@ -52,7 +65,7 @@ export function FormCreateStore() {
       <CardContent>
         <div className='grid place-content-center gap-4 grid-cols-2'>
           <div className='col-span-2 order-2 lg:order-1 lg:col-span-1'>
-            <form id='form-edit-store'>
+            <form id='form-edit-store' onSubmit={handleSubmit(onSubmit)}>
               <FieldGroup>
                 {/* Store Name */}
                 <Controller
@@ -60,15 +73,22 @@ export function FormCreateStore() {
                   name='name'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`store-edit-${field.name}`}>
+                      <FieldLabel htmlFor={`store-create-${field.name}`}>
                         Store Name <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
-                        <InputGroupInput {...field} id={`store-edit-${field.name}`} data-invalid={fieldState.invalid} />
+                        <InputGroupInput
+                          {...field}
+                          id={`store-create-${field.name}`}
+                          aria-invalid={fieldState.invalid}
+                          placeholder='Store Name'
+                          autoComplete='off'
+                        />
                         <InputGroupAddon>
                           <Store />
                         </InputGroupAddon>
                       </InputGroup>
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                   )}
                 />
@@ -79,15 +99,22 @@ export function FormCreateStore() {
                   name='slug'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`store-edit-${field.name}`}>
+                      <FieldLabel htmlFor={`store-create-${field.name}`}>
                         Store Slug (URL) <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
-                        <InputGroupInput {...field} id={`store-edit-${field.name}`} data-invalid={fieldState.invalid} />
+                        <InputGroupInput
+                          {...field}
+                          id={`store-create-${field.name}`}
+                          aria-invalid={fieldState.invalid}
+                          placeholder='Store URL'
+                          autoComplete='off'
+                        />
                         <InputGroupAddon>
                           <Tag />
                         </InputGroupAddon>
                       </InputGroup>
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                   )}
                 />
@@ -98,15 +125,22 @@ export function FormCreateStore() {
                   name='phone'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`store-edit-${field.name}`}>
+                      <FieldLabel htmlFor={`store-create-${field.name}`}>
                         Phone Number <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
-                        <InputGroupInput {...field} id={`store-edit-${field.name}`} data-invalid={fieldState.invalid} />
+                        <InputGroupInput
+                          {...field}
+                          id={`store-create-${field.name}`}
+                          aria-invalid={fieldState.invalid}
+                          placeholder='081234567890'
+                          autoComplete='off'
+                        />
                         <InputGroupAddon>
                           <PhoneCall />
                         </InputGroupAddon>
                       </InputGroup>
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                   )}
                 />
@@ -117,14 +151,16 @@ export function FormCreateStore() {
                   name='address'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`store-edit-${field.name}`}>
+                      <FieldLabel htmlFor={`store-create-${field.name}`}>
                         Address <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
                         <InputGroupTextarea
                           {...field}
-                          id={`store-edit-${field.name}`}
-                          data-invalid={fieldState.invalid}
+                          id={`store-create-${field.name}`}
+                          aria-invalid={fieldState.invalid}
+                          placeholder='Jl. Raya Mekar Raya'
+                          autoComplete='off'
                         />
                         <InputGroupAddon>
                           <MapPin />
@@ -140,14 +176,16 @@ export function FormCreateStore() {
                   name='description'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`store-edit-${field.name}`}>
+                      <FieldLabel htmlFor={`store-create-${field.name}`}>
                         Description <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
                         <InputGroupTextarea
                           {...field}
-                          id={`store-edit-${field.name}`}
-                          data-invalid={fieldState.invalid}
+                          id={`store-create-${field.name}`}
+                          aria-invalid={fieldState.invalid}
+                          placeholder='Description...'
+                          autoComplete='off'
                         />
                         <InputGroupAddon>
                           <ClipboardList />
@@ -160,39 +198,17 @@ export function FormCreateStore() {
             </form>
           </div>
           <div className='place-items-center col-span-2 order-1 lg:order-2 lg:col-span-1'>
-            {store.image ? (
-              <div className='relative'>
-                <div className='size-40 overflow-hidden bg-primary-slate rounded-full flex items-center justify-center'>
-                  <img
-                    src={store.image}
-                    alt={`Logo ${store.name}`}
-                    className='w-full h-auto object-center object-cover'
-                  />
-                </div>
-                <Button className='absolute -bottom-2 right-4' size={'sm'} variant={'primary'}>
-                  <Camera />
-                </Button>
-              </div>
-            ) : (
-              <div className='relative'>
-                <div className=' size-40 overflow-hidden bg-primary-slate rounded-full flex items-center justify-center'>
-                  <img
-                    src='https://ik.imagekit.io/dianerdiana/saas-food-menu/stores/default-store.png?tr:ar-4-4,w-160'
-                    alt='default-store-image'
-                    className='w-full h-auto object-center object-cover'
-                  />
-                </div>
-                <Button className='absolute -bottom-2 right-4' size={'sm'} variant={'primary'}>
-                  <Camera />
-                </Button>
-              </div>
-            )}
+            <Controller
+              control={control}
+              name='image'
+              render={({ field }) => <ImageUpload onChange={field.onChange} />}
+            />
           </div>
         </div>
       </CardContent>
       <CardFooter>
         <Field orientation={'horizontal'} className='justify-end'>
-          <Button type='submit' form='form-edit-store' className='px-10'>
+          <Button type='submit' form='form-edit-store' className='px-10' disabled={isPending}>
             Save
           </Button>
         </Field>

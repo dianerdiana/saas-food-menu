@@ -14,6 +14,7 @@ type AuthContextType = {
   signIn: (credentials: any) => Promise<AxiosResponse<ResponseApi<SignInModel>>>;
   signUp: (credentials: any) => Promise<AxiosResponse<ResponseApi<SignInModel>>>;
   signOut: () => void;
+  changeStore: (storeId: string) => Promise<any>;
   userData: AuthUser;
 };
 
@@ -66,6 +67,21 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     window.location.href = '/signin';
   };
 
+  const changeStore = async (storeId: string) => {
+    try {
+      const response = await jwt.changeStore(storeId);
+      const { data } = response.data;
+
+      jwt.setToken(data.accessToken);
+      setUserData(data.userData);
+      setIsInitialLoading(false);
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
+
   useLayoutEffect(() => {
     silentRefresh();
   }, []);
@@ -86,6 +102,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
               storeId: '',
               userId: '',
             } as AuthUser),
+        changeStore,
       }}
     >
       {children}

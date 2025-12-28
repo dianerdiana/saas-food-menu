@@ -15,7 +15,16 @@ export const getStoreById = async (storeId: string): Promise<ResponseApi<StoreMo
   }
 };
 
-export const createStore = async (payload: CreateStoreType): Promise<ResponseApi<StoreModel>> => {
+export const getStoreBySlug = async (slug: string): Promise<ResponseApi<StoreModel | null>> => {
+  try {
+    const response = await jwt.get(`/stores/slug/${slug}`);
+    return response.data;
+  } catch (error) {
+    throw handleErrorApi(error);
+  }
+};
+
+export const createStore = async (payload: FormData): Promise<ResponseApi<StoreModel>> => {
   try {
     const response = await jwt.post('/stores', payload, {
       headers: {

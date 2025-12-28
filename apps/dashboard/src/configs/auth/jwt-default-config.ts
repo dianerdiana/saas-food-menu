@@ -6,4 +6,5 @@ export default {
   signUpUrl: '/auth/signup',
   signOutUrl: '/auth/signout',
   refreshTokenUrl: '/auth/refresh',
+  changeStoreUrl: '/auth/change-store',
 };
