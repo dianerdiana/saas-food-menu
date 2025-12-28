@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
+
 import { UserRepository } from '../../infrastructure/repositories/user.repository';
 
 @Injectable()
-export class GetUserByUsernameForAuth {
+export class GetUserByIdWithPermissions {
   constructor(private userRepository: UserRepository) {}
 
-  async execute(username: string) {
-    return await this.userRepository.findByUsernameForAuth(username);
+  async execute(userId: string) {
+    return await this.userRepository.findByIdWithPermissions(userId);
   }
 }

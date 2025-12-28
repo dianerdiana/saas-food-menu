@@ -10,7 +10,6 @@ import configuration from './config/env.config';
 import { TypeOrmConfigService } from './config/typeorm.config';
 
 // Shared
-import { CaslAbilityFactory } from '@/shared/factories/casl-ability.factory';
 import { GlobalExceptionFilter } from '@/shared/filters/http-exception.filter';
 import { StorageService } from '@/shared/services/storage.service';
 import { ImageUrlInterceptor } from '@/shared/interceptors/image-url.interceptor';
@@ -32,6 +31,7 @@ import { TransactionDetailModule } from '@/modules/transaction-detail/transactio
 import { RoleModule } from '@/modules/role/role.module';
 import { RolePermissionModule } from '@/modules/role-permission/role-permission.module';
 import { UserRoleModule } from '@/modules/user-role/user-role.module';
+import { AuthorizationModule } from '@/modules/authorization/authorization.module';
 
 @Module({
   imports: [
@@ -60,9 +60,9 @@ import { UserRoleModule } from '@/modules/user-role/user-role.module';
     RoleModule,
     RolePermissionModule,
     UserRoleModule,
+    AuthorizationModule,
   ],
   providers: [
-    CaslAbilityFactory,
     StorageService,
     {
       provide: APP_FILTER,
@@ -82,7 +82,7 @@ import { UserRoleModule } from '@/modules/user-role/user-role.module';
       useFactory: (reflector: Reflector) => new ClassSerializerInterceptor(reflector),
     },
   ],
-  exports: [CaslAbilityFactory, StorageService],
+  exports: [StorageService],
 })
 export class AppModule implements OnModuleInit {
   constructor(@InjectDataSource() private readonly dataSource: DataSource) {}

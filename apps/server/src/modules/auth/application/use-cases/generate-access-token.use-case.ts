@@ -1,9 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+
+import { GetUserByUsernameForAuth } from '@/modules/user/application/use-cases/get-user-by-username-for-auth.use-case';
+
 import { JWT_CONFIG } from '@/shared/constants/jwt-config.constant';
 import { AuthUser } from '@/shared/types/auth-user.type';
-import { GetUserByUsernameForAuth } from '@/modules/user/application/use-cases/get-user-by-username-for-auth.use-case';
+
 import { SignInModel } from '../../domain/models/sign-in.model';
 
 @Injectable()

@@ -16,7 +16,13 @@ export class SignInModel {
   username!: string;
 
   @Expose()
+  @Transform(({ obj }) => {
+    return obj.stores[0]?.id || '';
+  })
   storeId!: string;
+
+  @Expose()
+  permissions!: any[];
 
   constructor(partial: Partial<SignInModel>) {
     Object.assign(this, partial);

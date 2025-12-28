@@ -1,7 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+
 import { PasswordService } from '@/modules/auth/infrastructure/config/password.service';
-import { ValidateUserDto } from '../dtos/validate-user.dto';
 import { GetUserByUsernameForAuth } from '@/modules/user/application/use-cases/get-user-by-username-for-auth.use-case';
+
+import { ValidateUserDto } from '../dtos/validate-user.dto';
 
 @Injectable()
 export class ValidateUserUseCase {

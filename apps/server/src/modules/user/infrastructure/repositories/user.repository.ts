@@ -40,8 +40,25 @@ export class UserRepository {
       .createQueryBuilder('user')
       .addSelect('user.password')
       .leftJoinAndSelect('user.stores', 'store')
+      .leftJoinAndSelect('user.userRoles', 'userRole')
+      .leftJoinAndSelect('userRole.role', 'role')
+      .leftJoinAndSelect('role.rolePermissions', 'rolePermission')
+      .leftJoinAndSelect('rolePermission.permission', 'permission')
       .where('user.email = :username', { username })
       .orWhere('user.username = :username', { username })
+      .getOne();
+  }
+
+  async findByIdWithPermissions(userId: string) {
+    return this.repository
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .leftJoinAndSelect('user.stores', 'store')
+      .leftJoinAndSelect('user.userRoles', 'userRole')
+      .leftJoinAndSelect('userRole.role', 'role')
+      .leftJoinAndSelect('role.rolePermissions', 'rolePermission')
+      .leftJoinAndSelect('rolePermission.permission', 'permission')
+      .orWhere('user.id = :id', { id: userId })
       .getOne();
   }
 
