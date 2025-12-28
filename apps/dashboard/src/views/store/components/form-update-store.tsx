@@ -1,25 +1,31 @@
-import { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { Controller, type SubmitErrorHandler, useForm } from 'react-hook-form';
 
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Field, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@workspace/ui/components/input-group';
+import { toast } from '@workspace/ui/components/sonner';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Camera, ClipboardList, MapPin, PhoneCall, Store, Tag } from 'lucide-react';
+import { ClipboardList, MapPin, PhoneCall, Store, Tag } from 'lucide-react';
 
+import { useUpdateStore } from '../api/store.mutation';
 import type { StoreModel } from '../models/store.model';
-import { createStoreSchema } from '../schema/create-store.schema';
-import type { CreateStoreType } from '../types/create-store.type';
+import { updateStoreSchema } from '../schema/update-store.schema';
+import type { UpdateStoreType } from '../types/update-store.type';
+import { ImageUpload } from './image-store-upload';
 
 type FormUpdateStoreProps = {
   store: StoreModel;
 };
 
 export function FormUpdateStore({ store }: FormUpdateStoreProps) {
-  const { control, reset } = useForm<CreateStoreType>({
-    resolver: zodResolver(createStoreSchema),
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [defaultImage, setDefaultImage] = useState<string | null>(null);
+
+  const { control, reset, handleSubmit } = useForm<UpdateStoreType>({
+    resolver: zodResolver(updateStoreSchema),
     defaultValues: {
       name: '',
       slug: '',
@@ -29,6 +35,38 @@ export function FormUpdateStore({ store }: FormUpdateStoreProps) {
     },
   });
 
+  const { mutate, isPending } = useUpdateStore();
+
+  const onSubmit = (data: UpdateStoreType) => {
+    const formData = new FormData();
+
+    formData.append('name', data.name);
+    formData.append('slug', data.slug);
+    formData.append('phone', data.phone);
+
+    if (data.address) formData.append('address', data.address);
+    if (data.description) formData.append('description', data.description);
+    if (imageFile) formData.append('image', imageFile);
+
+    mutate(
+      { payload: formData, storeId: store.id },
+      {
+        onSuccess: (payload) => {
+          if (payload.data) {
+            toast.success(payload.message);
+          }
+        },
+        onError: (payload) => {
+          toast.error(payload.message);
+        },
+      },
+    );
+  };
+
+  const onInvalid: SubmitErrorHandler<UpdateStoreType> = (error) => {
+    console.log(error);
+  };
+
   useEffect(() => {
     reset({
       name: store.name,
@@ -37,6 +75,8 @@ export function FormUpdateStore({ store }: FormUpdateStoreProps) {
       address: store.address ? store.address : '',
       description: store.description ? store.description : '',
     });
+
+    setDefaultImage(store.image ? store.image : null);
   }, []);
 
   return (
@@ -47,7 +87,7 @@ export function FormUpdateStore({ store }: FormUpdateStoreProps) {
       <CardContent>
         <div className='grid place-content-center gap-4 grid-cols-2'>
           <div className='col-span-2 order-2 lg:order-1 lg:col-span-1'>
-            <form id='form-edit-store'>
+            <form id='form-edit-store' onSubmit={handleSubmit(onSubmit, onInvalid)}>
               <FieldGroup>
                 {/* Store Name */}
                 <Controller
@@ -155,39 +195,13 @@ export function FormUpdateStore({ store }: FormUpdateStoreProps) {
             </form>
           </div>
           <div className='place-items-center col-span-2 order-1 lg:order-2 lg:col-span-1'>
-            {store.image ? (
-              <div className='relative'>
-                <div className='size-40 overflow-hidden bg-primary-slate rounded-full flex items-center justify-center'>
-                  <img
-                    src={store.image}
-                    alt={`Logo ${store.name}`}
-                    className='w-full h-auto object-center object-cover'
-                  />
-                </div>
-                <Button className='absolute -bottom-2 right-4' size={'sm'} variant={'primary'}>
-                  <Camera />
-                </Button>
-              </div>
-            ) : (
-              <div className='relative'>
-                <div className=' size-40 overflow-hidden bg-primary-slate rounded-full flex items-center justify-center'>
-                  <img
-                    src='https://ik.imagekit.io/dianerdiana/saas-food-menu/stores/default-store.png?tr:ar-4-4,w-160'
-                    alt='default-store-image'
-                    className='w-full h-auto object-center object-cover'
-                  />
-                </div>
-                <Button className='absolute -bottom-2 right-4' size={'sm'} variant={'primary'}>
-                  <Camera />
-                </Button>
-              </div>
-            )}
+            <ImageUpload onChange={setImageFile} defaultValue={defaultImage} />
           </div>
         </div>
       </CardContent>
       <CardFooter>
         <Field orientation={'horizontal'} className='justify-end'>
-          <Button type='submit' form='form-edit-store' className='px-10'>
+          <Button type='submit' form='form-edit-store' className='px-10' disabled={isPending}>
             Save
           </Button>
         </Field>

@@ -4,7 +4,6 @@ import type { ResponseApi } from '@/types/response-api.type';
 import { handleErrorApi } from '@/utils/handle-error-api';
 
 import type { StoreModel } from '../models/store.model';
-import type { CreateStoreType } from '../types/create-store.type';
 
 export const getStoreById = async (storeId: string): Promise<ResponseApi<StoreModel>> => {
   try {
@@ -27,6 +26,19 @@ export const getStoreBySlug = async (slug: string): Promise<ResponseApi<StoreMod
 export const createStore = async (payload: FormData): Promise<ResponseApi<StoreModel>> => {
   try {
     const response = await jwt.post('/stores', payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw handleErrorApi(error);
+  }
+};
+
+export const updateStore = async (payload: FormData, storeId: string): Promise<ResponseApi<StoreModel>> => {
+  try {
+    const response = await jwt.put(`/stores/${storeId}`, payload, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

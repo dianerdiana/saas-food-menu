@@ -60,7 +60,7 @@ export function FormCreateStore() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='text-2xl'>Store Detail</CardTitle>
+        <CardTitle className='text-2xl'>Create Store</CardTitle>
       </CardHeader>
       <CardContent>
         <div className='grid place-content-center gap-4 grid-cols-2'>
