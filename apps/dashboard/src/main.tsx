@@ -26,7 +26,7 @@ createRoot(document.getElementById('root')!).render(
               <RouterProvider router={router} />
             </Suspense>
 
-            <Toaster />
+            <Toaster position='top-right' richColors />
           </ThemeProvider>
         </AbilityContext.Provider>
       </AuthContextProvider>

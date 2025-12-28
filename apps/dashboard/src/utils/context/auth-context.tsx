@@ -2,19 +2,25 @@ import { createContext, useLayoutEffect, useState } from 'react';
 
 import { jwt } from '@/configs/api.config';
 
+import type { AxiosResponse } from 'axios';
+
+import type { AuthUser } from '@/types/auth-user.type';
+import type { ResponseApi } from '@/types/response-api.type';
+import type { SignInModel } from '@/views/auth/models/signin.model';
+
 type AuthContextType = {
   isAuthenticated: boolean;
   isInitialLoading: boolean;
-  signIn: (credentials: any) => Promise<any>;
-  signUp: (credentials: any) => Promise<any>;
+  signIn: (credentials: any) => Promise<AxiosResponse<ResponseApi<SignInModel>>>;
+  signUp: (credentials: any) => Promise<AxiosResponse<ResponseApi<SignInModel>>>;
   signOut: () => void;
-  userData: any;
+  userData: AuthUser | null;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [userData, setUserData] = useState<any | null>(null);
+  const [userData, setUserData] = useState<AuthUser | null>(null);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const silentRefresh = async () => {
@@ -31,15 +37,19 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const signIn = async (credentials: any) => {
-    const response = await jwt.signIn(credentials);
-    const { data } = response.data;
+  const signIn = async (credentials: any): Promise<AxiosResponse<ResponseApi<SignInModel>> | any> => {
+    try {
+      const response = await jwt.signIn(credentials);
+      const { data } = response.data;
 
-    jwt.setToken(data.accessToken);
-    setUserData(data.userData);
-    setIsInitialLoading(false);
+      jwt.setToken(data.accessToken);
+      setUserData(data.userData);
+      setIsInitialLoading(false);
 
-    return response;
+      return response;
+    } catch (error) {
+      return error;
+    }
   };
 
   const signUp = async (credentials: any) => {

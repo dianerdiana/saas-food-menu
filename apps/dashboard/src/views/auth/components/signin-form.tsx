@@ -13,6 +13,7 @@ import { toast } from '@workspace/ui/components/sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeClosed, KeyRound, User2 } from 'lucide-react';
 
+import { RESPONSE_STATUS } from '@/utils/constants/response-status';
 import { useAuth } from '@/utils/hooks/use-auth';
 
 import type { SignInDto } from '../dto/signin.dto';
@@ -34,9 +35,15 @@ export function SignInForm() {
   const onSubmit = async (data: SignInDto) => {
     const response = await signIn(data);
 
-    if (response.data.status === 'success') {
+    if (response.data.status && response.data.status === RESPONSE_STATUS.success) {
+      toast.success(`Welcome to Tooang! ${response.data.data?.userData.fullName}`);
       navigate('/dashboard');
+      return;
+    } else {
+      toast.error(response.statusText);
     }
+
+    console.log(response);
   };
 
   const toggleShowPassword = () => setShowPassword((prevState) => !prevState);
