@@ -3,5 +3,6 @@ export type StoreModel = {
   slug: string;
   image?: string | null;
   phone: string;
+  address?: string | null;
   description?: string | null;
 };

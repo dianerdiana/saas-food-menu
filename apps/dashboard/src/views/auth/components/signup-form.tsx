@@ -16,15 +16,15 @@ import { Eye, EyeClosed, KeyRound, Mail, PhoneCall, User2, UserRoundPen } from '
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
 import { useAuth } from '@/utils/hooks/use-auth';
 
-import type { SignUpDto } from '../dto/signup.dto';
 import { signUpSchema } from '../schema/signup.schema';
+import type { SignUpType } from '../types/signup.type';
 
 export function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const { signUp } = useAuth();
   const navigate = useNavigate();
 
-  const { control, handleSubmit } = useForm<SignUpDto>({
+  const { control, handleSubmit } = useForm<SignUpType>({
     resolver: zodResolver(signUpSchema),
     mode: 'onChange',
     defaultValues: {
@@ -38,7 +38,7 @@ export function SignUpForm() {
     },
   });
 
-  const onSubmit = async (data: SignUpDto) => {
+  const onSubmit = async (data: SignUpType) => {
     const response = await signUp(data);
 
     if (response.data.status === RESPONSE_STATUS.success) {

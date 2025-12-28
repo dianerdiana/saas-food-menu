@@ -16,15 +16,15 @@ import { Eye, EyeClosed, KeyRound, User2 } from 'lucide-react';
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
 import { useAuth } from '@/utils/hooks/use-auth';
 
-import type { SignInDto } from '../dto/signin.dto';
 import { signInSchema } from '../schema/signin.schema';
+import type { SignInType } from '../types/signin.type';
 
 export function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const { signIn } = useAuth();
   const navigate = useNavigate();
 
-  const { control, handleSubmit } = useForm<SignInDto>({
+  const { control, handleSubmit } = useForm<SignInType>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
       username: '',
@@ -32,7 +32,7 @@ export function SignInForm() {
     },
   });
 
-  const onSubmit = async (data: SignInDto) => {
+  const onSubmit = async (data: SignInType) => {
     const response = await signIn(data);
 
     if (response.data.status && response.data.status === RESPONSE_STATUS.success) {
