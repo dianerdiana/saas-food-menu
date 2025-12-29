@@ -10,7 +10,7 @@ import { VerticalLayout } from '@/layouts/vertical-layout.tsx';
 // Types
 import type { AppRoute, RouteMeta } from '@/types/route.type';
 
-import { AuthRoute, DashboardRoute, StoreRoute, SubscriptionRoute } from './routes';
+import { AuthRoute, CategoryRoute, DashboardRoute, StoreRoute, SubscriptionRoute } from './routes';
 
 const LazyApp = lazy(() => import('../app.tsx'));
 
@@ -25,7 +25,7 @@ const resolveLayout = (layout?: string) => {
   }
 };
 
-const routes = [...AuthRoute, ...DashboardRoute, ...SubscriptionRoute, ...StoreRoute];
+const routes = [...AuthRoute, ...DashboardRoute, ...SubscriptionRoute, ...StoreRoute, ...CategoryRoute];
 
 const mergeLayoutRoutes = (layout: string, defaultLayout: string): AppRoute[] => {
   const LayoutRoutes: AppRoute[] = [];
