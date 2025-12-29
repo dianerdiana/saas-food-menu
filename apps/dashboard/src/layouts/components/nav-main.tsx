@@ -1,4 +1,4 @@
-import { ChevronRight, type LucideIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
 import {
@@ -11,7 +11,8 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@workspace/ui/components/sidebar';
-import { Link } from 'react-router-dom';
+
+import { ChevronRight, type LucideIcon } from 'lucide-react';
 
 export function NavMain({
   title,
@@ -30,22 +31,22 @@ export function NavMain({
   }[];
 }) {
   return (
-    <SidebarGroup>
-      {title && <SidebarGroupLabel>{title}</SidebarGroupLabel>}
+    <SidebarGroup className='py-0'>
+      {title && <SidebarGroupLabel className='text-primary'>{title}</SidebarGroupLabel>}
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive} className='group/collapsible'>
             <SidebarMenuItem>
               {item.items && item.items.length ? (
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.title}>
+                  <SidebarMenuButton tooltip={item.title} className='py-1'>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                     <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
               ) : (
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild className='py-1'>
                   <Link to={item.url}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>

@@ -20,7 +20,7 @@ export const navigation = [
         icon: Banknote,
       },
       {
-        title: 'Management Transaction',
+        title: 'Transaction',
         url: '#',
         icon: CircleDollarSign,
       },

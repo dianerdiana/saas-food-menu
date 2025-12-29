@@ -15,12 +15,10 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
+// Modules
 import { CheckPolicies } from '@/modules/authorization/infrastructure/decorator/check-policies.decorator';
 import { PoliciesGuard } from '@/modules/authorization/infrastructure/guards/policies.guard';
-
-// Dto
-import { CreateStoreDto } from '../../application/dtos/create-store.dto';
-import { UpdateStoreDto } from '../../application/dtos/update-store.dto';
+import type { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
 
 // Shared
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
@@ -30,6 +28,11 @@ import { ImageValidationPipe } from '@/shared/pipes/image-validation.pipe';
 import { StorageService } from '@/shared/services/storage.service';
 import { BUCKET_FOLDER_NAME } from '@/shared/constants/bucket-folder-name.constant';
 import { ActionControl, SubjectControl } from '@/shared/types/access-control.type';
+import { GetAbillity } from '@/shared/decorators/get-ability.decorator';
+
+// Dto
+import { CreateStoreDto } from '../../application/dtos/create-store.dto';
+import { UpdateStoreDto } from '../../application/dtos/update-store.dto';
 
 // Use-cases
 import { CreateStoreUseCase } from '../../application/use-case/create-store.use-case';
@@ -72,8 +75,13 @@ export class StoreController {
   @UseGuards(PoliciesGuard)
   @CheckPolicies((ability) => ability.can(ActionControl.Read, SubjectControl.Store))
   @Get()
-  async getAllStore(@Query() paginationDto: PaginationDto, @GetAuthUser() authUser: AuthUser) {
-    const result = await this.getAllStoreUseCase.execute(paginationDto);
+  async getAllStore(
+    @Query() paginationDto: PaginationDto,
+    @GetAuthUser() authUser: AuthUser,
+    @GetAbillity() ability: AppAbility,
+  ) {
+    const result = await this.getAllStoreUseCase.execute(paginationDto, authUser, ability);
+
     return {
       data: result.stores,
       meta: result.meta,

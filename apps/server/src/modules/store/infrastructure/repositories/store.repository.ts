@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { StoreEntity } from '../../domain/entities/store.entity';
+
 import { Repository } from 'typeorm';
+
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
+
+import { StoreEntity } from '../../domain/entities/store.entity';
 
 @Injectable()
 export class StoreRepository {
@@ -33,6 +36,14 @@ export class StoreRepository {
 
   async findAll({ limit, skip }: PaginationDto) {
     return this.repository.findAndCount({
+      take: limit,
+      skip,
+    });
+  }
+
+  async findAllOwned({ limit, skip }: PaginationDto, userId: string) {
+    return this.repository.findAndCount({
+      where: { owner: userId },
       take: limit,
       skip,
     });
