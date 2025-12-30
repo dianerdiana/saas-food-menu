@@ -16,7 +16,11 @@ export const getAllCategory = async (): Promise<ResponseApi<Category[]>> => {
 
 export const createCategory = async (payload: FormData): Promise<ResponseApi<Category>> => {
   try {
-    const response = await jwt.post('/categories', payload);
+    const response = await jwt.post('/categories', payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   } catch (error) {
     return handleErrorApi(error);

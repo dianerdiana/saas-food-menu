@@ -26,7 +26,8 @@ export class SignInUseCase {
         };
       }),
     );
-    const userData = new SignInModel({ ...user, permissions });
+    const storeId = user.stores[0]?.id;
+    const userData = new SignInModel({ ...user, storeId, permissions });
 
     const jwtAuthPayload: AuthUser = {
       userId: userData.id,
