@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
 import {
@@ -39,19 +39,21 @@ export function NavMain({
             <SidebarMenuItem>
               {item.items && item.items.length ? (
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.title} className='py-1'>
+                  <SidebarMenuButton tooltip={item.title} className='py-1' variant={'primary'}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                     <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
               ) : (
-                <SidebarMenuButton asChild className='py-1'>
-                  <Link to={item.url}>
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                  </Link>
-                </SidebarMenuButton>
+                <NavLink to={item.url} end className={'cursor-pointer'}>
+                  {({ isActive }) => (
+                    <SidebarMenuButton className='py-1' variant='primary' data-active={isActive}>
+                      {item.icon && <item.icon />}
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  )}
+                </NavLink>
               )}
               <CollapsibleContent>
                 <SidebarMenuSub>
