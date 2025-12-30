@@ -8,6 +8,8 @@ import type { AuthUser } from '@/types/auth-user.type';
 import type { ResponseApi } from '@/types/response-api.type';
 import type { SignInModel } from '@/views/auth/models/signin.model';
 
+import { handleErrorApi } from '../handle-error-api';
+
 type AuthContextType = {
   isAuthenticated: boolean;
   isInitialLoading: boolean;
@@ -49,7 +51,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 
       return response;
     } catch (error) {
-      return error;
+      return handleErrorApi(error);
     }
   };
 

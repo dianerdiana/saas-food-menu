@@ -11,7 +11,7 @@ import {
 } from '@workspace/ui/components/dropdown-menu';
 
 import type { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
 
 import type { Category } from '../types/category.type';
 
@@ -41,13 +41,21 @@ export const columns: ColumnDef<Category>[] = [
     accessorKey: 'name',
     header: 'NAME',
     cell: ({ row }) => (
-      <div className='flex items-center'>
+      <div className='flex items-center gap-2'>
         <Avatar>
           <AvatarImage src={row.original.image} />
           <AvatarFallback>{row.original.name.split('')[0].toUpperCase()}</AvatarFallback>
         </Avatar>
+        <div>
+          <p className='text-sm'>{row.original.name}</p>
+        </div>
       </div>
     ),
+  },
+  {
+    id: 'slug',
+    header: 'SLUG',
+    accessorKey: 'slug',
   },
   {
     id: 'description',
@@ -55,9 +63,12 @@ export const columns: ColumnDef<Category>[] = [
     accessorKey: 'description',
   },
   {
-    header: 'ACTIONS',
+    id: 'actions',
+    accessorKey: 'actions',
+    header: () => <p className='text-center'>ACTIONS</p>,
+    size: 120,
     cell: ({ row }) => (
-      <div>
+      <div className='flex items-center justify-center'>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant='ghost' className='h-8 w-8 p-0'>

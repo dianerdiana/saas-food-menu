@@ -1,405 +1,203 @@
 import React from 'react';
+import ReactDOM from 'react-dom/client';
 
-import {
-  type ColumnDef,
-  type ColumnResizeDirection,
-  type ColumnResizeMode,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { QueryClient, QueryClientProvider, keepPreviousData, useQuery } from '@tanstack/react-query';
+import { ColumnDef, PaginationState, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 
+//
+
+import { Person, fetchData } from './fetchData';
 import './index.css';
 
-type Person = {
-  firstName: string;
-  lastName: string;
-  age: number;
-  visits: number;
-  status: string;
-  progress: number;
-};
+const queryClient = new QueryClient();
 
-const defaultData: Person[] = [
-  {
-    firstName: 'tanner',
-    lastName: 'linsley',
-    age: 24,
-    visits: 100,
-    status: 'In Relationship',
-    progress: 50,
-  },
-  {
-    firstName: 'tandy',
-    lastName: 'miller',
-    age: 40,
-    visits: 40,
-    status: 'Single',
-    progress: 80,
-  },
-  {
-    firstName: 'joe',
-    lastName: 'dirte',
-    age: 45,
-    visits: 20,
-    status: 'Complicated',
-    progress: 10,
-  },
-];
+export default function DataTable() {
+  const rerender = React.useReducer(() => ({}), {})[1];
 
-const defaultColumns: ColumnDef<Person>[] = [
-  {
-    header: 'Name',
-    footer: (props) => props.column.id,
-    columns: [
+  const columns = React.useMemo<ColumnDef<Person>[]>(
+    () => [
       {
-        accessorKey: 'firstName',
-        cell: (info) => info.getValue(),
+        header: 'Name',
         footer: (props) => props.column.id,
-      },
-      {
-        accessorFn: (row) => row.lastName,
-        id: 'lastName',
-        cell: (info) => info.getValue(),
-        header: () => <span>Last Name</span>,
-        footer: (props) => props.column.id,
-      },
-    ],
-  },
-  {
-    header: 'Info',
-    footer: (props) => props.column.id,
-    columns: [
-      {
-        accessorKey: 'age',
-        header: () => 'Age',
-        footer: (props) => props.column.id,
-      },
-      {
-        header: 'More Info',
         columns: [
           {
-            accessorKey: 'visits',
-            header: () => <span>Visits</span>,
+            accessorKey: 'firstName',
+            cell: (info) => info.getValue(),
             footer: (props) => props.column.id,
           },
           {
-            accessorKey: 'status',
-            header: 'Status',
-            footer: (props) => props.column.id,
-          },
-          {
-            accessorKey: 'progress',
-            header: 'Profile Progress',
+            accessorFn: (row) => row.lastName,
+            id: 'lastName',
+            cell: (info) => info.getValue(),
+            header: () => <span>Last Name</span>,
             footer: (props) => props.column.id,
           },
         ],
       },
+      {
+        header: 'Info',
+        footer: (props) => props.column.id,
+        columns: [
+          {
+            accessorKey: 'age',
+            header: () => 'Age',
+            footer: (props) => props.column.id,
+          },
+          {
+            header: 'More Info',
+            columns: [
+              {
+                accessorKey: 'visits',
+                header: () => <span>Visits</span>,
+                footer: (props) => props.column.id,
+              },
+              {
+                accessorKey: 'status',
+                header: 'Status',
+                footer: (props) => props.column.id,
+              },
+              {
+                accessorKey: 'progress',
+                header: 'Profile Progress',
+                footer: (props) => props.column.id,
+              },
+            ],
+          },
+        ],
+      },
     ],
-  },
-];
+    [],
+  );
 
-export default function DatatableDemo() {
-  const [data] = React.useState(() => [...defaultData]);
-  const [columns] = React.useState<typeof defaultColumns>(() => [...defaultColumns]);
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
 
-  const [columnResizeMode, setColumnResizeMode] = React.useState<ColumnResizeMode>('onChange');
+  const dataQuery = useQuery({
+    queryKey: ['data', pagination],
+    queryFn: () => fetchData(pagination),
+    placeholderData: keepPreviousData, // don't have 0 rows flash while changing pages/loading next page
+  });
 
-  const [columnResizeDirection, setColumnResizeDirection] = React.useState<ColumnResizeDirection>('ltr');
-
-  const rerender = React.useReducer(() => ({}), {})[1];
+  const defaultData = React.useMemo(() => [], []);
 
   const table = useReactTable({
-    data,
+    data: dataQuery.data?.rows ?? defaultData,
     columns,
-    columnResizeMode,
-    columnResizeDirection,
+    // pageCount: dataQuery.data?.pageCount ?? -1, //you can now pass in `rowCount` instead of pageCount and `pageCount` will be calculated internally (new in v8.13.0)
+    rowCount: dataQuery.data?.rowCount, // new in v8.13.0 - alternatively, just pass in `pageCount` directly
+    state: {
+      pagination,
+    },
+    onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
+    manualPagination: true, //we're doing manual "server-side" pagination
+    // getPaginationRowModel: getPaginationRowModel(), // If only doing manual pagination, you don't need this
     debugTable: true,
-    debugHeaders: true,
-    debugColumns: true,
   });
 
   return (
     <div className='p-2'>
-      <select
-        value={columnResizeMode}
-        onChange={(e) => setColumnResizeMode(e.target.value as ColumnResizeMode)}
-        className='border p-2 border-black rounded'
-      >
-        <option value='onEnd'>Resize: "onEnd"</option>
-        <option value='onChange'>Resize: "onChange"</option>
-      </select>
-      <select
-        value={columnResizeDirection}
-        onChange={(e) => setColumnResizeDirection(e.target.value as ColumnResizeDirection)}
-        className='border p-2 border-black rounded'
-      >
-        <option value='ltr'>Resize Direction: "ltr"</option>
-        <option value='rtl'>Resize Direction: "rtl"</option>
-      </select>
-      <div style={{ direction: table.options.columnResizeDirection }}>
-        <div className='h-4' />
-        <div className='text-xl'>{'<table/>'}</div>
-        <div className='overflow-x-auto'>
-          <table
-            {...{
-              style: {
-                width: table.getCenterTotalSize(),
-              },
+      <div className='h-2' />
+      <table>
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <th key={header.id} colSpan={header.colSpan}>
+                    {header.isPlaceholder ? null : (
+                      <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
+                    )}
+                  </th>
+                );
+              })}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map((row) => {
+            return (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => {
+                  return <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>;
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <div className='h-2' />
+      <div className='flex items-center gap-2'>
+        <button className='border rounded p-1' onClick={() => table.firstPage()} disabled={!table.getCanPreviousPage()}>
+          {'<<'}
+        </button>
+        <button
+          className='border rounded p-1'
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<'}
+        </button>
+        <button className='border rounded p-1' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+          {'>'}
+        </button>
+        <button className='border rounded p-1' onClick={() => table.lastPage()} disabled={!table.getCanNextPage()}>
+          {'>>'}
+        </button>
+        <span className='flex items-center gap-1'>
+          <div>Page</div>
+          <strong>
+            {table.getState().pagination.pageIndex + 1} of {table.getPageCount().toLocaleString()}
+          </strong>
+        </span>
+        <span className='flex items-center gap-1'>
+          | Go to page:
+          <input
+            type='number'
+            min='1'
+            max={table.getPageCount()}
+            defaultValue={table.getState().pagination.pageIndex + 1}
+            onChange={(e) => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              table.setPageIndex(page);
             }}
-          >
-            <thead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th
-                      {...{
-                        key: header.id,
-                        colSpan: header.colSpan,
-                        style: {
-                          width: header.getSize(),
-                        },
-                      }}
-                    >
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                      <div
-                        {...{
-                          onDoubleClick: () => header.column.resetSize(),
-                          onMouseDown: header.getResizeHandler(),
-                          onTouchStart: header.getResizeHandler(),
-                          className: `resizer ${table.options.columnResizeDirection} ${
-                            header.column.getIsResizing() ? 'isResizing' : ''
-                          }`,
-                          style: {
-                            transform:
-                              columnResizeMode === 'onEnd' && header.column.getIsResizing()
-                                ? `translateX(${
-                                    (table.options.columnResizeDirection === 'rtl' ? -1 : 1) *
-                                    (table.getState().columnSizingInfo.deltaOffset ?? 0)
-                                  }px)`
-                                : '',
-                          },
-                        }}
-                      />
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      {...{
-                        key: cell.id,
-                        style: {
-                          width: cell.column.getSize(),
-                        },
-                      }}
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className='h-4' />
-        <div className='text-xl'>{'<div/> (relative)'}</div>
-        <div className='overflow-x-auto'>
-          <div
-            {...{
-              className: 'divTable',
-              style: {
-                width: table.getTotalSize(),
-              },
-            }}
-          >
-            <div className='thead'>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <div
-                  {...{
-                    key: headerGroup.id,
-                    className: 'tr',
-                  }}
-                >
-                  {headerGroup.headers.map((header) => (
-                    <div
-                      {...{
-                        key: header.id,
-                        className: 'th',
-                        style: {
-                          width: header.getSize(),
-                        },
-                      }}
-                    >
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                      <div
-                        {...{
-                          onDoubleClick: () => header.column.resetSize(),
-                          onMouseDown: header.getResizeHandler(),
-                          onTouchStart: header.getResizeHandler(),
-                          className: `resizer ${table.options.columnResizeDirection} ${
-                            header.column.getIsResizing() ? 'isResizing' : ''
-                          }`,
-                          style: {
-                            transform:
-                              columnResizeMode === 'onEnd' && header.column.getIsResizing()
-                                ? `translateX(${
-                                    (table.options.columnResizeDirection === 'rtl' ? -1 : 1) *
-                                    (table.getState().columnSizingInfo.deltaOffset ?? 0)
-                                  }px)`
-                                : '',
-                          },
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-            <div
-              {...{
-                className: 'tbody',
-              }}
-            >
-              {table.getRowModel().rows.map((row) => (
-                <div
-                  {...{
-                    key: row.id,
-                    className: 'tr',
-                  }}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <div
-                      {...{
-                        key: cell.id,
-                        className: 'td',
-                        style: {
-                          width: cell.column.getSize(),
-                        },
-                      }}
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className='h-4' />
-        <div className='text-xl'>{'<div/> (absolute positioning)'}</div>
-        <div className='overflow-x-auto'>
-          <div
-            {...{
-              className: 'divTable',
-              style: {
-                width: table.getTotalSize(),
-              },
-            }}
-          >
-            <div className='thead'>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <div
-                  {...{
-                    key: headerGroup.id,
-                    className: 'tr',
-                    style: {
-                      position: 'relative',
-                    },
-                  }}
-                >
-                  {headerGroup.headers.map((header) => (
-                    <div
-                      {...{
-                        key: header.id,
-                        className: 'th',
-                        style: {
-                          position: 'absolute',
-                          left: header.getStart(),
-                          width: header.getSize(),
-                        },
-                      }}
-                    >
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                      <div
-                        {...{
-                          onDoubleClick: () => header.column.resetSize(),
-                          onMouseDown: header.getResizeHandler(),
-                          onTouchStart: header.getResizeHandler(),
-                          className: `resizer ${table.options.columnResizeDirection} ${
-                            header.column.getIsResizing() ? 'isResizing' : ''
-                          }`,
-                          style: {
-                            transform:
-                              columnResizeMode === 'onEnd' && header.column.getIsResizing()
-                                ? `translateX(${
-                                    (table.options.columnResizeDirection === 'rtl' ? -1 : 1) *
-                                    (table.getState().columnSizingInfo.deltaOffset ?? 0)
-                                  }px)`
-                                : '',
-                          },
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-            <div
-              {...{
-                className: 'tbody',
-              }}
-            >
-              {table.getRowModel().rows.map((row) => (
-                <div
-                  {...{
-                    key: row.id,
-                    className: 'tr',
-                    style: {
-                      position: 'relative',
-                    },
-                  }}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <div
-                      {...{
-                        key: cell.id,
-                        className: 'td',
-                        style: {
-                          position: 'absolute',
-                          left: cell.column.getStart(),
-                          width: cell.column.getSize(),
-                        },
-                      }}
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+            className='border p-1 rounded w-16'
+          />
+        </span>
+        <select
+          value={table.getState().pagination.pageSize}
+          onChange={(e) => {
+            table.setPageSize(Number(e.target.value));
+          }}
+        >
+          {[10, 20, 30, 40, 50].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
+        {dataQuery.isFetching ? 'Loading...' : null}
       </div>
-      <div className='h-4' />
-      <button onClick={() => rerender()} className='border p-2'>
-        Rerender
-      </button>
-      <pre>
-        {JSON.stringify(
-          {
-            columnSizing: table.getState().columnSizing,
-            columnSizingInfo: table.getState().columnSizingInfo,
-          },
-          null,
-          2,
-        )}
-      </pre>
+      <div>
+        Showing {table.getRowModel().rows.length.toLocaleString()} of {dataQuery.data?.rowCount.toLocaleString()} Rows
+      </div>
+      <div>
+        <button onClick={() => rerender()}>Force Rerender</button>
+      </div>
+      <pre>{JSON.stringify(pagination, null, 2)}</pre>
     </div>
   );
 }
+
+const rootElement = document.getElementById('root');
+if (!rootElement) throw new Error('Failed to find the root element');
+
+ReactDOM.createRoot(rootElement).render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  </React.StrictMode>,
+);

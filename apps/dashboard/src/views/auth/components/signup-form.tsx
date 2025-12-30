@@ -14,14 +14,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeClosed, KeyRound, Mail, PhoneCall, User2, UserRoundPen } from 'lucide-react';
 
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
-import { useAuth } from '@/utils/hooks/use-auth';
 
+import { useSignUp } from '../api/auth.mutation';
 import { signUpSchema } from '../schema/signup.schema';
 import type { SignUpType } from '../types/signup.type';
 
 export function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const { signUp } = useAuth();
   const navigate = useNavigate();
 
   const { control, handleSubmit } = useForm<SignUpType>({
@@ -37,14 +36,22 @@ export function SignUpForm() {
       confirmPassword: '',
     },
   });
+  const { mutate, isPending } = useSignUp();
 
   const onSubmit = async (data: SignUpType) => {
-    const response = await signUp(data);
-
-    if (response.data.status === RESPONSE_STATUS.success) {
-      navigate('/signin');
-      toast.success('Please login with registered username/email');
-    }
+    mutate(data, {
+      onSuccess: (payload) => {
+        if (payload.data.status === RESPONSE_STATUS.success) {
+          navigate('/signin');
+          toast.success('Please login with registered username/email');
+        } else {
+          toast.error(payload.data.message);
+        }
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
   };
 
   const toggleShowPassword = () => setShowPassword((prevState) => !prevState);
@@ -259,7 +266,7 @@ export function SignUpForm() {
       </CardContent>
       <CardFooter>
         <Field>
-          <Button type='submit' form='form-signup' className='block w-full'>
+          <Button type='submit' form='form-signup' className='block w-full' disabled={isPending}>
             Sign Up
           </Button>
           <p className='text-muted-foreground text-sm text-center'>

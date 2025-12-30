@@ -14,17 +14,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeClosed, KeyRound, User2 } from 'lucide-react';
 
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
-import { useAuth } from '@/utils/hooks/use-auth';
 
+import { useSignIn } from '../api/auth.mutation';
 import { signInSchema } from '../schema/signin.schema';
 import type { SignInType } from '../types/signin.type';
 
 export function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const { signIn } = useAuth();
   const navigate = useNavigate();
 
-  const { control, handleSubmit } = useForm<SignInType>({
+  const { control, handleSubmit, setError } = useForm<SignInType>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
       username: '',
@@ -32,18 +31,23 @@ export function SignInForm() {
     },
   });
 
+  const { mutate, isPending } = useSignIn();
+
   const onSubmit = async (data: SignInType) => {
-    const response = await signIn(data);
-
-    if (response.data.status && response.data.status === RESPONSE_STATUS.success) {
-      toast.success(`Welcome to Tooang! ${response.data.data?.userData.fullName}`);
-      navigate('/dashboard');
-      return;
-    } else {
-      toast.error(response.statusText);
-    }
-
-    console.log(response);
+    mutate(data, {
+      onSuccess: (payload) => {
+        if (payload.data.status === RESPONSE_STATUS.success) {
+          toast.success(`Welcome to Tooang! ${payload.data.data?.userData.fullName}`);
+          navigate('/dashboard');
+        } else {
+          toast.error(payload?.data?.message || 'Invalid Credentials');
+          setError('root', { message: 'Invalid Credentials' });
+        }
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
   };
 
   const toggleShowPassword = () => setShowPassword((prevState) => !prevState);
@@ -124,7 +128,7 @@ export function SignInForm() {
       </CardContent>
       <CardFooter>
         <Field>
-          <Button type='submit' form='form-signin' className='block w-full'>
+          <Button type='submit' form='form-signin' className='block w-full' disabled={isPending}>
             Sign In
           </Button>
           <p className='text-muted-foreground text-sm text-center'>
