@@ -58,18 +58,6 @@ export function SignInForm() {
         <CardDescription className='text-center'>
           Welcome to {appConfig.brandName} where flavor meets your favorit
         </CardDescription>
-
-        <Button
-          onClick={() =>
-            toast.success('Welcome to Tooang!', {
-              position: 'top-right',
-              duration: 5000,
-              richColors: true,
-            })
-          }
-        >
-          Toast
-        </Button>
       </CardHeader>
       <CardContent>
         <form id='form-signin' onSubmit={handleSubmit(onSubmit)}>

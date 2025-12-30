@@ -1,14 +1,9 @@
-import React from 'react';
+import { type ChangeEvent, useState } from 'react';
 
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent } from '@workspace/ui/components/card';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@workspace/ui/components/dropdown-menu';
 import { Input } from '@workspace/ui/components/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table';
 
 import {
@@ -22,7 +17,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ChevronDown } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+import { useDebounce } from '@/utils/hooks/use-debounce';
 
 import type { Category } from '../types/category.type';
 import { columns } from './columns';
@@ -30,21 +27,33 @@ import { columns } from './columns';
 const dataCategory: Category[] = [
   {
     id: '1',
-    name: 'Kategory',
-    description: '',
-  },
-  {
-    id: '2',
-    name: 'Kategory 2',
+    name: 'Category',
+    image: '',
+    slug: '',
+    status: 'Active',
+    storeId: '',
     description: '',
   },
 ];
 
+const selectLimitOptions = [
+  { label: '10', value: '10' },
+  { label: '25', value: '25' },
+  { label: '50', value: '50' },
+  { label: '100', value: '100' },
+];
+
 export function DataTableCategory() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [limit, setLimit] = useState('10');
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
   const table = useReactTable({
     data: dataCategory,
     columns,
@@ -64,50 +73,45 @@ export function DataTableCategory() {
     },
   });
 
+  const handleChangeSearchTerm = (event: ChangeEvent<HTMLInputElement>) => setSearchTerm(event.target.value);
+  const handleChangeLimit = (value: string) => setLimit(value);
+
   return (
-    <Card>
+    <Card className='rounded-sm'>
       <CardContent>
         <div className='w-full'>
-          <div className='flex items-center py-4'>
-            <Input
-              placeholder='Filter emails...'
-              value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-              onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
-              className='max-w-sm'
-            />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant='outline' className='ml-auto'>
-                  Columns <ChevronDown />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align='end'>
-                {table
-                  .getAllColumns()
-                  .filter((column) => column.getCanHide())
-                  .map((column) => {
-                    return (
-                      <DropdownMenuCheckboxItem
-                        key={column.id}
-                        className='capitalize'
-                        checked={column.getIsVisible()}
-                        onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                      >
-                        {column.id}
-                      </DropdownMenuCheckboxItem>
-                    );
-                  })}
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <div className='flex items-center justify-between py-4'>
+            <div>
+              <Select onValueChange={handleChangeLimit}>
+                <SelectTrigger className='border-border'>
+                  <SelectValue placeholder='10' />
+                </SelectTrigger>
+                <SelectContent>
+                  {selectLimitOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value} defaultChecked={limit === option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Input
+                placeholder='Search...'
+                value={searchTerm}
+                onChange={handleChangeSearchTerm}
+                className='max-w-sm'
+              />
+            </div>
           </div>
-          <div className='overflow-hidden rounded-md border'>
+          <div className='overflow-hidden rounded-sm border'>
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
                       return (
-                        <TableHead key={header.id}>
+                        <TableHead key={header.id} style={{ width: header.getSize() }}>
                           {header.isPlaceholder
                             ? null
                             : flexRender(header.column.columnDef.header, header.getContext())}
@@ -148,10 +152,10 @@ export function DataTableCategory() {
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
               >
-                Previous
+                <ChevronLeft />
               </Button>
               <Button variant='outline' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-                Next
+                <ChevronRight />
               </Button>
             </div>
           </div>
