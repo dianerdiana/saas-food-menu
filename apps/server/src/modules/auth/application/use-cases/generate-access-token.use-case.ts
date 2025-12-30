@@ -22,8 +22,18 @@ export class GenerateAccessTokenUseCase {
 
     if (!user) throw new UnauthorizedException('Invalid credentials');
 
-    const storeId = user.stores[0]?.id || '';
-    const userData = new SignInModel({ ...user, storeId });
+    const permissions = user.userRoles.flatMap((ur) =>
+      ur.role.rolePermissions.map((rp) => {
+        const permission = rp.permission;
+        return {
+          action: permission.action,
+          subject: permission.subject,
+        };
+      }),
+    );
+    const roles = user.userRoles.map((userRole) => userRole.role.name);
+    const storeId = user.stores[0]?.id;
+    const userData = new SignInModel({ ...user, storeId, roles, permissions });
 
     const jwtAuthPayload: AuthUser = {
       userId: userData.id,

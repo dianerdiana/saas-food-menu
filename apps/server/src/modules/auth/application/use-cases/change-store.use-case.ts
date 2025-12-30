@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
@@ -21,11 +21,22 @@ export class ChangeStoreUseCase {
 
   async execute(authUser: AuthUser, storeId: string) {
     const store = await this.getStoreByIdUseCase.execute(storeId);
+    const user = await this.getUserByUsernameForAuth.execute(authUser.username);
 
     if (store.owner !== authUser.userId) throw new ForbiddenException('You are not allowed');
+    if (!user) throw new UnauthorizedException();
 
-    const user = await this.getUserByUsernameForAuth.execute(authUser.username);
-    const userData = new SignInModel({ ...user, storeId });
+    const permissions = user.userRoles.flatMap((ur) =>
+      ur.role.rolePermissions.map((rp) => {
+        const permission = rp.permission;
+        return {
+          action: permission.action,
+          subject: permission.subject,
+        };
+      }),
+    );
+    const roles = user.userRoles.map((userRole) => userRole.role.name);
+    const userData = new SignInModel({ ...user, storeId, roles, permissions });
 
     const jwtAuthPayload: AuthUser = {
       userId: userData.id,

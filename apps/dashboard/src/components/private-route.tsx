@@ -32,7 +32,7 @@ export const PrivateRoute = ({ children, routeMeta }: PrivateRouteProps) => {
   }
 
   if (isAuthenticated && restricted) {
-    return <Navigate to={getHomeRouteForLoggedInUser(userData.role)} />;
+    return <Navigate to={getHomeRouteForLoggedInUser(userData.roles)} />;
   }
 
   if (isAuthenticated && !ability.can(action || 'read', resource || 'Auth')) {

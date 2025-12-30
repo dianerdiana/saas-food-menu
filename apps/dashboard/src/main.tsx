@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import FallbackSpinner from './components/fallback-spinner';
 import { ThemeProvider } from './components/theme-provider';
-import ability from './configs/acl/initial-ability';
+import initialAbility from './configs/acl/initial-ability';
 import { router } from './router/router';
 import { AbilityContext } from './utils/context/ability-context';
 import { AuthContextProvider } from './utils/context/auth-context';
@@ -20,7 +20,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-        <AbilityContext.Provider value={ability}>
+        <AbilityContext.Provider value={initialAbility}>
           <ThemeProvider>
             <Suspense fallback={<FallbackSpinner />}>
               <RouterProvider router={router} />

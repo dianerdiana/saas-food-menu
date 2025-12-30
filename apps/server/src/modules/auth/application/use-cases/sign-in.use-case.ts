@@ -26,8 +26,9 @@ export class SignInUseCase {
         };
       }),
     );
+    const roles = user.userRoles.map((userRole) => userRole.role.name);
     const storeId = user.stores[0]?.id;
-    const userData = new SignInModel({ ...user, storeId, permissions });
+    const userData = new SignInModel({ ...user, storeId, roles, permissions });
 
     const jwtAuthPayload: AuthUser = {
       userId: userData.id,

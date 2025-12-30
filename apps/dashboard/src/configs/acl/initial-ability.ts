@@ -1,8 +1,3 @@
-// import { getUserData } from '@/utils/utility';
-import { defineAbilityFor } from '@/utils/defineAbilityFor';
+import { createAbility } from '@/utils/create-mongo-ability';
 
-// const userData = getUserData();
-// const userRole = userData ? userData.role : null;
-const userRole = 'admin';
-
-export default defineAbilityFor(userRole || '');
+export default createAbility([{ action: 'read', subject: 'Auth' }]);

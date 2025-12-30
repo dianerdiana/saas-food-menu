@@ -1,14 +1,17 @@
-import { createContext, useLayoutEffect, useState } from 'react';
+import { createContext, useContext, useLayoutEffect, useState } from 'react';
 
 import { jwt } from '@/configs/api.config';
 
 import type { AxiosResponse } from 'axios';
 
-import type { AuthUser } from '@/types/auth-user.type';
+import type { AbilityRule } from '@/types/ability-rule';
 import type { ResponseApi } from '@/types/response-api.type';
+import type { UserData } from '@/types/user-data.type';
 import type { SignInModel } from '@/views/auth/models/signin.model';
 
+import { createAbility } from '../create-mongo-ability';
 import { handleErrorApi } from '../handle-error-api';
+import { AbilityContext } from './ability-context';
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -17,20 +20,27 @@ type AuthContextType = {
   signUp: (credentials: any) => Promise<AxiosResponse<ResponseApi<SignInModel>>>;
   signOut: () => void;
   changeStore: (storeId: string) => Promise<any>;
-  userData: AuthUser;
+  userData: UserData;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [userData, setUserData] = useState<AuthUser | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const ability = useContext(AbilityContext);
+
+  const updateAbility = (permissions: AbilityRule[]) => {
+    const newAbility = createAbility(permissions);
+    ability.update(newAbility.rules);
+  };
 
   const silentRefresh = async () => {
     try {
       const response = await jwt.refreshToken();
       const { data } = response.data;
 
+      updateAbility(data.userData.permissions);
       setUserData(data.userData);
       jwt.setToken(data.accessToken);
     } catch (error) {
@@ -45,6 +55,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       const response = await jwt.signIn(credentials);
       const { data } = response.data;
 
+      updateAbility(data.userData.permissions);
       jwt.setToken(data.accessToken);
       setUserData(data.userData);
       setIsInitialLoading(false);
@@ -74,6 +85,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       const response = await jwt.changeStore(storeId);
       const { data } = response.data;
 
+      updateAbility(data.userData.permissions);
       jwt.setToken(data.accessToken);
       setUserData(data.userData);
       setIsInitialLoading(false);
@@ -103,7 +115,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
               username: '',
               storeId: '',
               userId: '',
-            } as AuthUser),
+            } as UserData),
         changeStore,
       }}
     >

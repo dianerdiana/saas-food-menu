@@ -30,8 +30,8 @@ export const getUserData = (): UserData => JSON.parse(localStorage.getItem(STORA
 export const setUserData = (userData: UserData) =>
   localStorage.setItem(STORAGE_KEYS.userData, JSON.stringify(userData));
 
-export const getHomeRouteForLoggedInUser = (role?: string) => {
-  if (role && (role === USER_ROLES.admin || role === USER_ROLES.sale)) {
+export const getHomeRouteForLoggedInUser = (roles: string[] = []) => {
+  if (roles.length && roles.includes(USER_ROLES.superAdmin || USER_ROLES.admin)) {
     return '/dashboard';
   }
 

@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+
 import type { AppRoute } from '@/types/route.type';
 
 // Pages

@@ -1,6 +1,6 @@
+import type { UserData } from '@/types/user-data.type';
+
 export type SignInModel = {
-  userData: {
-    fullName: string;
-  };
+  userData: UserData;
   accessToken: string;
 };

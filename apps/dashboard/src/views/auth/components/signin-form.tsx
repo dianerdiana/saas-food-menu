@@ -36,8 +36,9 @@ export function SignInForm() {
   const onSubmit = async (data: SignInType) => {
     mutate(data, {
       onSuccess: (payload) => {
-        if (payload.data.status === RESPONSE_STATUS.success) {
-          toast.success(`Welcome to Tooang! ${payload.data.data?.userData.fullName}`);
+        if (payload.data.data && payload.data.status === RESPONSE_STATUS.success) {
+          const { userData } = payload.data.data;
+          toast.success(`Welcome to Tooang! ${userData.fullName}`);
           navigate('/dashboard');
         } else {
           toast.error(payload?.data?.message || 'Invalid Credentials');

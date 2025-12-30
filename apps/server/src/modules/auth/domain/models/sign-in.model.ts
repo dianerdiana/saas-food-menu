@@ -24,6 +24,9 @@ export class SignInModel {
   @Expose()
   permissions!: any[];
 
+  @Expose()
+  roles!: any[];
+
   constructor(partial: Partial<SignInModel>) {
     Object.assign(this, partial);
   }
