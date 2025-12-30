@@ -18,6 +18,7 @@ import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 
 import { useDebounce } from '@/utils/hooks/use-debounce';
 
+import { useGetAllCategory } from '../api/category.query';
 import type { Category } from '../types/category.type';
 import { columns } from './columns';
 
@@ -52,9 +53,15 @@ export function DataTableCategory() {
 
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
+  const categoryResponse = useGetAllCategory({
+    limit: pagination.pageSize,
+    page: pagination.pageIndex + 1,
+  });
+
   const table = useReactTable({
-    data: dataCategory,
+    data: categoryResponse.data?.data || [],
     columns,
+    rowCount: categoryResponse.data?.meta?.totalItems,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
@@ -84,7 +91,7 @@ export function DataTableCategory() {
             <div>
               <Select onValueChange={handleChangePageSize}>
                 <SelectTrigger className='border-border'>
-                  <SelectValue placeholder='10' />
+                  <SelectValue placeholder={table.getState().pagination.pageSize} />
                 </SelectTrigger>
                 <SelectContent>
                   {selectLimitOptions.map((option) => (

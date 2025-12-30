@@ -1,13 +1,14 @@
 import { jwt } from '@/configs/api.config';
 
+import type { PaginationType } from '@/types/pagination';
 import type { ResponseApi } from '@/types/response-api.type';
 import { handleErrorApi } from '@/utils/handle-error-api';
 
 import type { Category } from '../types/category.type';
 
-export const getAllCategory = async (): Promise<ResponseApi<Category[]>> => {
+export const getAllCategory = async (params: PaginationType): Promise<ResponseApi<Category[]>> => {
   try {
-    const response = await jwt.get<ResponseApi<Category[]>>('/categories');
+    const response = await jwt.get<ResponseApi<Category[]>>('/categories', { params });
     return response.data;
   } catch (error) {
     return handleErrorApi(error);
