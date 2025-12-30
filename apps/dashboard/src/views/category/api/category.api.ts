@@ -27,3 +27,12 @@ export const createCategory = async (payload: FormData): Promise<ResponseApi<Cat
     return handleErrorApi(error);
   }
 };
+
+export const deleteCategory = async (categoryId: string) => {
+  try {
+    const response = await jwt.delete(`/categories/${categoryId}`);
+    return response.data;
+  } catch (error) {
+    return handleErrorApi(error);
+  }
+};

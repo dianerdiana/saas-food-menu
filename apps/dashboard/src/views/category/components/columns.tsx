@@ -1,21 +1,17 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Button } from '@workspace/ui/components/button';
 import { Checkbox } from '@workspace/ui/components/checkbox';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@workspace/ui/components/dropdown-menu';
 
 import type { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
+import { Edit, Trash2 } from 'lucide-react';
 
 import type { Category } from '../types/category.type';
 
-export const columns: ColumnDef<Category>[] = [
+type ColumnOptions = {
+  showDialogDelete: boolean;
+  toggleDelete: (category: Category) => void;
+};
+export const createColumns = (options: ColumnOptions): ColumnDef<Category>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -67,25 +63,19 @@ export const columns: ColumnDef<Category>[] = [
     accessorKey: 'actions',
     header: () => <p className='text-center'>ACTIONS</p>,
     size: 120,
-    cell: ({ row }) => (
-      <div className='flex items-center justify-center'>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
-              <span className='sr-only'>Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.getValue('id'))}>
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+    cell: (info) => (
+      <div className='flex items-center justify-center gap-2'>
+        <Button
+          variant={'outline_destructive'}
+          className='py-0.5'
+          onClick={() => options.toggleDelete(info.row.original)}
+          size={'sm'}
+        >
+          <Trash2 />
+        </Button>
+        <Button variant={'outline_primary'} className='py-0.5' size={'sm'}>
+          <Edit />
+        </Button>
       </div>
     ),
   },
