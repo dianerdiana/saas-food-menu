@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CategoryRepository } from '../../infrastructure/repositories/category.repository';
-import { PaginationDto } from '@/shared/dtos/pagination.dto';
 import { CategoryModel } from '../../domain/models/category.model';
+import { PaginationDto } from '@/shared/dtos/pagination.dto';
 
 @Injectable()
 export class GetAllCategoryUseCase {

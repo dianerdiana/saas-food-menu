@@ -1,43 +1,54 @@
 import * as React from 'react';
 
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@workspace/ui/components/sidebar';
+import { appConfig } from '@/configs/app.config';
 
-import { AudioWaveform, Command, GalleryVerticalEnd } from 'lucide-react';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenuButton,
+  SidebarRail,
+} from '@workspace/ui/components/sidebar';
+
+import { ChevronsUpDown } from 'lucide-react';
 
 import { navigation } from '@/navigation/navigation';
 import { useAuth } from '@/utils/hooks/use-auth';
+import { useGetAllStore } from '@/views/store/api/store.query';
 
 import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';
-import { TeamSwitcher } from './team-switcher';
+import { StoreSwitcher } from './store-switcher';
 
-// This is sample data.
-const data = {
-  teams: [
-    {
-      name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
-    },
-    {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup',
-    },
-    {
-      name: 'Evil Corp.',
-      logo: Command,
-      plan: 'Free',
-    },
-  ],
-};
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { userData, signOut, isAuthenticated } = useAuth();
+  const storeResponse = useGetAllStore({ limit: 10, page: 1 });
+  const userActiveStore = storeResponse.data?.data?.find((store) => store.id === userData.storeId);
 
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        {userActiveStore ? (
+          <StoreSwitcher
+            stores={storeResponse.data?.data || []}
+            userActiveStore={userActiveStore}
+            userData={userData}
+          />
+        ) : (
+          <SidebarMenuButton
+            size='lg'
+            className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
+          >
+            <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-sm overflow-hidden'>
+              <img src={appConfig.logoUrl} className='size-8' />
+            </div>
+            <div className='grid flex-1 text-left text-sm leading-tight'>
+              <span className='truncate font-medium'>{appConfig.brandName}</span>
+            </div>
+            <ChevronsUpDown className='ml-auto' />
+          </SidebarMenuButton>
+        )}
       </SidebarHeader>
       <SidebarContent>
         {navigation.map((nav, idx) => (

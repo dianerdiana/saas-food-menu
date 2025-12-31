@@ -32,8 +32,8 @@ export class GenerateAccessTokenUseCase {
       }),
     );
     const roles = user.userRoles.map((userRole) => userRole.role.name);
-    const storeId = user.stores[0]?.id;
-    const userData = new SignInModel({ ...user, storeId, roles, permissions });
+    const store = user.stores.find((store) => store.id === authUser.storeId);
+    const userData = new SignInModel({ ...user, storeId: store?.id || '', roles, permissions });
 
     const jwtAuthPayload: AuthUser = {
       userId: userData.id,

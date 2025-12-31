@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { createStore, updateStore } from './store.api';
+import { useAuth } from '@/utils/hooks/use-auth';
+
+import { createStore, deleteStore, updateStore } from './store.api';
 import { storeKeys } from './store.key';
 
 export const useCreateStore = () => {
@@ -25,6 +27,35 @@ export const useUpdateStore = () => {
     onSuccess: (payload) => {
       queryClient.invalidateQueries({
         queryKey: [storeKeys.detail(payload.data?.id || '')],
+        exact: false,
+      });
+    },
+  });
+};
+
+export const useDeleteStore = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteStore,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: storeKeys.lists(),
+        exact: false,
+      });
+    },
+  });
+};
+
+export const useChangeStore = () => {
+  const queryClient = useQueryClient();
+  const { changeStore } = useAuth();
+
+  return useMutation({
+    mutationFn: changeStore,
+    onSuccess: (payload) => {
+      queryClient.invalidateQueries({
+        queryKey: [storeKeys.create(), storeKeys.detail(payload.data?.id || '')],
         exact: false,
       });
     },

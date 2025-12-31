@@ -88,11 +88,14 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       updateAbility(data.userData.permissions);
       jwt.setToken(data.accessToken);
       setUserData(data.userData);
-      setIsInitialLoading(false);
+
+      silentRefresh();
 
       return response;
     } catch (error) {
       return error;
+    } finally {
+      setIsInitialLoading(false);
     }
   };
 

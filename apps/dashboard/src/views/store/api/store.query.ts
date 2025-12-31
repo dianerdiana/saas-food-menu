@@ -1,7 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getStoreById } from './store.api';
+import type { PaginationType } from '@/types/pagination';
+
+import { getAllStore, getStoreById } from './store.api';
 import { storeKeys } from './store.key';
+
+export const useGetAllStore = (params: PaginationType) => {
+  return useQuery({
+    queryKey: storeKeys.list(params),
+    queryFn: () => getAllStore(params),
+    retry: 1,
+  });
+};
 
 export const useGetStoreById = (storeId: string) => {
   return useQuery({

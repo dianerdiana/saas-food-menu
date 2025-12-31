@@ -36,13 +36,13 @@ export class ChangeStoreUseCase {
       }),
     );
     const roles = user.userRoles.map((userRole) => userRole.role.name);
-    const userData = new SignInModel({ ...user, storeId, roles, permissions });
+    const userData = new SignInModel({ ...user, storeId: store.id, roles, permissions });
 
     const jwtAuthPayload: AuthUser = {
       userId: userData.id,
       email: userData.email,
       username: userData.username,
-      storeId: userData.storeId,
+      storeId: store.id,
     };
     const accessToken = await this.jwtService.signAsync(jwtAuthPayload, {
       secret: this.configService.get<string>(JWT_CONFIG.accessToken),

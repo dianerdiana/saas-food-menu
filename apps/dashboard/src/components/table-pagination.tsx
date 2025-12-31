@@ -22,7 +22,6 @@ export function TablePagination({
   onPageChange,
   paginationRange,
 }: TablePaginationProps) {
-  console.log(hasPrevious, hasNext);
   return (
     <Pagination>
       <PaginationContent>

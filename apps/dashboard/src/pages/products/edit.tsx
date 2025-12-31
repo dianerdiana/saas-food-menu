@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 
 import { useGetProductById } from '@/views/product/api/product.query';
-import { FormUpdateProduct } from '@/views/product/components/form-update-category';
+import { FormUpdateProduct } from '@/views/product/components/form-update-product';
 import { EmptyStore } from '@/views/store/components/empty-store';
 import { EmptyStoreSkeleton } from '@/views/store/skeletons/empty-store-skeleton';
 

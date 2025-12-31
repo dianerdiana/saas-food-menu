@@ -16,9 +16,6 @@ export class SignInModel {
   username!: string;
 
   @Expose()
-  @Transform(({ obj }) => {
-    return obj.stores[0]?.id || '';
-  })
   storeId!: string;
 
   @Expose()

@@ -1,15 +1,24 @@
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { appConfig } from '@/configs/app.config';
+
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
-import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@workspace/ui/components/input-group';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from '@workspace/ui/components/input-group';
 import { toast } from '@workspace/ui/components/sonner';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ClipboardList, MapPin, PhoneCall, Store, Tag } from 'lucide-react';
 
+import { generateSlug } from '@/utils/generate-slug';
 import { useAuth } from '@/utils/hooks/use-auth';
 
 import { useCreateStore } from '../api/store.mutation';
@@ -18,7 +27,7 @@ import type { CreateStoreType } from '../types/create-store.type';
 import { ImageUpload } from './image-store-upload';
 
 export function FormCreateStore() {
-  const { control, handleSubmit } = useForm<CreateStoreType>({
+  const { control, handleSubmit, setValue, getValues } = useForm<CreateStoreType>({
     resolver: zodResolver(createStoreSchema),
     mode: 'onBlur',
     defaultValues: {
@@ -83,6 +92,10 @@ export function FormCreateStore() {
                           aria-invalid={fieldState.invalid}
                           placeholder='Store Name'
                           autoComplete='off'
+                          onChange={(event) => {
+                            field.onChange(event);
+                            setValue('slug', generateSlug(event.target.value));
+                          }}
                         />
                         <InputGroupAddon>
                           <Store />
@@ -114,6 +127,9 @@ export function FormCreateStore() {
                           <Tag />
                         </InputGroupAddon>
                       </InputGroup>
+                      <InputGroupText className='gap-0'>
+                        {appConfig.platformUrl}/<span className='text-primary'>{getValues('slug')}</span>
+                      </InputGroupText>
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                   )}

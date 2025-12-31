@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { CategoryEntity } from '../../domain/entities/category.entity';
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
 
@@ -27,10 +27,14 @@ export class CategoryRepository {
     return this.repository.findOneBy({ slug });
   }
 
-  async findAll({ limit, skip }: PaginationDto) {
+  async findAll({ limit, skip, search }: PaginationDto) {
     return this.repository.findAndCount({
       take: limit,
       skip,
+      where: {
+        name: ILike(`%${search}%`),
+        slug: ILike(`%${search}$`),
+      },
     });
   }
 

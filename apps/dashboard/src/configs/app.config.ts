@@ -4,4 +4,5 @@ export const appConfig = {
   brandName: 'Tooang',
   localCurrency: 'id-ID',
   currency: 'IDR',
+  platformUrl: 'https://tooang.com',
 };

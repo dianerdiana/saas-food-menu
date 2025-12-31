@@ -64,7 +64,8 @@ export function FormUpdateStore({ store }: FormUpdateStoreProps) {
   };
 
   const onInvalid: SubmitErrorHandler<UpdateStoreType> = (error) => {
-    console.log(error);
+    const invalidMessage = Object.entries(error)[0][1].message;
+    toast.error(String(invalidMessage));
   };
 
   useEffect(() => {
