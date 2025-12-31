@@ -25,7 +25,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 import { TablePagination } from '@/components/table-pagination';
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
