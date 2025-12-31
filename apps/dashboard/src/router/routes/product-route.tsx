@@ -17,7 +17,7 @@ export const ProductRoute: AppRoute[] = [
     element: <ProductCreatePage />,
   },
   {
-    path: '/products/:category_id/edit',
+    path: '/products/:product_id/edit',
     element: <ProductEditPage />,
   },
 ];

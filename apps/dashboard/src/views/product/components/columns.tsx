@@ -84,7 +84,7 @@ export const createColumns = (options: ColumnOptions): ColumnDef<Product>[] => [
           <Trash2 />
         </Button>
         <Button variant={'outline_primary'} className='py-0.5' size={'sm'} asChild>
-          <Link to={`/categories/${info.row.original.id}/edit`}>
+          <Link to={`/products/${info.row.original.id}/edit`}>
             <Edit />
           </Link>
         </Button>

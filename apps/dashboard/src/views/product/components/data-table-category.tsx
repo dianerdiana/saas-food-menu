@@ -149,7 +149,7 @@ export function DataTableProduct() {
                 className='max-w-sm'
               />
               <Button asChild>
-                <Link to={'/categories/create'}>
+                <Link to={'/products/create'}>
                   <Plus />
                   Add Product
                 </Link>
