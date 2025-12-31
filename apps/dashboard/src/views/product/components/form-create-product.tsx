@@ -16,6 +16,7 @@ import { useCreateProduct } from '../api/product.mutation';
 import { createProductSchema } from '../schema/create-product.schema';
 import type { CreateProductType } from '../types/create-product.type';
 import { ImageUpload } from './image-product-upload';
+import { SelectCategory } from './select-category';
 
 export function FormCreateProduct() {
   const { control, handleSubmit } = useForm<CreateProductType>({
@@ -26,6 +27,7 @@ export function FormCreateProduct() {
       slug: '',
       description: '',
       image: '',
+      categoryId: '',
     },
   });
   const { mutate, isPending } = useCreateProduct();
@@ -120,6 +122,9 @@ export function FormCreateProduct() {
                     </Field>
                   )}
                 />
+
+                {/* Product Category */}
+                <Controller control={control} name='categoryId' render={() => <SelectCategory />} />
 
                 {/* Description */}
                 <Controller

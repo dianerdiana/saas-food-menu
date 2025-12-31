@@ -5,7 +5,7 @@ import type { PaginationType } from '@/types/pagination';
 import { getAllCategory, getCategoryById } from './category.api';
 import { categoryKeys } from './category.key';
 
-export const useGetAllCategory = (params: PaginationType) => {
+export const useGetAllCategory = (params?: PaginationType) => {
   return useQuery({
     queryKey: categoryKeys.list(params),
     queryFn: () => getAllCategory(params),
