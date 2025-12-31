@@ -15,6 +15,15 @@ export const getAllCategory = async (params: PaginationType): Promise<ResponseAp
   }
 };
 
+export const getCategoryById = async (categoryId: string): Promise<ResponseApi<Category>> => {
+  try {
+    const response = await jwt.get(`/categories/id/${categoryId}`);
+    return response.data;
+  } catch (error) {
+    throw handleErrorApi(error);
+  }
+};
+
 export const createCategory = async (payload: FormData): Promise<ResponseApi<Category>> => {
   try {
     const response = await jwt.post('/categories', payload, {
@@ -25,6 +34,19 @@ export const createCategory = async (payload: FormData): Promise<ResponseApi<Cat
     return response.data;
   } catch (error) {
     return handleErrorApi(error);
+  }
+};
+
+export const updateCategory = async (payload: FormData, categoryId: string): Promise<ResponseApi<Category>> => {
+  try {
+    const response = await jwt.put(`/categories/${categoryId}`, payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw handleErrorApi(error);
   }
 };
 

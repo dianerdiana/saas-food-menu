@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Button } from '@workspace/ui/components/button';
 import { Checkbox } from '@workspace/ui/components/checkbox';
@@ -38,9 +40,9 @@ export const createColumns = (options: ColumnOptions): ColumnDef<Category>[] => 
     header: 'NAME',
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
-        <Avatar>
+        <Avatar className='rounded-sm'>
           <AvatarImage src={row.original.image} />
-          <AvatarFallback>{row.original.name.split('')[0].toUpperCase()}</AvatarFallback>
+          <AvatarFallback className='rounded-sm'>{row.original.name.split('')[0].toUpperCase()}</AvatarFallback>
         </Avatar>
         <div>
           <p className='text-sm'>{row.original.name}</p>
@@ -73,8 +75,10 @@ export const createColumns = (options: ColumnOptions): ColumnDef<Category>[] => 
         >
           <Trash2 />
         </Button>
-        <Button variant={'outline_primary'} className='py-0.5' size={'sm'}>
-          <Edit />
+        <Button variant={'outline_primary'} className='py-0.5' size={'sm'} asChild>
+          <Link to={`/categories/${info.row.original.id}/edit`}>
+            <Edit />
+          </Link>
         </Button>
       </div>
     ),
