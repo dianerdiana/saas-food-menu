@@ -62,7 +62,7 @@ export function FormCreateCategory() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='text-2xl'>Create Category</CardTitle>
+        <CardTitle className='text-2xl'>Add Category</CardTitle>
       </CardHeader>
       <CardContent>
         <div className='grid place-content-center gap-4 grid-cols-2'>

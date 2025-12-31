@@ -32,7 +32,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup className='py-0'>
-      {title && <SidebarGroupLabel className='text-primary'>{title}</SidebarGroupLabel>}
+      {title && <SidebarGroupLabel>{title}</SidebarGroupLabel>}
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive} className='group/collapsible'>

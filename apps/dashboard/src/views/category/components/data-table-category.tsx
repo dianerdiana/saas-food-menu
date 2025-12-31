@@ -27,8 +27,10 @@ import {
 } from '@tanstack/react-table';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 
+import { TablePagination } from '@/components/table-pagination';
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
 import { useDebounce } from '@/utils/hooks/use-debounce';
+import { usePagination } from '@/utils/hooks/use-pagination';
 
 import { useDeleteCategory } from '../api/category.mutation';
 import { useGetAllCategory } from '../api/category.query';
@@ -68,6 +70,10 @@ export function DataTableCategory() {
   const categoryResponse = useGetAllCategory({
     limit: pagination.pageSize,
     page: pagination.pageIndex + 1,
+  });
+  const { paginationRange, hasPrevious, hasNext } = usePagination({
+    currentPage: categoryResponse.data?.meta?.page || 1,
+    totalPages: categoryResponse.data?.meta?.totalPages || 1,
   });
 
   const table = useReactTable({
@@ -113,7 +119,7 @@ export function DataTableCategory() {
   }, [debouncedSearchTerm]);
 
   return (
-    <Card className='rounded-sm'>
+    <Card className='shadow-xl'>
       <CardContent>
         <div className='w-full'>
           <div className='flex items-center justify-between py-4'>
@@ -192,17 +198,13 @@ export function DataTableCategory() {
               selected.
             </div>
             <div className='space-x-2'>
-              <Button
-                variant='outline'
-                size='sm'
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-              >
-                <ChevronLeft />
-              </Button>
-              <Button variant='outline' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-                <ChevronRight />
-              </Button>
+              <TablePagination
+                currentPage={table.getState().pagination.pageIndex + 1}
+                hasNext={hasNext}
+                hasPrevious={hasPrevious}
+                onPageChange={(page) => console.log(page)}
+                paginationRange={paginationRange}
+              />
             </div>
           </div>
         </div>
