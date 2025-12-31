@@ -21,8 +21,7 @@ export const useUpdateProduct = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ payload, categoryId }: { payload: FormData; categoryId: string }) =>
-      updateProduct(payload, categoryId),
+    mutationFn: ({ payload, productId }: { payload: FormData; productId: string }) => updateProduct(payload, productId),
     onSuccess: (payload) => {
       queryClient.invalidateQueries({
         queryKey: productKeys.detail(payload.data?.id || ''),

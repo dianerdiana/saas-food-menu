@@ -1,10 +1,9 @@
-import { Link } from 'react-router-dom';
+import { DataTableProduct } from '@/views/product/components/data-table-category';
 
-export default function ProductListPage() {
+export default function CategoriesPage() {
   return (
     <div>
-      <h1>Product List Page</h1>
-      <Link to={'/stores/create'}>Create Store</Link>
+      <DataTableProduct />
     </div>
   );
 }

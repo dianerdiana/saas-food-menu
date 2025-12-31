@@ -3,16 +3,21 @@ import { lazy } from 'react';
 import type { AppRoute } from '@/types/route.type';
 
 // Pages
-const SubscriptionPage = lazy(() => import('@/pages/subscriptions'));
-const SubscriptionListPage = lazy(() => import('@/pages/subscriptions/list'));
+const ProductPage = lazy(() => import('@/pages/products'));
+const ProductCreatePage = lazy(() => import('@/pages/products/create'));
+const ProductEditPage = lazy(() => import('@/pages/products/edit'));
 
-export const SubscriptionRoute: AppRoute[] = [
+export const ProductRoute: AppRoute[] = [
   {
-    path: '/subscription',
-    element: <SubscriptionPage />,
+    path: '/products',
+    element: <ProductPage />,
   },
   {
-    path: '/subscription/list',
-    element: <SubscriptionListPage />,
+    path: '/products/create',
+    element: <ProductCreatePage />,
+  },
+  {
+    path: '/products/:category_id/edit',
+    element: <ProductEditPage />,
   },
 ];
