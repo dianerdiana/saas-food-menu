@@ -1,4 +1,4 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Type } from 'class-transformer';
 
 @Exclude()
 export class ProductModel {
@@ -18,6 +18,7 @@ export class ProductModel {
   image!: string;
 
   @Expose()
+  @Type(() => Number)
   price!: number;
 
   @Expose()
