@@ -5,6 +5,8 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('role_permissions')
 export class RolePermissionEntity extends BaseEntity {
+  static readonly modelName = 'RolePermission';
+
   @Column({ name: 'role_id', type: 'uuid' })
   roleId!: string;
 

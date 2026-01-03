@@ -4,6 +4,8 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('subscription_payments')
 export class SubscriptionPaymentEntity extends BaseAuditEntity {
+  static readonly modelName = 'SubscriptionPayment';
+
   @Column({ name: 'subscription_id', type: 'uuid' })
   storeId!: string;
 

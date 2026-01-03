@@ -6,6 +6,8 @@ import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 @Entity('subscriptions')
 export class SubscriptionEntity extends BaseAuditEntity {
+  static readonly modelName = 'Subscription';
+
   @Column({ name: 'store_id', type: 'uuid' })
   storeId!: string;
 

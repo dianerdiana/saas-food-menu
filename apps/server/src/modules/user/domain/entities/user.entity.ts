@@ -7,6 +7,8 @@ import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('users')
 export class UserEntity extends BaseAuditEntity {
+  static readonly modelName = 'User';
+
   @Column({ type: 'varchar', length: 255, nullable: true })
   avatar!: string;
 

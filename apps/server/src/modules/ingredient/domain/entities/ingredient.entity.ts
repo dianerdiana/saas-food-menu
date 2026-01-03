@@ -4,6 +4,8 @@ import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('ingredients')
 export class IngredientEntity extends BaseAuditEntity {
+  static readonly modelName = 'Ingredient';
+
   @Column({ type: 'varchar', length: 255 })
   name!: string;
 

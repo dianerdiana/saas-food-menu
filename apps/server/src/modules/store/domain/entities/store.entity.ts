@@ -10,6 +10,8 @@ import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 @Entity('stores')
 export class StoreEntity extends BaseAuditEntity {
+  static readonly modelName = 'Store';
+
   @Column({ name: 'owner', type: 'uuid' })
   owner!: string;
 

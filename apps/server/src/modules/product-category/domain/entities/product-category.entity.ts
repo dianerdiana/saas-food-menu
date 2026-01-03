@@ -5,6 +5,8 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('product_categories')
 export class ProductCategoryEntity extends BaseAuditEntity {
+  static readonly modelName = 'ProductCategory';
+
   @Column({ name: 'product_id', type: 'uuid' })
   productId!: string;
 

@@ -5,6 +5,8 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('user_roles')
 export class UserRoleEntity extends BaseEntity {
+  static readonly modelName = 'UserRole';
+
   @Column({ name: 'user_id', type: 'uuid' })
   userId!: string;
 

@@ -4,6 +4,8 @@ import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('permissions')
 export class PermissionEntity extends BaseEntity {
+  static readonly modelName = 'Permission';
+
   @Column({ type: 'varchar', length: 100 })
   name!: string;
 

@@ -5,6 +5,8 @@ import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 @Entity('transactions')
 export class TransactionEntity extends BaseAuditEntity {
+  static readonly modelName = 'Transaction';
+
   @Column({ name: 'store_id', type: 'uuid' })
   storeId!: string;
 
