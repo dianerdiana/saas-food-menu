@@ -19,6 +19,10 @@ export class CategoryRepository {
     return this.repository.save(category);
   }
 
+  async bulkSave(categories: CategoryEntity[]) {
+    return await this.repository.createQueryBuilder().insert().into(CategoryEntity).values(categories).execute();
+  }
+
   async findById(id: string) {
     return this.repository.findOneBy({ id });
   }

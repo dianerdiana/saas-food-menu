@@ -1,7 +1,10 @@
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+
 import { ProductRecommendationEntity } from '@/modules/product-recommendation/domain/entities/product-recommendation.entity';
 import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
+import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
+
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity()
 export class RecommendationEntity extends BaseAuditEntity {
@@ -9,6 +12,9 @@ export class RecommendationEntity extends BaseAuditEntity {
 
   @Column({ type: 'varchar', length: 255 })
   name!: string;
+
+  @Column({ type: 'varchar', length: 255, default: GENERAL_STATUS.active })
+  status!: string;
 
   @Column({ name: 'store_id', type: 'uuid' })
   storeId!: string;

@@ -32,6 +32,7 @@ import { RoleModule } from '@/modules/role/role.module';
 import { RolePermissionModule } from '@/modules/role-permission/role-permission.module';
 import { UserRoleModule } from '@/modules/user-role/user-role.module';
 import { AuthorizationModule } from '@/modules/authorization/authorization.module';
+import { RecommendationModule } from '@/modules/recommendation/recommendation.module';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { AuthorizationModule } from '@/modules/authorization/authorization.modul
     RolePermissionModule,
     UserRoleModule,
     AuthorizationModule,
+    RecommendationModule,
   ],
   providers: [
     StorageService,
