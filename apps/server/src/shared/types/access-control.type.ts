@@ -1,3 +1,3 @@
-export type Subjects = 'all' | 'Auth' | 'User' | 'Store' | 'Product' | 'Category';
+export type Subject = 'all' | 'Auth' | 'User' | 'Store' | 'Product' | 'Category';
 
-export type Actions = 'manage' | 'create' | 'read' | 'update' | 'delete';
+export type Action = 'manage' | 'create' | 'read' | 'update' | 'delete';

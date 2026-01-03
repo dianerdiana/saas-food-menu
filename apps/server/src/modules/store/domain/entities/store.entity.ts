@@ -13,8 +13,8 @@ import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 export class StoreEntity extends BaseAuditEntity {
   static readonly modelName = 'Store';
 
-  @Column({ name: 'owner', type: 'uuid' })
-  owner!: string;
+  @Column({ name: 'owner_id', type: 'uuid' })
+  ownerId!: string;
 
   @Column({ type: 'varchar', length: 100 })
   name!: string;
@@ -62,7 +62,7 @@ export class StoreEntity extends BaseAuditEntity {
   status!: string;
 
   @ManyToOne(() => UserEntity, (user) => user.stores)
-  @JoinColumn({ name: 'owner' })
+  @JoinColumn({ name: 'owner_id' })
   user!: UserEntity;
 
   @OneToMany(() => SubscriptionEntity, (subscription) => subscription.store)

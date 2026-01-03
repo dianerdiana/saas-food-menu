@@ -29,6 +29,8 @@ import { GetStoreBySlugUseCase } from '../../application/use-case/get-store-by-s
 import { UpdateStoreUseCase } from '../../application/use-case/update-store.use-case';
 
 import type { AuthUser } from '@/shared/types/auth-user.type';
+import { Action } from '@/shared/enums/action.enum';
+import { Subject } from '@/shared/enums/subject.enum';
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
 import { GetAuthUser } from '@/shared/decorators/get-user.decorator';
 import { GetAbillity } from '@/shared/decorators/get-ability.decorator';
@@ -51,7 +53,7 @@ export class StoreController {
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   @UseGuards(PoliciesGuard)
-  @CheckPolicies((ability) => ability.can('create', 'Store'))
+  @CheckPolicies((ability) => ability.can(Action.Create, Subject.Store))
   async createStore(
     @Body() createStoreDto: CreateStoreDto,
     @GetAuthUser() authUser: AuthUser,
@@ -70,7 +72,7 @@ export class StoreController {
   }
 
   @UseGuards(PoliciesGuard)
-  @CheckPolicies((ability) => ability.can('read', 'Store'))
+  @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
   @Get()
   async getAllStore(
     @Query() paginationDto: PaginationDto,
@@ -86,21 +88,21 @@ export class StoreController {
   }
 
   @UseGuards(PoliciesGuard)
-  @CheckPolicies((ability) => ability.can('read', 'Store'))
+  @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
   @Get('id/:id')
   async getStoreById(@Param('id') id: string) {
     return await this.getStoreByIdUseCase.execute(id);
   }
 
   @UseGuards(PoliciesGuard)
-  @CheckPolicies((ability) => ability.can('read', 'Store'))
+  @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
   @Get('slug/:slug')
   async getStoreBySlug(@Param('slug') slug: string) {
     return await this.getStoreBySlugUseCase.execute(slug);
   }
 
   @UseGuards(PoliciesGuard)
-  @CheckPolicies((ability) => ability.can('update', 'Store'))
+  @CheckPolicies((ability) => ability.can(Action.Update, Subject.Store))
   @UseInterceptors(FileInterceptor('image'))
   @Put(':id')
   async updateStore(
@@ -123,10 +125,10 @@ export class StoreController {
   }
 
   @UseGuards(PoliciesGuard)
-  @CheckPolicies((ability) => ability.can('delete', 'Store'))
+  @CheckPolicies((ability) => ability.can(Action.Delete, Subject.Store))
   @Delete(':id')
-  async deleteStore(@Param('id') id: string, @GetAuthUser() authUser: AuthUser) {
-    const result = await this.deleteStoreUseCase.execute(id, authUser);
+  async deleteStore(@Param('id') id: string, @GetAuthUser() authUser: AuthUser, ability: AppAbility) {
+    const result = await this.deleteStoreUseCase.execute(id, authUser, ability);
     return {
       message: 'Successfuly deleted store',
       data: result,

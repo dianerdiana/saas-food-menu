@@ -5,9 +5,12 @@ import { PermissionEntity } from '@/modules/permission/domain/entities/permissio
 
 import { AbilityBuilder, createMongoAbility, MongoAbility, ExtractSubjectType } from '@casl/ability';
 
-import type { Actions, Subjects } from '@/shared/types/access-control.type';
+import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
+import { Action } from '@/shared/enums/action.enum';
+import { Subject } from '@/shared/enums/subject.enum';
 
-export type AppAbility = MongoAbility<[Actions, Subjects]>;
+export type Subjects = Subject | StoreEntity | UserEntity;
+export type AppAbility = MongoAbility<[Action, Subjects]>;
 
 @Injectable()
 export class CaslAbilityFactory {
