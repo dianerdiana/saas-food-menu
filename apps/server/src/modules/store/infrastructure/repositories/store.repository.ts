@@ -49,6 +49,10 @@ export class StoreRepository {
     });
   }
 
+  async countAllOwned(userId: string) {
+    return this.repository.countBy({ owner: userId });
+  }
+
   async deleteById(id: string) {
     return this.repository.softDelete({ id });
   }

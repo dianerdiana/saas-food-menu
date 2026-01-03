@@ -1,4 +1,3 @@
-// NestJs
 import {
   BadRequestException,
   Body,
@@ -15,31 +14,27 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-// Modules
 import { CheckPolicies } from '@/modules/authorization/infrastructure/decorator/check-policies.decorator';
 import { PoliciesGuard } from '@/modules/authorization/infrastructure/guards/policies.guard';
 import type { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
 
-// Shared
-import { PaginationDto } from '@/shared/dtos/pagination.dto';
-import type { AuthUser } from '@/shared/types/auth-user.type';
-import { GetAuthUser } from '@/shared/decorators/get-user.decorator';
-import { ImageValidationPipe } from '@/shared/pipes/image-validation.pipe';
-import { StorageService } from '@/shared/services/storage.service';
-import { BUCKET_FOLDER_NAME } from '@/shared/constants/bucket-folder-name.constant';
-import { GetAbillity } from '@/shared/decorators/get-ability.decorator';
-
-// Dto
 import { CreateStoreDto } from '../../application/dtos/create-store.dto';
 import { UpdateStoreDto } from '../../application/dtos/update-store.dto';
 
-// Use-cases
 import { CreateStoreUseCase } from '../../application/use-case/create-store.use-case';
 import { DeleteStoreUseCase } from '../../application/use-case/delete-store.use-case';
 import { GetAllStoreUseCase } from '../../application/use-case/get-all-store.use-case';
 import { GetStoreByIdUseCase } from '../../application/use-case/get-store-by-id.use-case';
 import { GetStoreBySlugUseCase } from '../../application/use-case/get-store-by-slug.use-case';
 import { UpdateStoreUseCase } from '../../application/use-case/update-store.use-case';
+
+import type { AuthUser } from '@/shared/types/auth-user.type';
+import { PaginationDto } from '@/shared/dtos/pagination.dto';
+import { GetAuthUser } from '@/shared/decorators/get-user.decorator';
+import { GetAbillity } from '@/shared/decorators/get-ability.decorator';
+import { ImageValidationPipe } from '@/shared/pipes/image-validation.pipe';
+import { StorageService } from '@/shared/services/storage.service';
+import { BUCKET_FOLDER_NAME } from '@/shared/constants/bucket-folder-name.constant';
 
 @Controller('stores')
 export class StoreController {
@@ -55,15 +50,18 @@ export class StoreController {
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability) => ability.can('create', 'Store'))
   async createStore(
     @Body() createStoreDto: CreateStoreDto,
     @GetAuthUser() authUser: AuthUser,
     @UploadedFile(ImageValidationPipe) image: Express.Multer.File,
+    @GetAbillity() ability: AppAbility,
   ) {
     if (!image) throw new BadRequestException('Image is not found');
 
     const url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.stores);
-    const result = await this.createStoreUseCase.execute({ ...createStoreDto, image: url }, authUser);
+    const result = await this.createStoreUseCase.execute({ ...createStoreDto, image: url }, authUser, ability);
 
     return {
       message: 'Successfuly created store',
@@ -72,7 +70,7 @@ export class StoreController {
   }
 
   @UseGuards(PoliciesGuard)
-  @CheckPolicies((ability) => ability.can('read', 'store'))
+  @CheckPolicies((ability) => ability.can('read', 'Store'))
   @Get()
   async getAllStore(
     @Query() paginationDto: PaginationDto,
@@ -87,18 +85,24 @@ export class StoreController {
     };
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability) => ability.can('read', 'Store'))
   @Get('id/:id')
   async getStoreById(@Param('id') id: string) {
     return await this.getStoreByIdUseCase.execute(id);
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability) => ability.can('read', 'Store'))
   @Get('slug/:slug')
   async getStoreBySlug(@Param('slug') slug: string) {
     return await this.getStoreBySlugUseCase.execute(slug);
   }
 
-  @Put(':id')
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability) => ability.can('update', 'Store'))
   @UseInterceptors(FileInterceptor('image'))
+  @Put(':id')
   async updateStore(
     @Body() updateStoreDto: UpdateStoreDto,
     @Param('id') id: string,
@@ -118,6 +122,8 @@ export class StoreController {
     };
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability) => ability.can('delete', 'Store'))
   @Delete(':id')
   async deleteStore(@Param('id') id: string, @GetAuthUser() authUser: AuthUser) {
     const result = await this.deleteStoreUseCase.execute(id, authUser);

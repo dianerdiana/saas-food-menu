@@ -27,7 +27,8 @@ export class CaslAbilityFactory {
     });
 
     return build({
-      detectSubjectType: (item) => item.constructor as unknown as ExtractSubjectType<Subjects>,
+      detectSubjectType: (item) =>
+        (item.constructor as any).modelName || (item.constructor as unknown as ExtractSubjectType<Subjects>),
     });
   }
 

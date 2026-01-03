@@ -23,7 +23,7 @@ export class GetAllStoreUseCase {
       [data, count] = await this.storeRepository.findAll(paginationDto);
     }
 
-    if (ability.can('create', 'store')) {
+    if (ability.can('create', 'Store')) {
       [data, count] = await this.storeRepository.findAllOwned(paginationDto, authUser.userId);
     }
 
