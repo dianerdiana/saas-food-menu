@@ -1,19 +1,3 @@
-export enum SubjectControl {
-  Bank = 'Bank',
-  Store = 'Store',
-}
+export type Subjects = 'store' | 'product' | 'category' | 'user' | 'auth' | 'all';
 
-export type Subject = typeof SubjectControl;
-
-export enum ActionControl {
-  Manage = 'manage',
-  Create = 'create',
-  Read = 'read',
-  Update = 'update',
-  Delete = 'delete',
-}
-
-export interface RequiredRule {
-  action: ActionControl;
-  subject: SubjectControl;
-}
+export type Actions = 'manage' | 'create' | 'read' | 'update' | 'delete';

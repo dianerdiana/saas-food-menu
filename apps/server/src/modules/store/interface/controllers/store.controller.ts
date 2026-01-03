@@ -27,7 +27,6 @@ import { GetAuthUser } from '@/shared/decorators/get-user.decorator';
 import { ImageValidationPipe } from '@/shared/pipes/image-validation.pipe';
 import { StorageService } from '@/shared/services/storage.service';
 import { BUCKET_FOLDER_NAME } from '@/shared/constants/bucket-folder-name.constant';
-import { ActionControl, SubjectControl } from '@/shared/types/access-control.type';
 import { GetAbillity } from '@/shared/decorators/get-ability.decorator';
 
 // Dto
@@ -73,7 +72,7 @@ export class StoreController {
   }
 
   @UseGuards(PoliciesGuard)
-  @CheckPolicies((ability) => ability.can(ActionControl.Read, SubjectControl.Store))
+  @CheckPolicies((ability) => ability.can('read', 'store'))
   @Get()
   async getAllStore(
     @Query() paginationDto: PaginationDto,

@@ -4,7 +4,6 @@ import { AppAbility } from '@/modules/authorization/infrastructure/factories/cas
 
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
 import { AuthUser } from '@/shared/types/auth-user.type';
-import { ActionControl, SubjectControl } from '@/shared/types/access-control.type';
 
 import { StoreRepository } from '../../infrastructure/repositories/store.repository';
 import { StoreModel } from '../../domain/models/store.model';
@@ -20,11 +19,11 @@ export class GetAllStoreUseCase {
     let data: StoreEntity[] = [];
     let count: number = 0;
 
-    if (ability.can(ActionControl.Manage, SubjectControl.Store)) {
+    if (ability.can('manage', 'all')) {
       [data, count] = await this.storeRepository.findAll(paginationDto);
     }
 
-    if (ability.can(ActionControl.Read, SubjectControl.Store)) {
+    if (ability.can('create', 'store')) {
       [data, count] = await this.storeRepository.findAllOwned(paginationDto, authUser.userId);
     }
 

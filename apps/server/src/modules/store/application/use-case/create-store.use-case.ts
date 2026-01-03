@@ -1,7 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { StoreRepository } from '../../infrastructure/repositories/store.repository';
+
 import { CreateStoreDto } from '../dtos/create-store.dto';
-import { StoreModel } from '../../domain/models/store.model';
+import { StoreRepository } from '../../infrastructure/repositories/store.repository';
+import { StoreResponse } from '../../interface/responses/store.response';
+
 import { AuthUser } from '@/shared/types/auth-user.type';
 import { ImageRequiredDto } from '@/shared/dtos/image.dto';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
@@ -25,6 +27,6 @@ export class CreateStoreUseCase {
     });
     await this.storeRepository.save(store);
 
-    return new StoreModel(store);
+    return new StoreResponse(store);
   }
 }

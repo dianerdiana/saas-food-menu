@@ -5,9 +5,9 @@ import { PermissionEntity } from '@/modules/permission/domain/entities/permissio
 
 import { AbilityBuilder, createMongoAbility, MongoAbility, ExtractSubjectType } from '@casl/ability';
 
-import { ActionControl, Subject, SubjectControl } from '@/shared/types/access-control.type';
+import type { Actions, Subjects } from '@/shared/types/access-control.type';
 
-export type AppAbility = MongoAbility<[ActionControl, SubjectControl]>;
+export type AppAbility = MongoAbility<[Actions, Subjects]>;
 
 @Injectable()
 export class CaslAbilityFactory {
@@ -27,13 +27,28 @@ export class CaslAbilityFactory {
     });
 
     return build({
-      detectSubjectType: (item) => item.constructor as ExtractSubjectType<Subject>,
+      detectSubjectType: (item) => item.constructor as unknown as ExtractSubjectType<Subjects>,
     });
   }
 
   private parseConditions(raw: string | null | undefined, user: UserEntity) {
-    if (!raw || typeof raw !== 'string') return raw;
+    // 1. Jika kosong, tidak ada kondisi (akses diberikan secara luas)
+    if (!raw) return undefined;
 
-    return JSON.parse(raw.replace(/\$current_user_id/g, user.id));
+    try {
+      // 2. Ganti placeholder dengan ID user yang sedang login
+      const populated = raw.replace(/\$current_user_id/g, user.id);
+
+      // 3. Parse menjadi objek JavaScript
+      return JSON.parse(populated);
+    } catch (error) {
+      // 4. Jika JSON tidak valid, log ke terminal agar developer tahu
+      // Tapi jangan biarkan aplikasi crash, kembalikan kondisi yang "mustahil"
+      // agar akses ditolak demi keamanan.
+      console.error(`CASL: Invalid JSON conditions for User ${user.id}:`, raw);
+
+      // Mengembalikan kondisi yang tidak mungkin terpenuhi (akses ditolak)
+      return { _unreachable_: true };
+    }
   }
 }
