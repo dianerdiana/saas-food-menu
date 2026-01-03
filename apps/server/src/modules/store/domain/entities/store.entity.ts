@@ -1,6 +1,7 @@
 import { BankEntity } from '@/modules/bank/domain/entities/bank.entity';
 import { CategoryEntity } from '@/modules/category/domain/entities/category.entity';
 import { ProductEntity } from '@/modules/product/domain/entities/product.entity';
+import { RecommendationEntity } from '@/modules/recommendation/domain/entities/recommendation.entity';
 import { SubscriptionEntity } from '@/modules/subscription/domain/entities/subscription.entity';
 import { TransactionEntity } from '@/modules/transaction/domain/entities/transaction.entity';
 import { UserEntity } from '@/modules/user/domain/entities/user.entity';
@@ -78,4 +79,7 @@ export class StoreEntity extends BaseAuditEntity {
 
   @OneToMany(() => TransactionEntity, (transaction) => transaction.store)
   transactions!: TransactionEntity[];
+
+  @OneToMany(() => RecommendationEntity, (recommendation) => recommendation.store)
+  recommendations!: RecommendationEntity[];
 }

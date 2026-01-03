@@ -1,9 +1,12 @@
+import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+
 import { ProductCategoryEntity } from '@/modules/product-category/domain/entities/product-category.entity';
 import { ProductIngredientEntity } from '@/modules/product-ingredient/domain/entities/product-ingredient.entity';
+import { ProductRecommendationEntity } from '@/modules/product-recommendation/domain/entities/product-recommendation.entity';
 import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
 import { TransactionDetailEntity } from '@/modules/transaction-detail/domain/entities/transaction-detail.entity';
+
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
-import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 @Entity('products')
 export class ProductEntity extends BaseAuditEntity {
@@ -42,4 +45,7 @@ export class ProductEntity extends BaseAuditEntity {
 
   @OneToMany(() => TransactionDetailEntity, (transactionDetail) => transactionDetail.product)
   transactionDetails!: TransactionDetailEntity[];
+
+  @OneToMany(() => ProductRecommendationEntity, (productRecommendation) => productRecommendation.product)
+  productRecommendations!: ProductRecommendationEntity[];
 }
