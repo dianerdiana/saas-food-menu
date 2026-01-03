@@ -8,8 +8,6 @@ import { GetUserByUsernameForAuth } from '@/modules/user/application/use-cases/g
 import { JWT_CONFIG } from '@/shared/constants/jwt-config.constant';
 import { AuthUser } from '@/shared/types/auth-user.type';
 
-import { SignInModel } from '../../domain/models/sign-in.model';
-
 @Injectable()
 export class ChangeStoreUseCase {
   constructor(
@@ -36,7 +34,7 @@ export class ChangeStoreUseCase {
       }),
     );
     const roles = user.userRoles.map((userRole) => userRole.role.name);
-    const userData = new SignInModel({ ...user, storeId: store.id, roles, permissions });
+    const userData = { ...user, storeId: store.id, roles, permissions };
 
     const jwtAuthPayload: AuthUser = {
       userId: userData.id,

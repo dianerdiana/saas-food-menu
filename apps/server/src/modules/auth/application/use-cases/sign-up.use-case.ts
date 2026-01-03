@@ -1,7 +1,9 @@
+import { Injectable } from '@nestjs/common';
+
 import { CreateUserDto } from '@/modules/user/application/dtos/create-user.dto';
 import { CreateUserUseCase } from '@/modules/user/application/use-cases/create-user.use-case';
+
 import { UserStatus } from '@/shared/enums/user-status.enum';
-import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class SignUpUseCase {

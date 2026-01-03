@@ -1,7 +1,7 @@
 import { Exclude, Expose, Transform } from 'class-transformer';
 
 @Exclude()
-export class SignInModel {
+export class UserDataResponse {
   @Expose()
   id!: string;
 
@@ -24,7 +24,7 @@ export class SignInModel {
   @Expose()
   roles!: any[];
 
-  constructor(partial: Partial<SignInModel>) {
+  constructor(partial: Partial<UserDataResponse>) {
     Object.assign(this, partial);
   }
 }

@@ -1,23 +1,21 @@
-// NestJs
 import { Body, Controller, HttpCode, HttpStatus, Post, Req, Request, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import type { Response } from 'express';
 
-// Application
 import { SignInUseCase } from '../../application/use-cases/sign-in.use-case';
 import { SignUpUseCase } from '../../application/use-cases/sign-up.use-case';
 import { SignUpDto } from '../../application/dtos/sign-up.dto';
 import { GenerateAccessTokenUseCase } from '../../application/use-cases/generate-access-token.use-case';
 import { ChangeStoreUseCase } from '../../application/use-cases/change-store.use-case';
 
-// Infrastructure
 import { LocalAuthGuard } from '../../infrastructure/guards/local-auth.guard';
 
-// Shared
+import { UserDataResponse } from '../responses/sign-in.response';
+
 import { Public } from '@/shared/decorators/public.decorator';
-import type { AuthUser } from '@/shared/types/auth-user.type';
 import { GetAuthUser } from '@/shared/decorators/get-user.decorator';
+import type { AuthUser } from '@/shared/types/auth-user.type';
 
 const REFRESH_TOKEN_KEY = 'refreshToken';
 const MAX_AGE_COOKIE = 7 * 24 * 60 * 60 * 1000;
@@ -49,7 +47,7 @@ export class AuthController {
     return {
       data: {
         accessToken,
-        userData,
+        userData: new UserDataResponse(userData),
       },
     };
   }
@@ -68,7 +66,12 @@ export class AuthController {
 
     const { accessToken, userData } = await this.generateAccessTokenUseCase.execute(user);
 
-    return { data: { accessToken, userData } };
+    return {
+      data: {
+        accessToken,
+        userData: new UserDataResponse(userData),
+      },
+    };
   }
 
   @Public()
@@ -102,7 +105,7 @@ export class AuthController {
     return {
       data: {
         accessToken,
-        userData,
+        userData: new UserDataResponse(userData),
       },
     };
   }

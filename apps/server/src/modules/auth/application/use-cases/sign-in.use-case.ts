@@ -7,8 +7,6 @@ import { UserEntity } from '@/modules/user/domain/entities/user.entity';
 import { JWT_CONFIG } from '@/shared/constants/jwt-config.constant';
 import { AuthUser } from '@/shared/types/auth-user.type';
 
-import { SignInModel } from '../../domain/models/sign-in.model';
-
 @Injectable()
 export class SignInUseCase {
   constructor(
@@ -27,8 +25,8 @@ export class SignInUseCase {
       }),
     );
     const roles = user.userRoles.map((userRole) => userRole.role.name);
-    const storeId = user.stores[0]?.id;
-    const userData = new SignInModel({ ...user, storeId, roles, permissions });
+    const storeId = user.stores[0]?.id || '';
+    const userData = { ...user, storeId, roles, permissions };
 
     const jwtAuthPayload: AuthUser = {
       userId: userData.id,

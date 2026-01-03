@@ -1,22 +1,18 @@
-// NestJs
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { APP_GUARD } from '@nestjs/core';
 
-// Import Modules
 import { UserModule } from '../user/user.module';
 import { StoreModule } from '../store/store.module';
 
-// Use-cases
 import { ValidateUserUseCase } from './application/use-cases/validate-user.use-case';
 import { SignInUseCase } from './application/use-cases/sign-in.use-case';
 import { SignUpUseCase } from './application/use-cases/sign-up.use-case';
 import { GenerateAccessTokenUseCase } from './application/use-cases/generate-access-token.use-case';
 import { ChangeStoreUseCase } from './application/use-cases/change-store.use-case';
 
-// Infrastructure
 import { JwtConfigService } from './infrastructure/config/jwt-config.service';
 import { PasswordService } from './infrastructure/config/password.service';
 import { LocalStrategy } from './infrastructure/strategies/local.strategy';

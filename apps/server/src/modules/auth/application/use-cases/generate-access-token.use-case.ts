@@ -7,8 +7,6 @@ import { GetUserByUsernameForAuth } from '@/modules/user/application/use-cases/g
 import { JWT_CONFIG } from '@/shared/constants/jwt-config.constant';
 import { AuthUser } from '@/shared/types/auth-user.type';
 
-import { SignInModel } from '../../domain/models/sign-in.model';
-
 @Injectable()
 export class GenerateAccessTokenUseCase {
   constructor(
@@ -33,7 +31,7 @@ export class GenerateAccessTokenUseCase {
     );
     const roles = user.userRoles.map((userRole) => userRole.role.name);
     const store = user.stores.find((store) => store.id === authUser.storeId);
-    const userData = new SignInModel({ ...user, storeId: store?.id || '', roles, permissions });
+    const userData = { ...user, storeId: store?.id || '', roles, permissions };
 
     const jwtAuthPayload: AuthUser = {
       userId: userData.id,
