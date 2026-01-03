@@ -43,14 +43,14 @@ export class StoreRepository {
 
   async findAllOwned({ limit, skip }: PaginationDto, userId: string) {
     return this.repository.findAndCount({
-      where: { owner: userId },
+      where: { ownerId: userId },
       take: limit,
       skip,
     });
   }
 
   async countAllOwned(userId: string) {
-    return this.repository.countBy({ owner: userId });
+    return this.repository.countBy({ ownerId: userId });
   }
 
   async deleteById(id: string) {

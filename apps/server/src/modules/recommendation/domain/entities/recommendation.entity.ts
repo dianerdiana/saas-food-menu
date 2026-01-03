@@ -6,7 +6,7 @@ import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
 
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
 
-@Entity()
+@Entity('recommendations')
 export class RecommendationEntity extends BaseAuditEntity {
   static readonly moduleName = 'Recommendation';
 

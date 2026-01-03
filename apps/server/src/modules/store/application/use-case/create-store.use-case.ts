@@ -10,6 +10,8 @@ import { StoreRepository } from '../../infrastructure/repositories/store.reposit
 import { AuthUser } from '@/shared/types/auth-user.type';
 import { ImageRequiredDto } from '@/shared/dtos/image.dto';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
+import { Action } from '@/shared/enums/action.enum';
+import { Subject } from '@/shared/enums/subject.enum';
 
 @Injectable()
 export class CreateStoreUseCase {
@@ -27,7 +29,7 @@ export class CreateStoreUseCase {
     if (existingStorePhone) throw new BadRequestException("Store's phone is already exist");
 
     const ownedStoreCount = await this.storeRepository.countAllOwned(authUser.userId);
-    const maxStores = ability.can('manage', 'Store') ? null : 1;
+    const maxStores = ability.can(Action.Manage, Subject.Store) ? null : 1;
 
     if (maxStores !== null && ownedStoreCount >= maxStores) {
       throw new BadRequestException('You already reached store limit');
@@ -35,7 +37,7 @@ export class CreateStoreUseCase {
 
     const store = this.storeRepository.create({
       ...createStoreDto,
-      owner: authUser.userId,
+      ownerId: authUser.userId,
       createdBy: authUser.userId,
       status: GENERAL_STATUS.active,
     });

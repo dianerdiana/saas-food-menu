@@ -5,7 +5,7 @@ import { ProductEntity } from '@/modules/product/domain/entities/product.entity'
 
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
 
-@Entity('product_ingredients')
+@Entity('product_recommendations')
 export class ProductRecommendationEntity extends BaseAuditEntity {
   static readonly modelName = 'ProductRecommendation';
 

@@ -2,11 +2,13 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 
 import { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
 
-import { PaginationDto } from '@/shared/dtos/pagination.dto';
-import { AuthUser } from '@/shared/types/auth-user.type';
-
 import { StoreRepository } from '../../infrastructure/repositories/store.repository';
 import { StoreEntity } from '../../domain/entities/store.entity';
+
+import { PaginationDto } from '@/shared/dtos/pagination.dto';
+import { AuthUser } from '@/shared/types/auth-user.type';
+import { Action } from '@/shared/enums/action.enum';
+import { Subject } from '@/shared/enums/subject.enum';
 
 @Injectable()
 export class GetAllStoreUseCase {
@@ -18,9 +20,9 @@ export class GetAllStoreUseCase {
     let data: StoreEntity[] = [];
     let count: number = 0;
 
-    if (ability.can('manage', 'all')) {
+    if (ability.can(Action.Manage, Subject.All)) {
       [data, count] = await this.storeRepository.findAll(paginationDto);
-    } else if (ability.can('read', 'Store')) {
+    } else if (ability.can(Action.Read, Subject.Store)) {
       [data, count] = await this.storeRepository.findAllOwned(paginationDto, authUser.userId);
     } else {
       throw new ForbiddenException('You are not allowed to access stores');
