@@ -1,4 +1,3 @@
-// NestJs
 import {
   BadRequestException,
   Body,
@@ -10,29 +9,32 @@ import {
   Put,
   Query,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-// Dto
+import type { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
+import { PoliciesGuard } from '@/modules/authorization/infrastructure/guards/policies.guard';
+
 import { CreateProductDto } from '../../application/dtos/create-product.dto';
 import { UpdateProductDto } from '../../application/dtos/update-product.dto';
 
-// Shared
-import type { AuthUser } from '@/shared/types/auth-user.type';
-import { GetAuthUser } from '@/shared/decorators/get-user.decorator';
-import { PaginationDto } from '@/shared/dtos/pagination.dto';
-import { StorageService } from '@/shared/services/storage.service';
-import { BUCKET_FOLDER_NAME } from '@/shared/constants/bucket-folder-name.constant';
-import { ImageValidationPipe } from '@/shared/pipes/image-validation.pipe';
-
-// Use-cases
 import { CreateProductUseCase } from '../../application/use-case/create-product.use-case';
 import { DeleteProductUseCase } from '../../application/use-case/delete-product.use-case';
 import { GetAllProductUseCase } from '../../application/use-case/get-all-product.use-case';
 import { GetProductByIdUseCase } from '../../application/use-case/get-product-by-id.use-case';
 import { UpdateProductUseCase } from '../../application/use-case/update-product.use-case';
 import { GetProductBySlugUseCase } from '../../application/use-case/get-product-by-slug.use-case';
+
+import type { AuthUser } from '@/shared/types/auth-user.type';
+import { GetAuthUser } from '@/shared/decorators/get-user.decorator';
+import { PaginationDto } from '@/shared/dtos/pagination.dto';
+import { StorageService } from '@/shared/services/storage.service';
+import { BUCKET_FOLDER_NAME } from '@/shared/constants/bucket-folder-name.constant';
+import { ImageValidationPipe } from '@/shared/pipes/image-validation.pipe';
+import { GetAbillity } from '@/shared/decorators/get-ability.decorator';
+import { ProductResponse } from '../responses/product.response';
 
 @Controller('products')
 export class ProductController {
@@ -46,21 +48,25 @@ export class ProductController {
     private storageService: StorageService,
   ) {}
 
-  @Post()
+  @UseGuards(PoliciesGuard)
   @UseInterceptors(FileInterceptor('image'))
+  @Post()
   async createProduct(
     @Body() createProductDto: CreateProductDto,
     @GetAuthUser() authUser: AuthUser,
-    @UploadedFile(ImageValidationPipe) image: Express.Multer.File,
+    @UploadedFile(new ImageValidationPipe(false)) image: Express.Multer.File,
+    @GetAbillity() ability: AppAbility,
   ) {
-    if (!image) throw new BadRequestException('Image is not found');
+    let url: undefined | null | string = null;
 
-    const url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.products);
-    const result = await this.createProductUseCase.execute({ ...createProductDto, image: url }, authUser);
+    if (image) {
+      url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.products);
+    }
+    const result = await this.createProductUseCase.execute({ ...createProductDto, image: url }, authUser, ability);
 
     return {
       message: 'Successfuly created product',
-      data: result,
+      data: new ProductResponse(result),
     };
   }
 

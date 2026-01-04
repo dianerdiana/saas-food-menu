@@ -22,6 +22,26 @@ export class ProductRepository {
     return this.repository.save(product);
   }
 
+  async findByIdAndStoreId(id: string, storeId: string) {
+    return this.repository.findOneBy({ id, storeId });
+  }
+
+  async findBySlugAndStoreId(slug: string, storeId: string) {
+    return this.repository.findOneBy({ slug, storeId });
+  }
+
+  async findAllByStoreId({ limit, skip, search }: PaginationDto, storeId: string) {
+    const query = this.repository.createQueryBuilder('product');
+
+    if (search) {
+      query.andWhere('(product.name ILIKE :search or product.slug ILIKE :search)', { search: `%${search}%` });
+    }
+
+    query.andWhere('store_id=:store_id', { store_id: storeId }).take(limit).skip(skip);
+
+    return query.getManyAndCount();
+  }
+
   async findById(id: string) {
     return this.repository.findOneBy({ id });
   }
@@ -30,11 +50,20 @@ export class ProductRepository {
     return this.repository.findOneBy({ slug });
   }
 
-  async findAll({ limit, skip }: PaginationDto) {
-    return this.repository.findAndCount({
-      take: limit,
-      skip,
-    });
+  async findAll({ limit, skip, search }: PaginationDto) {
+    const query = this.repository.createQueryBuilder('product');
+
+    if (search) {
+      query.andWhere('(product.name ILIKE :search or product.slug ILIKE :search)', { search: `%${search}%` });
+    }
+
+    query.take(limit).skip(skip);
+
+    return query.getManyAndCount();
+  }
+
+  async countAllOwned(storeId: string) {
+    return this.repository.countBy({ storeId });
   }
 
   async deleteById(id: string) {

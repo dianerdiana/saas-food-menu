@@ -15,7 +15,7 @@ export class ProductResponse {
   slug!: string;
 
   @Expose()
-  image!: string;
+  image?: string | null;
 
   @Expose()
   @Type(() => Number)

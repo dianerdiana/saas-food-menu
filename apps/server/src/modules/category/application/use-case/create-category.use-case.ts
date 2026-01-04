@@ -10,7 +10,7 @@ import { CATEGORY_STATUS } from '@/shared/constants/category-status.constant';
 import { ImageOptionalDto } from '@/shared/dtos/image.dto';
 import { Action, Subject } from '@/shared/enums/access-control.enum';
 
-const MAX_CATEGORIES = 50;
+const MAX_CATEGORIES = 10;
 
 @Injectable()
 export class CreateCategoryUseCase {
@@ -22,7 +22,7 @@ export class CreateCategoryUseCase {
     const existingStoreSlug = await this.categoryRepository.findBySlugAndStoreId(createCategoryDto.slug, storeId);
     if (existingStoreSlug) throw new BadRequestException('Categories slug is already exist');
 
-    const ownedCategoriesCount = await this.categoryRepository.countAllOwned(userId);
+    const ownedCategoriesCount = await this.categoryRepository.countAllOwned(storeId);
     const maxCategories = ability.can(Action.Manage, Subject.Category) ? null : MAX_CATEGORIES;
 
     if (maxCategories !== null && ownedCategoriesCount >= maxCategories) {

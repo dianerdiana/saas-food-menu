@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { ILike, In, Repository } from 'typeorm';
 import { CategoryEntity } from '../../domain/entities/category.entity';
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
 
@@ -64,6 +64,10 @@ export class CategoryRepository {
 
   async countAllOwned(storeId: string) {
     return this.repository.countBy({ storeId });
+  }
+
+  async countByIdsAndStoreId(ids: string[], storeId: string) {
+    return this.repository.countBy({ id: In(ids), storeId });
   }
 
   async deleteById(id: string) {
