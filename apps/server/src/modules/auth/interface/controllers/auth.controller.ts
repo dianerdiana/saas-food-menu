@@ -6,7 +6,7 @@ import type { Response } from 'express';
 import { SignInUseCase } from '../../application/use-cases/sign-in.use-case';
 import { SignUpUseCase } from '../../application/use-cases/sign-up.use-case';
 import { SignUpDto } from '../../application/dtos/sign-up.dto';
-import { GenerateAccessTokenUseCase } from '../../application/use-cases/generate-access-token.use-case';
+import { RefreshAccessTokenUseCase } from '../../application/use-cases/refresh-access-token.use-case';
 import { ChangeStoreUseCase } from '../../application/use-cases/change-store.use-case';
 
 import { LocalAuthGuard } from '../../infrastructure/guards/local-auth.guard';
@@ -25,7 +25,7 @@ export class AuthController {
   constructor(
     private signInUseCase: SignInUseCase,
     private signUpUseCase: SignUpUseCase,
-    private generateAccessTokenUseCase: GenerateAccessTokenUseCase,
+    private refreshAccessTokenUseCase: RefreshAccessTokenUseCase,
     private configService: ConfigService,
     private changeStoreUseCase: ChangeStoreUseCase,
   ) {}
@@ -64,7 +64,7 @@ export class AuthController {
   async refresh(@Req() req) {
     const user: AuthUser = req.user;
 
-    const { accessToken, userData } = await this.generateAccessTokenUseCase.execute(user);
+    const { accessToken, userData } = await this.refreshAccessTokenUseCase.execute(user);
 
     return {
       data: {
