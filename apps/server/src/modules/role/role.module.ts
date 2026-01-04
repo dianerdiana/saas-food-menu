@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common';
-import { RoleController } from './interface/controllers/role.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { AuthorizationModule } from '../authorization/authorization.module';
+
+import { RoleEntity } from './domain/entities/role.entity';
 import { BulkCreateRoleUseCase } from './application/use-cases/bulk-create-role.use-case';
 import { RoleRepository } from './infrastructure/repositories/role.repository';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { RoleEntity } from './domain/entities/role.entity';
+import { RoleController } from './interface/controllers/role.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RoleEntity])],
+  imports: [TypeOrmModule.forFeature([RoleEntity]), AuthorizationModule],
   controllers: [RoleController],
   providers: [RoleRepository, BulkCreateRoleUseCase],
 })
