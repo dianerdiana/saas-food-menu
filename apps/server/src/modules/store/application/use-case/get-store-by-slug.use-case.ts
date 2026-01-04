@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+
 import { StoreRepository } from '../../infrastructure/repositories/store.repository';
 
 @Injectable()

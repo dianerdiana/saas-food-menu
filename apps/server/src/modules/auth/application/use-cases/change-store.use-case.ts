@@ -21,7 +21,7 @@ export class ChangeStoreUseCase {
     const store = await this.getStoreByIdUseCase.execute(storeId);
     const user = await this.getUserByUsernameForAuth.execute(authUser.username);
 
-    if (store.owner !== authUser.userId) throw new ForbiddenException('You are not allowed');
+    if (store.ownerId !== authUser.userId) throw new ForbiddenException('You are not allowed');
     if (!user) throw new UnauthorizedException();
 
     const permissions = user.userRoles.flatMap((ur) =>

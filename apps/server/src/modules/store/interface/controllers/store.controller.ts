@@ -92,16 +92,12 @@ export class StoreController {
     };
   }
 
-  @UseGuards(PoliciesGuard)
-  @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
   @Get('id/:id')
   async getStoreById(@Param('id') id: string) {
     const result = await this.getStoreByIdUseCase.execute(id);
     return new StoreResponse(result);
   }
 
-  @UseGuards(PoliciesGuard)
-  @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
   @Get('slug/:slug')
   async getStoreBySlug(@Param('slug') slug: string) {
     const result = await this.getStoreBySlugUseCase.execute(slug);
@@ -117,6 +113,7 @@ export class StoreController {
     @Param('id') id: string,
     @GetAuthUser() authUser: AuthUser,
     @UploadedFile(new ImageValidationPipe(false)) image: Express.Multer.File,
+    @GetAbillity() ability: AppAbility,
   ) {
     let url: undefined | null | string = null;
 
@@ -124,7 +121,7 @@ export class StoreController {
       url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.products);
     }
 
-    const result = await this.updateStoreUseCase.execute({ ...updateStoreDto, image: url }, id, authUser);
+    const result = await this.updateStoreUseCase.execute({ ...updateStoreDto, image: url }, id, authUser, ability);
     return {
       message: 'Successfuly updated store',
       data: new StoreResponse(result),
@@ -134,7 +131,7 @@ export class StoreController {
   @UseGuards(PoliciesGuard)
   @CheckPolicies((ability) => ability.can(Action.Delete, Subject.Store))
   @Delete(':id')
-  async deleteStore(@Param('id') id: string, @GetAuthUser() authUser: AuthUser, ability: AppAbility) {
+  async deleteStore(@Param('id') id: string, @GetAuthUser() authUser: AuthUser, @GetAbillity() ability: AppAbility) {
     const result = await this.deleteStoreUseCase.execute(id, authUser, ability);
     return {
       message: 'Successfuly deleted store',
