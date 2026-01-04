@@ -3,4 +3,7 @@ Super Admin, manage,all,,false
 Store,create,Store,,false
 Store,read,Store,{"ownerId": "$current_user_id"},false
 Store,update,Store,{"ownerId": "$current_user_id"},false
-Store,delete,Store,{"ownerId": "$current_user_id"},false
+Create Category,create,Category,{"storeId": "$current_store_id"},false
+View Category,read,Category,{"storeId": "$current_store_id"},false
+Update Category,update,Category,{"storeId": "$current_store_id"},false
+Delete Category,delete,Category,{"storeId": "$current_store_id"},false

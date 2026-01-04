@@ -3,4 +3,8 @@ export enum Subject {
   Auth = 'Auth',
   Store = 'Store',
   User = 'User',
+  Permission = 'Permission',
+  Role = 'Role',
+  RolePermission = 'RolePermission',
+  UserRole = 'UserRole',
 }
