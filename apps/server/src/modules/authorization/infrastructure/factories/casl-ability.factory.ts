@@ -14,11 +14,11 @@ export type AppAbility = MongoAbility<[Action, Subjects]>;
 
 @Injectable()
 export class CaslAbilityFactory {
-  createForUser(user: UserEntity, permissions: PermissionEntity[]): AppAbility {
+  createForUser(user: UserEntity, permissions: PermissionEntity[], storeId: string): AppAbility {
     const { can, cannot, build } = new AbilityBuilder<AppAbility>(createMongoAbility);
 
     permissions.forEach((permission) => {
-      const conditions = this.parseConditions(permission.conditions, user);
+      const conditions = this.parseConditions(permission.conditions, user, storeId);
 
       const finalConditions = conditions ?? undefined;
 
@@ -35,13 +35,13 @@ export class CaslAbilityFactory {
     });
   }
 
-  private parseConditions(raw: string | null | undefined, user: UserEntity) {
+  private parseConditions(raw: string | null | undefined, user: UserEntity, storeId: string) {
     // 1. Jika kosong, tidak ada kondisi (akses diberikan secara luas)
     if (!raw) return undefined;
 
     try {
       // 2. Ganti placeholder dengan ID user yang sedang login
-      const populated = raw.replace(/\$current_user_id/g, user.id);
+      const populated = raw.replace(/\$current_user_id/g, user.id).replace(/\$current_store_id/g, storeId);
 
       // 3. Parse menjadi objek JavaScript
       return JSON.parse(populated);

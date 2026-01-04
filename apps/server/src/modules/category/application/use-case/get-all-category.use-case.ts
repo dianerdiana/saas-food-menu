@@ -21,7 +21,6 @@ export class GetAllCategoryUseCase {
 
     if (ability.can(Action.Manage, Subject.All)) {
       [data, count] = await this.categoryRepository.findAll(paginationDto);
-      console.log(data);
     } else if (ability.can(Action.Read, Subject.Category)) {
       [data, count] = await this.categoryRepository.findAllByStoreId(paginationDto, authUser.storeId);
     } else {

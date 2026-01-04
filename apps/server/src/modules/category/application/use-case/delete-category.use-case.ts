@@ -21,7 +21,7 @@ export class DeleteCategoryUseCase {
     if (!category) throw new NotFoundException('Category is not found');
 
     if (!ability.can(Action.Delete, category)) {
-      throw new ForbiddenException('You are not allowed to delete category');
+      throw new ForbiddenException('You are not allowed to delete this category');
     }
 
     category.deletedBy = authUser.userId;

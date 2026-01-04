@@ -28,7 +28,7 @@ export class UpdateCategoryUseCase {
     if (!category) throw new NotFoundException('Category is not found');
 
     if (!ability.can(Action.Update, category)) {
-      throw new ForbiddenException('You are not allowed to update category');
+      throw new ForbiddenException('You are not allowed to update this category');
     }
 
     category.name = name;

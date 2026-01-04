@@ -32,15 +32,15 @@ export class CategoryRepository {
   }
 
   async findAllByStoreId({ limit, skip, search }: PaginationDto, storeId: string) {
-    return this.repository.findAndCount({
-      take: limit,
-      skip,
-      where: {
-        name: ILike(`%${search}%`),
-        slug: ILike(`%${search}$`),
-        storeId,
-      },
-    });
+    const query = this.repository.createQueryBuilder('category');
+
+    if (search) {
+      query.andWhere('(category.name ILIKE :search or category.slug ILIKE :search)', { search: `%${search}%` });
+    }
+
+    query.andWhere('store_id=:store_id', { store_id: storeId }).take(limit).skip(skip);
+
+    return query.getManyAndCount();
   }
 
   async findById(id: string) {
@@ -60,6 +60,10 @@ export class CategoryRepository {
 
     query.take(limit).skip(skip);
     return query.getManyAndCount();
+  }
+
+  async countAllOwned(storeId: string) {
+    return this.repository.countBy({ storeId });
   }
 
   async deleteById(id: string) {

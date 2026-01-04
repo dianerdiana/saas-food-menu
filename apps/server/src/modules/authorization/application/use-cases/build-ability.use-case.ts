@@ -4,6 +4,8 @@ import { GetUserByIdWithPermissions } from '@/modules/user/application/use-cases
 
 import { AppAbility, CaslAbilityFactory } from '../../infrastructure/factories/casl-ability.factory';
 
+import { AuthUser } from '@/shared/types/auth-user.type';
+
 @Injectable()
 export class BuildAbilityUseCase {
   constructor(
@@ -11,13 +13,13 @@ export class BuildAbilityUseCase {
     private getUserByIdWithPermissions: GetUserByIdWithPermissions,
   ) {}
 
-  async execute(userId: string): Promise<AppAbility | null> {
-    const user = await this.getUserByIdWithPermissions.execute(userId);
+  async execute(authUser: AuthUser): Promise<AppAbility | null> {
+    const user = await this.getUserByIdWithPermissions.execute(authUser.userId);
 
     if (!user) return null;
 
     const permissions = user.userRoles.flatMap((ur) => ur.role.rolePermissions.map((rp) => rp.permission));
-    const ability = this.caslAbilityFactory.createForUser(user, permissions);
+    const ability = this.caslAbilityFactory.createForUser(user, permissions, authUser.storeId);
 
     return ability;
   }

@@ -9,7 +9,7 @@ export class StoreResponse {
   name!: string;
 
   @Expose()
-  owner!: string;
+  ownerId!: string;
 
   @Expose()
   image?: string | null;

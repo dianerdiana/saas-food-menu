@@ -1,10 +1,13 @@
+import { Reflector } from '@nestjs/core';
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 
 import { BuildAbilityUseCase } from '@/modules/authorization/application/use-cases/build-ability.use-case';
+
 import { PolicyHandler } from '../decorator/check-policies.decorator';
 import { AppAbility } from '../factories/casl-ability.factory';
-import { Reflector } from '@nestjs/core';
+
 import { CHECK_POLICIES_KEY } from '@/shared/constants/access-control.constant';
+import { AuthUser } from '@/shared/types/auth-user.type';
 
 @Injectable()
 export class PoliciesGuard implements CanActivate {
@@ -17,8 +20,8 @@ export class PoliciesGuard implements CanActivate {
     const policies = this.reflector.get<PolicyHandler[]>(CHECK_POLICIES_KEY, context.getHandler()) || [];
 
     const request = context.switchToHttp().getRequest();
-    const userId = request.user.userId;
-    const ability = await this.buildAbilityUseCase.execute(userId);
+    const authUser = request.user as AuthUser;
+    const ability = await this.buildAbilityUseCase.execute(authUser);
 
     if (!ability) return false;
 
