@@ -5,8 +5,7 @@ import { AppAbility } from '@/modules/authorization/infrastructure/factories/cas
 import { StoreRepository } from '../../infrastructure/repositories/store.repository';
 
 import { AuthUser } from '@/shared/types/auth-user.type';
-import { Action } from '@/shared/enums/action.enum';
-import { Subject } from '@/shared/enums/subject.enum';
+import { Action } from '@/shared/enums/access-control.enum';
 
 @Injectable()
 export class DeleteStoreUseCase {

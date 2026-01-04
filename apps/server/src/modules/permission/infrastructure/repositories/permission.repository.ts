@@ -16,6 +16,12 @@ export class PermissionRepository {
   }
 
   async bulkSave(permissions: PermissionEntity[]) {
-    return await this.repository.createQueryBuilder().insert().into(PermissionEntity).values(permissions).execute();
+    return await this.repository
+      .createQueryBuilder()
+      .insert()
+      .into(PermissionEntity)
+      .values(permissions)
+      .returning(['id'])
+      .execute();
   }
 }

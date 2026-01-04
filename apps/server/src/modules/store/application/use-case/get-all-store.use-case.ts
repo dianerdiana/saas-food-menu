@@ -7,8 +7,7 @@ import { StoreEntity } from '../../domain/entities/store.entity';
 
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
 import { AuthUser } from '@/shared/types/auth-user.type';
-import { Action } from '@/shared/enums/action.enum';
-import { Subject } from '@/shared/enums/subject.enum';
+import { Action, Subject } from '@/shared/enums/access-control.enum';
 
 @Injectable()
 export class GetAllStoreUseCase {

@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 
 import { UserEntity } from '@/modules/user/domain/entities/user.entity';
 import { PermissionEntity } from '@/modules/permission/domain/entities/permission.entity';
+import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
+import { CategoryEntity } from '@/modules/category/domain/entities/category.entity';
 
 import { AbilityBuilder, createMongoAbility, MongoAbility, ExtractSubjectType } from '@casl/ability';
 
-import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
-import { Action } from '@/shared/enums/action.enum';
-import { Subject } from '@/shared/enums/subject.enum';
+import { Action, Subject } from '@/shared/enums/access-control.enum';
 
-export type Subjects = Subject | StoreEntity | UserEntity;
+export type Subjects = Subject | StoreEntity | UserEntity | CategoryEntity;
 export type AppAbility = MongoAbility<[Action, Subjects]>;
 
 @Injectable()

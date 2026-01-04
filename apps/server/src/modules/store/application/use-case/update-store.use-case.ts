@@ -7,7 +7,7 @@ import { UpdateStoreDto } from '../dtos/update-store.dto';
 
 import { AuthUser } from '@/shared/types/auth-user.type';
 import { ImageOptionalDto } from '@/shared/dtos/image.dto';
-import { Action } from '@/shared/enums/action.enum';
+import { Action } from '@/shared/enums/access-control.enum';
 
 @Injectable()
 export class UpdateStoreUseCase {

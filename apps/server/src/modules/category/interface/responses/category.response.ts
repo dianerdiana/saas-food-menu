@@ -15,7 +15,7 @@ export class CategoryResponse {
   slug!: string;
 
   @Expose()
-  image!: string;
+  image?: string | null;
 
   @Expose()
   description?: string | null;

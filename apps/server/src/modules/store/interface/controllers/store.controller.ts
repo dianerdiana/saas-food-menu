@@ -31,8 +31,7 @@ import { UpdateStoreUseCase } from '../../application/use-case/update-store.use-
 import { StoreResponse } from '../responses/store.response';
 
 import type { AuthUser } from '@/shared/types/auth-user.type';
-import { Action } from '@/shared/enums/action.enum';
-import { Subject } from '@/shared/enums/subject.enum';
+import { Action, Subject } from '@/shared/enums/access-control.enum';
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
 import { GetAuthUser } from '@/shared/decorators/get-user.decorator';
 import { GetAbillity } from '@/shared/decorators/get-ability.decorator';

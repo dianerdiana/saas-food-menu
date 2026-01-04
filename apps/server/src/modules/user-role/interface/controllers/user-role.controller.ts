@@ -6,8 +6,7 @@ import { CreateUserRoleDto } from '../../application/dtos/create-user-role.dto';
 import { PoliciesGuard } from '@/modules/authorization/infrastructure/guards/policies.guard';
 import { CheckPolicies } from '@/modules/authorization/infrastructure/decorator/check-policies.decorator';
 
-import { Action } from '@/shared/enums/action.enum';
-import { Subject } from '@/shared/enums/subject.enum';
+import { Action, Subject } from '@/shared/enums/access-control.enum';
 
 @Controller('user-roles')
 export class UserRoleController {

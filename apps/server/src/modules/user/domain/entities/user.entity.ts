@@ -1,9 +1,11 @@
+import { Column, Entity, OneToMany } from 'typeorm';
+
 import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
 import { SubscriptionEntity } from '@/modules/subscription/domain/entities/subscription.entity';
 import { UserRoleEntity } from '@/modules/user-role/domain/entities/user-role.entity';
+
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('users')
 export class UserEntity extends BaseAuditEntity {
@@ -18,13 +20,13 @@ export class UserEntity extends BaseAuditEntity {
   @Column({ name: 'last_name', type: 'varchar', length: 100 })
   lastName!: string;
 
-  @Column({ type: 'varchar', length: 100, unique: true })
+  @Column({ type: 'varchar', length: 100 })
   username!: string;
 
-  @Column({ type: 'varchar', length: 100, unique: true })
+  @Column({ type: 'varchar', length: 100 })
   email!: string;
 
-  @Column({ type: 'varchar', length: 50, unique: true })
+  @Column({ type: 'varchar', length: 50 })
   phone!: string;
 
   @Column({ type: 'varchar', length: 255, select: false })

@@ -1,20 +1,16 @@
-// NestJS
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-// Entity
+import { AuthorizationModule } from '../authorization/authorization.module';
+
 import { CategoryEntity } from './domain/entities/category.entity';
 
-// Repository
 import { CategoryRepository } from './infrastructure/repositories/category.repository';
 
-// Controller
 import { CategoryController } from './interface/controllers/category.controller';
 
-// Seervice
 import { StorageService } from '@/shared/services/storage.service';
 
-// Use Case
 import { CreateCategoryUseCase } from './application/use-case/create-category.use-case';
 import { DeleteCategoryUseCase } from './application/use-case/delete-category.use-case';
 import { GetAllCategoryUseCase } from './application/use-case/get-all-category.use-case';
@@ -24,7 +20,7 @@ import { GetCategoryBySlugUseCase } from './application/use-case/get-category-by
 import { BulkCreateDefaultCategoryUseCase } from './application/use-case/bulk-create-default-category.use-case';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CategoryEntity])],
+  imports: [TypeOrmModule.forFeature([CategoryEntity]), AuthorizationModule],
   controllers: [CategoryController],
   providers: [
     StorageService,

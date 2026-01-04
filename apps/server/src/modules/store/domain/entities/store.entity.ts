@@ -1,3 +1,5 @@
+import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+
 import { BankEntity } from '@/modules/bank/domain/entities/bank.entity';
 import { CategoryEntity } from '@/modules/category/domain/entities/category.entity';
 import { ProductEntity } from '@/modules/product/domain/entities/product.entity';
@@ -5,9 +7,9 @@ import { RecommendationEntity } from '@/modules/recommendation/domain/entities/r
 import { SubscriptionEntity } from '@/modules/subscription/domain/entities/subscription.entity';
 import { TransactionEntity } from '@/modules/transaction/domain/entities/transaction.entity';
 import { UserEntity } from '@/modules/user/domain/entities/user.entity';
+
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
 import { BaseAuditEntity } from '@/shared/domains/entities/base-audit.entity';
-import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 @Entity('stores')
 export class StoreEntity extends BaseAuditEntity {
@@ -22,10 +24,10 @@ export class StoreEntity extends BaseAuditEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   image?: string | null;
 
-  @Column({ type: 'varchar', length: 255, unique: true })
+  @Column({ type: 'varchar', length: 255 })
   slug!: string;
 
-  @Column({ type: 'varchar', length: 50, unique: true })
+  @Column({ type: 'varchar', length: 50 })
   phone!: string;
 
   @Column({

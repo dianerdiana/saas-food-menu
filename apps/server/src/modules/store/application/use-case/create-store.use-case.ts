@@ -10,8 +10,7 @@ import { StoreRepository } from '../../infrastructure/repositories/store.reposit
 import { AuthUser } from '@/shared/types/auth-user.type';
 import { ImageOptionalDto } from '@/shared/dtos/image.dto';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
-import { Action } from '@/shared/enums/action.enum';
-import { Subject } from '@/shared/enums/subject.enum';
+import { Action, Subject } from '@/shared/enums/access-control.enum';
 
 @Injectable()
 export class CreateStoreUseCase {

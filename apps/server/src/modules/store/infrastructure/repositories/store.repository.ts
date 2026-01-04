@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
 
-import { PaginationDto } from '@/shared/dtos/pagination.dto';
-
 import { StoreEntity } from '../../domain/entities/store.entity';
+
+import { PaginationDto } from '@/shared/dtos/pagination.dto';
 
 @Injectable()
 export class StoreRepository {
