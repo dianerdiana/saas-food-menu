@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ProductRepository } from '../../infrastructure/repositories/product.repository';
-import { ProductModel } from '../../domain/models/product.model';
 
 @Injectable()
 export class GetProductBySlugUseCase {
@@ -11,6 +10,6 @@ export class GetProductBySlugUseCase {
 
     if (!product) throw new NotFoundException('Product not found');
 
-    return new ProductModel(product);
+    return product;
   }
 }

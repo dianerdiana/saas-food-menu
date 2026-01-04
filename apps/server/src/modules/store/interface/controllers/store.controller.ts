@@ -28,6 +28,8 @@ import { GetStoreByIdUseCase } from '../../application/use-case/get-store-by-id.
 import { GetStoreBySlugUseCase } from '../../application/use-case/get-store-by-slug.use-case';
 import { UpdateStoreUseCase } from '../../application/use-case/update-store.use-case';
 
+import { StoreResponse } from '../responses/store.response';
+
 import type { AuthUser } from '@/shared/types/auth-user.type';
 import { Action } from '@/shared/enums/action.enum';
 import { Subject } from '@/shared/enums/subject.enum';
@@ -50,24 +52,27 @@ export class StoreController {
     private storageService: StorageService,
   ) {}
 
-  @Post()
-  @UseInterceptors(FileInterceptor('image'))
   @UseGuards(PoliciesGuard)
   @CheckPolicies((ability) => ability.can(Action.Create, Subject.Store))
+  @UseInterceptors(FileInterceptor('image'))
+  @Post()
   async createStore(
     @Body() createStoreDto: CreateStoreDto,
     @GetAuthUser() authUser: AuthUser,
-    @UploadedFile(ImageValidationPipe) image: Express.Multer.File,
+    @UploadedFile(new ImageValidationPipe(false)) image: Express.Multer.File,
     @GetAbillity() ability: AppAbility,
   ) {
-    if (!image) throw new BadRequestException('Image is not found');
+    let url: undefined | null | string = null;
 
-    const url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.stores);
+    if (image) {
+      url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.products);
+    }
+
     const result = await this.createStoreUseCase.execute({ ...createStoreDto, image: url }, authUser, ability);
 
     return {
       message: 'Successfuly created store',
-      data: result,
+      data: new StoreResponse(result),
     };
   }
 
@@ -82,7 +87,7 @@ export class StoreController {
     const result = await this.getAllStoreUseCase.execute(paginationDto, authUser, ability);
 
     return {
-      data: result.stores,
+      data: result.stores.map((store) => new StoreResponse(store)),
       meta: result.meta,
     };
   }
@@ -91,14 +96,16 @@ export class StoreController {
   @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
   @Get('id/:id')
   async getStoreById(@Param('id') id: string) {
-    return await this.getStoreByIdUseCase.execute(id);
+    const result = await this.getStoreByIdUseCase.execute(id);
+    return new StoreResponse(result);
   }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
   @Get('slug/:slug')
   async getStoreBySlug(@Param('slug') slug: string) {
-    return await this.getStoreBySlugUseCase.execute(slug);
+    const result = await this.getStoreBySlugUseCase.execute(slug);
+    return new StoreResponse(result);
   }
 
   @UseGuards(PoliciesGuard)
@@ -120,7 +127,7 @@ export class StoreController {
     const result = await this.updateStoreUseCase.execute({ ...updateStoreDto, image: url }, id, authUser);
     return {
       message: 'Successfuly updated store',
-      data: result,
+      data: new StoreResponse(result),
     };
   }
 

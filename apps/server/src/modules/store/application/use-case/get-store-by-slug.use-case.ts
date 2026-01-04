@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { StoreRepository } from '../../infrastructure/repositories/store.repository';
-import { StoreModel } from '../../domain/models/store.model';
 
 @Injectable()
 export class GetStoreBySlugUseCase {
@@ -10,6 +9,6 @@ export class GetStoreBySlugUseCase {
     const store = await this.storeRepository.findBySlug(slug);
     if (!store) throw new NotFoundException('Store not found');
 
-    return new StoreModel(store);
+    return store;
   }
 }

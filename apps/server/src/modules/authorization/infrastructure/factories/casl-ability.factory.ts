@@ -14,8 +14,8 @@ export type AppAbility = MongoAbility<[Action, Subjects]>;
 
 @Injectable()
 export class CaslAbilityFactory {
-  createForUser(user: UserEntity, permissions: PermissionEntity[]) {
-    const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
+  createForUser(user: UserEntity, permissions: PermissionEntity[]): AppAbility {
+    const { can, cannot, build } = new AbilityBuilder<AppAbility>(createMongoAbility);
 
     permissions.forEach((permission) => {
       const conditions = this.parseConditions(permission.conditions, user);
@@ -23,9 +23,9 @@ export class CaslAbilityFactory {
       const finalConditions = conditions ?? undefined;
 
       if (permission.inverted) {
-        cannot(permission.action, permission.subject, finalConditions);
+        cannot(permission.action as Action, permission.subject as Subject, finalConditions);
       } else {
-        can(permission.action, permission.subject, finalConditions);
+        can(permission.action as Action, permission.subject as Subject, finalConditions);
       }
     });
 

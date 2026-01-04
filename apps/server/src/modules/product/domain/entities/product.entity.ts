@@ -21,8 +21,8 @@ export class ProductEntity extends BaseAuditEntity {
   @Column({ type: 'varchar', length: 255 })
   slug!: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  image!: string;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  image?: string | null;
 
   @Column({ type: 'decimal' })
   price!: number;

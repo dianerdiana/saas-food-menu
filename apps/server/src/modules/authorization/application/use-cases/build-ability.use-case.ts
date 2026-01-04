@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { GetUserByIdWithPermissions } from '@/modules/user/application/use-cases/get-user-by-id-with-permissions.use-case';
 
-import { CaslAbilityFactory } from '../../infrastructure/factories/casl-ability.factory';
+import { AppAbility, CaslAbilityFactory } from '../../infrastructure/factories/casl-ability.factory';
 
 @Injectable()
 export class BuildAbilityUseCase {
@@ -11,7 +11,7 @@ export class BuildAbilityUseCase {
     private getUserByIdWithPermissions: GetUserByIdWithPermissions,
   ) {}
 
-  async execute(userId: string) {
+  async execute(userId: string): Promise<AppAbility | null> {
     const user = await this.getUserByIdWithPermissions.execute(userId);
 
     if (!user) return null;

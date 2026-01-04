@@ -8,7 +8,7 @@ import { CreateStoreDto } from '../dtos/create-store.dto';
 import { StoreRepository } from '../../infrastructure/repositories/store.repository';
 
 import { AuthUser } from '@/shared/types/auth-user.type';
-import { ImageRequiredDto } from '@/shared/dtos/image.dto';
+import { ImageOptionalDto } from '@/shared/dtos/image.dto';
 import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
 import { Action } from '@/shared/enums/action.enum';
 import { Subject } from '@/shared/enums/subject.enum';
@@ -21,7 +21,7 @@ export class CreateStoreUseCase {
     private bulkCreateDefaultRecommendation: BulkCreateDefaultRecommendationUseCase,
   ) {}
 
-  async execute(createStoreDto: CreateStoreDto & ImageRequiredDto, authUser: AuthUser, ability: AppAbility) {
+  async execute(createStoreDto: CreateStoreDto & ImageOptionalDto, authUser: AuthUser, ability: AppAbility) {
     const existingStoreSlug = await this.storeRepository.findBySlug(createStoreDto.slug);
     if (existingStoreSlug) throw new BadRequestException("Store's slug is already exist");
 

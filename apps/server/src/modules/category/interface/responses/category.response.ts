@@ -1,12 +1,12 @@
-import { Exclude, Expose, Type } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 
 @Exclude()
-export class ProductModel {
+export class CategoryResponse {
   @Expose()
   id!: string;
 
   @Expose()
-  productId!: string;
+  storeId!: string;
 
   @Expose()
   name!: string;
@@ -18,16 +18,12 @@ export class ProductModel {
   image!: string;
 
   @Expose()
-  @Type(() => Number)
-  price!: number;
-
-  @Expose()
   description?: string | null;
 
   @Expose()
   status!: string;
 
-  constructor(partial: Partial<ProductModel>) {
+  constructor(partial: Partial<CategoryResponse>) {
     Object.assign(this, partial);
   }
 }

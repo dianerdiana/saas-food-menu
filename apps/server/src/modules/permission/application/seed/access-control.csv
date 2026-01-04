@@ -1,31 +1,6 @@
 name,action,subject,conditions,inverted
-Manage All,manage,all,,false
-Staff Category Creator,create,Category,{"store_id": "$current_store_id"},false
-Read Store Category,read,Category,{"store_id": "$current_store_id"},false
-Read All Category,read,Category,,false
-Category,update,Category,{"store_id": "$current_store_id"},false
-Category,delete,Category,{"store_id": "$current_store_id"},false
-Product,create,Product,{"store_id": "$current_store_id"},false
-Product,read,Product,{"store_id": "$current_store_id"},false
-Product,update,Product,{"store_id": "$current_store_id"},false
-Product,delete,Product,{"store_id": "$current_store_id"},false
-ProductCategory,create,ProductCategory,,false
-ProductCategory,read,ProductCategory,,false
-ProductCategory,update,ProductCategory,,false
-ProductCategory,delete,ProductCategory,,false
+Super Admin, manage,all,,false
 Store,create,Store,,false
-Store,read,Store,{"owner": "$current_user_id"},false
-Store,update,Store,{"owner": "$current_user_id"},false
-Store,delete,Store,{"owner": "$current_user_id"},false
-Transaction,create,Transaction,,false
-Transaction,read,Transaction,,false
-Transaction,update,Transaction,,false
-Transaction,delete,Transaction,,false
-TransactionDetail,create,TransactionDetail,,false
-TransactionDetail,read,TransactionDetail,,false
-TransactionDetail,update,TransactionDetail,,false
-TransactionDetail,delete,TransactionDetail,,false
-User,create,User,,false
-User,read,User,{"store_id": "$current_store_id"},false
-User,update,User,{"store_id": "$current_store_id"},false
-User,delete,User,{"store_id": "$current_store_id"},false
+Store,read,Store,{"ownerId": "$current_user_id"},false
+Store,update,Store,{"ownerId": "$current_user_id"},false
+Store,delete,Store,{"ownerId": "$current_user_id"},false

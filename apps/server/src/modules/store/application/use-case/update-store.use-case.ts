@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+
 import { StoreRepository } from '../../infrastructure/repositories/store.repository';
-import { StoreModel } from '../../domain/models/store.model';
 import { UpdateStoreDto } from '../dtos/update-store.dto';
+
 import { AuthUser } from '@/shared/types/auth-user.type';
 import { ImageOptionalDto } from '@/shared/dtos/image.dto';
 
@@ -29,6 +30,6 @@ export class UpdateStoreUseCase {
 
     await this.storeRepository.save(store);
 
-    return new StoreModel(store);
+    return store;
   }
 }

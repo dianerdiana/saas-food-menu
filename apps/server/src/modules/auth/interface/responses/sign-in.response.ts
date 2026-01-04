@@ -21,9 +21,6 @@ export class UserDataResponse {
   @Expose()
   permissions!: any[];
 
-  @Expose()
-  roles!: any[];
-
   constructor(partial: Partial<UserDataResponse>) {
     Object.assign(this, partial);
   }

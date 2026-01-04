@@ -10,5 +10,6 @@ import { RecommendationRepository } from './infrastructure/repositories/recommen
 @Module({
   imports: [TypeOrmModule.forFeature([RecommendationEntity])],
   providers: [RecommendationRepository, BulkCreateDefaultRecommendationUseCase],
+  exports: [BulkCreateDefaultRecommendationUseCase],
 })
 export class RecommendationModule {}

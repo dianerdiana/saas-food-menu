@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+
 import { ProductRepository } from '../../infrastructure/repositories/product.repository';
-import { ProductModel } from '../../domain/models/product.model';
 import { UpdateProductDto } from '../dtos/update-product.dto';
+
 import { AuthUser } from '@/shared/types/auth-user.type';
 
 @Injectable()
@@ -22,6 +23,6 @@ export class UpdateProductUseCase {
 
     await this.productRepository.save(product);
 
-    return new ProductModel(product);
+    return product;
   }
 }

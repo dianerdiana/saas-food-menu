@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+
 import { CategoryRepository } from '../../infrastructure/repositories/category.repository';
+
 import { AuthUser } from '@/shared/types/auth-user.type';
 import { StorageService } from '@/shared/services/storage.service';
 
@@ -16,7 +18,10 @@ export class DeleteCategoryUseCase {
 
     category.deletedBy = authUser.userId;
     await this.categoryRepository.save(category);
-    await this.storageService.deleteFile(category.image);
+
+    if (category.image) {
+      await this.storageService.deleteFile(category.image);
+    }
 
     const updateResult = await this.categoryRepository.deleteById(category.id);
 

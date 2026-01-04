@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+
 import { CategoryRepository } from '../../infrastructure/repositories/category.repository';
-import { CategoryModel } from '../../domain/models/category.model';
 import { UpdateCategoryDto } from '../dtos/update-category.dto';
+
 import { AuthUser } from '@/shared/types/auth-user.type';
 import { StorageService } from '@/shared/services/storage.service';
 
@@ -27,11 +28,11 @@ export class UpdateCategoryUseCase {
     category.updatedBy = authUser.userId;
     if (description) category.description = description;
     if (image) {
-      await this.storageService.deleteFile(category.image);
+      if (category.image) await this.storageService.deleteFile(category.image);
       category.image = image;
     }
 
     await this.categoryRepository.save(category);
-    return new CategoryModel(category);
+    return category;
   }
 }

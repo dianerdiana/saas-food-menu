@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ProductRepository } from '../../infrastructure/repositories/product.repository';
 import { CreateProductDto } from '../dtos/create-product.dto';
-import { ProductModel } from '../../domain/models/product.model';
+
 import { AuthUser } from '@/shared/types/auth-user.type';
 import { PRODUCT_STATUS } from '@/shared/constants/product-status.constant';
 
@@ -18,6 +18,6 @@ export class CreateProductUseCase {
     });
     await this.productRepository.save(product);
 
-    return new ProductModel(product);
+    return product;
   }
 }

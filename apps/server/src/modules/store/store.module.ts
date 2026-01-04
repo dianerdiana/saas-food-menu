@@ -1,19 +1,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-// Entity
 import { StoreEntity } from './domain/entities/store.entity';
 
-// Modules
 import { AuthorizationModule } from '../authorization/authorization.module';
+import { CategoryModule } from '../category/category.module';
+import { RecommendationModule } from '../recommendation/recommendation.module';
 
-// Repository
 import { StoreRepository } from './infrastructure/repositories/store.repository';
 
-// Controller
 import { StoreController } from './interface/controllers/store.controller';
 
-// Use Case
 import { CreateStoreUseCase } from './application/use-case/create-store.use-case';
 import { DeleteStoreUseCase } from './application/use-case/delete-store.use-case';
 import { GetAllStoreUseCase } from './application/use-case/get-all-store.use-case';
@@ -24,7 +21,7 @@ import { UpdateStoreUseCase } from './application/use-case/update-store.use-case
 import { StorageService } from '@/shared/services/storage.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([StoreEntity]), AuthorizationModule],
+  imports: [TypeOrmModule.forFeature([StoreEntity]), AuthorizationModule, CategoryModule, RecommendationModule],
   controllers: [StoreController],
   providers: [
     StoreRepository,
