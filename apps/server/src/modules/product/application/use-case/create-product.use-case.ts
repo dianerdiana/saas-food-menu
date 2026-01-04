@@ -1,4 +1,7 @@
 import { Injectable } from '@nestjs/common';
+
+import { ProductCategoryEntity } from '@/modules/product-category/domain/entities/product-category.entity';
+
 import { ProductRepository } from '../../infrastructure/repositories/product.repository';
 import { CreateProductDto } from '../dtos/create-product.dto';
 
@@ -16,6 +19,13 @@ export class CreateProductUseCase {
       createdBy: authUser.userId,
       status: PRODUCT_STATUS.active,
     });
+
+    const productCategory = new ProductCategoryEntity();
+    productCategory.productId = product.id;
+    productCategory.categoryId = createProductDto.categoryId;
+
+    product.productCategories = [productCategory];
+
     await this.productRepository.save(product);
 
     return product;

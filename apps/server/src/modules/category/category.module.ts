@@ -17,7 +17,7 @@ import { GetAllCategoryUseCase } from './application/use-case/get-all-category.u
 import { GetCategoryByIdUseCase } from './application/use-case/get-category-by-id.use-case';
 import { UpdateCategoryUseCase } from './application/use-case/update-category.use-case';
 import { GetCategoryBySlugUseCase } from './application/use-case/get-category-by-slug.use-case';
-import { BulkCreateDefaultCategoryUseCase } from './application/use-case/bulk-create-default-category.use-case';
+import { BulkCreateDefaultCategoryUseCase } from './application/services/initialize-default-category.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([CategoryEntity]), AuthorizationModule],

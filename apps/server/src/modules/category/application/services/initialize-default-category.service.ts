@@ -13,10 +13,10 @@ const defaultCategories = [
 ];
 
 @Injectable()
-export class BulkCreateDefaultCategoryUseCase {
+export class InitializeDefaultCategoryService {
   constructor(private categoryRepository: CategoryRepository) {}
 
-  async execute(storeId: string) {
+  async initialize(storeId: string) {
     const categories = defaultCategories.map((category) =>
       this.categoryRepository.create({
         ...category,

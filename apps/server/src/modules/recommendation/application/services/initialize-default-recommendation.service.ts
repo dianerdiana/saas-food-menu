@@ -8,10 +8,10 @@ const defaultRecommendations = [
 ];
 
 @Injectable()
-export class BulkCreateDefaultRecommendationUseCase {
+export class InitializeDefaultRecommendationService {
   constructor(private recommendationRepository: RecommendationRepository) {}
 
-  async execute(storeId: string) {
+  async initialize(storeId: string) {
     const recommendations = defaultRecommendations.map((recommendation) =>
       this.recommendationRepository.create({
         ...recommendation,

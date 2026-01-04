@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
-import { BulkCreateDefaultCategoryUseCase } from '@/modules/category/application/use-case/bulk-create-default-category.use-case';
-import { BulkCreateDefaultRecommendationUseCase } from '@/modules/recommendation/application/use-cases/bluk-create-default-recommendation.use-case';
+import { InitializeDefaultCategoryService } from '@/modules/category/application/services/initialize-default-category.service';
+import { InitializeDefaultRecommendationService } from '@/modules/recommendation/application/services/initialize-default-recommendation.service';
 
 import { CreateStoreDto } from '../dtos/create-store.dto';
 import { StoreRepository } from '../../infrastructure/repositories/store.repository';
@@ -16,8 +16,8 @@ import { Action, Subject } from '@/shared/enums/access-control.enum';
 export class CreateStoreUseCase {
   constructor(
     private storeRepository: StoreRepository,
-    private bulkCreateDefaultCategory: BulkCreateDefaultCategoryUseCase,
-    private bulkCreateDefaultRecommendation: BulkCreateDefaultRecommendationUseCase,
+    private initializeDefaultCategory: InitializeDefaultCategoryService,
+    private initializeDefaultRecommendation: InitializeDefaultRecommendationService,
   ) {}
 
   async execute(createStoreDto: CreateStoreDto & ImageOptionalDto, authUser: AuthUser, ability: AppAbility) {
@@ -42,8 +42,8 @@ export class CreateStoreUseCase {
     });
 
     await this.storeRepository.save(store);
-    await this.bulkCreateDefaultCategory.execute(store.id);
-    await this.bulkCreateDefaultRecommendation.execute(store.id);
+    await this.initializeDefaultCategory.initialize(store.id);
+    await this.initializeDefaultRecommendation.initialize(store.id);
 
     return store;
   }

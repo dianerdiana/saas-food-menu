@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { RecommendationEntity } from './domain/entities/recommendation.entity';
 
-import { BulkCreateDefaultRecommendationUseCase } from './application/use-cases/bluk-create-default-recommendation.use-case';
+import { BulkCreateDefaultRecommendationUseCase } from './application/services/initialize-default-recommendation.service';
 
 import { RecommendationRepository } from './infrastructure/repositories/recommendation.repository';
 
