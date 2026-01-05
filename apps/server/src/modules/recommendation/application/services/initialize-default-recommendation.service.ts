@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { RecommendationRepository } from '../../infrastructure/repositories/recommendation.repository';
 
 const defaultRecommendations = [
-  { name: 'Menu Favorite', storeId: '' },
-  { name: "Chef's Recommendation", storeId: '' },
+  { name: 'Menu Favorite', storeId: '', displayMode: 'horizontal' },
+  { name: "Chef's Recommendation", storeId: '', displayMode: 'vertical' },
 ];
 
 @Injectable()

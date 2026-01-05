@@ -4,12 +4,13 @@ import { UserEntity } from '@/modules/user/domain/entities/user.entity';
 import { PermissionEntity } from '@/modules/permission/domain/entities/permission.entity';
 import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
 import { CategoryEntity } from '@/modules/category/domain/entities/category.entity';
+import { RecommendationEntity } from '@/modules/recommendation/domain/entities/recommendation.entity';
 
 import { AbilityBuilder, createMongoAbility, MongoAbility, ExtractSubjectType } from '@casl/ability';
 
 import { Action, Subject } from '@/shared/enums/access-control.enum';
 
-export type Subjects = Subject | StoreEntity | UserEntity | CategoryEntity;
+export type Subjects = Subject | StoreEntity | UserEntity | CategoryEntity | RecommendationEntity;
 export type AppAbility = MongoAbility<[Action, Subjects]>;
 
 @Injectable()

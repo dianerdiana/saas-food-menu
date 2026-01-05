@@ -17,4 +17,5 @@ export enum Subject {
   UserRole = 'UserRole',
   Category = 'Category',
   Product = 'Product',
+  Recommendation = 'Recommendation',
 }

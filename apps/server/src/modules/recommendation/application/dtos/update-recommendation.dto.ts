@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateRecommendationDto {
+export class UpdateRecommendationDto {
   @IsString()
   @IsNotEmpty()
   name!: string;
