@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UpdateRecommendationDto {
   @IsString()
@@ -8,4 +8,8 @@ export class UpdateRecommendationDto {
   @IsString()
   @IsNotEmpty()
   displayMode!: string;
+
+  @IsArray()
+  @IsOptional()
+  productIds?: string[];
 }

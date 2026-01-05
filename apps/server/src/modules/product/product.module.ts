@@ -12,6 +12,8 @@ import { ProductController } from './interface/controllers/product.controller';
 
 import { StorageService } from '@/shared/services/storage.service';
 
+import { ValidateProductsService } from './application/services/validate-products.service';
+
 import { CreateProductUseCase } from './application/use-case/create-product.use-case';
 import { DeleteProductUseCase } from './application/use-case/delete-product.use-case';
 import { GetAllProductUseCase } from './application/use-case/get-all-product.use-case';
@@ -31,6 +33,8 @@ import { UpdateProductUseCase } from './application/use-case/update-product.use-
     GetProductByIdUseCase,
     GetProductBySlugUseCase,
     UpdateProductUseCase,
+    ValidateProductsService,
   ],
+  exports: [ValidateProductsService],
 })
 export class ProductModule {}

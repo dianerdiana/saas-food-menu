@@ -21,12 +21,10 @@ export class CaslAbilityFactory {
     permissions.forEach((permission) => {
       const conditions = this.parseConditions(permission.conditions, user, storeId);
 
-      const finalConditions = conditions ?? undefined;
-
       if (permission.inverted) {
-        cannot(permission.action as Action, permission.subject as Subject, finalConditions);
+        cannot(permission.action as Action, permission.subject as Subject, conditions);
       } else {
-        can(permission.action as Action, permission.subject as Subject, finalConditions);
+        can(permission.action as Action, permission.subject as Subject, conditions);
       }
     });
 

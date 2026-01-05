@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 import { ProductEntity } from '../../domain/entities/product.entity';
 
@@ -64,6 +64,10 @@ export class ProductRepository {
 
   async countAllOwned(storeId: string) {
     return this.repository.countBy({ storeId });
+  }
+
+  async countByIdsAndStoreId(ids: string[], storeId: string) {
+    return this.repository.countBy({ id: In(ids), storeId });
   }
 
   async deleteById(id: string) {

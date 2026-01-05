@@ -11,3 +11,7 @@ Create Product,create,Product,{"storeId": "$current_store_id"},false
 View Product,read,Product,{"storeId": "$current_store_id"},false
 Update Product,update,Product,{"storeId": "$current_store_id"},false
 Delete Product,delete,Product,{"storeId": "$current_store_id"},false
+Create Recommendation,create,Recommendation,{"storeId": "$current_store_id"},false
+View Recommendation,read,Recommendation,{"storeId": "$current_store_id"},false
+Update Recommendation,update,Recommendation,{"storeId": "$current_store_id"},false
+Delete Recommendation,delete,Recommendation,{"storeId": "$current_store_id"},false

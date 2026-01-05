@@ -24,13 +24,13 @@ export class GetAllRecommendationUseCase {
     } else if (ability.can(Action.Read, Subject.Recommendation)) {
       [data, count] = await this.recommendationRepository.findAllByStoreId(paginationDto, authUser.storeId);
     } else {
-      throw new ForbiddenException('You are not allowed to access categories');
+      throw new ForbiddenException('You are not allowed to access recommendations');
     }
 
     const totalPages = Math.ceil(count / limit);
 
     return {
-      categories: data,
+      recommendations: data,
       meta: {
         page,
         limit,

@@ -1,17 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  Query,
-  UploadedFile,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 
 import { PoliciesGuard } from '@/modules/authorization/infrastructure/guards/policies.guard';
 import type { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
@@ -30,12 +17,9 @@ import { UpdateRecommendationUseCase } from '../../application/use-case/update-r
 import type { AuthUser } from '@/shared/types/auth-user.type';
 import { GetAuthUser } from '@/shared/decorators/get-user.decorator';
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
-import { StorageService } from '@/shared/services/storage.service';
-import { BUCKET_FOLDER_NAME } from '@/shared/constants/bucket-folder-name.constant';
-import { ImageValidationPipe } from '@/shared/pipes/image-validation.pipe';
 import { GetAbillity } from '@/shared/decorators/get-ability.decorator';
 
-@Controller('categories')
+@Controller('recommendations')
 export class RecommendationController {
   constructor(
     private createRecommendationUseCase: CreateRecommendationUseCase,
@@ -43,24 +27,15 @@ export class RecommendationController {
     private getAllRecommendationUseCase: GetAllRecommendationUseCase,
     private getRecommendationByIdUseCase: GetRecommendationByIdUseCase,
     private updateRecommendationUseCase: UpdateRecommendationUseCase,
-    private storageService: StorageService,
   ) {}
 
   @UseGuards(PoliciesGuard)
-  @UseInterceptors(FileInterceptor('image'))
   @Post()
   async createRecommendation(
     @Body() createRecommendationDto: CreateRecommendationDto,
     @GetAuthUser() authUser: AuthUser,
-    @UploadedFile(new ImageValidationPipe(false)) image: Express.Multer.File,
     @GetAbillity() ability: AppAbility,
   ) {
-    let url: undefined | null | string = null;
-
-    if (image) {
-      url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.categories);
-    }
-
     const result = await this.createRecommendationUseCase.execute(createRecommendationDto, authUser, ability);
 
     return {
@@ -78,7 +53,7 @@ export class RecommendationController {
   ) {
     const result = await this.getAllRecommendationUseCase.execute(paginationDto, authUser, ability);
     return {
-      data: result.categories.map((recommendation) => new RecommendationResponse(recommendation)),
+      data: result.recommendations.map((recommendation) => new RecommendationResponse(recommendation)),
       meta: result.meta,
     };
   }
@@ -95,21 +70,13 @@ export class RecommendationController {
   }
 
   @UseGuards(PoliciesGuard)
-  @UseInterceptors(FileInterceptor('image'))
   @Put(':id')
   async updateRecommendation(
     @Body() updateRecommendationDto: UpdateRecommendationDto,
     @Param('id') id: string,
     @GetAuthUser() authUser: AuthUser,
-    @UploadedFile(new ImageValidationPipe(false)) image: Express.Multer.File,
     @GetAbillity() ability: AppAbility,
   ) {
-    let url: undefined | null | string = null;
-
-    if (image) {
-      url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.categories);
-    }
-
     const result = await this.updateRecommendationUseCase.execute(updateRecommendationDto, id, authUser, ability);
 
     return {

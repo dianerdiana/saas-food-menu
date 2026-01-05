@@ -1,6 +1,8 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 
 import { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
+import { ValidateProductsService } from '@/modules/product/application/services/validate-products.service';
+import { AssignProductRecommendationService } from '@/modules/product-recommendation/application/services/assign-product-recommendation.service';
 
 import { RecommendationRepository } from '../../infrastructure/repositories/recommendation.repository';
 import { CreateRecommendationDto } from '../dtos/create-recommendation.dto';
@@ -13,10 +15,15 @@ const MAX_RECOMMENDATIONS = 2;
 
 @Injectable()
 export class CreateRecommendationUseCase {
-  constructor(private recommendationRepository: RecommendationRepository) {}
+  constructor(
+    private recommendationRepository: RecommendationRepository,
+    private validateProduct: ValidateProductsService,
+    private assignProductRecommendation: AssignProductRecommendationService,
+  ) {}
 
   async execute(createRecommendationDto: CreateRecommendationDto, authUser: AuthUser, ability: AppAbility) {
     const { storeId, userId } = authUser;
+    const { productIds } = createRecommendationDto;
 
     const ownedCategoriesCount = await this.recommendationRepository.countAllOwned(storeId);
     const maxCategories = ability.can(Action.Manage, Subject.Recommendation) ? null : MAX_RECOMMENDATIONS;
@@ -37,6 +44,11 @@ export class CreateRecommendationUseCase {
     }
 
     await this.recommendationRepository.save(recommendation);
+
+    if (productIds && productIds.length) {
+      await this.validateProduct.execute(productIds, storeId);
+      await this.assignProductRecommendation.assign(recommendation.id, productIds);
+    }
 
     return recommendation;
   }

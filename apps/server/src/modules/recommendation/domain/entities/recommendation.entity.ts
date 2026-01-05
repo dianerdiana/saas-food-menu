@@ -8,7 +8,7 @@ import { RECOMMENDATION_DISPLAY_MODE, RECOMMENDATION_STATUS } from '@/shared/con
 
 @Entity('recommendations')
 export class RecommendationEntity extends BaseAuditEntity {
-  static readonly moduleName = 'Recommendation';
+  static readonly modelName = 'Recommendation';
 
   @Column({ type: 'varchar', length: 255 })
   name!: string;
