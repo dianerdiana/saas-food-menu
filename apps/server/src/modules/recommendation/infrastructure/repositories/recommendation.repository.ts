@@ -38,13 +38,17 @@ export class RecommendationRepository {
   async findAllByStoreId({ limit, skip, search }: PaginationDto, storeId: string) {
     const query = this.repository.createQueryBuilder('recommendation');
 
+    query
+      .leftJoinAndSelect('recommendation.productRecommendations', 'productRecommendation')
+      .leftJoinAndSelect('productRecommendation.product', 'product', 'product.deleted_at IS NULL');
+
     if (search) {
       query.andWhere('(recommendation.name ILIKE :search)', {
         search: `%${search}%`,
       });
     }
 
-    query.andWhere('store_id=:store_id', { store_id: storeId }).take(limit).skip(skip);
+    query.andWhere('recommendation.store_id=:store_id', { store_id: storeId }).take(limit).skip(skip);
 
     return query.getManyAndCount();
   }
@@ -56,6 +60,10 @@ export class RecommendationRepository {
   async findAll({ limit, skip, search }: PaginationDto) {
     const query = this.repository.createQueryBuilder('recommendation');
 
+    query
+      .leftJoinAndSelect('recommendation.productRecommendations', 'productRecommendation')
+      .leftJoinAndSelect('productRecommendation.product', 'product', 'product.deleted_at IS NULL');
+
     if (search) {
       query.andWhere('(recommendation.name ILIKE :search)', {
         search: `%${search}%`,
@@ -63,6 +71,7 @@ export class RecommendationRepository {
     }
 
     query.take(limit).skip(skip);
+
     return query.getManyAndCount();
   }
 

@@ -4,6 +4,7 @@ import { PoliciesGuard } from '@/modules/authorization/infrastructure/guards/pol
 import type { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
 
 import { RecommendationResponse } from '../responses/reccommendation.response';
+import { RecommendationWithProductsResponse } from '../responses/reccommendation-with-product.response';
 
 import { CreateRecommendationDto } from '../../application/dtos/create-recommendation.dto';
 import { UpdateRecommendationDto } from '../../application/dtos/update-recommendation.dto';
@@ -53,7 +54,7 @@ export class RecommendationController {
   ) {
     const result = await this.getAllRecommendationUseCase.execute(paginationDto, authUser, ability);
     return {
-      data: result.recommendations.map((recommendation) => new RecommendationResponse(recommendation)),
+      data: result.recommendations.map((recommendation) => new RecommendationWithProductsResponse(recommendation)),
       meta: result.meta,
     };
   }
