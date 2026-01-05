@@ -27,10 +27,6 @@ export class DeleteCategoryUseCase {
     category.deletedBy = authUser.userId;
     await this.categoryRepository.save(category);
 
-    if (category.image) {
-      await this.storageService.deleteFile(category.image);
-    }
-
     const updateResult = await this.categoryRepository.deleteById(category.id);
 
     return updateResult.affected && true;

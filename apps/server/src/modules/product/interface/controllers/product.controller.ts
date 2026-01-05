@@ -16,6 +16,9 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 import type { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
 import { PoliciesGuard } from '@/modules/authorization/infrastructure/guards/policies.guard';
+import { CheckPolicies } from '@/modules/authorization/infrastructure/decorator/check-policies.decorator';
+
+import { ProductResponse } from '../responses/product.response';
 
 import { CreateProductDto } from '../../application/dtos/create-product.dto';
 import { UpdateProductDto } from '../../application/dtos/update-product.dto';
@@ -34,7 +37,7 @@ import { StorageService } from '@/shared/services/storage.service';
 import { BUCKET_FOLDER_NAME } from '@/shared/constants/bucket-folder-name.constant';
 import { ImageValidationPipe } from '@/shared/pipes/image-validation.pipe';
 import { GetAbillity } from '@/shared/decorators/get-ability.decorator';
-import { ProductResponse } from '../responses/product.response';
+import { Action, Subject } from '@/shared/enums/access-control.enum';
 
 @Controller('products')
 export class ProductController {
@@ -49,6 +52,7 @@ export class ProductController {
   ) {}
 
   @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability) => ability.can(Action.Create, Subject.Product))
   @UseInterceptors(FileInterceptor('image'))
   @Post()
   async createProduct(
@@ -70,32 +74,51 @@ export class ProductController {
     };
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability) => ability.can(Action.Read, Subject.Product))
   @Get()
-  async getAllProduct(@Query() paginationDto: PaginationDto) {
-    const result = await this.getAllProductUseCase.execute(paginationDto);
+  async getAllProduct(
+    @Query() paginationDto: PaginationDto,
+    @GetAuthUser() authUser: AuthUser,
+    @GetAbillity() ability: AppAbility,
+  ) {
+    const result = await this.getAllProductUseCase.execute(paginationDto, authUser, ability);
     return {
-      data: result.products,
+      data: result.products.map((product) => new ProductResponse(product)),
       meta: result.meta,
     };
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability) => ability.can(Action.Read, Subject.Product))
   @Get('id/:id')
-  async getProductById(@Param('id') id: string) {
-    return await this.getProductByIdUseCase.execute(id);
+  async getProductById(@Param('id') id: string, @GetAuthUser() authUser: AuthUser, @GetAbillity() ability: AppAbility) {
+    const result = await this.getProductByIdUseCase.execute(id, authUser, ability);
+    return new ProductResponse(result);
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability) => ability.can(Action.Read, Subject.Product))
   @Get('slug/:slug')
-  async getProductBySlug(@Param('slug') slug: string) {
-    return await this.getProductSlugUseCase.execute(slug);
+  async getProductBySlug(
+    @Param('slug') slug: string,
+    @GetAuthUser() authUser: AuthUser,
+    @GetAbillity() ability: AppAbility,
+  ) {
+    const result = await this.getProductSlugUseCase.execute(slug, authUser, ability);
+    return new ProductResponse(result);
   }
 
-  @Put(':id')
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability) => ability.can(Action.Update, Subject.Product))
   @UseInterceptors(FileInterceptor('image'))
+  @Put(':id')
   async updateProduct(
     @Body() updateProductDto: UpdateProductDto,
     @Param('id') id: string,
     @GetAuthUser() authUser: AuthUser,
     @UploadedFile(new ImageValidationPipe(false)) image: Express.Multer.File,
+    @GetAbillity() ability: AppAbility,
   ) {
     let url: undefined | null | string = null;
 
@@ -103,17 +126,19 @@ export class ProductController {
       url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.products);
     }
 
-    const result = await this.updateProductUseCase.execute({ ...updateProductDto, image: url }, id, authUser);
+    const result = await this.updateProductUseCase.execute({ ...updateProductDto, image: url }, id, authUser, ability);
 
     return {
       message: 'Successfuly updated product',
-      data: result,
+      data: new ProductResponse(result),
     };
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability) => ability.can(Action.Delete, Subject.Product))
   @Delete(':id')
-  async deleteProduct(@Param('id') id: string, @GetAuthUser() authUser: AuthUser) {
-    const result = await this.deleteProductUseCase.execute(id, authUser);
+  async deleteProduct(@Param('id') id: string, @GetAuthUser() authUser: AuthUser, @GetAbillity() ability: AppAbility) {
+    const result = await this.deleteProductUseCase.execute(id, authUser, ability);
 
     return {
       message: 'Successfuly deleted product',

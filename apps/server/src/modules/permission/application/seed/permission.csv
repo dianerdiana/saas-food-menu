@@ -7,3 +7,7 @@ Create Category,create,Category,{"storeId": "$current_store_id"},false
 View Category,read,Category,{"storeId": "$current_store_id"},false
 Update Category,update,Category,{"storeId": "$current_store_id"},false
 Delete Category,delete,Category,{"storeId": "$current_store_id"},false
+Create Product,create,Product,{"storeId": "$current_store_id"},false
+View Product,read,Product,{"storeId": "$current_store_id"},false
+Update Product,update,Product,{"storeId": "$current_store_id"},false
+Delete Product,delete,Product,{"storeId": "$current_store_id"},false

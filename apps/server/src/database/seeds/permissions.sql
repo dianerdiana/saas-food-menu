@@ -18,5 +18,8 @@ INSERT INTO "permissions" ("id","created_at","updated_at","deleted_at","name","a
 ( '019b8743-18db-7173-8ea8-df5692199e32','2026-01-04 11:28:00.065642+07','2026-01-04 11:28:00.065642+07',NULL,'Create Category','create','Category','{"storeId": "$current_store_id"}','0',NULL ),
 ( '019b8743-18dc-7065-8904-15fa913f60f1','2026-01-04 11:28:00.065642+07','2026-01-04 11:28:00.065642+07',NULL,'View Category','read','Category','{"storeId": "$current_store_id"}','0',NULL ),
 ( '019b8743-18dc-7065-8904-192a5db67bd8','2026-01-04 11:28:00.065642+07','2026-01-04 11:28:00.065642+07',NULL,'Update Category','update','Category','{"storeId": "$current_store_id"}','0',NULL ),
-( '019b8743-18dc-7065-8904-1f3043a1e753','2026-01-04 11:28:00.065642+07','2026-01-04 11:28:00.065642+07',NULL,'Delete Category','delete','Category','{"storeId": "$current_store_id"}','0',NULL )
-
+( '019b8743-18dc-7065-8904-1f3043a1e753','2026-01-04 11:28:00.065642+07','2026-01-04 11:28:00.065642+07',NULL,'Delete Category','delete','Category','{"storeId": "$current_store_id"}','0',NULL ),
+( '019b8c21-f2e3-728e-8d4c-168673222fc8','2026-01-04 11:28:00.065642+07','2026-01-04 11:28:00.065642+07',NULL,'Create Product','create','Product','{"storeId": "$current_store_id"}','0',NULL ),
+( '019b8c21-f2e3-728e-8d4c-18c71b73b68d','2026-01-04 11:28:00.065642+07','2026-01-04 11:28:00.065642+07',NULL,'View Product','read','Product','{"storeId": "$current_store_id"}','0',NULL ),
+( '019b8c21-f2e3-728e-8d4c-1d9f7a3ba3f6','2026-01-04 11:28:00.065642+07','2026-01-04 11:28:00.065642+07',NULL,'Update Product','update','Product','{"storeId": "$current_store_id"}','0',NULL ),
+( '019b8c21-f2e3-728e-8d4c-230a8add5e2a','2026-01-04 11:28:00.065642+07','2026-01-04 11:28:00.065642+07',NULL,'Delete Product','delete','Product','{"storeId": "$current_store_id"}','0',NULL )

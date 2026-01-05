@@ -5,7 +5,6 @@ import { CategoryRepository } from '../../infrastructure/repositories/category.r
 import { CATEGORY_STATUS } from '@/shared/constants/category-status.constant';
 
 const defaultCategories = [
-  { name: 'All Menu', slug: 'all-menu', image: 'categories/all-menu.png', storeId: '', status: CATEGORY_STATUS.active },
   { name: 'Chicken', slug: 'chicken', image: 'categories/chicken.png', storeId: '', status: CATEGORY_STATUS.active },
   { name: 'Desert', slug: 'desert', image: 'categories/desert.png', storeId: '', status: CATEGORY_STATUS.active },
   { name: 'Drink', slug: 'drink', image: 'categories/drink.png', storeId: '', status: CATEGORY_STATUS.active },
