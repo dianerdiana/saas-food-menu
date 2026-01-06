@@ -6,4 +6,9 @@ export type Category = {
   image: string;
   description?: string | null;
   status: string;
+  store: {
+    id: string;
+    name: string;
+    image?: string;
+  };
 };

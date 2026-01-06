@@ -1,4 +1,5 @@
-import { Exclude, Expose } from 'class-transformer';
+import { StoreResponse } from '@/modules/store/interface/responses/store.response';
+import { Exclude, Expose, Transform } from 'class-transformer';
 
 @Exclude()
 export class CategoryResponse {
@@ -22,6 +23,10 @@ export class CategoryResponse {
 
   @Expose()
   status!: string;
+
+  @Expose()
+  @Transform(({ obj }) => new StoreResponse(obj.store))
+  store!: StoreResponse;
 
   constructor(partial: Partial<CategoryResponse>) {
     Object.assign(this, partial);

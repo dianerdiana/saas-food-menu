@@ -32,13 +32,17 @@ export class CategoryRepository {
   }
 
   async findAllByStoreId({ limit, skip, search }: PaginationDto, storeId: string) {
-    const query = this.repository.createQueryBuilder('category');
+    const query = this.repository
+      .createQueryBuilder('category')
+      .leftJoinAndSelect('category.store', 'store', 'store.deleted_at IS NULL');
 
     if (search) {
-      query.andWhere('(category.name ILIKE :search or category.slug ILIKE :search)', { search: `%${search}%` });
+      query.andWhere('(category.name ILIKE :search or category.slug ILIKE :search or store.name ILIKE :search)', {
+        search: `%${search}%`,
+      });
     }
 
-    query.andWhere('store_id=:store_id', { store_id: storeId }).take(limit).skip(skip);
+    query.andWhere('category.store_id=:store_id', { store_id: storeId }).take(limit).skip(skip);
 
     return query.getManyAndCount();
   }
@@ -52,10 +56,14 @@ export class CategoryRepository {
   }
 
   async findAll({ limit, skip, search }: PaginationDto) {
-    const query = this.repository.createQueryBuilder('category');
+    const query = this.repository
+      .createQueryBuilder('category')
+      .leftJoinAndSelect('category.store', 'store', 'store.deleted_at IS NULL');
 
     if (search) {
-      query.andWhere('(category.name ILIKE :search or category.slug ILIKE :search)', { search: `%${search}%` });
+      query.andWhere('(category.name ILIKE :search or category.slug ILIKE :search or store.name ILIKE :search)', {
+        search: `%${search}%`,
+      });
     }
 
     query.take(limit).skip(skip);

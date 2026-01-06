@@ -51,14 +51,14 @@ export const createColumns = (options: ColumnOptions): ColumnDef<Category>[] => 
     ),
   },
   {
-    id: 'slug',
-    header: 'SLUG',
-    accessorKey: 'slug',
+    id: 'store',
+    header: 'STORE',
+    cell: ({ row }) => row.original.store.name,
   },
   {
-    id: 'description',
-    header: 'DESCRIPTION',
-    accessorKey: 'description',
+    id: 'status',
+    header: 'STATUS',
+    accessorKey: 'status',
   },
   {
     id: 'actions',
