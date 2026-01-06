@@ -20,4 +20,8 @@ export class CreateProductDto extends SlugRequiredDto {
   @IsString()
   @IsNotEmpty()
   categoryId!: string;
+
+  @IsString()
+  @IsOptional()
+  storeId?: string;
 }

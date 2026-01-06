@@ -24,9 +24,10 @@ export class CreateProductUseCase {
 
   async execute(createProductDto: CreateProductDto & ImageOptionalDto, authUser: AuthUser, ability: AppAbility) {
     const { storeId, userId } = authUser;
-    const { categoryId } = createProductDto;
+    const { categoryId, storeId: payloadStoreId, slug } = createProductDto;
+    const productStoreId = ability.can(Action.Manage, Subject.Product) && payloadStoreId ? payloadStoreId : storeId;
 
-    const existingStoreSlug = await this.productRepository.findBySlugAndStoreId(createProductDto.slug, storeId);
+    const existingStoreSlug = await this.productRepository.findBySlugAndStoreId(slug, storeId);
     if (existingStoreSlug) throw new BadRequestException("Product's slug is already exist");
 
     const ownedProductsCount = await this.productRepository.countAllOwned(storeId);
@@ -41,7 +42,7 @@ export class CreateProductUseCase {
 
     const product = this.productRepository.create({
       ...createProductDto,
-      storeId,
+      storeId: productStoreId,
       createdBy: userId,
       status: PRODUCT_STATUS.active,
     });
