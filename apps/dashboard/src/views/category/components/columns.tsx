@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
+import { Badge } from '@workspace/ui/components/badge';
 import { Button } from '@workspace/ui/components/button';
 import { Checkbox } from '@workspace/ui/components/checkbox';
 
@@ -49,16 +50,23 @@ export const createColumns = (options: ColumnOptions): ColumnDef<Category>[] => 
         </div>
       </div>
     ),
+    size: 250,
   },
   {
     id: 'store',
     header: 'STORE',
-    cell: ({ row }) => row.original.store.name,
+    accessorKey: 'store.name',
+    size: 250,
   },
   {
     id: 'status',
-    header: 'STATUS',
+    header: () => <p className='text-center w-full'>STATUS</p>,
     accessorKey: 'status',
+    cell: ({ row }) => (
+      <div className='text-center'>
+        <Badge variant={row.original.status === 'ACTIVE' ? 'primary' : 'destructive'}>{row.original.status}</Badge>
+      </div>
+    ),
   },
   {
     id: 'actions',

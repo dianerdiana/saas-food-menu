@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
+import { Badge } from '@workspace/ui/components/badge';
 import { Button } from '@workspace/ui/components/button';
 import { Checkbox } from '@workspace/ui/components/checkbox';
 
@@ -34,7 +35,7 @@ export const createColumns = (options: ColumnOptions): ColumnDef<Product>[] => [
     ),
     enableSorting: false,
     enableHiding: false,
-    size: 25,
+    maxSize: 25,
   },
   {
     id: 'name',
@@ -51,17 +52,30 @@ export const createColumns = (options: ColumnOptions): ColumnDef<Product>[] => [
         </div>
       </div>
     ),
+    size: 250,
+  },
+  {
+    id: 'store',
+    header: 'STORE',
+    accessorKey: 'store.name',
+    size: 200,
   },
   {
     id: 'price',
     header: 'PRICE',
     accessorKey: 'price',
     cell: ({ row }) => <p>{formatCurrency(row.original.price)}</p>,
+    size: 150,
   },
   {
     id: 'status',
-    header: 'STATUS',
+    header: () => <p className='text-center w-full'>STATUS</p>,
     accessorKey: 'status',
+    cell: ({ row }) => (
+      <div className='text-center'>
+        <Badge variant={row.original.status === 'ACTIVE' ? 'primary' : 'destructive'}>{row.original.status}</Badge>
+      </div>
+    ),
   },
   {
     id: 'actions',
