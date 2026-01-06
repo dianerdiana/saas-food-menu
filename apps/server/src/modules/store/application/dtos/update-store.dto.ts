@@ -32,4 +32,8 @@ export class UpdateStoreDto {
   @IsString()
   @IsOptional()
   description?: string | null;
+
+  @IsString()
+  @IsOptional()
+  userId?: string;
 }

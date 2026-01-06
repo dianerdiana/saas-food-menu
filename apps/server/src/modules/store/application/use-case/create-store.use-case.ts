@@ -21,13 +21,16 @@ export class CreateStoreUseCase {
   ) {}
 
   async execute(createStoreDto: CreateStoreDto & ImageOptionalDto, authUser: AuthUser, ability: AppAbility) {
-    const existingStoreSlug = await this.storeRepository.findBySlug(createStoreDto.slug);
+    const { slug, phone, userId: storeUserId } = createStoreDto;
+    const storeOwnerId = ability.can(Action.Manage, Subject.Store) && storeUserId ? storeUserId : authUser.userId;
+
+    const existingStoreSlug = await this.storeRepository.findBySlug(slug);
     if (existingStoreSlug) throw new BadRequestException("Store's slug is already exist");
 
-    const existingStorePhone = await this.storeRepository.findByPhone(createStoreDto.phone);
+    const existingStorePhone = await this.storeRepository.findByPhone(phone);
     if (existingStorePhone) throw new BadRequestException("Store's phone is already exist");
 
-    const ownedStoreCount = await this.storeRepository.countAllOwned(authUser.userId);
+    const ownedStoreCount = await this.storeRepository.countAllOwned(storeOwnerId);
     const maxStores = ability.can(Action.Manage, Subject.Store) ? null : 1;
 
     if (maxStores !== null && ownedStoreCount >= maxStores) {
@@ -36,7 +39,7 @@ export class CreateStoreUseCase {
 
     const store = this.storeRepository.create({
       ...createStoreDto,
-      ownerId: authUser.userId,
+      ownerId: storeOwnerId,
       createdBy: authUser.userId,
       status: GENERAL_STATUS.active,
     });

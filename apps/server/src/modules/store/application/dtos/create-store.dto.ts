@@ -32,4 +32,8 @@ export class CreateStoreDto {
   @IsString()
   @IsOptional()
   description?: string | null;
+
+  @IsString()
+  @IsOptional()
+  userId?: string;
 }
