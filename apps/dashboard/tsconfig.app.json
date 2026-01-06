@@ -33,6 +33,7 @@
       "@/layouts/*": ["./src/layouts/*"],
       "@/navigation/*": ["./src/navigation/*"],
       "@/pages/*": ["./src/pages/*"],
+      "@/schemas/*": ["./src/schemas/*"],
       "@/types/*": ["./src/types/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/views/*": ["./src/views/*"]

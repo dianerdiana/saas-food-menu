@@ -1,4 +1,4 @@
-import { DataTableProduct } from '@/views/product/components/data-table-category';
+import { DataTableProduct } from '@/views/product/components/data-table-product';
 
 export default function CategoriesPage() {
   return (

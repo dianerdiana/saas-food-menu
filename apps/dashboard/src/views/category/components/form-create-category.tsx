@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Controller, type SubmitErrorHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,21 +12,24 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ClipboardList, Link, Tag } from 'lucide-react';
 
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
+import { generateSlug } from '@/utils/generate-slug';
+
+import { ImageUpload } from './image-category-upload';
 
 import { useCreateCategory } from '../api/category.mutation';
 import { createCategorySchema } from '../schema/create-category.schema';
 import type { CreateCategoryType } from '../types/create-category.type';
-import { ImageUpload } from './image-category-upload';
 
 export function FormCreateCategory() {
-  const { control, handleSubmit } = useForm<CreateCategoryType>({
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
+  const { control, handleSubmit, setValue } = useForm<CreateCategoryType>({
     resolver: zodResolver(createCategorySchema),
     mode: 'onChange',
     defaultValues: {
       name: '',
       slug: '',
       description: '',
-      image: '',
     },
   });
   const { mutate, isPending } = useCreateCategory();
@@ -35,8 +39,8 @@ export function FormCreateCategory() {
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('slug', data.slug);
-    formData.append('image', data.image);
 
+    if (imageFile) formData.append('image', imageFile);
     if (data.description) formData.append('description', data.description);
 
     mutate(formData, {
@@ -85,6 +89,10 @@ export function FormCreateCategory() {
                           aria-invalid={fieldState.invalid}
                           placeholder='Category Name'
                           autoComplete='off'
+                          onChange={(event) => {
+                            field.onChange(event);
+                            setValue('slug', generateSlug(event.target.value));
+                          }}
                         />
                         <InputGroupAddon>
                           <Tag />
@@ -149,11 +157,7 @@ export function FormCreateCategory() {
             </form>
           </div>
           <div className='place-items-center col-span-2 order-1 lg:order-2 lg:col-span-1'>
-            <Controller
-              control={control}
-              name='image'
-              render={({ field }) => <ImageUpload onChange={field.onChange} />}
-            />
+            <ImageUpload onChange={setImageFile} />
           </div>
         </div>
       </CardContent>

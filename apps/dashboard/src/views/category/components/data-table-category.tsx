@@ -32,10 +32,11 @@ import { RESPONSE_STATUS } from '@/utils/constants/response-status';
 import { useDebounce } from '@/utils/hooks/use-debounce';
 import { usePagination } from '@/utils/hooks/use-pagination';
 
+import { createColumns } from './columns';
+
 import { useDeleteCategory } from '../api/category.mutation';
 import { useGetAllCategory } from '../api/category.query';
 import type { Category } from '../types/category.type';
-import { createColumns } from './columns';
 
 const selectLimitOptions = [
   { label: '10', value: '10' },
@@ -202,7 +203,7 @@ export function DataTableCategory() {
                 currentPage={table.getState().pagination.pageIndex + 1}
                 hasNext={hasNext}
                 hasPrevious={hasPrevious}
-                onPageChange={(page) => console.log(page)}
+                onPageChange={(page) => setPagination((prevState) => ({ ...prevState, pageIndex: page - 1 }))}
                 paginationRange={paginationRange}
               />
             </div>

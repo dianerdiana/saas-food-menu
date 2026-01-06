@@ -52,7 +52,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         {navigation.map((nav, idx) => (
-          <NavMain key={idx} title={nav.title} items={nav.items} />
+          <NavMain key={idx} title={nav.title} items={nav.items} meta={nav.meta} />
         ))}
       </SidebarContent>
       <SidebarFooter>{isAuthenticated && <NavUser userData={userData} signOut={signOut} />}</SidebarFooter>

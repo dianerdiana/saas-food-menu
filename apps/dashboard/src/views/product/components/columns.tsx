@@ -53,11 +53,6 @@ export const createColumns = (options: ColumnOptions): ColumnDef<Product>[] => [
     ),
   },
   {
-    id: 'category',
-    header: 'CATEGORY',
-    accessorKey: 'product.category',
-  },
-  {
     id: 'price',
     header: 'PRICE',
     accessorKey: 'price',

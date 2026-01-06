@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 
@@ -14,6 +15,7 @@ export default defineConfig({
       '@/layouts': path.resolve(__dirname, './src/layouts'),
       '@/navigation': path.resolve(__dirname, './src/navigation'),
       '@/pages': path.resolve(__dirname, './src/pages'),
+      '@/schemas': path.resolve(__dirname, './src/schemas'),
       '@/types': path.resolve(__dirname, './src/types'),
       '@/utils': path.resolve(__dirname, './src/utils'),
       '@/views': path.resolve(__dirname, './src/views'),
@@ -21,6 +23,7 @@ export default defineConfig({
   },
   server: {
     port: 7000,
+    host: true,
     fs: {
       // Mengizinkan Vite untuk melayani file di luar folder apps/web
       // Ini penting agar komponen dari packages/ui bisa terbaca saat dev

@@ -1,20 +1,23 @@
-import type { ForwardRefExoticComponent, RefAttributes } from 'react';
+import { Banknote, CircleDollarSign, LayoutDashboard, type LucideIcon, ShoppingBag, Store, Tag } from 'lucide-react';
 
-import { Banknote, CircleDollarSign, LayoutDashboard, type LucideProps, ShoppingBag, Store, Tag } from 'lucide-react';
+export type NavMeta = {
+  action: string;
+  subject: string;
+};
 
 export type NavItem = {
   title: string;
   url: string;
-  icon: ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>>;
-  meta?: {
-    action: string;
-    subject: string;
-  };
+  icon: LucideIcon;
+  meta?: NavMeta;
+  items?: NavItem[];
+  isActive?: boolean;
 };
 
 export type NavGroup = {
   title?: string;
   items: NavItem[];
+  meta?: NavMeta;
 };
 
 export const navigation: NavGroup[] = [
@@ -35,13 +38,25 @@ export const navigation: NavGroup[] = [
         title: 'Subscription',
         url: '/subscription',
         icon: Banknote,
+        meta: {
+          action: 'read',
+          subject: 'Subscription',
+        },
       },
       {
         title: 'Transaction',
         url: '/transactions',
         icon: CircleDollarSign,
+        meta: {
+          action: 'read',
+          subject: 'Transaction',
+        },
       },
     ],
+    meta: {
+      action: 'read',
+      subject: 'Subscription',
+    },
   },
   {
     title: 'Management Product',

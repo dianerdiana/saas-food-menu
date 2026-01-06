@@ -22,12 +22,19 @@ export function TablePagination({
   onPageChange,
   paginationRange,
 }: TablePaginationProps) {
+  const onClickPrevious = () => {
+    if (hasPrevious) onPageChange(currentPage - 1);
+  };
+  const onClickNext = () => {
+    if (hasNext) onPageChange(currentPage + 1);
+  };
+
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={onClickPrevious}
             aria-disabled={!hasPrevious}
             className='aria-disabled:bg-primary/20 px-2.5! text-primary hover:text-white hover:bg-primary hover:aria-disabled:text-primary aria-disabled:cursor-default'
           />
@@ -49,7 +56,7 @@ export function TablePagination({
 
         <PaginationItem>
           <PaginationNext
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={onClickNext}
             aria-disabled={!hasNext}
             className='aria-disabled:bg-primary/20 px-2.5! text-primary hover:text-white hover:bg-primary hover:aria-disabled:text-primary aria-disabled:cursor-default'
           />
