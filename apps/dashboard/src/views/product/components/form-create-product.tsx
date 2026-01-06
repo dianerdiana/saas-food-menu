@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Controller, type SubmitErrorHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,25 +9,28 @@ import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from
 import { toast } from '@workspace/ui/components/sonner';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ClipboardList, Link, Tag } from 'lucide-react';
+import { CircleDollarSign, ClipboardList, Link, Tag } from 'lucide-react';
 
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
+
+import { ImageUpload } from './image-product-upload';
+import { SelectCategory } from './select-category';
 
 import { useCreateProduct } from '../api/product.mutation';
 import { createProductSchema } from '../schema/create-product.schema';
 import type { CreateProductType } from '../types/create-product.type';
-import { ImageUpload } from './image-product-upload';
-import { SelectCategory } from './select-category';
 
 export function FormCreateProduct() {
-  const { control, handleSubmit } = useForm<CreateProductType>({
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
+  const { control, handleSubmit, setError } = useForm<CreateProductType>({
     resolver: zodResolver(createProductSchema),
     mode: 'onChange',
     defaultValues: {
       name: '',
       slug: '',
       description: '',
-      image: '',
+      price: '',
       categoryId: '',
     },
   });
@@ -34,11 +38,20 @@ export function FormCreateProduct() {
   const navigate = useNavigate();
 
   const onSubmit = (data: CreateProductType) => {
+    const priceNumber = Number(data.price);
+
+    if (typeof priceNumber !== 'number') {
+      setError('price', { message: 'Price should be a valid number' }, { shouldFocus: true });
+      return;
+    }
+
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('slug', data.slug);
-    formData.append('image', data.image);
+    formData.append('price', data.price);
+    formData.append('categoryId', data.categoryId);
 
+    if (imageFile) formData.append('image', imageFile);
     if (data.description) formData.append('description', data.description);
 
     mutate(formData, {
@@ -123,8 +136,38 @@ export function FormCreateProduct() {
                   )}
                 />
 
+                {/* Product Price */}
+                <Controller
+                  control={control}
+                  name='price'
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor={`product-create-${field.name}`}>
+                        Price <span className='text-destructive'>*</span>
+                      </FieldLabel>
+                      <InputGroup>
+                        <InputGroupInput
+                          {...field}
+                          id={`product-create-${field.name}`}
+                          aria-invalid={fieldState.invalid}
+                          placeholder='10000'
+                          autoComplete='off'
+                        />
+                        <InputGroupAddon>
+                          <CircleDollarSign />
+                        </InputGroupAddon>
+                      </InputGroup>
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                  )}
+                />
+
                 {/* Product Category */}
-                <Controller control={control} name='categoryId' render={() => <SelectCategory />} />
+                <Controller
+                  control={control}
+                  name='categoryId'
+                  render={({ field }) => <SelectCategory onSelect={field.onChange} />}
+                />
 
                 {/* Description */}
                 <Controller
@@ -132,9 +175,7 @@ export function FormCreateProduct() {
                   name='description'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`product-create-${field.name}`}>
-                        Description <span className='text-destructive'>*</span>
-                      </FieldLabel>
+                      <FieldLabel htmlFor={`product-create-${field.name}`}>Description</FieldLabel>
                       <InputGroup>
                         <InputGroupTextarea
                           {...field}
@@ -154,11 +195,7 @@ export function FormCreateProduct() {
             </form>
           </div>
           <div className='place-items-center col-span-2 order-1 lg:order-2 lg:col-span-1'>
-            <Controller
-              control={control}
-              name='image'
-              render={({ field }) => <ImageUpload onChange={field.onChange} />}
-            />
+            <ImageUpload onChange={setImageFile} />
           </div>
         </div>
       </CardContent>

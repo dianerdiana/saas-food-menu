@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@workspace/ui/components/button';
 import { toast } from '@workspace/ui/components/sonner';
 
-import { Camera } from 'lucide-react';
+import { Camera, Soup } from 'lucide-react';
 
 interface ImageUploadProps {
   defaultValue?: string | null;
@@ -46,7 +46,15 @@ export function ImageUpload({ defaultValue = null, onChange }: ImageUploadProps)
         <input type='file' className='hidden' ref={fileInputRef} accept='image/*' onChange={handleImageChange} />
 
         <div className='size-40 overflow-hidden bg-primary/20 rounded-full flex items-center justify-center border-2 border-muted'>
-          <img src={preview || defaultImage} alt='store-preview' className='w-full h-full object-center object-cover' />
+          {preview ? (
+            <img
+              src={preview || defaultImage}
+              alt='store-preview'
+              className='w-full h-full object-center object-cover'
+            />
+          ) : (
+            <Soup className='stroke-primary size-20' />
+          )}
         </div>
 
         <Button

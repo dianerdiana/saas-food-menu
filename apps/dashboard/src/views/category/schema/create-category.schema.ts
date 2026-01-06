@@ -1,6 +1,6 @@
 import z from 'zod';
 
-import { imageRequiredSchema } from '@/utils/global-schema';
+import { imageRequiredSchema } from '@/schemas/global-schema';
 
 export const createCategorySchema = z.object({
   name: z.string().min(1),

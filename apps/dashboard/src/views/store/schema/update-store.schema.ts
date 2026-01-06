@@ -1,6 +1,6 @@
 import z from 'zod';
 
-import { phoneNumberSchema } from '@/utils/global-schema';
+import { phoneNumberSchema } from '@/schemas/global-schema';
 
 export const updateStoreSchema = z.object({
   name: z.string().min(1, 'Store name is required'),
