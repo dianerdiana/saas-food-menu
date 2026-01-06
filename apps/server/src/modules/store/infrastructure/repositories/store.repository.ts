@@ -34,19 +34,28 @@ export class StoreRepository {
     return this.repository.findOneBy({ phone });
   }
 
-  async findAll({ limit, skip }: PaginationDto) {
-    return this.repository.findAndCount({
-      take: limit,
-      skip,
-    });
+  async findAll({ limit, skip, search }: PaginationDto) {
+    const query = this.repository.createQueryBuilder('store');
+
+    if (search) {
+      query.andWhere('(store.name ILIKE :search or store.slug ILIKE :search)', { search: `%${search}%` });
+    }
+
+    query.take(limit).skip(skip);
+
+    return query.getManyAndCount();
   }
 
-  async findAllOwned({ limit, skip }: PaginationDto, userId: string) {
-    return this.repository.findAndCount({
-      where: { ownerId: userId },
-      take: limit,
-      skip,
-    });
+  async findAllOwned({ limit, skip, search }: PaginationDto, userId: string) {
+    const query = this.repository.createQueryBuilder('store');
+
+    if (search) {
+      query.andWhere('(store.name ILIKE :search or store.slug ILIKE :search)', { search: `%${search}%` });
+    }
+
+    query.andWhere('store.owner_id=:user_id', { user_id: userId }).take(limit).skip(skip);
+
+    return query.getManyAndCount();
   }
 
   async countAllOwned(userId: string) {
