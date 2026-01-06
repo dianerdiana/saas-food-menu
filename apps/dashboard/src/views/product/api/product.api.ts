@@ -1,21 +1,21 @@
 import { jwt } from '@/configs/api.config';
 
+import type { ApiResponse } from '@/types/api-response.type';
 import type { PaginationType } from '@/types/pagination';
-import type { ResponseApi } from '@/types/response-api.type';
 import { handleErrorApi } from '@/utils/handle-error-api';
 
 import type { Product } from '../types/product.type';
 
-export const getAllProduct = async (params: PaginationType): Promise<ResponseApi<Product[]>> => {
+export const getAllProduct = async (params: PaginationType): Promise<ApiResponse<Product[]>> => {
   try {
-    const response = await jwt.get<ResponseApi<Product[]>>('/products', { params });
+    const response = await jwt.get<ApiResponse<Product[]>>('/products', { params });
     return response.data;
   } catch (error) {
     return handleErrorApi(error);
   }
 };
 
-export const getProductById = async (productId: string): Promise<ResponseApi<Product>> => {
+export const getProductById = async (productId: string): Promise<ApiResponse<Product>> => {
   try {
     const response = await jwt.get(`/products/id/${productId}`);
     return response.data;
@@ -24,7 +24,7 @@ export const getProductById = async (productId: string): Promise<ResponseApi<Pro
   }
 };
 
-export const createProduct = async (payload: FormData): Promise<ResponseApi<Product>> => {
+export const createProduct = async (payload: FormData): Promise<ApiResponse<Product>> => {
   try {
     const response = await jwt.post('/products', payload, {
       headers: {
@@ -37,7 +37,7 @@ export const createProduct = async (payload: FormData): Promise<ResponseApi<Prod
   }
 };
 
-export const updateProduct = async (payload: FormData, productId: string): Promise<ResponseApi<Product>> => {
+export const updateProduct = async (payload: FormData, productId: string): Promise<ApiResponse<Product>> => {
   try {
     const response = await jwt.put(`/products/${productId}`, payload, {
       headers: {

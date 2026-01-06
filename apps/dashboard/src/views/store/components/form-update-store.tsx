@@ -10,14 +10,15 @@ import { toast } from '@workspace/ui/components/sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ClipboardList, MapPin, PhoneCall, Store, Tag } from 'lucide-react';
 
-import { useUpdateStore } from '../api/store.mutation';
-import type { StoreModel } from '../models/store.model';
-import { updateStoreSchema } from '../schema/update-store.schema';
-import type { UpdateStoreType } from '../types/update-store.type';
 import { ImageUpload } from './image-store-upload';
 
+import { useUpdateStore } from '../api/store.mutation';
+import type { StoreResponse } from '../responses/store-response';
+import { updateStoreSchema } from '../schema/update-store.schema';
+import type { UpdateStoreType } from '../types/update-store.type';
+
 type FormUpdateStoreProps = {
-  store: StoreModel;
+  store: StoreResponse;
 };
 
 export function FormUpdateStore({ store }: FormUpdateStoreProps) {

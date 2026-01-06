@@ -1,20 +1,20 @@
 import { jwt } from '@/configs/api.config';
 
+import type { ApiResponse } from '@/types/api-response.type';
 import type { PaginationType } from '@/types/pagination';
-import type { ResponseApi } from '@/types/response-api.type';
 import { handleErrorApi } from '@/utils/handle-error-api';
 
 import type { Store } from '../types/store.type';
 
-export const getAllStore = async (params: PaginationType): Promise<ResponseApi<Store[]>> => {
+export const getAllStore = async (params: PaginationType): Promise<ApiResponse<Store[]>> => {
   try {
-    const response = await jwt.get<ResponseApi<Store[]>>('/stores', { params });
+    const response = await jwt.get<ApiResponse<Store[]>>('/stores', { params });
     return response.data;
   } catch (error) {
     return handleErrorApi(error);
   }
 };
-export const getStoreById = async (storeId: string): Promise<ResponseApi<Store>> => {
+export const getStoreById = async (storeId: string): Promise<ApiResponse<Store>> => {
   try {
     const response = await jwt.get(`/stores/id/${storeId}`);
     return response.data;
@@ -23,7 +23,7 @@ export const getStoreById = async (storeId: string): Promise<ResponseApi<Store>>
   }
 };
 
-export const getStoreBySlug = async (slug: string): Promise<ResponseApi<Store | null>> => {
+export const getStoreBySlug = async (slug: string): Promise<ApiResponse<Store | null>> => {
   try {
     const response = await jwt.get(`/stores/slug/${slug}`);
     return response.data;
@@ -32,7 +32,7 @@ export const getStoreBySlug = async (slug: string): Promise<ResponseApi<Store | 
   }
 };
 
-export const createStore = async (payload: FormData): Promise<ResponseApi<Store>> => {
+export const createStore = async (payload: FormData): Promise<ApiResponse<Store>> => {
   try {
     const response = await jwt.post('/stores', payload, {
       headers: {
@@ -45,7 +45,7 @@ export const createStore = async (payload: FormData): Promise<ResponseApi<Store>
   }
 };
 
-export const updateStore = async (payload: FormData, storeId: string): Promise<ResponseApi<Store>> => {
+export const updateStore = async (payload: FormData, storeId: string): Promise<ApiResponse<Store>> => {
   try {
     const response = await jwt.put(`/stores/${storeId}`, payload, {
       headers: {

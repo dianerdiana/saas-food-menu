@@ -5,19 +5,20 @@ import { jwt } from '@/configs/api.config';
 import type { AxiosResponse } from 'axios';
 
 import type { AbilityRule } from '@/types/ability-rule';
-import type { ResponseApi } from '@/types/response-api.type';
+import type { ApiResponse } from '@/types/api-response.type';
 import type { UserData } from '@/types/user-data.type';
-import type { SignInModel } from '@/views/auth/models/signin.model';
+import type { SignInResponse } from '@/views/auth/responses/signin-response';
+
+import { AbilityContext } from './ability-context';
 
 import { createAbility } from '../create-mongo-ability';
 import { handleErrorApi } from '../handle-error-api';
-import { AbilityContext } from './ability-context';
 
 type AuthContextType = {
   isAuthenticated: boolean;
   isInitialLoading: boolean;
-  signIn: (credentials: any) => Promise<AxiosResponse<ResponseApi<SignInModel>>>;
-  signUp: (credentials: any) => Promise<AxiosResponse<ResponseApi<SignInModel>>>;
+  signIn: (credentials: any) => Promise<AxiosResponse<ApiResponse<SignInResponse>>>;
+  signUp: (credentials: any) => Promise<AxiosResponse<ApiResponse<SignInResponse>>>;
   signOut: () => void;
   changeStore: (storeId: string) => Promise<any>;
   userData: UserData;
@@ -50,7 +51,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const signIn = async (credentials: any): Promise<AxiosResponse<ResponseApi<SignInModel>> | any> => {
+  const signIn = async (credentials: any): Promise<AxiosResponse<ApiResponse<SignInResponse>> | any> => {
     try {
       const response = await jwt.signIn(credentials);
       const { data } = response.data;

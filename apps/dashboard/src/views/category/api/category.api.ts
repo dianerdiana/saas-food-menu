@@ -1,21 +1,21 @@
 import { jwt } from '@/configs/api.config';
 
+import type { ApiResponse } from '@/types/api-response.type';
 import type { PaginationType } from '@/types/pagination';
-import type { ResponseApi } from '@/types/response-api.type';
 import { handleErrorApi } from '@/utils/handle-error-api';
 
 import type { Category } from '../types/category.type';
 
-export const getAllCategory = async (params?: PaginationType): Promise<ResponseApi<Category[]>> => {
+export const getAllCategory = async (params?: PaginationType): Promise<ApiResponse<Category[]>> => {
   try {
-    const response = await jwt.get<ResponseApi<Category[]>>('/categories', { params });
+    const response = await jwt.get<ApiResponse<Category[]>>('/categories', { params });
     return response.data;
   } catch (error) {
     return handleErrorApi(error);
   }
 };
 
-export const getCategoryById = async (categoryId: string): Promise<ResponseApi<Category>> => {
+export const getCategoryById = async (categoryId: string): Promise<ApiResponse<Category>> => {
   try {
     const response = await jwt.get(`/categories/id/${categoryId}`);
     return response.data;
@@ -24,7 +24,7 @@ export const getCategoryById = async (categoryId: string): Promise<ResponseApi<C
   }
 };
 
-export const createCategory = async (payload: FormData): Promise<ResponseApi<Category>> => {
+export const createCategory = async (payload: FormData): Promise<ApiResponse<Category>> => {
   try {
     const response = await jwt.post('/categories', payload, {
       headers: {
@@ -37,7 +37,7 @@ export const createCategory = async (payload: FormData): Promise<ResponseApi<Cat
   }
 };
 
-export const updateCategory = async (payload: FormData, categoryId: string): Promise<ResponseApi<Category>> => {
+export const updateCategory = async (payload: FormData, categoryId: string): Promise<ApiResponse<Category>> => {
   try {
     const response = await jwt.put(`/categories/${categoryId}`, payload, {
       headers: {

@@ -7,7 +7,7 @@ export type PaginationMeta = {
   totalPages: number;
 };
 
-export type ResponseApi<T> = {
+export type ApiResponse<T> = {
   status?: keyof typeof RESPONSE_STATUS;
   message?: string;
   data?: T;

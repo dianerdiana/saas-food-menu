@@ -1,4 +1,4 @@
-export type StoreModel = {
+export type StoreResponse = {
   id: string;
   name: string;
   slug: string;
