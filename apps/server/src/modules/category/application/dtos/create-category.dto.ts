@@ -8,5 +8,9 @@ export class CreateCategoryDto extends SlugRequiredDto {
 
   @IsString()
   @IsOptional()
+  storeId?: string;
+
+  @IsString()
+  @IsOptional()
   description?: string | null;
 }

@@ -18,9 +18,11 @@ export class CreateCategoryUseCase {
 
   async execute(createCategoryDto: CreateCategoryDto & ImageOptionalDto, authUser: AuthUser, ability: AppAbility) {
     const { storeId, userId } = authUser;
+    const { slug, storeId: payloadStoreId } = createCategoryDto;
+    const categoryStoreId = ability.can(Action.Manage, Subject.Category) && payloadStoreId ? payloadStoreId : storeId;
 
-    const existingStoreSlug = await this.categoryRepository.findBySlugAndStoreId(createCategoryDto.slug, storeId);
-    if (existingStoreSlug) throw new BadRequestException('Categories slug is already exist');
+    const existingCategorySlug = await this.categoryRepository.findBySlugAndStoreId(slug, storeId);
+    if (existingCategorySlug) throw new BadRequestException('Categories slug is already exist');
 
     const ownedCategoriesCount = await this.categoryRepository.countAllOwned(storeId);
     const maxCategories = ability.can(Action.Manage, Subject.Category) ? null : MAX_CATEGORIES;
@@ -31,7 +33,7 @@ export class CreateCategoryUseCase {
 
     const category = this.categoryRepository.create({
       ...createCategoryDto,
-      storeId,
+      storeId: categoryStoreId,
       createdBy: userId,
       status: CATEGORY_STATUS.active,
     });
