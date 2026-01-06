@@ -29,7 +29,7 @@ export function TablePagination({
           <PaginationPrevious
             onClick={() => onPageChange(currentPage - 1)}
             aria-disabled={!hasPrevious}
-            className='aria-disabled:bg-primary-slate px-2.5! text-primary hover:text-white hover:bg-primary hover:aria-disabled:text-primary aria-disabled:cursor-default'
+            className='aria-disabled:bg-primary/20 px-2.5! text-primary hover:text-white hover:bg-primary hover:aria-disabled:text-primary aria-disabled:cursor-default'
           />
         </PaginationItem>
 
@@ -51,7 +51,7 @@ export function TablePagination({
           <PaginationNext
             onClick={() => onPageChange(currentPage + 1)}
             aria-disabled={!hasNext}
-            className='aria-disabled:bg-primary-slate px-2.5! text-primary hover:text-white hover:bg-primary hover:aria-disabled:text-primary aria-disabled:cursor-default'
+            className='aria-disabled:bg-primary/20 px-2.5! text-primary hover:text-white hover:bg-primary hover:aria-disabled:text-primary aria-disabled:cursor-default'
           />
         </PaginationItem>
       </PaginationContent>

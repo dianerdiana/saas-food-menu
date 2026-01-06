@@ -10,7 +10,7 @@ export function EmptyStore() {
     <Card>
       <CardContent>
         <div className='flex items-center justify-center flex-col gap-y-5 py-6'>
-          <div className='bg-primary-slate rounded-sm p-10'>
+          <div className='bg-primary/20 rounded-sm p-10'>
             <Store className='stroke-primary' size={40} />
           </div>
           <p className='text-accent-foreground'>You don't have any store yet</p>

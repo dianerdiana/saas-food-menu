@@ -23,7 +23,7 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
         <CarouselContent className="w-full">
           {products.map((product, index) => (
             <CarouselItem key={index} className="w-fit basis-1/2 lg:basis-2/5">
-              <div className=" p-3 pb-5 bg-white hover:bg-primary-slate rounded-xl border border-background hover:border-yellow-500 transition-all duration-300">
+              <div className=" p-3 pb-5 bg-white hover:bg-primary/20 rounded-xl border border-background hover:border-yellow-500 transition-all duration-300">
                 <a href="/details">
                   <div className="flex flex-col w-full shrink-0 gap-2.5">
                     <div className="relative flex w-full h-37.5 shrink-0 rounded-xl bg-accent overflow-hidden">

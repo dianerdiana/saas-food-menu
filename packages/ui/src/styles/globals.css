@@ -11,7 +11,6 @@
 
 :root {
   --primary: oklch(73.25% 0.183 51.39); /* #FF801A */
-  --primary-slate: oklch(98.04% 0.013 63.93); /* #fff7f0*/
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(79.72% 0.165 80.44); /* #f3af00 */
   --secondary-foreground: oklch(0.205 0 0);
@@ -51,7 +50,6 @@
 
 .dark {
   --primary: oklch(73.25% 0.183 51.39);
-  --primary-slate: oklch(98.04% 0.013 63.93); /* #fff7f0*/
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -93,7 +91,6 @@
   --default-font-family: font-poppins;
 
   --color-primary: var(--primary);
-  --color-primary-slate: oklch(98.04% 0.013 63.93); /* #fff7f0*/
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);

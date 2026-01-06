@@ -45,7 +45,7 @@ export function ImageUpload({ defaultValue = null, onChange }: ImageUploadProps)
       <div className='relative inline-block'>
         <input type='file' className='hidden' ref={fileInputRef} accept='image/*' onChange={handleImageChange} />
 
-        <div className='size-40 overflow-hidden bg-primary-slate rounded-full flex items-center justify-center border-2 border-muted'>
+        <div className='size-40 overflow-hidden bg-primary/20 rounded-full flex items-center justify-center border-2 border-muted'>
           <img src={preview || defaultImage} alt='store-preview' className='w-full h-full object-center object-cover' />
         </div>
 
