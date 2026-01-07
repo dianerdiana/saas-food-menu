@@ -1,4 +1,13 @@
-import { Banknote, CircleDollarSign, LayoutDashboard, type LucideIcon, ShoppingBag, Store, Tag } from 'lucide-react';
+import {
+  Banknote,
+  BookHeart,
+  CircleDollarSign,
+  LayoutDashboard,
+  type LucideIcon,
+  ShoppingBag,
+  Store,
+  Tag,
+} from 'lucide-react';
 
 export type NavMeta = {
   action: string;
@@ -70,6 +79,11 @@ export const navigation: NavGroup[] = [
         title: 'Product',
         url: '/products',
         icon: ShoppingBag,
+      },
+      {
+        title: 'Recommendation',
+        url: '/recommendations',
+        icon: BookHeart,
       },
     ],
   },

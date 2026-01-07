@@ -1,16 +1,21 @@
 import { lazy } from 'react';
 import { type RouteObject, createBrowserRouter, redirect } from 'react-router-dom';
 
-// Components
 import { PrivateRoute } from '@/components/private-route.tsx';
 import { PublicRoute } from '@/components/public-route.tsx';
-// Layouts
 import { BlankLayout } from '@/layouts/blank-layout.tsx';
 import { VerticalLayout } from '@/layouts/vertical-layout.tsx';
-// Types
 import type { AppRoute, RouteMeta } from '@/types/route.type';
 
-import { AuthRoute, CategoryRoute, DashboardRoute, ProductRoute, StoreRoute, SubscriptionRoute } from './routes';
+import {
+  AuthRoute,
+  CategoryRoute,
+  DashboardRoute,
+  ProductRoute,
+  RecommendationRoute,
+  StoreRoute,
+  SubscriptionRoute,
+} from './routes';
 
 const LazyApp = lazy(() => import('../app.tsx'));
 
@@ -32,6 +37,7 @@ const routes = [
   ...StoreRoute,
   ...CategoryRoute,
   ...ProductRoute,
+  ...RecommendationRoute,
 ];
 
 const mergeLayoutRoutes = (layout: string, defaultLayout: string): AppRoute[] => {

@@ -25,10 +25,10 @@ export class CreateRecommendationUseCase {
     const { storeId, userId } = authUser;
     const { productIds } = createRecommendationDto;
 
-    const ownedCategoriesCount = await this.recommendationRepository.countAllOwned(storeId);
-    const maxCategories = ability.can(Action.Manage, Subject.Recommendation) ? null : MAX_RECOMMENDATIONS;
+    const ownedRecommendations = await this.recommendationRepository.countAllOwned(storeId);
+    const maxRecommendations = ability.can(Action.Manage, Subject.Recommendation) ? null : MAX_RECOMMENDATIONS;
 
-    if (maxCategories !== null && ownedCategoriesCount >= maxCategories) {
+    if (maxRecommendations !== null && ownedRecommendations >= maxRecommendations) {
       throw new BadRequestException('You already reached recommendation limit');
     }
 
