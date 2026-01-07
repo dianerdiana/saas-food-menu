@@ -2,21 +2,21 @@ import { useQuery } from '@tanstack/react-query';
 
 import type { PaginationType } from '@/types/pagination';
 
-import { getAllProduct, getProductById } from './recommendation.api';
-import { productKeys } from './recommendation.key';
+import { getAllRecommendation, getRecommendationById } from './recommendation.api';
+import { recommendationKeys } from './recommendation.key';
 
-export const useGetAllProduct = (params: PaginationType) => {
+export const useGetAllRecommendation = (params: PaginationType) => {
   return useQuery({
-    queryKey: productKeys.list(params),
-    queryFn: () => getAllProduct(params),
+    queryKey: recommendationKeys.list(params),
+    queryFn: () => getAllRecommendation(params),
     retry: 1,
   });
 };
 
-export const useGetProductById = (categoryId: string) => {
+export const useGetRecommendationById = (categoryId: string) => {
   return useQuery({
-    queryKey: productKeys.detail(categoryId),
-    queryFn: () => getProductById(categoryId),
+    queryKey: recommendationKeys.detail(categoryId),
+    queryFn: () => getRecommendationById(categoryId),
     retry: 1,
   });
 };

@@ -1,44 +1,45 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { createProduct, deleteProduct, updateProduct } from './recommendation.api';
-import { productKeys } from './recommendation.key';
+import { createRecommendation, deleteRecommendation, updateRecommendation } from './recommendation.api';
+import { recommendationKeys } from './recommendation.key';
 
-export const useCreateProduct = () => {
+export const useCreateRecommendation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: createProduct,
+    mutationFn: createRecommendation,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: productKeys.create(),
+        queryKey: recommendationKeys.create(),
         exact: false,
       });
     },
   });
 };
 
-export const useUpdateProduct = () => {
+export const useUpdateRecommendation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ payload, productId }: { payload: FormData; productId: string }) => updateProduct(payload, productId),
+    mutationFn: ({ payload, recommendationId }: { payload: FormData; recommendationId: string }) =>
+      updateRecommendation(payload, recommendationId),
     onSuccess: (payload) => {
       queryClient.invalidateQueries({
-        queryKey: productKeys.detail(payload.data?.id || ''),
+        queryKey: recommendationKeys.detail(payload.data?.id || ''),
         exact: false,
       });
     },
   });
 };
 
-export const useDeleteProduct = () => {
+export const useDeleteRecommendation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: deleteProduct,
+    mutationFn: deleteRecommendation,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: productKeys.lists(),
+        queryKey: recommendationKeys.lists(),
         exact: false,
       });
     },

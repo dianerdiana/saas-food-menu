@@ -1,6 +1,6 @@
 import z from 'zod';
 
-export const createProductSchema = z.object({
+export const createRecommendationSchema = z.object({
   name: z.string().min(1),
   slug: z.string().min(1),
   price: z.string().min(1, 'Harga wajib diisi'),

@@ -1,9 +1,9 @@
-export type Product = {
+import type { Product } from '@/views/product/types/product.type';
+import type { Store } from '@/views/store/types/store.type';
+
+export type Recommendation = {
   id: string;
   name: string;
-  slug: string;
-  image: string;
-  price: number;
-  description?: string | null;
-  status: string;
+  store: Store;
+  products: Product[];
 };

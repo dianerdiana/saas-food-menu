@@ -11,18 +11,18 @@ import { toast } from '@workspace/ui/components/sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ClipboardList, Link, Tag } from 'lucide-react';
 
-import { useUpdateProduct } from '../api/recommendation.mutation';
-import { updateProductSchema } from '../schema/update-recommendation.schema';
-import type { Product } from '../types/recommendation.type';
-import type { UpdateProductType } from '../types/update-recommendation.type';
+import { useUpdateRecommendation } from '../api/recommendation.mutation';
+import { updateRecommendationSchema } from '../schema/update-recommendation.schema';
+import type { Recommendation } from '../types/recommendation.type';
+import type { UpdateRecommendationType } from '../types/update-recommendation.type';
 
-type FormUpdateProductProps = {
-  product: Product;
+type FormUpdateRecommendationProps = {
+  recommendation: Recommendation;
 };
 
-export function FormUpdateProduct({ product }: FormUpdateProductProps) {
-  const { control, reset, handleSubmit } = useForm<UpdateProductType>({
-    resolver: zodResolver(updateProductSchema),
+export function FormUpdateRecommendation({ recommendation }: FormUpdateRecommendationProps) {
+  const { control, reset, handleSubmit } = useForm<UpdateRecommendationType>({
+    resolver: zodResolver(updateRecommendationSchema),
     defaultValues: {
       name: '',
       slug: '',
@@ -30,10 +30,10 @@ export function FormUpdateProduct({ product }: FormUpdateProductProps) {
     },
   });
 
-  const { mutate, isPending } = useUpdateProduct();
+  const { mutate, isPending } = useUpdateRecommendation();
   const navigate = useNavigate();
 
-  const onSubmit = (data: UpdateProductType) => {
+  const onSubmit = (data: UpdateRecommendationType) => {
     const formData = new FormData();
 
     formData.append('name', data.name);
@@ -42,12 +42,12 @@ export function FormUpdateProduct({ product }: FormUpdateProductProps) {
     if (data.description) formData.append('description', data.description);
 
     mutate(
-      { payload: formData, productId: product.id },
+      { payload: formData, recommendationId: recommendation.id },
       {
         onSuccess: (payload) => {
           if (payload.data) {
             toast.success(payload.message);
-            navigate('/product');
+            navigate('/recommendations');
           }
         },
         onError: (payload) => {
@@ -57,42 +57,40 @@ export function FormUpdateProduct({ product }: FormUpdateProductProps) {
     );
   };
 
-  const onInvalidSubmit: SubmitErrorHandler<UpdateProductType> = (error) => {
+  const onInvalidSubmit: SubmitErrorHandler<UpdateRecommendationType> = (error) => {
     const invalidMessage = Object.entries(error)[0][1].message;
     toast.error(String(invalidMessage));
   };
 
   useEffect(() => {
     reset({
-      name: product.name,
-      slug: product.slug,
-      description: product.description ? product.description : '',
+      name: recommendation.name,
     });
   }, []);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='text-2xl'>Product Detail</CardTitle>
+        <CardTitle className='text-2xl'>Recommendation Detail</CardTitle>
       </CardHeader>
       <CardContent>
         <div className='grid place-content-center gap-4 grid-cols-2'>
           <div className='col-span-2 order-2 lg:order-1 lg:col-span-1'>
-            <form id='form-edit-product' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
+            <form id='form-edit-recommendation' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
               <FieldGroup>
-                {/* Product Name */}
+                {/* Recommendation Name */}
                 <Controller
                   control={control}
                   name='name'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`product-edit-${field.name}`}>
-                        Product Name <span className='text-destructive'>*</span>
+                      <FieldLabel htmlFor={`recommendation-edit-${field.name}`}>
+                        Recommendation Name <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
                         <InputGroupInput
                           {...field}
-                          id={`product-edit-${field.name}`}
+                          id={`recommendation-edit-${field.name}`}
                           data-invalid={fieldState.invalid}
                         />
                         <InputGroupAddon>
@@ -103,19 +101,19 @@ export function FormUpdateProduct({ product }: FormUpdateProductProps) {
                   )}
                 />
 
-                {/* Product Slug */}
+                {/* Recommendation Slug */}
                 <Controller
                   control={control}
                   name='slug'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`product-edit-${field.name}`}>
-                        Product Slug (URL) <span className='text-destructive'>*</span>
+                      <FieldLabel htmlFor={`recommendation-edit-${field.name}`}>
+                        Recommendation Slug (URL) <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
                         <InputGroupInput
                           {...field}
-                          id={`product-edit-${field.name}`}
+                          id={`recommendation-edit-${field.name}`}
                           data-invalid={fieldState.invalid}
                         />
                         <InputGroupAddon>
@@ -132,13 +130,13 @@ export function FormUpdateProduct({ product }: FormUpdateProductProps) {
                   name='description'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`product-edit-${field.name}`}>
+                      <FieldLabel htmlFor={`recommendation-edit-${field.name}`}>
                         Description <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
                         <InputGroupTextarea
                           {...field}
-                          id={`product-edit-${field.name}`}
+                          id={`recommendation-edit-${field.name}`}
                           data-invalid={fieldState.invalid}
                         />
                         <InputGroupAddon>
@@ -155,7 +153,7 @@ export function FormUpdateProduct({ product }: FormUpdateProductProps) {
       </CardContent>
       <CardFooter>
         <Field orientation={'horizontal'} className='justify-end'>
-          <Button type='submit' form='form-edit-product' className='px-10' disabled={isPending}>
+          <Button type='submit' form='form-edit-recommendation' className='px-10' disabled={isPending}>
             Save
           </Button>
         </Field>

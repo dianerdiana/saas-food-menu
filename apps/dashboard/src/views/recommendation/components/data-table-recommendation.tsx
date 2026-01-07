@@ -34,9 +34,9 @@ import { usePagination } from '@/utils/hooks/use-pagination';
 
 import { createColumns } from './columns';
 
-import { useDeleteProduct } from '../api/recommendation.mutation';
-import { useGetAllProduct } from '../api/recommendation.query';
-import type { Product } from '../types/recommendation.type';
+import { useDeleteRecommendation } from '../api/recommendation.mutation';
+import { useGetAllRecommendation } from '../api/recommendation.query';
+import type { Recommendation } from '../types/recommendation.type';
 
 const selectLimitOptions = [
   { label: '10', value: '10' },
@@ -55,32 +55,32 @@ export function DataTableRecommendation() {
     pageSize: 10,
   });
   const [showDialogDelete, setShowDialogDelete] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedRecommendation, setSelectedRecommendation] = useState<Recommendation | null>(null);
 
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
-  const deleteMutation = useDeleteProduct();
+  const deleteMutation = useDeleteRecommendation();
 
   const columns = createColumns({
     showDialogDelete,
-    toggleDelete: (product) => {
-      setSelectedProduct(product);
+    toggleDelete: (recommendation) => {
+      setSelectedRecommendation(recommendation);
       setShowDialogDelete((prev) => !prev);
     },
   });
 
-  const productResponse = useGetAllProduct({
+  const recommendationResponse = useGetAllRecommendation({
     limit: pagination.pageSize,
     page: pagination.pageIndex + 1,
   });
   const { paginationRange, hasPrevious, hasNext } = usePagination({
-    currentPage: productResponse.data?.meta?.page || 1,
-    totalPages: productResponse.data?.meta?.totalPages || 1,
+    currentPage: recommendationResponse.data?.meta?.page || 1,
+    totalPages: recommendationResponse.data?.meta?.totalPages || 1,
   });
 
   const table = useReactTable({
-    data: productResponse.data?.data || [],
+    data: recommendationResponse.data?.data || [],
     columns,
-    rowCount: productResponse.data?.meta?.totalItems,
+    rowCount: recommendationResponse.data?.meta?.totalItems,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
@@ -95,9 +95,9 @@ export function DataTableRecommendation() {
 
   const handleChangeSearchTerm = (event: ChangeEvent<HTMLInputElement>) => setSearchTerm(event.target.value);
   const handleChangePageSize = (value: string) => table.setPageSize(Number(value));
-  const handleDeleteProduct = () => {
-    if (selectedProduct) {
-      deleteMutation.mutate(selectedProduct.id, {
+  const handleDeleteRecommendation = () => {
+    if (selectedRecommendation) {
+      deleteMutation.mutate(selectedRecommendation.id, {
         onSuccess: (payload) => {
           if (payload.status === RESPONSE_STATUS.success) {
             toast.success(payload.message);
@@ -150,9 +150,9 @@ export function DataTableRecommendation() {
                 className='max-w-sm'
               />
               <Button asChild>
-                <Link to={'/products/create'}>
+                <Link to={'/recommendations/create'}>
                   <Plus />
-                  Add Product
+                  Add Recommendation
                 </Link>
               </Button>
             </div>
@@ -214,15 +214,15 @@ export function DataTableRecommendation() {
       <AlertDialog open={showDialogDelete} onOpenChange={setShowDialogDelete}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Product</AlertDialogTitle>
-            <AlertDialogDescription>Are you sure want to delete this product?</AlertDialogDescription>
+            <AlertDialogTitle>Delete Recommendation</AlertDialogTitle>
+            <AlertDialogDescription>Are you sure want to delete this recommendation?</AlertDialogDescription>
           </AlertDialogHeader>
 
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               className='bg-destructive'
-              onClick={handleDeleteProduct}
+              onClick={handleDeleteRecommendation}
               disabled={deleteMutation.isPending}
             >
               Delete

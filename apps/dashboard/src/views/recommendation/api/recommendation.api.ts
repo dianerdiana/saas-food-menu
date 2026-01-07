@@ -4,29 +4,29 @@ import type { ApiResponse } from '@/types/api-response.type';
 import type { PaginationType } from '@/types/pagination';
 import { handleErrorApi } from '@/utils/handle-error-api';
 
-import type { Product } from '../types/recommendation.type';
+import type { Recommendation } from '../types/recommendation.type';
 
-export const getAllProduct = async (params: PaginationType): Promise<ApiResponse<Product[]>> => {
+export const getAllRecommendation = async (params: PaginationType): Promise<ApiResponse<Recommendation[]>> => {
   try {
-    const response = await jwt.get<ApiResponse<Product[]>>('/products', { params });
+    const response = await jwt.get<ApiResponse<Recommendation[]>>('/recommendations', { params });
     return response.data;
   } catch (error) {
     return handleErrorApi(error);
   }
 };
 
-export const getProductById = async (productId: string): Promise<ApiResponse<Product>> => {
+export const getRecommendationById = async (recommendationId: string): Promise<ApiResponse<Recommendation>> => {
   try {
-    const response = await jwt.get(`/products/id/${productId}`);
+    const response = await jwt.get(`/recommendations/id/${recommendationId}`);
     return response.data;
   } catch (error) {
     throw handleErrorApi(error);
   }
 };
 
-export const createProduct = async (payload: FormData): Promise<ApiResponse<Product>> => {
+export const createRecommendation = async (payload: FormData): Promise<ApiResponse<Recommendation>> => {
   try {
-    const response = await jwt.post('/products', payload, {
+    const response = await jwt.post('/recommendations', payload, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -37,9 +37,12 @@ export const createProduct = async (payload: FormData): Promise<ApiResponse<Prod
   }
 };
 
-export const updateProduct = async (payload: FormData, productId: string): Promise<ApiResponse<Product>> => {
+export const updateRecommendation = async (
+  payload: FormData,
+  recommendationId: string,
+): Promise<ApiResponse<Recommendation>> => {
   try {
-    const response = await jwt.put(`/products/${productId}`, payload, {
+    const response = await jwt.put(`/recommendations/${recommendationId}`, payload, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -50,9 +53,9 @@ export const updateProduct = async (payload: FormData, productId: string): Promi
   }
 };
 
-export const deleteProduct = async (productId: string) => {
+export const deleteRecommendation = async (recommendationId: string) => {
   try {
-    const response = await jwt.delete(`/products/${productId}`);
+    const response = await jwt.delete(`/recommendations/${recommendationId}`);
     return response.data;
   } catch (error) {
     return handleErrorApi(error);

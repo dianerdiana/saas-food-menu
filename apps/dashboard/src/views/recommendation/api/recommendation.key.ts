@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export const productKeys = {
-  all: ['products'] as const,
-  lists: () => [...productKeys.all, 'list'] as const,
-  list: (params: any) => [...productKeys.lists(), params] as const,
-  details: () => [...productKeys.all, 'detail'] as const,
-  detail: (id: string) => [...productKeys.details(), id] as const,
-  create: () => [...productKeys.all, 'create'] as const,
-  creates: () => [...productKeys.all, 'creates'] as const,
-  update: () => [...productKeys.all, 'update'] as const,
-  delete: () => [...productKeys.all, 'delete'] as const,
+export const recommendationKeys = {
+  all: ['recommendations'] as const,
+  lists: () => [...recommendationKeys.all, 'list'] as const,
+  list: (params: any) => [...recommendationKeys.lists(), params] as const,
+  details: () => [...recommendationKeys.all, 'detail'] as const,
+  detail: (id: string) => [...recommendationKeys.details(), id] as const,
+  create: () => [...recommendationKeys.all, 'create'] as const,
+  creates: () => [...recommendationKeys.all, 'creates'] as const,
+  update: () => [...recommendationKeys.all, 'update'] as const,
+  delete: () => [...recommendationKeys.all, 'delete'] as const,
 };

@@ -12,13 +12,13 @@ import { CircleDollarSign, ClipboardList, Link, Tag } from 'lucide-react';
 
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
 
-import { useCreateProduct } from '../api/recommendation.mutation';
-import { createProductSchema } from '../schema/create-recommendation.schema';
-import type { CreateProductType } from '../types/create-recommendation.type';
+import { useCreateRecommendation } from '../api/recommendation.mutation';
+import { createRecommendationSchema } from '../schema/create-recommendation.schema';
+import type { CreateRecommendationType } from '../types/create-recommendation.type';
 
-export function FormCreateProduct() {
-  const { control, handleSubmit, setError } = useForm<CreateProductType>({
-    resolver: zodResolver(createProductSchema),
+export function FormCreateRecommendation() {
+  const { control, handleSubmit, setError } = useForm<CreateRecommendationType>({
+    resolver: zodResolver(createRecommendationSchema),
     mode: 'onChange',
     defaultValues: {
       name: '',
@@ -28,10 +28,10 @@ export function FormCreateProduct() {
       categoryId: '',
     },
   });
-  const { mutate, isPending } = useCreateProduct();
+  const { mutate, isPending } = useCreateRecommendation();
   const navigate = useNavigate();
 
-  const onSubmit = (data: CreateProductType) => {
+  const onSubmit = (data: CreateRecommendationType) => {
     const priceNumber = Number(data.price);
 
     if (typeof priceNumber !== 'number') {
@@ -51,7 +51,7 @@ export function FormCreateProduct() {
       onSuccess: (payload) => {
         if (payload.status === RESPONSE_STATUS.success) {
           toast.success(payload.message);
-          navigate('/products');
+          navigate('/recommendations');
         } else {
           toast.error(payload.message);
         }
@@ -62,7 +62,7 @@ export function FormCreateProduct() {
     });
   };
 
-  const onInvalidSubmit: SubmitErrorHandler<CreateProductType> = (error) => {
+  const onInvalidSubmit: SubmitErrorHandler<CreateRecommendationType> = (error) => {
     const invalidMessage = Object.entries(error)[0][1].message;
     toast.error(String(invalidMessage));
   };
@@ -70,28 +70,28 @@ export function FormCreateProduct() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='text-2xl'>Add Product</CardTitle>
+        <CardTitle className='text-2xl'>Add Recommendation</CardTitle>
       </CardHeader>
       <CardContent>
         <div className='grid place-content-center gap-4 grid-cols-2'>
           <div className='col-span-2 order-2 lg:order-1 lg:col-span-1'>
-            <form id='form-create-product' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
+            <form id='form-create-recommendation' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
               <FieldGroup>
-                {/* Product Name */}
+                {/* Recommendation Name */}
                 <Controller
                   control={control}
                   name='name'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`product-create-${field.name}`}>
-                        Product Name <span className='text-destructive'>*</span>
+                      <FieldLabel htmlFor={`recommendation-create-${field.name}`}>
+                        Recommendation Name <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
                         <InputGroupInput
                           {...field}
-                          id={`product-create-${field.name}`}
+                          id={`recommendation-create-${field.name}`}
                           aria-invalid={fieldState.invalid}
-                          placeholder='Product Name'
+                          placeholder='Recommendation Name'
                           autoComplete='off'
                         />
                         <InputGroupAddon>
@@ -103,21 +103,21 @@ export function FormCreateProduct() {
                   )}
                 />
 
-                {/* Product Slug */}
+                {/* Recommendation Slug */}
                 <Controller
                   control={control}
                   name='slug'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`product-create-${field.name}`}>
-                        Product Slug (URL) <span className='text-destructive'>*</span>
+                      <FieldLabel htmlFor={`recommendation-create-${field.name}`}>
+                        Recommendation Slug (URL) <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
                         <InputGroupInput
                           {...field}
-                          id={`product-create-${field.name}`}
+                          id={`recommendation-create-${field.name}`}
                           aria-invalid={fieldState.invalid}
-                          placeholder='Product URL'
+                          placeholder='Recommendation URL'
                           autoComplete='off'
                         />
                         <InputGroupAddon>
@@ -129,19 +129,19 @@ export function FormCreateProduct() {
                   )}
                 />
 
-                {/* Product Price */}
+                {/* Recommendation Price */}
                 <Controller
                   control={control}
                   name='price'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`product-create-${field.name}`}>
+                      <FieldLabel htmlFor={`recommendation-create-${field.name}`}>
                         Price <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
                         <InputGroupInput
                           {...field}
-                          id={`product-create-${field.name}`}
+                          id={`recommendation-create-${field.name}`}
                           aria-invalid={fieldState.invalid}
                           placeholder='10000'
                           autoComplete='off'
@@ -161,11 +161,11 @@ export function FormCreateProduct() {
                   name='description'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`product-create-${field.name}`}>Description</FieldLabel>
+                      <FieldLabel htmlFor={`recommendation-create-${field.name}`}>Description</FieldLabel>
                       <InputGroup>
                         <InputGroupTextarea
                           {...field}
-                          id={`product-create-${field.name}`}
+                          id={`recommendation-create-${field.name}`}
                           aria-invalid={fieldState.invalid}
                           placeholder='Description...'
                           autoComplete='off'
@@ -184,7 +184,7 @@ export function FormCreateProduct() {
       </CardContent>
       <CardFooter>
         <Field orientation={'horizontal'} className='justify-end'>
-          <Button type='submit' form='form-create-product' className='px-10' disabled={isPending}>
+          <Button type='submit' form='form-create-recommendation' className='px-10' disabled={isPending}>
             Save
           </Button>
         </Field>
