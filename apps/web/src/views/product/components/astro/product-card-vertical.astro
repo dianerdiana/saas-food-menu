@@ -9,7 +9,7 @@ const { product } = Astro.props;
 ---
 
 <div
-  class="p-3 pb-5 bg-white hover:bg-primary/20 rounded-xl border border-background hover:border-yellow-500 transition-all duration-300"
+  class="p-3 pb-5 bg-white hover:bg-primary/20 rounded-xl border border-background hover:border-primary transition-all duration-300"
 >
   <a href="details.html">
     <div class="flex flex-col w-full shrink-0 gap-2.5">
@@ -25,12 +25,12 @@ const { product } = Astro.props;
         <div
           class="absolute top-1 right-1 flex items-center gap-1 bg-white px-2 py-1 rounded-full"
         >
-          <Star className="text-yellow-500 size-4 fill-yellow-500" />
+          <Star className="text-primary size-4 fill-primary" />
           <p class="text-sm">4.8</p>
         </div>
       </div>
       <div class="flex flex-col gap-1">
-        <p class="text-yellow-500 font-normal text-xs">
+        <p class="text-primary font-normal text-xs line-clamp-1">
           {product.category.name}
         </p>
         <h3 class="text-accent-foreground font-medium text-sm">

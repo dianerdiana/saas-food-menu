@@ -23,7 +23,7 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
         <CarouselContent className="w-full">
           {products.map((product, index) => (
             <CarouselItem key={index} className="w-fit basis-1/2 lg:basis-2/5">
-              <div className=" p-3 pb-5 bg-white hover:bg-primary/20 rounded-xl border border-background hover:border-yellow-500 transition-all duration-300">
+              <div className=" p-3 pb-5 bg-white hover:bg-primary/20 rounded-xl border border-background hover:border-primary transition-all duration-300">
                 <a href="/details">
                   <div className="flex flex-col w-full shrink-0 gap-2.5">
                     <div className="relative flex w-full h-37.5 shrink-0 rounded-xl bg-accent overflow-hidden">
@@ -34,12 +34,12 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
                       />
 
                       <div className="absolute top-1 right-1 flex items-center gap-1 bg-white px-2 py-1 rounded-full">
-                        <Star className="text-yellow-500 size-4 fill-yellow-500" />
+                        <Star className="text-primary size-4 fill-primary" />
                         <p className="text-sm">4.8</p>
                       </div>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <p className="text-yellow-500 font-normal text-xs">
+                      <p className="text-primary font-normal text-xs">
                         {product.category.name}
                       </p>
                       <h3 className="text-accent-foreground font-medium text-sm">
