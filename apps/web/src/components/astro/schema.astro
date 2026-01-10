@@ -1,0 +1,15 @@
+---
+interface SchemaObject {
+  "@context": "https://schema.org";
+  "@type": string;
+  [key: string]: any;
+}
+
+interface Props {
+  data: SchemaObject | SchemaObject[];
+}
+
+const { data } = Astro.props;
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(data)} />

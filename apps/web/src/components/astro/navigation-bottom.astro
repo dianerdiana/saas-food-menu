@@ -1,0 +1,73 @@
+---
+import { cn } from "@workspace/ui/lib/utils";
+import { House, Search, ShoppingCart, User } from "lucide-react";
+
+const pathname = Astro.url.pathname;
+
+const navigation = [
+  {
+    id: "1",
+    name: "Home",
+    icon: House,
+    href: "/",
+  },
+  {
+    id: "2",
+    name: "Cart",
+    icon: ShoppingCart,
+    href: "/cart",
+    count: 6,
+  },
+  {
+    id: "3",
+    name: "Search",
+    icon: Search,
+    href: "/search",
+  },
+  {
+    id: "4",
+    name: "Profile",
+    icon: User,
+    href: "/profile",
+  },
+];
+---
+
+<!-- navigation bottom -->
+<nav class="fixed inset-x-0 bottom-0 max-w-160 z-50 bg-white shadow-sm mx-auto">
+  <ul class="flex items-center justify-between px-8 py-4">
+    {
+      navigation.map((nav) => (
+        <li>
+          <a
+            href={nav.href}
+            class={cn(
+              "flex flex-col items-center gap-2",
+              nav.href === pathname && "text-primary",
+            )}
+          >
+            <div class="relative">
+              <nav.icon
+                className={
+                  nav.href === pathname
+                    ? "stroke-primary fill-primary"
+                    : "stroke-muted-foreground"
+                }
+              />
+              {nav.count ? (
+                <div class="absolute -top-1 -right-2 flex items-center justify-center w-4 h-4 rounded-full bg-primary border border-white">
+                  <p class="text-white font-normal text-[10px]" id="cart-count">
+                    {nav.count}
+                  </p>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            <p class="font-normal text-xs">{nav.name}</p>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
