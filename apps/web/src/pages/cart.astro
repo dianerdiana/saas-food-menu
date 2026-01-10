@@ -1,9 +1,9 @@
 ---
+import BlankLayout from "@/layouts/blank-layout.astro";
+
 import Container from "@/components/astro/container.astro";
 import NavigationTop from "@/components/astro/navigation-top.astro";
-import BlankLayout from "@/layouts/blank-layout.astro";
 import ProductCart from "@/views/product/components/astro/product-cart.astro";
-import { Button } from "@workspace/ui/components/button";
 
 const response = {
   data: [
@@ -46,32 +46,34 @@ const response = {
 ---
 
 <BlankLayout>
-  <main>
+  <main class="pb-32">
     <Container slot="header">
       <NavigationTop title="My Cart" backLink="/" />
+      <div id="Cart" class="flex flex-col gap-3 mt-4 px-5">
+        {response.data.map((product) => <ProductCart product={product} />)}
+      </div>
     </Container>
   </main>
-  <Container>
-    <div id="Cart" class="flex flex-col gap-3 mt-4 px-5">
-      {response.data.map((product) => <ProductCart product={product} />)}
-    </div>
 
-    <div
-      class="fixed inset-x-0 bottom-0 max-w-160 z-50 bg-white shadow-sm mx-auto"
-    >
-      <div class="flex items-center justify-between p-5">
-        <div class="flex flex-col gap-2">
-          <p class="text-muted-foreground font-normal text-sm">Total Price</p>
-          <p class="font-semibold text-lg" id="totalAmount">Rp 0</p>
+  <footer>
+    <Container>
+      <div
+        class="fixed inset-x-0 bottom-0 max-w-160 z-50 bg-white shadow-sm mx-auto"
+      >
+        <div class="flex items-center justify-between py-4 px-5">
+          <div class="flex flex-col gap-2">
+            <p class="text-muted-foreground font-normal text-sm">Total Price</p>
+            <p class="font-semibold text-lg" id="totalAmount">Rp 0</p>
+          </div>
+
+          <a
+            href="/customer-information"
+            class="font-normal py-2.5 px-10 rounded-full bg-primary text-white hover:bg-primary/80"
+          >
+            Checkout
+          </a>
         </div>
-
-        <a
-          href="/customer-information"
-          class="font-normal py-2.5 px-10 rounded-full bg-primary text-white hover:bg-primary/80"
-        >
-          Checkout
-        </a>
-      </div>
-    </div>
-  </Container>
+      </div></Container
+    >
+  </footer>
 </BlankLayout>

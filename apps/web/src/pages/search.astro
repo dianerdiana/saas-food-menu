@@ -1,9 +1,11 @@
 ---
+import BlankLayout from "@/layouts/blank-layout.astro";
+
 import Container from "@/components/astro/container.astro";
+import NavigationBottom from "@/components/astro/navigation-bottom.astro";
 import NavigationTop from "@/components/astro/navigation-top.astro";
-import NavigationLayout from "@/layouts/navigation-layout.astro";
+
 import ProductCardHorizontal from "@/views/product/components/astro/product-card-horizontal.astro";
-import { ArrowLeft } from "lucide-react";
 
 const response = {
   data: [
@@ -43,8 +45,8 @@ const response = {
 };
 ---
 
-<NavigationLayout>
-  <Container slot="header">
+<BlankLayout>
+  <Container>
     <header>
       <NavigationTop title="Search" backLink="/" />
 
@@ -58,16 +60,16 @@ const response = {
         </div>
       </div>
     </header>
-  </Container>
-
-  <!-- search result -->
-  <Container slot="main">
-    <main id="SearchResult" class="flex flex-col gap-4 mt-2.5 px-5">
-      {
-        response.data.map((product) => (
-          <ProductCardHorizontal product={product} />
-        ))
-      }
+    <main class="pb-32">
+      <div id="SearchResult" class="flex flex-col gap-4 mt-2.5 px-5">
+        {
+          response.data.map((product) => (
+            <ProductCardHorizontal product={product} />
+          ))
+        }
+      </div>
     </main>
   </Container>
-</NavigationLayout>
+
+  <NavigationBottom />
+</BlankLayout>
