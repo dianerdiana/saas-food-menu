@@ -3,6 +3,7 @@ import Container from "@/components/astro/container.astro";
 import NavigationTop from "@/components/astro/navigation-top.astro";
 import BlankLayout from "@/layouts/blank-layout.astro";
 import ProductCart from "@/views/product/components/astro/product-cart.astro";
+import { Button } from "@workspace/ui/components/button";
 
 const response = {
   data: [
@@ -45,10 +46,12 @@ const response = {
 ---
 
 <BlankLayout>
-  <Container slot="header">
-    <NavigationTop title="My Cart" backLink="/" />
-  </Container>
-  <Container slot={"main"}>
+  <main>
+    <Container slot="header">
+      <NavigationTop title="My Cart" backLink="/" />
+    </Container>
+  </main>
+  <Container>
     <div id="Cart" class="flex flex-col gap-3 mt-4 px-5">
       {response.data.map((product) => <ProductCart product={product} />)}
     </div>
@@ -64,8 +67,7 @@ const response = {
 
         <a
           href="/customer-information"
-          type="button"
-          class="flex justify-center rounded-full py-3.5 px-7 bg-primary font-normal text-white"
+          class="font-normal py-2.5 px-10 rounded-full bg-primary text-white hover:bg-primary/80"
         >
           Checkout
         </a>
