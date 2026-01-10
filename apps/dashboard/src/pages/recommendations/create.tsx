@@ -1,7 +1,9 @@
+import { FormCreateRecommendation } from '@/views/recommendation/components/form-create-recommendation';
+
 export default function RecommendationCreatePage() {
   return (
     <div>
-      <h1>Form Create Recommendation</h1>
+      <FormCreateRecommendation />
     </div>
   );
 }

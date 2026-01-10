@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Badge } from '@workspace/ui/components/badge';
 import { Button } from '@workspace/ui/components/button';
 import { Checkbox } from '@workspace/ui/components/checkbox';
@@ -8,15 +7,13 @@ import { Checkbox } from '@workspace/ui/components/checkbox';
 import type { ColumnDef } from '@tanstack/react-table';
 import { Edit, Trash2 } from 'lucide-react';
 
-import { formatCurrency } from '@/utils/utility';
-
-import type { Product } from '../types/recommendation.type';
+import type { Recommendation } from '../types/recommendation.type';
 
 type ColumnOptions = {
   showDialogDelete: boolean;
-  toggleDelete: (product: Product) => void;
+  toggleDelete: (recommendation: Recommendation) => void;
 };
-export const createColumns = (options: ColumnOptions): ColumnDef<Product>[] => [
+export const createColumns = (options: ColumnOptions): ColumnDef<Recommendation>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -39,19 +36,8 @@ export const createColumns = (options: ColumnOptions): ColumnDef<Product>[] => [
   },
   {
     id: 'name',
-    accessorKey: 'name',
     header: 'NAME',
-    cell: ({ row }) => (
-      <div className='flex items-center gap-2'>
-        <Avatar className='rounded-sm'>
-          <AvatarImage src={row.original.image} />
-          <AvatarFallback className='rounded-sm'>{row.original.name.split('')[0].toUpperCase()}</AvatarFallback>
-        </Avatar>
-        <div>
-          <p className='text-sm'>{row.original.name}</p>
-        </div>
-      </div>
-    ),
+    accessorKey: 'name',
     size: 250,
   },
   {
@@ -59,13 +45,6 @@ export const createColumns = (options: ColumnOptions): ColumnDef<Product>[] => [
     header: 'STORE',
     accessorKey: 'store.name',
     size: 200,
-  },
-  {
-    id: 'price',
-    header: 'PRICE',
-    accessorKey: 'price',
-    cell: ({ row }) => <p>{formatCurrency(row.original.price)}</p>,
-    size: 150,
   },
   {
     id: 'status',
@@ -93,7 +72,7 @@ export const createColumns = (options: ColumnOptions): ColumnDef<Product>[] => [
           <Trash2 />
         </Button>
         <Button variant={'outline_primary'} className='py-0.5' size={'sm'} asChild>
-          <Link to={`/products/${info.row.original.id}/edit`}>
+          <Link to={`/recommendations/${info.row.original.id}/edit`}>
             <Edit />
           </Link>
         </Button>

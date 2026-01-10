@@ -67,7 +67,7 @@ export class RecommendationController {
     @GetAbillity() ability: AppAbility,
   ) {
     const result = await this.getRecommendationByIdUseCase.execute(id, authUser, ability);
-    return new RecommendationResponse(result);
+    return new RecommendationWithProductsResponse(result);
   }
 
   @UseGuards(PoliciesGuard)

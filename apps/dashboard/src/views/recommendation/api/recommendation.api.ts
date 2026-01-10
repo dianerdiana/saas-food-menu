@@ -4,7 +4,9 @@ import type { ApiResponse } from '@/types/api-response.type';
 import type { PaginationType } from '@/types/pagination';
 import { handleErrorApi } from '@/utils/handle-error-api';
 
+import type { CreateRecommendationType } from '../types/create-recommendation.type';
 import type { Recommendation } from '../types/recommendation.type';
+import type { UpdateRecommendationType } from '../types/update-recommendation.type';
 
 export const getAllRecommendation = async (params: PaginationType): Promise<ApiResponse<Recommendation[]>> => {
   try {
@@ -24,13 +26,9 @@ export const getRecommendationById = async (recommendationId: string): Promise<A
   }
 };
 
-export const createRecommendation = async (payload: FormData): Promise<ApiResponse<Recommendation>> => {
+export const createRecommendation = async (payload: CreateRecommendationType): Promise<ApiResponse<Recommendation>> => {
   try {
-    const response = await jwt.post('/recommendations', payload, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await jwt.post('/recommendations', payload);
     return response.data;
   } catch (error) {
     return handleErrorApi(error);
@@ -38,15 +36,11 @@ export const createRecommendation = async (payload: FormData): Promise<ApiRespon
 };
 
 export const updateRecommendation = async (
-  payload: FormData,
+  payload: UpdateRecommendationType,
   recommendationId: string,
 ): Promise<ApiResponse<Recommendation>> => {
   try {
-    const response = await jwt.put(`/recommendations/${recommendationId}`, payload, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await jwt.put(`/recommendations/${recommendationId}`, payload);
     return response.data;
   } catch (error) {
     throw handleErrorApi(error);

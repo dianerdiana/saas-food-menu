@@ -13,10 +13,10 @@ export const useGetAllRecommendation = (params: PaginationType) => {
   });
 };
 
-export const useGetRecommendationById = (categoryId: string) => {
+export const useGetRecommendationById = (recommendationId: string) => {
   return useQuery({
-    queryKey: recommendationKeys.detail(categoryId),
-    queryFn: () => getRecommendationById(categoryId),
+    queryKey: recommendationKeys.detail(recommendationId),
+    queryFn: () => getRecommendationById(recommendationId),
     retry: 1,
   });
 };

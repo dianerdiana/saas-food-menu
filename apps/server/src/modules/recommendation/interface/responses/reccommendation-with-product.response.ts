@@ -1,5 +1,7 @@
-import { ProductResponse } from '@/modules/product/interface/responses/product.response';
 import { Exclude, Expose, Transform } from 'class-transformer';
+
+import { ProductResponse } from '@/modules/product/interface/responses/product.response';
+import { StoreResponse } from '@/modules/store/interface/responses/store.response';
 
 @Exclude()
 export class RecommendationWithProductsResponse {
@@ -25,6 +27,10 @@ export class RecommendationWithProductsResponse {
       : [],
   )
   products!: ProductResponse[];
+
+  @Expose()
+  @Transform(({ obj }) => new StoreResponse(obj.store))
+  store!: StoreResponse;
 
   constructor(partial: Partial<RecommendationWithProductsResponse>) {
     Object.assign(this, partial);

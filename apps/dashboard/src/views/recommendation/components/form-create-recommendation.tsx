@@ -1,53 +1,53 @@
+import { useState } from 'react';
 import { Controller, type SubmitErrorHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
-import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@workspace/ui/components/input-group';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@workspace/ui/components/select';
 import { toast } from '@workspace/ui/components/sonner';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CircleDollarSign, ClipboardList, Link, Tag } from 'lucide-react';
+import { Tag } from 'lucide-react';
 
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
+
+import { MultiSelectProduct } from './multi-select-product';
 
 import { useCreateRecommendation } from '../api/recommendation.mutation';
 import { createRecommendationSchema } from '../schema/create-recommendation.schema';
 import type { CreateRecommendationType } from '../types/create-recommendation.type';
 
+type OptionItem = { label: string; value: string };
+
 export function FormCreateRecommendation() {
-  const { control, handleSubmit, setError } = useForm<CreateRecommendationType>({
+  const [selectedProducts, setSelectedProducts] = useState<OptionItem[]>([]);
+
+  const { control, handleSubmit, getValues, setValue } = useForm<CreateRecommendationType>({
     resolver: zodResolver(createRecommendationSchema),
     mode: 'onChange',
     defaultValues: {
       name: '',
-      slug: '',
-      description: '',
-      price: '',
-      categoryId: '',
+      displayMode: 'vertical',
+      productIds: [],
     },
   });
+
   const { mutate, isPending } = useCreateRecommendation();
   const navigate = useNavigate();
 
   const onSubmit = (data: CreateRecommendationType) => {
-    const priceNumber = Number(data.price);
-
-    if (typeof priceNumber !== 'number') {
-      setError('price', { message: 'Price should be a valid number' }, { shouldFocus: true });
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('slug', data.slug);
-    formData.append('price', data.price);
-    formData.append('categoryId', data.categoryId);
-
-    if (data.description) formData.append('description', data.description);
-
-    mutate(formData, {
+    mutate(data, {
       onSuccess: (payload) => {
         if (payload.status === RESPONSE_STATUS.success) {
           toast.success(payload.message);
@@ -67,6 +67,21 @@ export function FormCreateRecommendation() {
     toast.error(String(invalidMessage));
   };
 
+  const onSelectProduct = (option: OptionItem) => {
+    const optionValue = option.value;
+    const selectedProducts = getValues('productIds');
+
+    setSelectedProducts((prev) =>
+      prev.find((v) => v.value === optionValue) ? prev.filter((v) => v.value !== optionValue) : [...prev, option],
+    );
+
+    setValue(
+      'productIds',
+      selectedProducts.includes(optionValue)
+        ? selectedProducts.filter((v) => v !== optionValue)
+        : [...selectedProducts, optionValue],
+    );
+  };
   return (
     <Card>
       <CardHeader>
@@ -74,7 +89,7 @@ export function FormCreateRecommendation() {
       </CardHeader>
       <CardContent>
         <div className='grid place-content-center gap-4 grid-cols-2'>
-          <div className='col-span-2 order-2 lg:order-1 lg:col-span-1'>
+          <div className='col-span-4'>
             <form id='form-create-recommendation' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
               <FieldGroup>
                 {/* Recommendation Name */}
@@ -102,78 +117,40 @@ export function FormCreateRecommendation() {
                     </Field>
                   )}
                 />
-
-                {/* Recommendation Slug */}
                 <Controller
+                  name='displayMode'
                   control={control}
-                  name='slug'
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
+                  render={({ field }) => (
+                    <Field>
                       <FieldLabel htmlFor={`recommendation-create-${field.name}`}>
-                        Recommendation Slug (URL) <span className='text-destructive'>*</span>
+                        Select Display Mode <span className='text-destructive'>*</span>
                       </FieldLabel>
-                      <InputGroup>
-                        <InputGroupInput
-                          {...field}
-                          id={`recommendation-create-${field.name}`}
-                          aria-invalid={fieldState.invalid}
-                          placeholder='Recommendation URL'
-                          autoComplete='off'
-                        />
-                        <InputGroupAddon>
-                          <Link />
-                        </InputGroupAddon>
-                      </InputGroup>
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger className='w-45'>
+                          <SelectValue placeholder='Select display mode...' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Display Mode</SelectLabel>
+                            <SelectItem value='vertical'>Vertical</SelectItem>
+                            <SelectItem value='horizontal'>Horizontal</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                     </Field>
                   )}
                 />
-
-                {/* Recommendation Price */}
                 <Controller
+                  name='productIds'
                   control={control}
-                  name='price'
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`recommendation-create-${field.name}`}>
-                        Price <span className='text-destructive'>*</span>
-                      </FieldLabel>
-                      <InputGroup>
-                        <InputGroupInput
-                          {...field}
-                          id={`recommendation-create-${field.name}`}
-                          aria-invalid={fieldState.invalid}
-                          placeholder='10000'
-                          autoComplete='off'
-                        />
-                        <InputGroupAddon>
-                          <CircleDollarSign />
-                        </InputGroupAddon>
-                      </InputGroup>
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
-
-                {/* Description */}
-                <Controller
-                  control={control}
-                  name='description'
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`recommendation-create-${field.name}`}>Description</FieldLabel>
-                      <InputGroup>
-                        <InputGroupTextarea
-                          {...field}
-                          id={`recommendation-create-${field.name}`}
-                          aria-invalid={fieldState.invalid}
-                          placeholder='Description...'
-                          autoComplete='off'
-                        />
-                        <InputGroupAddon>
-                          <ClipboardList />
-                        </InputGroupAddon>
-                      </InputGroup>
+                  render={({ field }) => (
+                    <Field>
+                      <FieldLabel>Select Product</FieldLabel>
+                      <MultiSelectProduct
+                        values={field.value}
+                        onSelect={onSelectProduct}
+                        selectedProducts={selectedProducts}
+                      />
                     </Field>
                   )}
                 />

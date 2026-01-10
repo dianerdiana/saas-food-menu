@@ -51,7 +51,7 @@ export class ProductRepository {
   }
 
   async findAll({ limit, skip, search }: PaginationDto) {
-    const query = this.repository.createQueryBuilder('product').leftJoinAndSelect('product.store', 'product');
+    const query = this.repository.createQueryBuilder('product').leftJoinAndSelect('product.store', 'store');
 
     if (search) {
       query.andWhere('(product.name ILIKE :search or product.slug ILIKE :search)', { search: `%${search}%` });

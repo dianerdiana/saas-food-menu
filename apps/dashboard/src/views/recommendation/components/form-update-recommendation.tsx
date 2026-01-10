@@ -1,32 +1,46 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, type SubmitErrorHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
-import { Field, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
-import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@workspace/ui/components/input-group';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@workspace/ui/components/select';
 import { toast } from '@workspace/ui/components/sonner';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ClipboardList, Link, Tag } from 'lucide-react';
+import { Tag } from 'lucide-react';
+
+import { RESPONSE_STATUS } from '@/utils/constants/response-status';
+
+import { MultiSelectProduct } from './multi-select-product';
 
 import { useUpdateRecommendation } from '../api/recommendation.mutation';
 import { updateRecommendationSchema } from '../schema/update-recommendation.schema';
 import type { Recommendation } from '../types/recommendation.type';
 import type { UpdateRecommendationType } from '../types/update-recommendation.type';
 
-type FormUpdateRecommendationProps = {
-  recommendation: Recommendation;
-};
+type OptionItem = { label: string; value: string };
 
-export function FormUpdateRecommendation({ recommendation }: FormUpdateRecommendationProps) {
-  const { control, reset, handleSubmit } = useForm<UpdateRecommendationType>({
+export function FormUpdateRecommendation({ recommendation }: { recommendation: Recommendation }) {
+  const [selectedProducts, setSelectedProducts] = useState<OptionItem[]>([]);
+
+  const { control, handleSubmit, getValues, setValue, reset } = useForm<UpdateRecommendationType>({
     resolver: zodResolver(updateRecommendationSchema),
+    mode: 'onChange',
     defaultValues: {
       name: '',
-      slug: '',
-      description: '',
+      displayMode: 'vertical',
+      productIds: [],
     },
   });
 
@@ -34,20 +48,15 @@ export function FormUpdateRecommendation({ recommendation }: FormUpdateRecommend
   const navigate = useNavigate();
 
   const onSubmit = (data: UpdateRecommendationType) => {
-    const formData = new FormData();
-
-    formData.append('name', data.name);
-    formData.append('slug', data.slug);
-
-    if (data.description) formData.append('description', data.description);
-
     mutate(
-      { payload: formData, recommendationId: recommendation.id },
+      { payload: data, recommendationId: recommendation.id },
       {
         onSuccess: (payload) => {
-          if (payload.data) {
+          if (payload.status === RESPONSE_STATUS.success) {
             toast.success(payload.message);
             navigate('/recommendations');
+          } else {
+            toast.error(payload.message);
           }
         },
         onError: (payload) => {
@@ -62,21 +71,41 @@ export function FormUpdateRecommendation({ recommendation }: FormUpdateRecommend
     toast.error(String(invalidMessage));
   };
 
+  const onSelectProduct = (option: OptionItem) => {
+    const optionValue = option.value;
+    const selectedProducts = getValues('productIds');
+
+    setSelectedProducts((prev) =>
+      prev.find((v) => v.value === optionValue) ? prev.filter((v) => v.value !== optionValue) : [...prev, option],
+    );
+
+    setValue(
+      'productIds',
+      selectedProducts.includes(optionValue)
+        ? selectedProducts.filter((v) => v !== optionValue)
+        : [...selectedProducts, optionValue],
+    );
+  };
+
   useEffect(() => {
     reset({
       name: recommendation.name,
+      displayMode: recommendation.displayMode,
+      productIds: recommendation.products.map((product) => product.id),
     });
-  }, []);
+
+    setSelectedProducts(recommendation.products.map((product) => ({ label: product.name, value: product.id })));
+  }, [recommendation]);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='text-2xl'>Recommendation Detail</CardTitle>
+        <CardTitle className='text-2xl'>Add Recommendation</CardTitle>
       </CardHeader>
       <CardContent>
         <div className='grid place-content-center gap-4 grid-cols-2'>
-          <div className='col-span-2 order-2 lg:order-1 lg:col-span-1'>
-            <form id='form-edit-recommendation' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
+          <div className='col-span-4'>
+            <form id='form-update-recommendation' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
               <FieldGroup>
                 {/* Recommendation Name */}
                 <Controller
@@ -84,67 +113,63 @@ export function FormUpdateRecommendation({ recommendation }: FormUpdateRecommend
                   name='name'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`recommendation-edit-${field.name}`}>
+                      <FieldLabel htmlFor={`recommendation-update-${field.name}`}>
                         Recommendation Name <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
                         <InputGroupInput
                           {...field}
-                          id={`recommendation-edit-${field.name}`}
-                          data-invalid={fieldState.invalid}
+                          id={`recommendation-update-${field.name}`}
+                          aria-invalid={fieldState.invalid}
+                          placeholder='Recommendation Name'
+                          autoComplete='off'
                         />
                         <InputGroupAddon>
                           <Tag />
                         </InputGroupAddon>
                       </InputGroup>
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                   )}
                 />
-
-                {/* Recommendation Slug */}
                 <Controller
+                  name='displayMode'
                   control={control}
-                  name='slug'
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`recommendation-edit-${field.name}`}>
-                        Recommendation Slug (URL) <span className='text-destructive'>*</span>
+                  render={({ field }) => (
+                    <Field>
+                      <FieldLabel htmlFor={`recommendation-update-${field.name}`}>
+                        Select Display Mode <span className='text-destructive'>*</span>
                       </FieldLabel>
-                      <InputGroup>
-                        <InputGroupInput
-                          {...field}
-                          id={`recommendation-edit-${field.name}`}
-                          data-invalid={fieldState.invalid}
-                        />
-                        <InputGroupAddon>
-                          <Link />
-                        </InputGroupAddon>
-                      </InputGroup>
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger className='w-45'>
+                          <SelectValue placeholder='Select display mode...' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Display Mode</SelectLabel>
+                            <SelectItem value='vertical'>Vertical</SelectItem>
+                            <SelectItem value='horizontal'>Horizontal</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                     </Field>
                   )}
                 />
-
-                {/* Description */}
                 <Controller
+                  name='productIds'
                   control={control}
-                  name='description'
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`recommendation-edit-${field.name}`}>
-                        Description <span className='text-destructive'>*</span>
-                      </FieldLabel>
-                      <InputGroup>
-                        <InputGroupTextarea
-                          {...field}
-                          id={`recommendation-edit-${field.name}`}
-                          data-invalid={fieldState.invalid}
+                  render={({ field }) => {
+                    return (
+                      <Field>
+                        <FieldLabel>Select Product</FieldLabel>
+                        <MultiSelectProduct
+                          values={field.value}
+                          onSelect={onSelectProduct}
+                          selectedProducts={selectedProducts}
                         />
-                        <InputGroupAddon>
-                          <ClipboardList />
-                        </InputGroupAddon>
-                      </InputGroup>
-                    </Field>
-                  )}
+                      </Field>
+                    );
+                  }}
                 />
               </FieldGroup>
             </form>
@@ -153,7 +178,7 @@ export function FormUpdateRecommendation({ recommendation }: FormUpdateRecommend
       </CardContent>
       <CardFooter>
         <Field orientation={'horizontal'} className='justify-end'>
-          <Button type='submit' form='form-edit-recommendation' className='px-10' disabled={isPending}>
+          <Button type='submit' form='form-update-recommendation' className='px-10' disabled={isPending}>
             Save
           </Button>
         </Field>

@@ -17,7 +17,7 @@ export const RecommendationRoute: AppRoute[] = [
     element: <RecommendationCreatePage />,
   },
   {
-    path: '/recommendations/:product_id/edit',
+    path: '/recommendations/:recommendation_id/edit',
     element: <RecommendationEditPage />,
   },
 ];

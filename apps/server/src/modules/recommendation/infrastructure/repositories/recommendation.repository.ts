@@ -32,7 +32,12 @@ export class RecommendationRepository {
   }
 
   async findByIdAndStoreId(id: string, storeId: string) {
-    return this.repository.findOneBy({ id, storeId });
+    return this.repository
+      .createQueryBuilder('recommendation')
+      .leftJoinAndSelect('recommendation.productRecommendations', 'productRecommendation')
+      .leftJoinAndSelect('productRecommendation.product', 'product', 'product.deleted_at IS NULL')
+      .andWhere('recommendation.id=:id AND recommendation.store_id=:store_id', { id, store_id: storeId })
+      .getOne();
   }
 
   async findAllByStoreId({ limit, skip, search }: PaginationDto, storeId: string) {
@@ -40,7 +45,8 @@ export class RecommendationRepository {
 
     query
       .leftJoinAndSelect('recommendation.productRecommendations', 'productRecommendation')
-      .leftJoinAndSelect('productRecommendation.product', 'product', 'product.deleted_at IS NULL');
+      .leftJoinAndSelect('productRecommendation.product', 'product', 'product.deleted_at IS NULL')
+      .leftJoinAndSelect('recommendation.store', 'store', 'store.deleted_at IS NULL');
 
     if (search) {
       query.andWhere('(recommendation.name ILIKE :search)', {
@@ -54,7 +60,12 @@ export class RecommendationRepository {
   }
 
   async findById(id: string) {
-    return this.repository.findOneBy({ id });
+    return this.repository
+      .createQueryBuilder('recommendation')
+      .leftJoinAndSelect('recommendation.productRecommendations', 'productRecommendation')
+      .leftJoinAndSelect('productRecommendation.product', 'product', 'product.deleted_at IS NULL')
+      .andWhere('recommendation.id=:id', { id })
+      .getOne();
   }
 
   async findAll({ limit, skip, search }: PaginationDto) {
@@ -62,7 +73,8 @@ export class RecommendationRepository {
 
     query
       .leftJoinAndSelect('recommendation.productRecommendations', 'productRecommendation')
-      .leftJoinAndSelect('productRecommendation.product', 'product', 'product.deleted_at IS NULL');
+      .leftJoinAndSelect('productRecommendation.product', 'product', 'product.deleted_at IS NULL')
+      .leftJoinAndSelect('recommendation.store', 'store', 'store.deleted_at IS NULL');
 
     if (search) {
       query.andWhere('(recommendation.name ILIKE :search)', {

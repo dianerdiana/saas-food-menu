@@ -3,6 +3,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createRecommendation, deleteRecommendation, updateRecommendation } from './recommendation.api';
 import { recommendationKeys } from './recommendation.key';
 
+import type { UpdateRecommendationType } from '../types/update-recommendation.type';
+
 export const useCreateRecommendation = () => {
   const queryClient = useQueryClient();
 
@@ -21,7 +23,7 @@ export const useUpdateRecommendation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ payload, recommendationId }: { payload: FormData; recommendationId: string }) =>
+    mutationFn: ({ payload, recommendationId }: { payload: UpdateRecommendationType; recommendationId: string }) =>
       updateRecommendation(payload, recommendationId),
     onSuccess: (payload) => {
       queryClient.invalidateQueries({
