@@ -1,0 +1,132 @@
+import axios, { type AxiosResponse } from 'axios';
+
+import { env } from '../env.config';
+import { ApiService } from './api-service';
+import jwtDefaultConfig from './jwt-default-config';
+
+export type JwtServiceConfig = {
+  baseURL?: string;
+  tokenType?: string;
+  storageTokenKeyName?: string;
+};
+
+export class JwtService extends ApiService {
+  jwtConfig = { ...jwtDefaultConfig };
+  accessToken: string | null = null;
+  isAlreadyFetchingAccessToken = false;
+  subscribers: Function[] = [];
+
+  constructor({ baseURL, ...overrideServiceConfig }: JwtServiceConfig) {
+    super({ baseURL });
+    this.jwtConfig = { ...this.jwtConfig, ...overrideServiceConfig };
+
+    this.axin = axios.create({
+      baseURL: this.jwtConfig.baseURL || env.BASE_API_URL || '',
+      withCredentials: true, // WAJIB untuk HttpOnly Cookie
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    this.axin.interceptors.request.use(
+      (config) => {
+        if (this.accessToken) {
+          config.headers.Authorization = `${this.jwtConfig.tokenType} ${this.accessToken}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error),
+    );
+
+    this.axin.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const { config, response } = error;
+        const originalRequest = config;
+
+        if (config.url === this.jwtConfig.refreshTokenUrl) {
+          return Promise.reject(error);
+        }
+
+        // Cek jika error 401 dan bukan request refresh itu sendiri yang error
+        if (response.status === 401 && !originalRequest._retry) {
+          if (!this.isAlreadyFetchingAccessToken) {
+            this.isAlreadyFetchingAccessToken = true;
+
+            this.refreshToken()
+              .then((res) => {
+                this.isAlreadyFetchingAccessToken = false;
+                const newVisibleToken = res.data.accessToken;
+                this.setToken(newVisibleToken);
+                this.onAccessTokenFetched(newVisibleToken);
+              })
+              .catch((err) => {
+                this.isAlreadyFetchingAccessToken = false;
+                this.subscribers = []; // Bersihkan antrean jika refresh gagal
+                this.removeToken();
+                window.location.href = '/signin';
+                return Promise.reject(err);
+              });
+          }
+
+          // Flag agar request ini tidak mengulang refresh jika nanti gagal lagi
+          originalRequest._retry = true;
+
+          return new Promise((resolve) => {
+            this.addSubscriber((token: string) => {
+              originalRequest.headers.Authorization = `${this.jwtConfig.tokenType} ${token}`;
+              resolve(this.axin(originalRequest));
+            });
+          });
+        }
+
+        return Promise.reject(error);
+      },
+    );
+  }
+
+  onAccessTokenFetched(accessToken: string) {
+    this.subscribers.forEach((callback) => callback(accessToken));
+    this.subscribers = [];
+  }
+
+  addSubscriber(callback: Function) {
+    this.subscribers.push(callback);
+  }
+
+  getToken() {
+    return this.accessToken;
+  }
+
+  setToken(token: string) {
+    this.accessToken = token;
+  }
+
+  removeToken() {
+    this.accessToken = null;
+  }
+
+  refreshToken(): Promise<AxiosResponse> {
+    // Gunakan axios instance murni atau instance tanpa interceptor
+    // agar tidak terjadi loop jika endpoint refresh return 401
+    return this.axin.post(this.jwtConfig.refreshTokenUrl, {}, { withCredentials: true });
+  }
+
+  signIn(credentials: any) {
+    return this.axin.post(this.jwtConfig.signInUrl, credentials);
+  }
+
+  signUp(credentials: any) {
+    return this.axin.post(this.jwtConfig.signUpUrl, credentials);
+  }
+
+  signOut() {
+    return this.axin.post(this.jwtConfig.signOutUrl, {}, { withCredentials: true });
+  }
+
+  changeStore(storeId: string) {
+    return this.axin.post(this.jwtConfig.changeStoreUrl, { storeId }, { withCredentials: true });
+  }
+}
+
+export const createJwt = (jwtConfig: JwtServiceConfig) => {
+  return new JwtService(jwtConfig);
+};

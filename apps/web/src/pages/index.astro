@@ -11,6 +11,11 @@ import { CategoryCarousel } from "@/views/category/components/react/category-car
 import { ProductCarousel } from "@/views/product/components/react/product-carousel";
 import ProductCardHorizontal from "@/views/product/components/astro/product-card-horizontal.astro";
 
+import { getHomeData } from "@/services/home";
+
+const homeData = await getHomeData();
+console.log(homeData);
+
 const response = {
   data: {
     store: {
