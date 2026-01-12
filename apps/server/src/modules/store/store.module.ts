@@ -18,6 +18,7 @@ import { GetAllStoreUseCase } from './application/use-case/get-all-store.use-cas
 import { GetStoreByIdUseCase } from './application/use-case/get-store-by-id.use-case';
 import { GetStoreBySlugUseCase } from './application/use-case/get-store-by-slug.use-case';
 import { UpdateStoreUseCase } from './application/use-case/update-store.use-case';
+import { GetStoreProductById } from './application/use-case/get-store-product-by-id.use-case';
 
 import { StorageService } from '@/shared/services/storage.service';
 import { BffStoreService } from './application/services/bff-store.service';
@@ -35,6 +36,7 @@ import { BffStoreService } from './application/services/bff-store.service';
     GetStoreByIdUseCase,
     GetStoreBySlugUseCase,
     UpdateStoreUseCase,
+    GetStoreProductById,
 
     StorageService,
     BffStoreService,

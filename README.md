@@ -1,4 +1,4 @@
-# shadcn/ui monorepo template
+# Tooang Food Menu
 
 This template is for creating a monorepo with shadcn/ui.
 
@@ -29,8 +29,6 @@ To use the components in your app, import them from the `ui` package.
 ```tsx
 import { Button } from "@workspace/ui/components/button";
 ```
-
-# SAAS FOOD MENU
 
 ## ABOUT
 
