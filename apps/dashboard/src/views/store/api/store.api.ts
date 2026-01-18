@@ -14,6 +14,16 @@ export const getAllStore = async (params: PaginationType): Promise<ApiResponse<S
     return handleErrorApi(error);
   }
 };
+
+export const getStoreSelectData = async (params: PaginationType): Promise<ApiResponse<Store[]>> => {
+  try {
+    const response = await jwt.get<ApiResponse<Store[]>>('/stores/select-data', { params });
+    return response.data;
+  } catch (error) {
+    return handleErrorApi(error);
+  }
+};
+
 export const getStoreById = async (storeId: string): Promise<ApiResponse<Store>> => {
   try {
     const response = await jwt.get(`/stores/id/${storeId}`);

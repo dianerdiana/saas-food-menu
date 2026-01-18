@@ -26,7 +26,7 @@ import { GetAllStoreUseCase } from '../../application/use-case/get-all-store.use
 import { GetStoreByIdUseCase } from '../../application/use-case/get-store-by-id.use-case';
 import { GetStoreBySlugUseCase } from '../../application/use-case/get-store-by-slug.use-case';
 import { UpdateStoreUseCase } from '../../application/use-case/update-store.use-case';
-import { GetSelectStoreDataUseCase } from '../../application/use-case/get-select-store-data.use-case';
+import { GetStoreSelectDataUseCase } from '../../application/use-case/get-store-select-data.use-case';
 
 import { StoreResponse } from '../responses/store.response';
 
@@ -48,7 +48,7 @@ export class StoreController {
     private getStoreByIdUseCase: GetStoreByIdUseCase,
     private getStoreBySlugUseCase: GetStoreBySlugUseCase,
     private updateStoreUseCase: UpdateStoreUseCase,
-    private getSelectStoreDataUseCase: GetSelectStoreDataUseCase,
+    private getSelectStoreDataUseCase: GetStoreSelectDataUseCase,
 
     private storageService: StorageService,
   ) {}
@@ -96,7 +96,7 @@ export class StoreController {
   @UseGuards(PoliciesGuard)
   @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
   @Get('/select-data')
-  async GetSelectStoreDataUseCase(
+  async GetStoreSelectDataUseCase(
     @Query() paginationDto: PaginationDto,
     @GetAuthUser() authUser: AuthUser,
     @GetAbillity() ability: AppAbility,

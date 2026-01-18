@@ -7,7 +7,7 @@ import { Action, Subject } from '@/shared/enums/access-control.enum';
 import { StoreEntity } from '../../domain/entities/store.entity';
 
 @Injectable()
-export class GetSelectStoreDataUseCase {
+export class GetStoreSelectDataUseCase {
   constructor(private storeRepository: StoreRepository) {}
 
   async execute(paginationDto: PaginationDto, authUser: AuthUser, ability: AppAbility) {

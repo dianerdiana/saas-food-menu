@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, type SubmitErrorHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,23 +13,28 @@ import { ClipboardList, Link, Tag } from 'lucide-react';
 
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
 import { generateSlug } from '@/utils/generate-slug';
+import { useAuth } from '@/utils/hooks/use-auth';
 
 import { ImageUpload } from './image-category-upload';
+import { SelectStore } from './select-store';
 
 import { useCreateCategory } from '../api/category.mutation';
 import { createCategorySchema } from '../schema/create-category.schema';
 import type { CreateCategoryType } from '../types/create-category.type';
 
 export function FormCreateCategory() {
+  const { userData } = useAuth();
+
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const { control, handleSubmit, setValue } = useForm<CreateCategoryType>({
+  const { control, handleSubmit, setValue, reset } = useForm<CreateCategoryType>({
     resolver: zodResolver(createCategorySchema),
     mode: 'onChange',
     defaultValues: {
       name: '',
       slug: '',
       description: '',
+      storeId: '',
     },
   });
   const { mutate, isPending } = useCreateCategory();
@@ -63,6 +68,12 @@ export function FormCreateCategory() {
     toast.error(String(invalidMessage));
   };
 
+  useEffect(() => {
+    if (userData) {
+      reset({ storeId: userData.storeId });
+    }
+  }, [userData]);
+
   return (
     <Card>
       <CardHeader>
@@ -73,6 +84,20 @@ export function FormCreateCategory() {
           <div className='col-span-2 order-2 lg:order-1 lg:col-span-1'>
             <form id='form-create-category' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
               <FieldGroup>
+                {/* Select Store Category */}
+                <Controller
+                  control={control}
+                  name='storeId'
+                  render={({ field }) => (
+                    <Field>
+                      <FieldLabel>
+                        Select Store <span className='text-destructive'>*</span>
+                      </FieldLabel>
+                      <SelectStore onSelect={field.onChange} value={field.value} />
+                    </Field>
+                  )}
+                />
+
                 {/* Category Name */}
                 <Controller
                   control={control}
