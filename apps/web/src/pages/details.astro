@@ -5,8 +5,8 @@ import { Button } from "@workspace/ui/components/button";
 import { ArrowLeft, CircleCheck, Star, ThumbsUp } from "lucide-react";
 ---
 
-<BlankLayout class="pb-24">
-  <Container slot={"main"}>
+<BlankLayout>
+  <Container>
     <header class="relative">
       <div
         id="TopNavAbsolute"
@@ -26,103 +26,106 @@ import { ArrowLeft, CircleCheck, Star, ThumbsUp } from "lucide-react";
         </Button>
       </div>
     </header>
-    <div id="Image" class="relative w-full -mb-9.5">
-      <div class="overflow-hidden">
-        <img
-          src="https://ik.imagekit.io/dianerdiana/saas-food-menu/products/default/Delicious%20Ramen%20Bowl.png"
-          alt=""
-          class="w-full object-cover h-125 overflow-hidden"
-        />
-      </div>
 
-      <div
-        class="absolute bottom-20 right-5 flex items-center gap-1 bg-white/10 px-2 py-1 rounded-full"
-      >
-        <Star className="fill-primary stroke-primary size-4" />
-        <p class="text-white text-sm">4.8</p>
-      </div>
-    </div>
-    <div
-      class="flex flex-col w-full px-5 py-5 gap-5 bg-white rounded-t-3xl shadow-sm -mt-5 z-10"
-    >
-      <div id="Title">
-        <p class="text-secondary font-normal text-xs">Ramen</p>
-        <h1 class="text-2xl font-semibold">Miso Ramen</h1>
-        <p class="text-muted-foreground font-normal text-sm">
-          Rich miso-based broth with a savory flavor, topped with corn, minced
-          meat, and green onions.
-        </p>
-      </div>
-      <div id="Ingredients">
-        <h2 class="font-medium mb-3">Ingredients used</h2>
-        <div class="grid grid-cols-2 gap-3">
-          <div class="flex items-center gap-2">
-            <CircleCheck className="stroke-white fill-primary" />
-            <span class="text-sm text-muted-foreground">Ramen noodles</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <CircleCheck className="stroke-white fill-primary" />
-            <span class="text-sm text-muted-foreground">Ramen noodles</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <CircleCheck className="stroke-white fill-primary" />
-            <span class="text-sm text-muted-foreground">Ramen noodles</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <CircleCheck className="stroke-white fill-primary" />
-            <span class="text-sm text-muted-foreground">Ramen noodles</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <CircleCheck className="stroke-white fill-primary" />
-            <span class="text-sm text-muted-foreground">Ramen noodles</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <CircleCheck className="stroke-white fill-primary" />
-            <span class="text-sm text-muted-foreground">Ramen noodles</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <CircleCheck className="stroke-white fill-primary" />
-            <span class="text-sm text-muted-foreground">Ramen noodles</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <CircleCheck className="stroke-white fill-primary" />
-            <span class="text-sm text-muted-foreground">Ramen noodles</span>
-          </div>
+    <main class="pb-24">
+      <div id="Image" class="relative w-full -mb-9.5">
+        <div class="overflow-hidden">
+          <img
+            src="https://ik.imagekit.io/dianerdiana/saas-food-menu/products/default/Delicious%20Ramen%20Bowl.png"
+            alt=""
+            class="w-full object-cover h-125 overflow-hidden"
+          />
+        </div>
+
+        <div
+          class="absolute bottom-20 right-5 flex items-center gap-1 bg-white/10 px-2 py-1 rounded-full"
+        >
+          <Star className="fill-primary stroke-primary size-4" />
+          <p class="text-white text-sm">4.8</p>
         </div>
       </div>
-      <div id="Reviews">
-        <h2 class="font-medium mb-3">Customer Reviews</h2>
+      <div
+        class="relative flex flex-col w-full px-5 py-5 gap-5 bg-white rounded-t-3xl shadow-sm -mt-5 z-10"
+      >
+        <div id="Title">
+          <p class="text-secondary font-normal text-xs">Ramen</p>
+          <h1 class="text-2xl font-semibold">Miso Ramen</h1>
+          <p class="text-muted-foreground font-normal text-sm">
+            Rich miso-based broth with a savory flavor, topped with corn, minced
+            meat, and green onions.
+          </p>
+        </div>
+        <div id="Ingredients">
+          <h2 class="font-medium mb-3">Ingredients used</h2>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="flex items-center gap-2">
+              <CircleCheck className="stroke-white fill-primary" />
+              <span class="text-sm text-muted-foreground">Ramen noodles</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <CircleCheck className="stroke-white fill-primary" />
+              <span class="text-sm text-muted-foreground">Ramen noodles</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <CircleCheck className="stroke-white fill-primary" />
+              <span class="text-sm text-muted-foreground">Ramen noodles</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <CircleCheck className="stroke-white fill-primary" />
+              <span class="text-sm text-muted-foreground">Ramen noodles</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <CircleCheck className="stroke-white fill-primary" />
+              <span class="text-sm text-muted-foreground">Ramen noodles</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <CircleCheck className="stroke-white fill-primary" />
+              <span class="text-sm text-muted-foreground">Ramen noodles</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <CircleCheck className="stroke-white fill-primary" />
+              <span class="text-sm text-muted-foreground">Ramen noodles</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <CircleCheck className="stroke-white fill-primary" />
+              <span class="text-sm text-muted-foreground">Ramen noodles</span>
+            </div>
+          </div>
+        </div>
+        <div id="Reviews">
+          <h2 class="font-medium mb-3">Customer Reviews</h2>
 
-        <div class="swiper w-full">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide w-fit!">
-              <div
-                class="flex flex-col gap-3 w-[320px] border border-gray-200 hover:border-secondary hover:bg-primary/20 hover:cursor-pointer rounded-xl p-4"
-              >
-                <div class="flex items-center justify-between gap-3">
-                  <h3 class="text-accent-foreground font-medium text-sm">
-                    Muhamad Rafli
-                  </h3>
+          <div class="swiper w-full">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide w-fit!">
+                <div
+                  class="flex flex-col gap-3 w-[320px] border border-gray-200 hover:border-secondary hover:bg-primary/20 hover:cursor-pointer rounded-xl p-4"
+                >
+                  <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-accent-foreground font-medium text-sm">
+                      Muhamad Rafli
+                    </h3>
 
-                  <div class="flex items-center gap">
-                    <Star className="fill-primary stroke-primary size-4" />
-                    <Star className="fill-primary stroke-primary size-4" />
-                    <Star className="fill-primary stroke-primary size-4" />
-                    <Star className="fill-primary stroke-primary size-4" />
-                    <Star className="fill-primary stroke-primary size-4" />
+                    <div class="flex items-center gap">
+                      <Star className="fill-primary stroke-primary size-4" />
+                      <Star className="fill-primary stroke-primary size-4" />
+                      <Star className="fill-primary stroke-primary size-4" />
+                      <Star className="fill-primary stroke-primary size-4" />
+                      <Star className="fill-primary stroke-primary size-4" />
+                    </div>
                   </div>
-                </div>
 
-                <p class="text-muted-foreground font-normal text-sm">
-                  The noodles were cooked just right, and the toppings were
-                  fresh and generous. Definitely coming back for more
-                </p>
+                  <p class="text-muted-foreground font-normal text-sm">
+                    The noodles were cooked just right, and the toppings were
+                    fresh and generous. Definitely coming back for more
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </main>
 
     <Container
       class="fixed inset-x-0 bottom-0 max-w-160 z-50 bg-white shadow-sm mx-auto"
@@ -133,13 +136,13 @@ import { ArrowLeft, CircleCheck, Star, ThumbsUp } from "lucide-react";
           <p class="font-semibold text-lg">Rp 40.0000</p>
         </div>
 
-        <button
+        <Button
           type="button"
-          class="flex justify-center rounded-full py-3.5 px-7 bg-primary font-normal text-white"
+          className="flex justify-center rounded-full py-4 px-7 bg-primary font-normal text-white"
           data-id="1"
         >
           Add To Cart
-        </button>
+        </Button>
       </div>
     </Container>
   </Container>
