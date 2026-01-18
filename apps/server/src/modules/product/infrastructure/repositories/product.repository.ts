@@ -31,7 +31,7 @@ export class ProductRepository {
   }
 
   async findAllByStoreId({ limit, skip, search }: PaginationDto, storeId: string) {
-    const query = this.repository.createQueryBuilder('product').leftJoinAndSelect('product.store', 'store');
+    const query = this.repository.createQueryBuilder('product');
 
     if (search) {
       query.andWhere('(product.name ILIKE :search or product.slug ILIKE :search)', { search: `%${search}%` });
@@ -51,7 +51,7 @@ export class ProductRepository {
   }
 
   async findAll({ limit, skip, search }: PaginationDto) {
-    const query = this.repository.createQueryBuilder('product').leftJoinAndSelect('product.store', 'store');
+    const query = this.repository.createQueryBuilder('product');
 
     if (search) {
       query.andWhere('(product.name ILIKE :search or product.slug ILIKE :search)', { search: `%${search}%` });

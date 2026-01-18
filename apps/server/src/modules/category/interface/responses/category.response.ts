@@ -25,8 +25,8 @@ export class CategoryResponse {
   status!: string;
 
   @Expose()
-  @Transform(({ obj }) => new StoreResponse(obj.store))
-  store!: StoreResponse;
+  @Transform(({ obj }) => (obj.store ? new StoreResponse(obj.store) : undefined))
+  store?: StoreResponse;
 
   constructor(partial: Partial<CategoryResponse>) {
     Object.assign(this, partial);

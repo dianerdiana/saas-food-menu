@@ -7,7 +7,6 @@ import { StoreEntity } from '../../domain/entities/store.entity';
 
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
 
-const RELATION_PRODUCT = 'product';
 @Injectable()
 export class StoreRepository {
   constructor(
@@ -24,15 +23,7 @@ export class StoreRepository {
   }
 
   async findById(id: string, includes?: string[]) {
-    const query = this.repository.createQueryBuilder('store');
-
-    if (includes && includes.length) {
-      for (const relation of includes) {
-        if (relation === RELATION_PRODUCT) {
-          query.leftJoinAndSelect('store.products', 'product');
-        }
-      }
-    }
+    const query = this.repository.createQueryBuilder('store').where('id=:store_id', { store_id: id });
 
     return query.getOne();
   }

@@ -8,7 +8,7 @@ import { CategoryModule } from '../category/category.module';
 import { RecommendationModule } from '../recommendation/recommendation.module';
 
 import { StoreRepository } from './infrastructure/repositories/store.repository';
-import { BffStoreRepository } from './infrastructure/repositories/bff-store.repository';
+import { PublicStoreRepository } from './infrastructure/repositories/public-store.repository';
 
 import { StoreController } from './interface/controllers/store.controller';
 
@@ -20,15 +20,17 @@ import { GetStoreBySlugUseCase } from './application/use-case/get-store-by-slug.
 import { UpdateStoreUseCase } from './application/use-case/update-store.use-case';
 import { GetStoreProductById } from './application/use-case/get-store-product-by-id.use-case';
 
+import { PublicStoreService } from './application/services/public-store.service';
+import { AccessStoreService } from './application/services/access-store.service';
+
 import { StorageService } from '@/shared/services/storage.service';
-import { BffStoreService } from './application/services/bff-store.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([StoreEntity]), AuthorizationModule, CategoryModule, RecommendationModule],
   controllers: [StoreController],
   providers: [
     StoreRepository,
-    BffStoreRepository,
+    PublicStoreRepository,
 
     CreateStoreUseCase,
     DeleteStoreUseCase,
@@ -39,8 +41,9 @@ import { BffStoreService } from './application/services/bff-store.service';
     GetStoreProductById,
 
     StorageService,
-    BffStoreService,
+    PublicStoreService,
+    AccessStoreService,
   ],
-  exports: [GetStoreByIdUseCase, BffStoreService],
+  exports: [GetStoreByIdUseCase, PublicStoreService, AccessStoreService],
 })
 export class StoreModule {}

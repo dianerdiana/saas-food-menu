@@ -5,15 +5,11 @@ import { AppAbility } from '@/modules/authorization/infrastructure/factories/cas
 import { CategoryRepository } from '../../infrastructure/repositories/category.repository';
 
 import { AuthUser } from '@/shared/types/auth-user.type';
-import { StorageService } from '@/shared/services/storage.service';
 import { Action } from '@/shared/enums/access-control.enum';
 
 @Injectable()
 export class DeleteCategoryUseCase {
-  constructor(
-    private categoryRepository: CategoryRepository,
-    private storageService: StorageService,
-  ) {}
+  constructor(private categoryRepository: CategoryRepository) {}
 
   async execute(id: string, authUser: AuthUser, ability: AppAbility) {
     const category = await this.categoryRepository.findById(id);

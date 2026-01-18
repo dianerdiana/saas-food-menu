@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, In, Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CategoryEntity } from '../../domain/entities/category.entity';
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
 
@@ -32,12 +32,10 @@ export class CategoryRepository {
   }
 
   async findAllByStoreId({ limit, skip, search }: PaginationDto, storeId: string) {
-    const query = this.repository
-      .createQueryBuilder('category')
-      .leftJoinAndSelect('category.store', 'store', 'store.deleted_at IS NULL');
+    const query = this.repository.createQueryBuilder('category');
 
     if (search) {
-      query.andWhere('(category.name ILIKE :search or category.slug ILIKE :search or store.name ILIKE :search)', {
+      query.andWhere('(category.name ILIKE :search or category.slug)', {
         search: `%${search}%`,
       });
     }
@@ -56,12 +54,10 @@ export class CategoryRepository {
   }
 
   async findAll({ limit, skip, search }: PaginationDto) {
-    const query = this.repository
-      .createQueryBuilder('category')
-      .leftJoinAndSelect('category.store', 'store', 'store.deleted_at IS NULL');
+    const query = this.repository.createQueryBuilder('category');
 
     if (search) {
-      query.andWhere('(category.name ILIKE :search or category.slug ILIKE :search or store.name ILIKE :search)', {
+      query.andWhere('(category.name ILIKE :search or category.slug ILIKE :search)', {
         search: `%${search}%`,
       });
     }
