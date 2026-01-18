@@ -20,9 +20,9 @@ export class GetAllStoreUseCase {
     let count: number = 0;
 
     if (ability.can(Action.Manage, Subject.All)) {
-      [data, count] = await this.storeRepository.findAll(paginationDto);
+      [data, count] = await this.storeRepository.findAllAndCount(paginationDto);
     } else if (ability.can(Action.Read, Subject.Store)) {
-      [data, count] = await this.storeRepository.findAllOwned(paginationDto, authUser.userId);
+      [data, count] = await this.storeRepository.findAndCountAllOwned(paginationDto, authUser.userId);
     } else {
       throw new ForbiddenException('You are not allowed to access stores');
     }

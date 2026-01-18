@@ -45,10 +45,34 @@ export class StoreRepository {
 
     query.take(limit).skip(skip);
 
-    return query.getManyAndCount();
+    return query.getMany();
   }
 
   async findAllOwned({ limit, skip, search }: PaginationDto, userId: string) {
+    const query = this.repository.createQueryBuilder('store');
+
+    if (search) {
+      query.andWhere('(store.name ILIKE :search or store.slug ILIKE :search)', { search: `%${search}%` });
+    }
+
+    query.andWhere('store.owner_id=:user_id', { user_id: userId }).take(limit).skip(skip);
+
+    return query.getMany();
+  }
+
+  async findAllAndCount({ limit, skip, search }: PaginationDto) {
+    const query = this.repository.createQueryBuilder('store');
+
+    if (search) {
+      query.andWhere('(store.name ILIKE :search or store.slug ILIKE :search)', { search: `%${search}%` });
+    }
+
+    query.take(limit).skip(skip);
+
+    return query.getManyAndCount();
+  }
+
+  async findAndCountAllOwned({ limit, skip, search }: PaginationDto, userId: string) {
     const query = this.repository.createQueryBuilder('store');
 
     if (search) {

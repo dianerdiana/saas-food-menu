@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -27,7 +26,7 @@ import { GetAllStoreUseCase } from '../../application/use-case/get-all-store.use
 import { GetStoreByIdUseCase } from '../../application/use-case/get-store-by-id.use-case';
 import { GetStoreBySlugUseCase } from '../../application/use-case/get-store-by-slug.use-case';
 import { UpdateStoreUseCase } from '../../application/use-case/update-store.use-case';
-import { GetStoreProductById } from '../../application/use-case/get-store-product-by-id.use-case';
+import { GetSelectStoreDataUseCase } from '../../application/use-case/get-select-store-data.use-case';
 
 import { StoreResponse } from '../responses/store.response';
 
@@ -49,8 +48,9 @@ export class StoreController {
     private getStoreByIdUseCase: GetStoreByIdUseCase,
     private getStoreBySlugUseCase: GetStoreBySlugUseCase,
     private updateStoreUseCase: UpdateStoreUseCase,
+    private getSelectStoreDataUseCase: GetSelectStoreDataUseCase,
+
     private storageService: StorageService,
-    private getStoreProductByIdUseCase: GetStoreProductById,
   ) {}
 
   @UseGuards(PoliciesGuard)
@@ -93,15 +93,24 @@ export class StoreController {
     };
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
+  @Get('/select-data')
+  async GetSelectStoreDataUseCase(
+    @Query() paginationDto: PaginationDto,
+    @GetAuthUser() authUser: AuthUser,
+    @GetAbillity() ability: AppAbility,
+  ) {
+    const result = await this.getSelectStoreDataUseCase.execute(paginationDto, authUser, ability);
+
+    return {
+      data: result.map((store) => new StoreResponse(store)),
+    };
+  }
+
   @Get('id/:id')
   async getStoreById(@Param('id') id: string) {
     const result = await this.getStoreByIdUseCase.execute(id);
-    return new StoreResponse(result);
-  }
-
-  @Get('id/:id/products')
-  async getStoreProductById(@Param('id') id: string) {
-    const result = await this.getStoreProductByIdUseCase.execute(id);
     return new StoreResponse(result);
   }
 
