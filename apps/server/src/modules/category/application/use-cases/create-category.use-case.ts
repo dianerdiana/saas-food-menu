@@ -5,7 +5,7 @@ import { CategoryRepository } from '../../infrastructure/repositories/category.r
 import { CreateCategoryDto } from '../dtos/create-category.dto';
 
 import { ImageOptionalDto } from '@/shared/dtos/image.dto';
-import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
+import { CATEGORY_STATUS } from '@/shared/constants/category-status.constant';
 
 @Injectable()
 export class CreateCategoryUseCase {
@@ -15,7 +15,7 @@ export class CreateCategoryUseCase {
     const category = this.categoryRepository.create({
       ...dto,
       createdBy: userId,
-      status: GENERAL_STATUS.active,
+      status: CATEGORY_STATUS.active,
     });
 
     return category;
