@@ -1,10 +1,4 @@
-import {
-  PrimaryColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  BeforeInsert,
-  DeleteDateColumn,
-} from 'typeorm';
+import { PrimaryColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert, DeleteDateColumn } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 
 export abstract class BaseEntity {

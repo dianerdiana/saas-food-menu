@@ -15,26 +15,27 @@ export class GetAllCategoryUseCase {
 
   async execute(paginationDto: PaginationDto, authUser: AuthUser, ability: AppAbility) {
     const { limit, page } = paginationDto;
+    const { storeId } = authUser;
 
-    let data: CategoryEntity[] = [];
-    let count: number = 0;
+    let categories: CategoryEntity[] = [];
+    let totalItems: number = 0;
 
     if (ability.can(Action.Manage, Subject.All)) {
-      [data, count] = await this.categoryRepository.findAll(paginationDto);
+      [categories, totalItems] = await this.categoryRepository.findAll(paginationDto);
     } else if (ability.can(Action.Read, Subject.Category)) {
-      [data, count] = await this.categoryRepository.findAllByStoreId(paginationDto, authUser.storeId);
+      [categories, totalItems] = await this.categoryRepository.findAllByStoreId(paginationDto, storeId);
     } else {
       throw new ForbiddenException('You are not allowed to access categories');
     }
 
-    const totalPages = Math.ceil(count / limit);
+    const totalPages = Math.ceil(totalItems / limit);
 
     return {
-      categories: data,
+      categories,
       meta: {
         page,
         limit,
-        totalItems: count,
+        totalItems,
         totalPages,
       },
     };

@@ -5,12 +5,12 @@ import { toast } from '@workspace/ui/components/sonner';
 
 import { Camera, Tags } from 'lucide-react';
 
+import { MAX_SIZE } from '@/utils/constants/max-size-image';
+
 interface ImageUploadProps {
   defaultValue?: string | null;
   onChange?: (file: File | null) => void;
 }
-
-const MAX_SIZE = 5 * 1024 * 1024;
 
 export function ImageUpload({ defaultValue = null, onChange }: ImageUploadProps) {
   const [preview, setPreview] = useState<string | null>(defaultValue);
@@ -34,7 +34,7 @@ export function ImageUpload({ defaultValue = null, onChange }: ImageUploadProps)
     fileInputRef.current?.click();
   };
 
-  const defaultImage = 'https://ik.imagekit.io/dianerdiana/saas-food-menu/stores/default-store.png?tr:ar-4-4,w-160';
+  const defaultImage = 'https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/ramen.png?tr:ar-4-4,w-160';
 
   useEffect(() => {
     setPreview(defaultValue);

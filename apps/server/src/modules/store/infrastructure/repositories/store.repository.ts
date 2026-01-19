@@ -22,20 +22,6 @@ export class StoreRepository {
     return this.repository.save(store);
   }
 
-  async findById(id: string, includes?: string[]) {
-    const query = this.repository.createQueryBuilder('store').where('id=:store_id', { store_id: id });
-
-    return query.getOne();
-  }
-
-  async findBySlug(slug: string) {
-    return this.repository.findOneBy({ slug });
-  }
-
-  async findByPhone(phone: string) {
-    return this.repository.findOneBy({ phone });
-  }
-
   async findAll({ limit, skip, search }: PaginationDto) {
     const query = this.repository.createQueryBuilder('store');
 
@@ -45,7 +31,7 @@ export class StoreRepository {
 
     query.take(limit).skip(skip);
 
-    return query.getMany();
+    return query.getManyAndCount();
   }
 
   async findAllOwned({ limit, skip, search }: PaginationDto, userId: string) {
@@ -57,38 +43,26 @@ export class StoreRepository {
 
     query.andWhere('store.owner_id=:user_id', { user_id: userId }).take(limit).skip(skip);
 
-    return query.getMany();
-  }
-
-  async findAllAndCount({ limit, skip, search }: PaginationDto) {
-    const query = this.repository.createQueryBuilder('store');
-
-    if (search) {
-      query.andWhere('(store.name ILIKE :search or store.slug ILIKE :search)', { search: `%${search}%` });
-    }
-
-    query.take(limit).skip(skip);
-
     return query.getManyAndCount();
   }
 
-  async findAndCountAllOwned({ limit, skip, search }: PaginationDto, userId: string) {
-    const query = this.repository.createQueryBuilder('store');
-
-    if (search) {
-      query.andWhere('(store.name ILIKE :search or store.slug ILIKE :search)', { search: `%${search}%` });
-    }
-
-    query.andWhere('store.owner_id=:user_id', { user_id: userId }).take(limit).skip(skip);
-
-    return query.getManyAndCount();
+  async findById(id: string) {
+    return this.repository.findOneBy({ id });
   }
 
-  async countAllOwned(userId: string) {
-    return this.repository.countBy({ ownerId: userId });
+  async findBySlug(slug: string) {
+    return this.repository.findOneBy({ slug });
+  }
+
+  async findByPhone(phone: string) {
+    return this.repository.findOneBy({ phone });
   }
 
   async deleteById(id: string) {
     return this.repository.softDelete({ id });
+  }
+
+  async countAllOwned(userId: string) {
+    return this.repository.countBy({ ownerId: userId });
   }
 }

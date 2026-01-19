@@ -21,12 +21,12 @@ import { CategoryResponse } from '../responses/category.response';
 import { CreateCategoryDto } from '../../application/dtos/create-category.dto';
 import { UpdateCategoryDto } from '../../application/dtos/update-category.dto';
 
-import { CreateCategoryUseCase } from '../../application/use-case/create-category.use-case';
-import { DeleteCategoryUseCase } from '../../application/use-case/delete-category.use-case';
-import { GetAllCategoryUseCase } from '../../application/use-case/get-all-category.use-case';
-import { GetCategoryByIdUseCase } from '../../application/use-case/get-category-by-id.use-case';
-import { UpdateCategoryUseCase } from '../../application/use-case/update-category.use-case';
-import { GetCategoryBySlugUseCase } from '../../application/use-case/get-category-by-slug.use-case';
+import { CreateCategoryUseCase } from '../../application/use-cases/create-category.use-case';
+import { DeleteCategoryUseCase } from '../../application/use-cases/delete-category.use-case';
+import { GetAllCategoryUseCase } from '../../application/use-cases/get-all-category.use-case';
+import { GetCategoryByIdUseCase } from '../../application/use-cases/get-category-by-id.use-case';
+import { UpdateCategoryUseCase } from '../../application/use-cases/update-category.use-case';
+import { GetCategoryBySlugUseCase } from '../../application/use-cases/get-category-by-slug.use-case';
 
 import type { AuthUser } from '@/shared/types/auth-user.type';
 import { GetAuthUser } from '@/shared/decorators/get-user.decorator';

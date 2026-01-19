@@ -1,25 +1,20 @@
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-
-import { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 
 import { StoreRepository } from '../../infrastructure/repositories/store.repository';
 import { UpdateStoreDto } from '../dtos/update-store.dto';
 
-import { AuthUser } from '@/shared/types/auth-user.type';
 import { ImageOptionalDto } from '@/shared/dtos/image.dto';
-import { Action, Subject } from '@/shared/enums/access-control.enum';
+import { StorageService } from '@/shared/services/storage.service';
 
 @Injectable()
 export class UpdateStoreUseCase {
-  constructor(private storeRepository: StoreRepository) {}
+  constructor(
+    private storeRepository: StoreRepository,
+    private storageService: StorageService,
+  ) {}
 
-  async execute(
-    updateStoreDto: UpdateStoreDto & ImageOptionalDto,
-    storeId: string,
-    authUser: AuthUser,
-    ability: AppAbility,
-  ) {
-    const { name, phone, slug, address, description, latitude, longitude, image, userId: storeUserId } = updateStoreDto;
+  async execute(dto: UpdateStoreDto & ImageOptionalDto, userId: string, storeId: string) {
+    const { name, phone, slug, address, description, latitude, longitude, image, userId: ownerId } = dto;
 
     const store = await this.storeRepository.findById(storeId);
     if (!store) throw new NotFoundException('Store is not found');
@@ -29,24 +24,26 @@ export class UpdateStoreUseCase {
       if (existingStoreSlug) throw new BadRequestException("Store's slug is already exist");
     }
 
-    if (!ability.can(Action.Update, store)) {
-      throw new ForbiddenException('You are not allowed to edit this store');
+    if (phone !== store.phone) {
+      const existingStorePhone = await this.storeRepository.findByPhone(phone);
+      if (existingStorePhone) throw new BadRequestException("Store's phone is already exist");
     }
-
-    const storeOwnerId = ability.can(Action.Manage, Subject.Store) && storeUserId ? storeUserId : store.ownerId;
 
     store.name = name;
     store.phone = phone;
     store.slug = slug;
-    store.ownerId = storeOwnerId;
 
+    if (ownerId) store.ownerId = ownerId;
     if (address !== undefined) store.address = address;
     if (description !== undefined) store.description = description;
     if (latitude !== undefined) store.latitude = latitude;
     if (longitude !== undefined) store.longitude = longitude;
-    if (image) store.image = image;
+    if (image) {
+      if (store.image) await this.storageService.deleteFile(store.image);
+      store.image = image;
+    }
 
-    store.updatedBy = authUser.userId;
+    store.updatedBy = userId;
 
     await this.storeRepository.save(store);
 

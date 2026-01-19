@@ -8,6 +8,7 @@ export class GetStoreByIdUseCase {
 
   async execute(id: string) {
     const store = await this.storeRepository.findById(id);
+
     if (!store) throw new NotFoundException('Store not found');
 
     return store;

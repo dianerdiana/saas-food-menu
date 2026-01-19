@@ -11,11 +11,13 @@ import { toast } from '@workspace/ui/components/sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ClipboardList, Link, Tag } from 'lucide-react';
 
+import { ImageUpload } from './image-category-upload';
+import { SelectStore } from './select-store';
+
 import { useUpdateCategory } from '../api/category.mutation';
 import { updateCategorySchema } from '../schema/update-category.schema';
 import type { Category } from '../types/category.type';
 import type { UpdateCategoryType } from '../types/update-category.type';
-import { ImageUpload } from './image-category-upload';
 
 type FormUpdateCategoryProps = {
   category: Category;
@@ -31,6 +33,7 @@ export function FormUpdateCategory({ category }: FormUpdateCategoryProps) {
       name: '',
       slug: '',
       description: '',
+      storeId: '',
     },
   });
 
@@ -72,6 +75,7 @@ export function FormUpdateCategory({ category }: FormUpdateCategoryProps) {
       name: category.name,
       slug: category.slug,
       description: category.description ? category.description : '',
+      storeId: category.storeId,
     });
 
     setDefaultImage(category.image ? category.image : null);
@@ -87,6 +91,20 @@ export function FormUpdateCategory({ category }: FormUpdateCategoryProps) {
           <div className='col-span-2 order-2 lg:order-1 lg:col-span-1'>
             <form id='form-edit-category' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
               <FieldGroup>
+                {/* Select Store Category */}
+                <Controller
+                  control={control}
+                  name='storeId'
+                  render={({ field }) => (
+                    <Field>
+                      <FieldLabel>
+                        Select Store <span className='text-destructive'>*</span>
+                      </FieldLabel>
+                      <SelectStore onSelect={field.onChange} value={field.value} />
+                    </Field>
+                  )}
+                />
+
                 {/* Category Name */}
                 <Controller
                   control={control}
