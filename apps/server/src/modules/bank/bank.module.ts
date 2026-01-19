@@ -8,9 +8,6 @@ import { BankEntity } from './domain/entities/bank.entity';
 // Repository
 import { BankRepository } from './infrastructure/repositories/bank.repository';
 
-// Controller
-import { BankController } from './interface/controllers/bank.controller';
-
 // Use Case
 import { CreateBankUseCase } from './application/use-case/create-bank.use-case';
 import { DeleteBankUseCase } from './application/use-case/delete-bank.use-case';
@@ -20,7 +17,7 @@ import { UpdateBankUseCase } from './application/use-case/update-bank.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([BankEntity])],
-  controllers: [BankController],
+  controllers: [],
   providers: [
     BankRepository,
     CreateBankUseCase,

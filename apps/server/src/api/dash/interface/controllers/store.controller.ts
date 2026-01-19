@@ -13,10 +13,10 @@ import {
 } from '@nestjs/common';
 
 import { StoreResponse } from '../responses/store.response';
-import { GetStoreListLms } from '../../application/use-cases/store/get-store-list.lms';
-import { CreateStoreLms } from '../../application/use-cases/store/create-store.lms';
-import { UpdateStoreLms } from '../../application/use-cases/store/update-store.lms';
-import { DeleteStoreLms } from '../../application/use-cases/store/delete-store.lms';
+import { GetStoreListDash } from '../../application/use-cases/store/get-store-list.dash';
+import { CreateStoreDash } from '../../application/use-cases/store/create-store.dash';
+import { UpdateStoreDash } from '../../application/use-cases/store/update-store.dash';
+import { DeleteStoreDash } from '../../application/use-cases/store/delete-store.dash';
 
 import type { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
 import { PoliciesGuard } from '@/modules/authorization/infrastructure/guards/policies.guard';
@@ -24,8 +24,8 @@ import { CheckPolicies } from '@/modules/authorization/infrastructure/decorator/
 import { CreateStoreDto } from '@/modules/store/application/dtos/create-store.dto';
 import { UpdateStoreDto } from '@/modules/store/application/dtos/update-store.dto';
 
-import { GetStoreByIdUseCase } from '@/modules/store/application/use-case/get-store-by-id.use-case';
-import { GetStoreBySlugUseCase } from '@/modules/store/application/use-case/get-store-by-slug.use-case';
+import { GetStoreByIdUseCase } from '@/modules/store/application/use-cases/get-store-by-id.use-case';
+import { GetStoreBySlugUseCase } from '@/modules/store/application/use-cases/get-store-by-slug.use-case';
 
 import type { AuthUser } from '@/shared/types/auth-user.type';
 import { GetAuthUser } from '@/shared/decorators/get-user.decorator';
@@ -38,19 +38,19 @@ import { BUCKET_FOLDER_NAME } from '@/shared/constants/bucket-folder-name.consta
 import { Action, Subject } from '@/shared/enums/access-control.enum';
 
 @UseGuards(PoliciesGuard)
-@Controller('/lms/stores')
+@Controller('/dash/stores')
 export class StoreController {
   constructor(
     private storageService: StorageService,
 
-    private getStoreListLms: GetStoreListLms,
+    private getStoreListDash: GetStoreListDash,
     private getStoreByIdUseCase: GetStoreByIdUseCase,
     private getStoreBySlugUseCase: GetStoreBySlugUseCase,
 
-    private createStoreLms: CreateStoreLms,
-    private updateStoreLms: UpdateStoreLms,
+    private createStoreDash: CreateStoreDash,
+    private updateStoreDash: UpdateStoreDash,
 
-    private deleteStoreLms: DeleteStoreLms,
+    private deleteStoreDash: DeleteStoreDash,
   ) {}
 
   @Get()
@@ -59,7 +59,7 @@ export class StoreController {
     @GetAuthUser() authUser: AuthUser,
     @GetAbillity() ability: AppAbility,
   ) {
-    const result = await this.getStoreListLms.execute(paginationDto, authUser, ability);
+    const result = await this.getStoreListDash.execute(paginationDto, authUser, ability);
 
     return {
       data: result.stores.map((store) => new StoreResponse(store)),
@@ -84,7 +84,7 @@ export class StoreController {
   @UseInterceptors(FileInterceptor('image'))
   @Post()
   async createStore(
-    @Body() createStoreDto: CreateStoreDto,
+    @Body() dto: CreateStoreDto,
     @GetAuthUser() authUser: AuthUser,
     @UploadedFile(new ImageValidationPipe(false)) image: Express.Multer.File,
     @GetAbillity() ability: AppAbility,
@@ -95,7 +95,7 @@ export class StoreController {
       url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.stores);
     }
 
-    const result = await this.createStoreLms.execute({ ...createStoreDto, image: url }, authUser, ability);
+    const result = await this.createStoreDash.execute({ ...dto, image: url }, authUser, ability);
 
     return {
       message: 'Successfuly created store',
@@ -107,7 +107,7 @@ export class StoreController {
   @Put(':id')
   async updateStore(
     @Param('id') id: string,
-    @Body() updateStore: UpdateStoreDto,
+    @Body() dto: UpdateStoreDto,
     @GetAuthUser() authUser: AuthUser,
     @UploadedFile(new ImageValidationPipe(false)) image: Express.Multer.File,
     @GetAbillity() ability: AppAbility,
@@ -118,7 +118,7 @@ export class StoreController {
       url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.stores);
     }
 
-    const result = await this.updateStoreLms.execute(id, { ...updateStore, image: url }, authUser, ability);
+    const result = await this.updateStoreDash.execute(id, { ...dto, image: url }, authUser, ability);
 
     return {
       message: 'Successfuly created store',
@@ -128,7 +128,7 @@ export class StoreController {
 
   @Delete(':id')
   async deleteStore(@Param('id') id: string, @GetAuthUser() authUser: AuthUser, @GetAbillity() ability: AppAbility) {
-    const result = await this.deleteStoreLms.execute(id, authUser, ability);
+    const result = await this.deleteStoreDash.execute(id, authUser, ability);
     return {
       message: 'Successfuly deleted store',
       data: result,

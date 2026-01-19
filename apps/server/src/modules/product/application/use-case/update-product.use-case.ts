@@ -2,7 +2,6 @@ import { BadRequestException, ForbiddenException, Injectable, NotFoundException 
 
 import { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
 import { AssignProductCategoryService } from '@/modules/product-category/application/services/assign-product-category.service';
-import { ValidateCategoriesService } from '@/modules/category/application/services/validate-categories.service';
 
 import { ProductRepository } from '../../infrastructure/repositories/product.repository';
 import { UpdateProductDto } from '../dtos/update-product.dto';
@@ -18,7 +17,6 @@ export class UpdateProductUseCase {
     private productRepository: ProductRepository,
     private assignProductCategoryService: AssignProductCategoryService,
     private storageService: StorageService,
-    private validateCategoriesService: ValidateCategoriesService,
   ) {}
 
   async execute(
@@ -44,7 +42,6 @@ export class UpdateProductUseCase {
     }
 
     const categoryIds = [categoryId];
-    await this.validateCategoriesService.execute(categoryIds, productStoreId);
 
     product.name = name;
     product.price = price;

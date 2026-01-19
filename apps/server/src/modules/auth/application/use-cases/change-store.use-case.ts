@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 
-import { GetStoreByIdUseCase } from '@/modules/store/application/use-case/get-store-by-id.use-case';
+import { GetStoreByIdUseCase } from '@/modules/store/application/use-cases/get-store-by-id.use-case';
 import { GetUserByUsernameForAuth } from '@/modules/user/application/use-cases/get-user-by-username-for-auth.use-case';
 
 import { AuthUser } from '@/shared/types/auth-user.type';

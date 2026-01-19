@@ -20,7 +20,7 @@ import type { AuthUser } from '@/shared/types/auth-user.type';
 const REFRESH_TOKEN_KEY = 'refreshToken';
 const MAX_AGE_COOKIE = 7 * 24 * 60 * 60 * 1000;
 
-@Controller('lms/auth')
+@Controller('/dash/auth')
 export class AuthController {
   constructor(
     private signInUseCase: SignInUseCase,

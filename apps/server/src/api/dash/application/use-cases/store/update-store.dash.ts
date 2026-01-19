@@ -2,15 +2,15 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 
 import { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
 import { UpdateStoreDto } from '@/modules/store/application/dtos/update-store.dto';
-import { GetStoreByIdUseCase } from '@/modules/store/application/use-case/get-store-by-id.use-case';
-import { UpdateStoreUseCase } from '@/modules/store/application/use-case/update-store.use-case';
+import { GetStoreByIdUseCase } from '@/modules/store/application/use-cases/get-store-by-id.use-case';
+import { UpdateStoreUseCase } from '@/modules/store/application/use-cases/update-store.use-case';
 
 import { ImageOptionalDto } from '@/shared/dtos/image.dto';
 import { Action, Subject } from '@/shared/enums/access-control.enum';
 import { AuthUser } from '@/shared/types/auth-user.type';
 
 @Injectable()
-export class UpdateStoreLms {
+export class UpdateStoreDash {
   constructor(
     private getStoreByIdUseCase: GetStoreByIdUseCase,
     private updateStoreUseCase: UpdateStoreUseCase,

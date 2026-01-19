@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 
 import { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
-import { GetStoreListUseCase } from '@/modules/store/application/use-case/get-store-list.use-case';
+import { GetStoreListUseCase } from '@/modules/store/application/use-cases/get-store-list.use-case';
 import { StoreEntity } from '@/modules/store/domain/entities/store.entity';
 
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
@@ -9,7 +9,7 @@ import { Action, Subject } from '@/shared/enums/access-control.enum';
 import { AuthUser } from '@/shared/types/auth-user.type';
 
 @Injectable()
-export class GetStoreListLms {
+export class GetStoreListDash {
   constructor(private getStoreList: GetStoreListUseCase) {}
 
   async execute(pagination: PaginationDto, user: AuthUser, ability: AppAbility) {

@@ -1,45 +1,34 @@
-import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
-import { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
-
+import { CategoryEntity } from '../../domain/entities/category.entity';
 import { CategoryRepository } from '../../infrastructure/repositories/category.repository';
 import { CreateCategoryDto } from '../dtos/create-category.dto';
 
-import { AuthUser } from '@/shared/types/auth-user.type';
-import { CATEGORY_STATUS } from '@/shared/constants/category-status.constant';
 import { ImageOptionalDto } from '@/shared/dtos/image.dto';
-import { Action, Subject } from '@/shared/enums/access-control.enum';
-
-const MAX_CATEGORIES = 10;
+import { GENERAL_STATUS } from '@/shared/constants/general-status.constant';
 
 @Injectable()
 export class CreateCategoryUseCase {
   constructor(private categoryRepository: CategoryRepository) {}
 
-  async execute(createCategoryDto: CreateCategoryDto & ImageOptionalDto, authUser: AuthUser, ability: AppAbility) {
-    const { storeId, userId } = authUser;
-    const { slug, storeId: payloadStoreId } = createCategoryDto;
-    const categoryStoreId = ability.can(Action.Manage, Subject.Category) && payloadStoreId ? payloadStoreId : storeId;
-
-    const existingCategorySlug = await this.categoryRepository.findBySlugAndStoreId(slug, storeId);
-    if (existingCategorySlug) throw new BadRequestException('Categories slug is already exist');
-
-    const ownedCategoriesCount = await this.categoryRepository.countAllOwned(storeId);
-    const maxCategories = ability.can(Action.Manage, Subject.Category) ? null : MAX_CATEGORIES;
-
-    if (maxCategories !== null && ownedCategoriesCount >= maxCategories) {
-      throw new BadRequestException('You already reached category limit');
-    }
-
+  create(dto: CreateCategoryDto & ImageOptionalDto, userId: string) {
     const category = this.categoryRepository.create({
-      ...createCategoryDto,
-      storeId: categoryStoreId,
+      ...dto,
       createdBy: userId,
-      status: CATEGORY_STATUS.active,
+      status: GENERAL_STATUS.active,
     });
 
-    if (!ability.can(Action.Create, category)) {
-      throw new ForbiddenException('You are not allowed to create category');
+    return category;
+  }
+
+  async save(category: CategoryEntity, maxCategories: number | null) {
+    const existingCategorySlug = await this.categoryRepository.findBySlug(category.slug);
+    if (existingCategorySlug) throw new BadRequestException("Category's slug is already exist");
+
+    const ownedCategoryCount = await this.categoryRepository.countAllOwned(category.storeId);
+
+    if (maxCategories !== null && ownedCategoryCount >= maxCategories) {
+      throw new BadRequestException('You already reached category limit');
     }
 
     await this.categoryRepository.save(category);

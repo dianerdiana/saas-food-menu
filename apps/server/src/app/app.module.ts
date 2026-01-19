@@ -34,7 +34,7 @@ import { UserRoleModule } from '@/modules/user-role/user-role.module';
 import { AuthorizationModule } from '@/modules/authorization/authorization.module';
 import { RecommendationModule } from '@/modules/recommendation/recommendation.module';
 import { ProductRecommendationModule } from '@/modules/product-recommendation/product-recommendation.module';
-import { LMSModule } from 'src/api/lms/lms.module';
+import { DashModule } from 'src/api/dash/dash.module';
 
 @Module({
   imports: [
@@ -67,7 +67,7 @@ import { LMSModule } from 'src/api/lms/lms.module';
     RecommendationModule,
     ProductRecommendationModule,
 
-    LMSModule,
+    DashModule,
   ],
   providers: [
     StorageService,

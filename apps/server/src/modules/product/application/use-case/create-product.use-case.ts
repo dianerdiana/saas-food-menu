@@ -2,7 +2,6 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
 import { AssignProductCategoryService } from '@/modules/product-category/application/services/assign-product-category.service';
-import { ValidateCategoriesService } from '@/modules/category/application/services/validate-categories.service';
 
 import { ProductRepository } from '../../infrastructure/repositories/product.repository';
 import { CreateProductDto } from '../dtos/create-product.dto';
@@ -19,7 +18,6 @@ export class CreateProductUseCase {
   constructor(
     private productRepository: ProductRepository,
     private assignProductCategoryService: AssignProductCategoryService,
-    private validateCategoriesService: ValidateCategoriesService,
   ) {}
 
   async execute(createProductDto: CreateProductDto & ImageOptionalDto, authUser: AuthUser, ability: AppAbility) {
@@ -38,7 +36,6 @@ export class CreateProductUseCase {
     }
 
     const categoryIds = [categoryId];
-    await this.validateCategoriesService.execute(categoryIds, storeId);
 
     const product = this.productRepository.create({
       ...createProductDto,
