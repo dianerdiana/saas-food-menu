@@ -3,11 +3,13 @@ import { Module } from '@nestjs/common';
 import { StoreController } from './interface/controllers/store.controller';
 import { AuthController } from './interface/controllers/auth.controller';
 import { CategoryController } from './interface/controllers/category.controller';
+import { ProductController } from './interface/controllers/product.controller';
 
 import { AuthModule } from '@/modules/auth/auth.module';
 import { AuthorizationModule } from '@/modules/authorization/authorization.module';
 import { StoreModule } from '@/modules/store/store.module';
 import { CategoryModule } from '@/modules/category/category.module';
+import { ProductModule } from '@/modules/product/product.module';
 
 import { StorageService } from '@/shared/services/storage.service';
 
@@ -23,9 +25,15 @@ import { CreateCategoryDash } from './application/use-cases/category/create-cate
 import { UpdateCategoryDash } from './application/use-cases/category/update-category.dash';
 import { DeleteCategoryDash } from './application/use-cases/category/delete-category.dash';
 
+// Product Providers
+import { GetProductListDash } from './application/use-cases/product/get-product-list.dash';
+import { CreateProductDash } from './application/use-cases/product/create-product.dash';
+import { UpdateProductDash } from './application/use-cases/product/update-product.dash';
+import { DeleteProductDash } from './application/use-cases/product/delete-product.dash';
+
 @Module({
-  imports: [AuthModule, AuthorizationModule, StoreModule, CategoryModule],
-  controllers: [AuthController, StoreController, CategoryController],
+  imports: [AuthModule, AuthorizationModule, StoreModule, CategoryModule, ProductModule],
+  controllers: [AuthController, StoreController, CategoryController, ProductController],
   providers: [
     StorageService,
 
@@ -40,6 +48,12 @@ import { DeleteCategoryDash } from './application/use-cases/category/delete-cate
     CreateCategoryDash,
     UpdateCategoryDash,
     DeleteCategoryDash,
+
+    // Product
+    GetProductListDash,
+    CreateProductDash,
+    UpdateProductDash,
+    DeleteProductDash,
   ],
 })
 export class DashModule {}

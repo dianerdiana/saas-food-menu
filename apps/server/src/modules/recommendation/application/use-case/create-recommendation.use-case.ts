@@ -1,7 +1,6 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 
 import { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
-import { ValidateProductsService } from '@/modules/product/application/services/validate-products.service';
 import { AssignProductRecommendationService } from '@/modules/product-recommendation/application/services/assign-product-recommendation.service';
 
 import { RecommendationRepository } from '../../infrastructure/repositories/recommendation.repository';
@@ -17,7 +16,6 @@ const MAX_RECOMMENDATIONS = 2;
 export class CreateRecommendationUseCase {
   constructor(
     private recommendationRepository: RecommendationRepository,
-    private validateProduct: ValidateProductsService,
     private assignProductRecommendation: AssignProductRecommendationService,
   ) {}
 
@@ -46,7 +44,6 @@ export class CreateRecommendationUseCase {
     await this.recommendationRepository.save(recommendation);
 
     if (productIds && productIds.length) {
-      await this.validateProduct.execute(productIds, storeId);
       await this.assignProductRecommendation.assign(recommendation.id, productIds);
     }
 
