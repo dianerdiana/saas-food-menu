@@ -19,7 +19,6 @@ import { ChangeStoreUseCase } from './application/use-cases/change-store.use-cas
 import { JwtConfigService } from './infrastructure/config/jwt-config.service';
 import { PasswordService } from './infrastructure/config/password.service';
 import { LocalStrategy } from './infrastructure/strategies/local.strategy';
-import { AuthController } from './interface/controllers/auth.controller';
 import { JwtStrategy } from './infrastructure/strategies/jwt.strategy';
 import { JwtAuthGuard } from './infrastructure/guards/jwt-auth.guard';
 import { JwtRefreshStrategy } from './infrastructure/strategies/jwt-refresh.strategy';
@@ -36,7 +35,6 @@ import { JwtRefreshStrategy } from './infrastructure/strategies/jwt-refresh.stra
     UserModule,
     StoreModule,
   ],
-  controllers: [AuthController],
   providers: [
     JwtStrategy,
     JwtRefreshStrategy,
@@ -54,6 +52,16 @@ import { JwtRefreshStrategy } from './infrastructure/strategies/jwt-refresh.stra
     AuthProjectionService,
     TokenGeneratorService,
   ],
-  exports: [PasswordService],
+  exports: [
+    PasswordService,
+    LocalStrategy,
+    ValidateUserUseCase,
+    SignInUseCase,
+    SignUpUseCase,
+    RefreshAccessTokenUseCase,
+    ChangeStoreUseCase,
+    AuthProjectionService,
+    TokenGeneratorService,
+  ],
 })
 export class AuthModule {}

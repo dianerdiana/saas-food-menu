@@ -3,13 +3,13 @@ import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import type { Response } from 'express';
 
-import { SignInUseCase } from '../../application/use-cases/sign-in.use-case';
-import { SignUpUseCase } from '../../application/use-cases/sign-up.use-case';
-import { SignUpDto } from '../../application/dtos/sign-up.dto';
-import { RefreshAccessTokenUseCase } from '../../application/use-cases/refresh-access-token.use-case';
-import { ChangeStoreUseCase } from '../../application/use-cases/change-store.use-case';
+import { SignInUseCase } from '@/modules/auth/application/use-cases/sign-in.use-case';
+import { SignUpUseCase } from '@/modules/auth/application/use-cases/sign-up.use-case';
+import { SignUpDto } from '@/modules/auth/application/dtos/sign-up.dto';
+import { RefreshAccessTokenUseCase } from '@/modules/auth/application/use-cases/refresh-access-token.use-case';
+import { ChangeStoreUseCase } from '@/modules/auth/application/use-cases/change-store.use-case';
 
-import { LocalAuthGuard } from '../../infrastructure/guards/local-auth.guard';
+import { LocalAuthGuard } from '@/modules/auth/infrastructure/guards/local-auth.guard';
 
 import { UserDataResponse } from '../responses/sign-in.response';
 
@@ -20,7 +20,7 @@ import type { AuthUser } from '@/shared/types/auth-user.type';
 const REFRESH_TOKEN_KEY = 'refreshToken';
 const MAX_AGE_COOKIE = 7 * 24 * 60 * 60 * 1000;
 
-@Controller('auth')
+@Controller('lms/auth')
 export class AuthController {
   constructor(
     private signInUseCase: SignInUseCase,
