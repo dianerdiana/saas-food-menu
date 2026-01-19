@@ -25,8 +25,8 @@ export class ChangeStoreUseCase {
       throw new ForbiddenException('You are not allowed');
     }
 
-    const userData = this.authProjectionService.buildUserData(user, storeId);
-    const jwtPayload = this.authProjectionService.buildJwtPayload(user, storeId);
+    const userData = this.authProjectionService.buildUserData(user, store);
+    const jwtPayload = this.authProjectionService.buildJwtPayload(user, store);
 
     const accessToken = await this.tokenGeneratorService.generateAccessToken(jwtPayload);
     const refreshToken = await this.tokenGeneratorService.generateRefreshToken(jwtPayload);

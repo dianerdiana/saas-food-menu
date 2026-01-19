@@ -3,7 +3,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PasswordService } from '@/modules/auth/infrastructure/config/password.service';
 import { GetUserByUsernameForAuth } from '@/modules/user/application/use-cases/get-user-by-username-for-auth.use-case';
 
-import { ValidateUserDto } from '../dtos/validate-user.dto';
+import { SignInDto } from '../dtos/sign-in.dto';
 
 @Injectable()
 export class ValidateUserUseCase {
@@ -12,8 +12,8 @@ export class ValidateUserUseCase {
     private getUserByUsernameForAuth: GetUserByUsernameForAuth,
   ) {}
 
-  async execute(validateUserDto: ValidateUserDto) {
-    const { username, password } = validateUserDto;
+  async execute(dto: SignInDto) {
+    const { username, password } = dto;
     const user = await this.getUserByUsernameForAuth.execute(username);
 
     if (!user) throw new UnauthorizedException('Invalid credentials');
