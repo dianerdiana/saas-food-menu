@@ -15,7 +15,7 @@ import { ChevronsUpDown } from 'lucide-react';
 
 import { navigation } from '@/navigation/navigation';
 import { useAuth } from '@/utils/hooks/use-auth';
-import { useGetAllStore } from '@/views/store/api/store.query';
+import { useGetListStore } from '@/views/store/api/store.query';
 
 import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';
@@ -23,7 +23,7 @@ import { StoreSwitcher } from './store-switcher';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { userData, signOut, isAuthenticated } = useAuth();
-  const storeResponse = useGetAllStore({ limit: 10, page: 1 });
+  const storeResponse = useGetListStore({ limit: 10, page: 1 });
   const userActiveStore = storeResponse.data?.data?.find((store) => store.id === userData.storeId);
 
   return (

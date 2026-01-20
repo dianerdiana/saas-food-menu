@@ -1,8 +1,8 @@
-import axios, { type AxiosResponse } from 'axios';
+import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
+
+import jwtDefaultConfig from './jwt-default-config';
 
 import { env } from '../env.config';
-import { ApiService } from './api-service';
-import jwtDefaultConfig from './jwt-default-config';
 
 export type JwtServiceConfig = {
   baseURL?: string;
@@ -10,14 +10,14 @@ export type JwtServiceConfig = {
   storageTokenKeyName?: string;
 };
 
-export class JwtService extends ApiService {
+export class JwtService {
+  axin: AxiosInstance;
   jwtConfig = { ...jwtDefaultConfig };
   accessToken: string | null = null;
   isAlreadyFetchingAccessToken = false;
   subscribers: Function[] = [];
 
   constructor({ baseURL, ...overrideServiceConfig }: JwtServiceConfig) {
-    super({ baseURL });
     this.jwtConfig = { ...this.jwtConfig, ...overrideServiceConfig };
 
     this.axin = axios.create({
@@ -81,6 +81,30 @@ export class JwtService extends ApiService {
         return Promise.reject(error);
       },
     );
+  }
+
+  get<TResponse = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<TResponse>> {
+    return this.axin.get(url, config);
+  }
+
+  post<TRequest = any, TResponse = any>(
+    url: string,
+    data?: TRequest,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<TResponse>> {
+    return this.axin.post(url, data, config);
+  }
+
+  put<TRequest = any, TResponse = any>(
+    url: string,
+    data?: TRequest,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<TResponse>> {
+    return this.axin.put(url, data, config);
+  }
+
+  delete<TResponse = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<TResponse>> {
+    return this.axin.delete(url, config);
   }
 
   onAccessTokenFetched(accessToken: string) {

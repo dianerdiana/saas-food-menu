@@ -41,7 +41,7 @@ export function SignInForm() {
           toast.success(`Welcome to Tooang! ${userData.fullName}`);
           navigate('/dashboard');
         } else {
-          toast.error(payload?.data?.message || 'Invalid Credentials');
+          toast.error(payload.data.message || 'Invalid Credentials');
           setError('root', { message: 'Invalid Credentials' });
         }
       },

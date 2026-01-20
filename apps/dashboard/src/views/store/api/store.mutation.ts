@@ -10,9 +10,9 @@ export const useCreateStore = () => {
 
   return useMutation({
     mutationFn: createStore,
-    onSuccess: (payload) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [storeKeys.create(), storeKeys.detail(payload.data?.id || '')],
+        queryKey: storeKeys.lists(),
         exact: false,
       });
     },
@@ -53,9 +53,9 @@ export const useChangeStore = () => {
 
   return useMutation({
     mutationFn: changeStore,
-    onSuccess: (payload) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [storeKeys.create(), storeKeys.detail(payload.data?.id || '')],
+        queryKey: storeKeys.lists(),
         exact: false,
       });
     },
