@@ -90,7 +90,7 @@ export class ProductController {
     let url: undefined | null | string = null;
 
     if (image) {
-      url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.products);
+      url = await this.storageService.uploadSingleImage(image, `${BUCKET_FOLDER_NAME.products}/${authUser.storeName}`);
     }
 
     const result = await this.createProductDash.execute({ ...dto, image: url }, authUser, ability);
@@ -113,7 +113,7 @@ export class ProductController {
     let url: undefined | null | string = null;
 
     if (image) {
-      url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.products);
+      url = await this.storageService.uploadSingleImage(image, `${BUCKET_FOLDER_NAME.products}/${authUser.storeName}`);
     }
 
     const result = await this.updateProductDash.execute(id, { ...dto, image: url }, authUser, ability);

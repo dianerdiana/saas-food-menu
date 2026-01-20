@@ -93,7 +93,10 @@ export class CategoryController {
     let url: undefined | null | string = null;
 
     if (image) {
-      url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.categories);
+      url = await this.storageService.uploadSingleImage(
+        image,
+        `${BUCKET_FOLDER_NAME.categories}/${authUser.storeName}`,
+      );
     }
 
     const result = await this.createCategoryDash.execute({ ...dto, image: url }, authUser, ability);
@@ -116,7 +119,10 @@ export class CategoryController {
     let url: undefined | null | string = null;
 
     if (image) {
-      url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.categories);
+      url = await this.storageService.uploadSingleImage(
+        image,
+        `${BUCKET_FOLDER_NAME.categories}/${authUser.storeName}`,
+      );
     }
 
     const result = await this.updateCategoryDash.execute(id, { ...dto, image: url }, authUser, ability);

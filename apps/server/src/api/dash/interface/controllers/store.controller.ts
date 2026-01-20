@@ -72,14 +72,14 @@ export class StoreController {
   }
 
   @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
-  @Get('id/:id')
+  @Get(':id')
   async getStoreById(@Param('id') id: string) {
     const result = await this.getStoreByIdUseCase.execute(id);
     return new StoreResponse(result);
   }
 
   @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
-  @Get('id/:id/categories')
+  @Get(':id/categories')
   async getStoreCategories(@Param('id') id: string, @Query() paginationDto: PaginationDto) {
     const result = await this.getStoreCategoriesDash.execute(paginationDto, id);
     return result.map((category) => new CategoryResponse(category));
@@ -103,7 +103,7 @@ export class StoreController {
     let url: undefined | null | string = null;
 
     if (image) {
-      url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.stores);
+      url = await this.storageService.uploadSingleImage(image, `${BUCKET_FOLDER_NAME.stores}/${authUser.storeName}`);
     }
 
     const result = await this.createStoreDash.execute({ ...dto, image: url }, authUser, ability);
@@ -126,7 +126,7 @@ export class StoreController {
     let url: undefined | null | string = null;
 
     if (image) {
-      url = await this.storageService.uploadSingleImage(image, BUCKET_FOLDER_NAME.stores);
+      url = await this.storageService.uploadSingleImage(image, `${BUCKET_FOLDER_NAME.stores}/${authUser.storeName}`);
     }
 
     const result = await this.updateStoreDash.execute(id, { ...dto, image: url }, authUser, ability);

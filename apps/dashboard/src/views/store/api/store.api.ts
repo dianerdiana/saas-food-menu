@@ -18,7 +18,7 @@ export const getAllStore = async (params: PaginationType): Promise<ApiResponse<S
 
 export const getStoreCategories = async (params: PaginationType, storeId: string): Promise<ApiResponse<Category[]>> => {
   try {
-    const response = await jwt.get<ApiResponse<Category[]>>(`/stores/id/${storeId}/categories`, { params });
+    const response = await jwt.get<ApiResponse<Category[]>>(`/stores/${storeId}/categories`, { params });
     return response.data;
   } catch (error) {
     return handleErrorApi(error);
@@ -36,7 +36,7 @@ export const getStoreSelectData = async (params: PaginationType): Promise<ApiRes
 
 export const getStoreById = async (storeId: string): Promise<ApiResponse<Store>> => {
   try {
-    const response = await jwt.get(`/stores/id/${storeId}`);
+    const response = await jwt.get(`/stores/${storeId}`);
     return response.data;
   } catch (error) {
     throw handleErrorApi(error);
