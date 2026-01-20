@@ -13,7 +13,7 @@ import type { AppAbility } from '@/modules/authorization/infrastructure/factorie
 import { LocalAuthGuard } from '@/modules/auth/infrastructure/guards/local-auth.guard';
 import { PoliciesGuard } from '@/modules/authorization/infrastructure/guards/policies.guard';
 
-import { UserDataResponse } from '../responses/sign-in.response';
+import { UserDataResponse } from '../responses/auth.response';
 
 import type { AuthUser } from '@/shared/types/auth-user.type';
 import { Public } from '@/shared/decorators/public.decorator';

@@ -12,7 +12,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { CategoryResponse } from '../responses/category.response';
+import { CategoryResponse, CategoryWithStoreResponse } from '../responses/category.response';
+
 import { GetCategoryListDash } from '../../application/use-cases/category/get-category-list.dash';
 import { CreateCategoryDash } from '../../application/use-cases/category/create-category.dash';
 import { UpdateCategoryDash } from '../../application/use-cases/category/update-category.dash';
@@ -62,7 +63,7 @@ export class CategoryController {
     const result = await this.getCategoryListDash.execute(paginationDto, authUser, ability);
 
     return {
-      data: result.categories.map((category) => new CategoryResponse(category)),
+      data: result.categories.map((category) => new CategoryWithStoreResponse(category)),
       meta: result.meta,
     };
   }

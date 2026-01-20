@@ -12,7 +12,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { ProductResponse } from '../responses/product.response';
+import { ProductResponse, ProductWithStoreResponse } from '../responses/product.response';
 import { GetProductListDash } from '../../application/use-cases/product/get-product-list.dash';
 import { CreateProductDash } from '../../application/use-cases/product/create-product.dash';
 import { UpdateProductDash } from '../../application/use-cases/product/update-product.dash';
@@ -62,7 +62,7 @@ export class ProductController {
     const result = await this.getProductListDash.execute(paginationDto, authUser, ability);
 
     return {
-      data: result.products.map((product) => new ProductResponse(product)),
+      data: result.products.map((product) => new ProductWithStoreResponse(product)),
       meta: result.meta,
     };
   }

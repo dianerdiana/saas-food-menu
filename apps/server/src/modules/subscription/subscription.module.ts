@@ -7,9 +7,6 @@ import { SubscriptionEntity } from './domain/entities/subscription.entity';
 // Repository
 import { SubscriptionRepository } from './infrastructure/repositories/subscription.repository';
 
-// Controller
-import { SubscriptionController } from './interface/controllers/subscription.controller';
-
 // Use Case
 import { CreateSubscriptionUseCase } from './application/use-case/create-subscription.use-case';
 import { DeleteSubscriptionUseCase } from './application/use-case/delete-subscription.use-case';
@@ -19,7 +16,6 @@ import { UpdateSubscriptionUseCase } from './application/use-case/update-subscri
 
 @Module({
   imports: [TypeOrmModule.forFeature([SubscriptionEntity])],
-  controllers: [SubscriptionController],
   providers: [
     SubscriptionRepository,
     CreateSubscriptionUseCase,

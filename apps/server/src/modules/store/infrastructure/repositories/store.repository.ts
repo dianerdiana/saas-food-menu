@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 import { StoreEntity } from '../../domain/entities/store.entity';
 
@@ -48,6 +48,10 @@ export class StoreRepository {
 
   async findById(id: string) {
     return this.repository.findOneBy({ id });
+  }
+
+  async findByIds(ids: string[]) {
+    return this.repository.createQueryBuilder('store').where('id IN (:...ids)', { ids }).getMany();
   }
 
   async findBySlug(slug: string) {
