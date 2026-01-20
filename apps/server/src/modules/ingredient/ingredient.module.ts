@@ -8,9 +8,6 @@ import { IngredientEntity } from './domain/entities/ingredient.entity';
 // Repository
 import { IngredientRepository } from './infrastructure/repositories/ingredient.repository';
 
-// Controller
-import { IngredientController } from './interface/controllers/ingredient.controller';
-
 // Use Case
 import { CreateIngredientUseCase } from './application/use-case/create-ingredient.use-case';
 import { DeleteIngredientUseCase } from './application/use-case/delete-ingredient.use-case';
@@ -21,7 +18,6 @@ import { GetIngredientBySlugUseCase } from './application/use-case/get-ingredien
 
 @Module({
   imports: [TypeOrmModule.forFeature([IngredientEntity])],
-  controllers: [IngredientController],
   providers: [
     IngredientRepository,
     CreateIngredientUseCase,
