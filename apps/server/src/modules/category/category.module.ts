@@ -14,6 +14,7 @@ import { GetCategoryListUseCase } from './application/use-cases/get-category-lis
 import { GetCategoryByIdUseCase } from './application/use-cases/get-category-by-id.use-case';
 import { UpdateCategoryUseCase } from './application/use-cases/update-category.use-case';
 import { GetCategoryBySlugUseCase } from './application/use-cases/get-category-by-slug.use-case';
+import { GetCategoryByIdsUseCase } from './application/use-cases/get-category-by-ids.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([CategoryEntity])],
@@ -23,23 +24,29 @@ import { GetCategoryBySlugUseCase } from './application/use-cases/get-category-b
     InitializeDefaultCategoryService,
 
     CategoryRepository,
-    CreateCategoryUseCase,
-    DeleteCategoryUseCase,
-    GetCategoryListUseCase,
+
     GetCategoryByIdUseCase,
-    UpdateCategoryUseCase,
+    GetCategoryByIdsUseCase,
     GetCategoryBySlugUseCase,
+    GetCategoryListUseCase,
+
+    CreateCategoryUseCase,
+    UpdateCategoryUseCase,
+    DeleteCategoryUseCase,
   ],
   exports: [
     InitializeDefaultCategoryService,
 
     CategoryRepository,
-    CreateCategoryUseCase,
-    DeleteCategoryUseCase,
-    GetCategoryListUseCase,
+
     GetCategoryByIdUseCase,
-    UpdateCategoryUseCase,
+    GetCategoryByIdsUseCase,
     GetCategoryBySlugUseCase,
+    GetCategoryListUseCase,
+
+    CreateCategoryUseCase,
+    UpdateCategoryUseCase,
+    DeleteCategoryUseCase,
   ],
 })
 export class CategoryModule {}

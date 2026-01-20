@@ -4,13 +4,20 @@ import { AppAbility } from '@/modules/authorization/infrastructure/factories/cas
 import { CreateStoreDto } from '@/modules/store/application/dtos/create-store.dto';
 import { CreateStoreUseCase } from '@/modules/store/application/use-cases/create-store.use-case';
 
+import { InitializeDefaultCategoryService } from '@/modules/category/application/services/initialize-default-category.service';
+import { InitializeDefaultRecommendationService } from '@/modules/recommendation/application/services/initialize-default-recommendation.service';
+
 import { ImageOptionalDto } from '@/shared/dtos/image.dto';
 import { Action, Subject } from '@/shared/enums/access-control.enum';
 import { AuthUser } from '@/shared/types/auth-user.type';
 
 @Injectable()
 export class CreateStoreDash {
-  constructor(private createStoreUseCase: CreateStoreUseCase) {}
+  constructor(
+    private createStoreUseCase: CreateStoreUseCase,
+    private initializeDefaultCategory: InitializeDefaultCategoryService,
+    private initializeDefaultRecommendation: InitializeDefaultRecommendationService,
+  ) {}
 
   async execute(dto: CreateStoreDto & ImageOptionalDto, user: AuthUser, ability: AppAbility) {
     const canManageStore = ability.can(Action.Manage, Subject.Store);
@@ -20,7 +27,11 @@ export class CreateStoreDash {
     const store = this.createStoreUseCase.create({ ...dto, userId: ownerId }, user.userId);
 
     if (ability.can(Action.Create, store)) {
-      return await this.createStoreUseCase.save(store, maxStores);
+      const newStore = await this.createStoreUseCase.save(store, maxStores);
+      await this.initializeDefaultCategory.initialize(newStore.id);
+      await this.initializeDefaultRecommendation.initialize(newStore.id);
+
+      return newStore;
     }
 
     throw new ForbiddenException("You're not allowed to create store");

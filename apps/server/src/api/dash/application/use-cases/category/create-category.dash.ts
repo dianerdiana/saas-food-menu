@@ -14,9 +14,10 @@ export class CreateCategoryDash {
 
   async execute(dto: CreateCategoryDto & ImageOptionalDto, user: AuthUser, ability: AppAbility) {
     const canManageCategory = ability.can(Action.Manage, Subject.Category);
+    const categoryStoreId = canManageCategory && dto.storeId ? dto.storeId : user.storeId;
     const maxCategorys = canManageCategory ? null : 1;
 
-    const category = this.createCategoryUseCase.create(dto, user.userId);
+    const category = this.createCategoryUseCase.create({ ...dto, storeId: categoryStoreId }, user.userId);
 
     if (ability.can(Action.Create, category)) {
       return await this.createCategoryUseCase.save(category, maxCategorys);

@@ -16,12 +16,13 @@ export class ChangeStoreUseCase {
     private tokenGeneratorService: TokenGeneratorService,
   ) {}
 
-  async execute(authUser: AuthUser, storeId: string) {
+  async execute(authUser: AuthUser, storeId: string, bypassAccess?: boolean) {
     const user = await this.getUserByUsernameForAuth.execute(authUser.username);
     if (!user) throw new UnauthorizedException();
 
     const store = await this.getStoreByIdUseCase.execute(storeId);
-    if (store.ownerId !== authUser.userId) {
+
+    if (!bypassAccess && store.ownerId !== authUser.userId) {
       throw new ForbiddenException('You are not allowed');
     }
 

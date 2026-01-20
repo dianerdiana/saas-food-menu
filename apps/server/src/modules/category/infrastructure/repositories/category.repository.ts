@@ -49,6 +49,10 @@ export class CategoryRepository {
     return this.repository.findOneBy({ id });
   }
 
+  async findByIds(ids: string[]) {
+    return this.repository.findOneBy({ id: In(ids) });
+  }
+
   async findBySlug(slug: string) {
     return this.repository.findOneBy({ slug });
   }

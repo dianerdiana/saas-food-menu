@@ -10,6 +10,7 @@ import { AuthorizationModule } from '@/modules/authorization/authorization.modul
 import { StoreModule } from '@/modules/store/store.module';
 import { CategoryModule } from '@/modules/category/category.module';
 import { ProductModule } from '@/modules/product/product.module';
+import { RecommendationModule } from '@/modules/recommendation/recommendation.module';
 
 import { StorageService } from '@/shared/services/storage.service';
 
@@ -32,7 +33,7 @@ import { UpdateProductDash } from './application/use-cases/product/update-produc
 import { DeleteProductDash } from './application/use-cases/product/delete-product.dash';
 
 @Module({
-  imports: [AuthModule, AuthorizationModule, StoreModule, CategoryModule, ProductModule],
+  imports: [AuthModule, AuthorizationModule, StoreModule, CategoryModule, ProductModule, RecommendationModule],
   controllers: [AuthController, StoreController, CategoryController, ProductController],
   providers: [
     StorageService,

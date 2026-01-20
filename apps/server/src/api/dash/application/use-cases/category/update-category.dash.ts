@@ -17,10 +17,13 @@ export class UpdateCategoryDash {
   ) {}
 
   async execute(id: string, dto: UpdateCategoryDto & ImageOptionalDto, user: AuthUser, ability: AppAbility) {
+    const canManageCategory = ability.can(Action.Manage, Subject.Category);
+    const categoryStoreId = canManageCategory && dto.storeId ? dto.storeId : user.storeId;
+
     const category = await this.getCategoryByIdUseCase.execute(id);
 
     if (ability.can(Action.Update, category)) {
-      return this.updateCategoryUseCase.execute(dto, user.userId, id);
+      return this.updateCategoryUseCase.execute({ ...dto, storeId: categoryStoreId }, user.userId, id);
     }
 
     throw new ForbiddenException("You're not allowed to update category");

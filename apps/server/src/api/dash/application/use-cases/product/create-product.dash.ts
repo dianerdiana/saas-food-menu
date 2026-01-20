@@ -14,9 +14,10 @@ export class CreateProductDash {
 
   async execute(dto: CreateProductDto & ImageOptionalDto, user: AuthUser, ability: AppAbility) {
     const canManageProduct = ability.can(Action.Manage, Subject.Product);
+    const productStoreId = canManageProduct && dto.storeId ? dto.storeId : user.storeId;
     const maxProducts = canManageProduct ? null : 100;
 
-    const product = this.createProductUseCase.create(dto, user.userId);
+    const product = this.createProductUseCase.create({ ...dto, storeId: productStoreId }, user.userId);
 
     if (ability.can(Action.Create, product)) {
       return await this.createProductUseCase.save(product, maxProducts);
