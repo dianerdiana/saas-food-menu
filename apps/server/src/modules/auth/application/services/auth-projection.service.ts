@@ -17,7 +17,7 @@ export class AuthProjectionService {
     );
     const roles = user.userRoles.map((userRole) => userRole.role.name);
 
-    return { ...user, storeId: store.id, storeName: store.name, roles, permissions };
+    return { ...user, storeId: store.id, storeName: store.slug, roles, permissions };
   }
 
   buildJwtPayload(user: UserEntity, store: StoreEntity): AuthUser {

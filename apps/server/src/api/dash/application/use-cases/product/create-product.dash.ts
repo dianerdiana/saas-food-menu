@@ -24,9 +24,9 @@ export class CreateProductDash {
     const maxProducts = canManageProduct ? null : 100;
 
     const product = this.createProductUseCase.create({ ...dto, storeId: productStoreId }, user.userId);
-    const category = await this.getCategoryByIdUseCase.execute(dto.categoryId);
 
     if (ability.can(Action.Create, product)) {
+      const category = await this.getCategoryByIdUseCase.execute(dto.categoryId);
       const newProduct = await this.createProductUseCase.save(product, maxProducts);
       await this.assignProductCategoryService.assign(newProduct.id, [category.id]);
 

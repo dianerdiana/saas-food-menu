@@ -3,6 +3,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
 import { DeleteProductUseCase } from '@/modules/product/application/use-cases/delete-product.use-case';
 import { GetProductByIdUseCase } from '@/modules/product/application/use-cases/get-product-by-id.use-case';
+import { DeleteProductCategoryByProductId } from '@/modules/product-category/application/services/delete-product-category-by-product-id.service';
 
 import { Action } from '@/shared/enums/access-control.enum';
 import { AuthUser } from '@/shared/types/auth-user.type';
@@ -12,13 +13,17 @@ export class DeleteProductDash {
   constructor(
     private deleteProductUseCase: DeleteProductUseCase,
     private getProductByIdUseCase: GetProductByIdUseCase,
+    private deleteProductCategoryByProductIdService: DeleteProductCategoryByProductId,
   ) {}
 
   async execute(id: string, user: AuthUser, ability: AppAbility) {
     const product = await this.getProductByIdUseCase.execute(id);
 
     if (ability.can(Action.Delete, product)) {
-      return await this.deleteProductUseCase.execute(id, user.userId);
+      const result = await this.deleteProductUseCase.execute(id, user.userId);
+      await this.deleteProductCategoryByProductIdService.execute(id);
+
+      return result;
     }
 
     throw new ForbiddenException("You're not allowed to delete product");

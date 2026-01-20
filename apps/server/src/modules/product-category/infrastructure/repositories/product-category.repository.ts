@@ -26,11 +26,11 @@ export class ProductCategoryRepository {
       .execute();
   }
 
-  async hardDeleteByProductId(productId: string) {
-    return await this.repository.delete({ productId });
-  }
-
   findByProductId(productId: string) {
     return this.repository.createQueryBuilder('productCategory').where('product_id=:productId', { productId }).getOne();
+  }
+
+  async hardDeleteByProductId(productId: string) {
+    return await this.repository.delete({ productId });
   }
 }

@@ -24,7 +24,7 @@ export class GetProductListDash {
     }
 
     if (ability.can(Action.Read, Subject.Product)) {
-      const [products, count] = await this.getProductList.execute(pagination, user.userId);
+      const [products, count] = await this.getProductList.execute(pagination, user.storeId);
       return await this.generateData(products, count, pagination);
     }
 
@@ -32,11 +32,15 @@ export class GetProductListDash {
   }
 
   private async generateData(products: ProductEntity[], totalItems: number, pagination: PaginationDto) {
-    const storeIds = products.map((category) => category.storeId);
-    const uniqueStoreIds = [...new Set(storeIds)];
-    const stores = await this.getStoreByIds.execute(uniqueStoreIds);
+    const storeMap = new Map();
 
-    const storeMap = new Map(stores.map((store) => [store.id, store]));
+    if (products.length) {
+      const stores = await this.getStoreByIds.execute([...new Set(products.map((product) => product.storeId))]);
+
+      for (const store of stores) {
+        storeMap.set(store.id, store);
+      }
+    }
 
     return {
       products: products.map((product) => ({

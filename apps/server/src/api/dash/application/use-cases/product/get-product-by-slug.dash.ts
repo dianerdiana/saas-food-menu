@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { GetCategoryByIdUseCase } from '@/modules/category/application/use-cases/get-category-by-id.use-case';
-import { GetProductCategoryByProductIdService } from '@/modules/product-category/application/services/get-category-by-product-id.service';
+import { GetProductCategoryByProductIdService } from '@/modules/product-category/application/services/get-product-category-by-product-id.service';
 import { GetProductBySlugUseCase } from '@/modules/product/application/use-cases/get-product-by-slug.use-case';
 
 @Injectable()
