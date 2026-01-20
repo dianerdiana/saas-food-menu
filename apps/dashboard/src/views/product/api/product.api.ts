@@ -17,7 +17,7 @@ export const getAllProduct = async (params: PaginationType): Promise<ApiResponse
 
 export const getProductById = async (productId: string): Promise<ApiResponse<Product>> => {
   try {
-    const response = await jwt.get(`/products/id/${productId}`);
+    const response = await jwt.get(`/products/${productId}`);
     return response.data;
   } catch (error) {
     throw handleErrorApi(error);

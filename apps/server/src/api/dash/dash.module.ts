@@ -11,6 +11,7 @@ import { StoreModule } from '@/modules/store/store.module';
 import { CategoryModule } from '@/modules/category/category.module';
 import { ProductModule } from '@/modules/product/product.module';
 import { RecommendationModule } from '@/modules/recommendation/recommendation.module';
+import { ProductCategoryModule } from '@/modules/product-category/product-category.module';
 
 import { StorageService } from '@/shared/services/storage.service';
 
@@ -32,9 +33,19 @@ import { GetProductListDash } from './application/use-cases/product/get-product-
 import { CreateProductDash } from './application/use-cases/product/create-product.dash';
 import { UpdateProductDash } from './application/use-cases/product/update-product.dash';
 import { DeleteProductDash } from './application/use-cases/product/delete-product.dash';
+import { GetProductByIdDash } from './application/use-cases/product/get-product-by-id.dash';
+import { GetProductBySlugDash } from './application/use-cases/product/get-product-by-slug.dash';
 
 @Module({
-  imports: [AuthModule, AuthorizationModule, StoreModule, CategoryModule, ProductModule, RecommendationModule],
+  imports: [
+    AuthModule,
+    AuthorizationModule,
+    StoreModule,
+    CategoryModule,
+    ProductModule,
+    RecommendationModule,
+    ProductCategoryModule,
+  ],
   controllers: [AuthController, StoreController, CategoryController, ProductController],
   providers: [
     StorageService,
@@ -57,6 +68,8 @@ import { DeleteProductDash } from './application/use-cases/product/delete-produc
     CreateProductDash,
     UpdateProductDash,
     DeleteProductDash,
+    GetProductByIdDash,
+    GetProductBySlugDash,
   ],
 })
 export class DashModule {}

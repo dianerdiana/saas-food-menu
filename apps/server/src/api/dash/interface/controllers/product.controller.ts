@@ -12,20 +12,18 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { ProductResponse, ProductWithStoreResponse } from '../responses/product.response';
-import { GetProductListDash } from '../../application/use-cases/product/get-product-list.dash';
-import { CreateProductDash } from '../../application/use-cases/product/create-product.dash';
-import { UpdateProductDash } from '../../application/use-cases/product/update-product.dash';
-import { DeleteProductDash } from '../../application/use-cases/product/delete-product.dash';
-
 import type { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
 import { PoliciesGuard } from '@/modules/authorization/infrastructure/guards/policies.guard';
 import { CheckPolicies } from '@/modules/authorization/infrastructure/decorator/check-policies.decorator';
 import { CreateProductDto } from '@/modules/product/application/dtos/create-product.dto';
 import { UpdateProductDto } from '@/modules/product/application/dtos/update-product.dto';
 
-import { GetProductByIdUseCase } from '@/modules/product/application/use-cases/get-product-by-id.use-case';
-import { GetProductBySlugUseCase } from '@/modules/product/application/use-cases/get-product-by-slug.use-case';
+import { GetProductListDash } from '../../application/use-cases/product/get-product-list.dash';
+import { CreateProductDash } from '../../application/use-cases/product/create-product.dash';
+import { UpdateProductDash } from '../../application/use-cases/product/update-product.dash';
+import { DeleteProductDash } from '../../application/use-cases/product/delete-product.dash';
+import { GetProductByIdDash } from '../../application/use-cases/product/get-product-by-id.dash';
+import { GetProductBySlugDash } from '../../application/use-cases/product/get-product-by-slug.dash';
 
 import type { AuthUser } from '@/shared/types/auth-user.type';
 import { GetAuthUser } from '@/shared/decorators/get-user.decorator';
@@ -37,6 +35,8 @@ import { StorageService } from '@/shared/services/storage.service';
 import { BUCKET_FOLDER_NAME } from '@/shared/constants/bucket-folder-name.constant';
 import { Action, Subject } from '@/shared/enums/access-control.enum';
 
+import { ProductResponse, ProductWithCategoryResponse, ProductWithStoreResponse } from '../responses/product.response';
+
 @UseGuards(PoliciesGuard)
 @Controller('/dash/products')
 export class ProductController {
@@ -44,13 +44,11 @@ export class ProductController {
     private storageService: StorageService,
 
     private getProductListDash: GetProductListDash,
-    private getProductByIdUseCase: GetProductByIdUseCase,
-    private getProductBySlugUseCase: GetProductBySlugUseCase,
-
     private createProductDash: CreateProductDash,
     private updateProductDash: UpdateProductDash,
-
     private deleteProductDash: DeleteProductDash,
+    private getProductByIdDash: GetProductByIdDash,
+    private getProductBySlugDash: GetProductBySlugDash,
   ) {}
 
   @Get()
@@ -68,17 +66,17 @@ export class ProductController {
   }
 
   @CheckPolicies((ability) => ability.can(Action.Read, Subject.Product))
-  @Get('id/:id')
+  @Get(':id')
   async getProductById(@Param('id') id: string) {
-    const result = await this.getProductByIdUseCase.execute(id);
-    return new ProductResponse(result);
+    const result = await this.getProductByIdDash.execute(id);
+    return new ProductWithCategoryResponse(result);
   }
 
   @CheckPolicies((ability) => ability.can(Action.Read, Subject.Product))
   @Get('slug/:slug')
   async getProductBySlug(@Param('slug') slug: string) {
-    const result = await this.getProductBySlugUseCase.execute(slug);
-    return new ProductResponse(result);
+    const result = await this.getProductBySlugDash.execute(slug);
+    return new ProductWithCategoryResponse(result);
   }
 
   @UseInterceptors(FileInterceptor('image'))
@@ -121,7 +119,7 @@ export class ProductController {
     const result = await this.updateProductDash.execute(id, { ...dto, image: url }, authUser, ability);
 
     return {
-      message: 'Successfuly created product',
+      message: 'Successfuly updated product',
       data: new ProductResponse(result),
     };
   }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Controller, type SubmitErrorHandler, useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -81,9 +81,10 @@ export function FormCreateProduct() {
     toast.error(String(invalidMessage));
   };
 
-  useEffect(() => {
+  const onSelectStore = (value: string) => {
+    setValue('storeId', value);
     setValue('categoryId', '');
-  }, [storeId]);
+  };
 
   return (
     <Card>
@@ -104,7 +105,7 @@ export function FormCreateProduct() {
                       <FieldLabel>
                         Select Store <span className='text-destructive'>*</span>
                       </FieldLabel>
-                      <SelectStore value={field.value} onSelect={field.onChange} />
+                      <SelectStore value={field.value} onSelect={onSelectStore} />
                     </Field>
                   )}
                 />
