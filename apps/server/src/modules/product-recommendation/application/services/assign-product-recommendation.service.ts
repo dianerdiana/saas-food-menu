@@ -7,7 +7,7 @@ export class AssignProductRecommendationService {
   constructor(private productRecommendationRepository: ProductRecommendationRepository) {}
 
   async assign(recommendationId: string, productIds: string[]) {
-    await this.productRecommendationRepository.hardDeleteByRecommendationId(recommendationId);
+    await this.productRecommendationRepository.hardDelete(recommendationId);
 
     const productRecommendations = productIds.map((productId) =>
       this.productRecommendationRepository.create({

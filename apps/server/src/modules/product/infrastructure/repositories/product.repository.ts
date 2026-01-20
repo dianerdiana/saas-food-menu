@@ -46,6 +46,10 @@ export class ProductRepository {
     return this.repository.findOneBy({ id });
   }
 
+  async findByIds(ids: string[]) {
+    return this.repository.createQueryBuilder('product').where('id IN (:...ids)', { ids }).getMany();
+  }
+
   async findBySlug(slug: string) {
     return this.repository.findOneBy({ slug });
   }

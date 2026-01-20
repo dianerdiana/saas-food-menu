@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Controller, type SubmitErrorHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,15 +32,17 @@ import type { UpdateRecommendationType } from '../types/update-recommendation.ty
 type OptionItem = { label: string; value: string };
 
 export function FormUpdateRecommendation({ recommendation }: { recommendation: Recommendation }) {
-  const [selectedProducts, setSelectedProducts] = useState<OptionItem[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<OptionItem[]>(
+    recommendation.products.map((product) => ({ label: product.name, value: product.id })),
+  );
 
-  const { control, handleSubmit, getValues, setValue, reset } = useForm<UpdateRecommendationType>({
+  const { control, handleSubmit, getValues, setValue } = useForm<UpdateRecommendationType>({
     resolver: zodResolver(updateRecommendationSchema),
     mode: 'onChange',
     defaultValues: {
-      name: '',
-      displayMode: 'vertical',
-      productIds: [],
+      name: recommendation.name,
+      displayMode: recommendation.displayMode,
+      productIds: recommendation.products.map((product) => product.id),
     },
   });
 
@@ -87,20 +89,10 @@ export function FormUpdateRecommendation({ recommendation }: { recommendation: R
     );
   };
 
-  useEffect(() => {
-    reset({
-      name: recommendation.name,
-      displayMode: recommendation.displayMode,
-      productIds: recommendation.products.map((product) => product.id),
-    });
-
-    setSelectedProducts(recommendation.products.map((product) => ({ label: product.name, value: product.id })));
-  }, [recommendation]);
-
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='text-2xl'>Add Recommendation</CardTitle>
+        <CardTitle className='text-2xl'>Edit Recommendation</CardTitle>
       </CardHeader>
       <CardContent>
         <div className='grid place-content-center gap-4 grid-cols-2'>

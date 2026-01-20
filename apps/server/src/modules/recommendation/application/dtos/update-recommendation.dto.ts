@@ -12,4 +12,8 @@ export class UpdateRecommendationDto {
   @IsArray()
   @IsOptional()
   productIds?: string[];
+
+  @IsString()
+  @IsOptional()
+  storeId?: string;
 }

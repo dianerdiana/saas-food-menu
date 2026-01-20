@@ -19,7 +19,7 @@ export const getAllRecommendation = async (params: PaginationType): Promise<ApiR
 
 export const getRecommendationById = async (recommendationId: string): Promise<ApiResponse<Recommendation>> => {
   try {
-    const response = await jwt.get(`/recommendations/id/${recommendationId}`);
+    const response = await jwt.get(`/recommendations/${recommendationId}`);
     return response.data;
   } catch (error) {
     throw handleErrorApi(error);

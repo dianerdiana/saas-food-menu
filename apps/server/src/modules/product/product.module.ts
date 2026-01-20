@@ -13,6 +13,7 @@ import { GetProductListUseCase } from './application/use-cases/get-product-list.
 import { GetProductByIdUseCase } from './application/use-cases/get-product-by-id.use-case';
 import { GetProductBySlugUseCase } from './application/use-cases/get-product-by-slug.use-case';
 import { UpdateProductUseCase } from './application/use-cases/update-product.use-case';
+import { GetProductByIdsUseCase } from './application/use-cases/get-product-by-ids.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ProductEntity])],
@@ -27,16 +28,16 @@ import { UpdateProductUseCase } from './application/use-cases/update-product.use
     GetProductByIdUseCase,
     GetProductBySlugUseCase,
     UpdateProductUseCase,
+    GetProductByIdsUseCase,
   ],
   exports: [
-    ProductRepository,
-
     CreateProductUseCase,
     DeleteProductUseCase,
     GetProductListUseCase,
     GetProductByIdUseCase,
     GetProductBySlugUseCase,
     UpdateProductUseCase,
+    GetProductByIdsUseCase,
   ],
 })
 export class ProductModule {}

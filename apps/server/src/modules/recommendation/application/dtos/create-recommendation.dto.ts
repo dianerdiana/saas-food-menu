@@ -12,4 +12,8 @@ export class CreateRecommendationDto {
   @IsArray()
   @IsOptional()
   productIds?: string[];
+
+  @IsString()
+  @IsOptional()
+  storeId?: string;
 }

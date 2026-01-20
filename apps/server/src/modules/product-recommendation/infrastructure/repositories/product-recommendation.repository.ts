@@ -26,7 +26,29 @@ export class ProductRecommendationRepository {
       .execute();
   }
 
-  async hardDeleteByRecommendationId(recommendationId: string) {
-    return await this.repository.delete({ recommendationId });
+  findMany(recommendationId?: string, productId?: string) {
+    const query = this.repository.createQueryBuilder('productRecommendation');
+
+    if (recommendationId) query.andWhere('recommendation_id=:recommendationId', { recommendationId });
+    if (productId) query.andWhere('product_id=:productId', { productId });
+
+    return query.getMany();
+  }
+
+  findOne(recommendationId?: string, productId?: string) {
+    const query = this.repository.createQueryBuilder('productRecommendation');
+
+    if (recommendationId) {
+      query.andWhere('recommendation_id=:recommendationId', { recommendationId });
+    } else if (productId) {
+      query.andWhere('product_id=:productId', { productId });
+    }
+
+    return query.getOne();
+  }
+
+  async hardDelete(recommendationId?: string, productId?: string) {
+    if (recommendationId) return await this.repository.delete({ recommendationId });
+    if (recommendationId) return await this.repository.delete({ productId });
   }
 }

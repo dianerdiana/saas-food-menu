@@ -4,6 +4,7 @@ import { StoreController } from './interface/controllers/store.controller';
 import { AuthController } from './interface/controllers/auth.controller';
 import { CategoryController } from './interface/controllers/category.controller';
 import { ProductController } from './interface/controllers/product.controller';
+import { RecommendationController } from './interface/controllers/recommendation.controller';
 
 import { AuthModule } from '@/modules/auth/auth.module';
 import { AuthorizationModule } from '@/modules/authorization/authorization.module';
@@ -12,6 +13,7 @@ import { CategoryModule } from '@/modules/category/category.module';
 import { ProductModule } from '@/modules/product/product.module';
 import { RecommendationModule } from '@/modules/recommendation/recommendation.module';
 import { ProductCategoryModule } from '@/modules/product-category/product-category.module';
+import { ProductRecommendationModule } from '@/modules/product-recommendation/product-recommendation.module';
 
 import { StorageService } from '@/shared/services/storage.service';
 
@@ -36,6 +38,13 @@ import { DeleteProductDash } from './application/use-cases/product/delete-produc
 import { GetProductByIdDash } from './application/use-cases/product/get-product-by-id.dash';
 import { GetProductBySlugDash } from './application/use-cases/product/get-product-by-slug.dash';
 
+// Recommendation Providers
+import { GetRecommendationListDash } from './application/use-cases/recommendation/get-recommendation-list.dash';
+import { CreateRecommendationDash } from './application/use-cases/recommendation/create-recommendation.dash';
+import { UpdateRecommendationDash } from './application/use-cases/recommendation/update-recommendation.dash';
+import { DeleteRecommendationDash } from './application/use-cases/recommendation/delete-recommendation.dash';
+import { GetRecommendationByIdDash } from './application/use-cases/recommendation/get-recommendation-by-id.dash';
+
 @Module({
   imports: [
     AuthModule,
@@ -45,8 +54,9 @@ import { GetProductBySlugDash } from './application/use-cases/product/get-produc
     ProductModule,
     RecommendationModule,
     ProductCategoryModule,
+    ProductRecommendationModule,
   ],
-  controllers: [AuthController, StoreController, CategoryController, ProductController],
+  controllers: [AuthController, StoreController, CategoryController, ProductController, RecommendationController],
   providers: [
     StorageService,
 
@@ -70,6 +80,13 @@ import { GetProductBySlugDash } from './application/use-cases/product/get-produc
     DeleteProductDash,
     GetProductByIdDash,
     GetProductBySlugDash,
+
+    // Recommendation
+    GetRecommendationListDash,
+    CreateRecommendationDash,
+    UpdateRecommendationDash,
+    DeleteRecommendationDash,
+    GetRecommendationByIdDash,
   ],
 })
 export class DashModule {}
