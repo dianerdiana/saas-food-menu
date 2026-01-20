@@ -19,6 +19,7 @@ import { GetStoreListDash } from './application/use-cases/store/get-store-list.d
 import { CreateStoreDash } from './application/use-cases/store/create-store.dash';
 import { UpdateStoreDash } from './application/use-cases/store/update-store.dash';
 import { DeleteStoreDash } from './application/use-cases/store/delete-store.dash';
+import { GetStoreCategoriesDash } from './application/use-cases/store/get-store-categories.dash';
 
 // Category Providers
 import { GetCategoryListDash } from './application/use-cases/category/get-category-list.dash';
@@ -40,6 +41,7 @@ import { DeleteProductDash } from './application/use-cases/product/delete-produc
 
     // Store
     GetStoreListDash,
+    GetStoreCategoriesDash,
     CreateStoreDash,
     UpdateStoreDash,
     DeleteStoreDash,

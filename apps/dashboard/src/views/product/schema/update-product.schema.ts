@@ -6,4 +6,5 @@ export const updateProductSchema = z.object({
   price: z.number().int(),
   description: z.string().optional(),
   categoryId: z.string().min(1),
+  storeId: z.string().optional(),
 });

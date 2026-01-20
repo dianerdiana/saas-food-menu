@@ -67,7 +67,11 @@ export function StoreSwitcher({
               className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
             >
               <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-sm overflow-hidden'>
-                <img src={activeStore.image} className='size-8' />
+                {activeStore.image ? (
+                  <img src={activeStore.image} className='size-8' />
+                ) : (
+                  <span>{activeStore.name[0]}</span>
+                )}
               </div>
               <div className='grid flex-1 text-left text-sm leading-tight'>
                 <span className='truncate font-medium'>{activeStore.name}</span>
@@ -91,8 +95,8 @@ export function StoreSwitcher({
                 }}
                 className='gap-2'
               >
-                <div className='flex w-10 h-8 overflow-hidden py-0.5 items-center justify-center rounded-sm border'>
-                  <img src={store.image} className='size-10 shrink-0' />
+                <div className='flex w-8 h-8 overflow-hidden py-0.5 items-center justify-center rounded-sm border'>
+                  {store.image ? <img src={store.image} className='size-8 shrink-0' /> : <span>{store.name[0]}</span>}
                 </div>
                 {store.name}
               </DropdownMenuItem>

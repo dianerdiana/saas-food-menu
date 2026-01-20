@@ -11,12 +11,12 @@ import { toast } from '@workspace/ui/components/sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ClipboardList, Link, Tag } from 'lucide-react';
 
+import { SelectStore } from '@/components/select-store';
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
 import { generateSlug } from '@/utils/generate-slug';
 import { useAuth } from '@/utils/hooks/use-auth';
 
 import { ImageUpload } from './image-category-upload';
-import { SelectStore } from './select-store';
 
 import { useCreateCategory } from '../api/category.mutation';
 import { createCategorySchema } from '../schema/create-category.schema';
@@ -84,7 +84,7 @@ export function FormCreateCategory() {
           <div className='col-span-2 order-2 lg:order-1 lg:col-span-1'>
             <form id='form-create-category' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
               <FieldGroup>
-                {/* Select Store Category */}
+                {/* Select Store */}
                 <Controller
                   control={control}
                   name='storeId'

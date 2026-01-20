@@ -22,7 +22,7 @@ export class CreateProductUseCase {
   }
 
   async save(product: ProductEntity, maxProducts: number | null) {
-    const existingProductSlug = await this.productRepository.findBySlug(product.slug);
+    const existingProductSlug = await this.productRepository.findBySlugAndStoreId(product.slug, product.storeId);
     if (existingProductSlug) throw new BadRequestException("Product's slug is already exist");
 
     const ownedProductCount = await this.productRepository.countAllOwned(product.storeId);

@@ -23,7 +23,7 @@ export function NavMain({ title, items, meta }: NavGroup) {
 
   return (
     <SidebarGroup className='py-0'>
-      {ability.can(meta?.action || 'read', meta?.subject || 'Auth') ? (
+      {ability.can(meta?.action || 'read', meta?.subject || 'Auth') && title ? (
         <SidebarGroupLabel>{title}</SidebarGroupLabel>
       ) : null}
       <SidebarMenu>

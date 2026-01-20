@@ -1,58 +1,76 @@
 import { useEffect, useState } from 'react';
-import { Controller, type SubmitErrorHandler, useForm } from 'react-hook-form';
+import { Controller, type SubmitErrorHandler, useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
-import { Field, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@workspace/ui/components/input-group';
 import { toast } from '@workspace/ui/components/sonner';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ClipboardList, Link, Tag } from 'lucide-react';
+import { CircleDollarSign, ClipboardList, Link, Tag } from 'lucide-react';
+
+import { SelectStore } from '@/components/select-store';
+import { RESPONSE_STATUS } from '@/utils/constants/response-status';
+import { generateSlug } from '@/utils/generate-slug';
+import { useAuth } from '@/utils/hooks/use-auth';
+
+import { ImageUpload } from './image-product-upload';
+import { SelectCategory } from './select-category';
 
 import { useUpdateProduct } from '../api/product.mutation';
 import { updateProductSchema } from '../schema/update-product.schema';
-import type { Product } from '../types/product.type';
+import type { ProductWithCategory } from '../types/product.type';
 import type { UpdateProductType } from '../types/update-product.type';
-import { ImageUpload } from './image-product-upload';
 
-type FormUpdateProductProps = {
-  product: Product;
-};
-
-export function FormUpdateProduct({ product }: FormUpdateProductProps) {
+export function FormUpdateProduct({ product }: { product: ProductWithCategory }) {
+  const { userData } = useAuth();
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [defaultImage, setDefaultImage] = useState<string | null>(null);
 
-  const { control, reset, handleSubmit } = useForm<UpdateProductType>({
+  const { control, handleSubmit, setError, setValue } = useForm<UpdateProductType>({
     resolver: zodResolver(updateProductSchema),
+    mode: 'onChange',
     defaultValues: {
-      name: '',
-      slug: '',
-      description: '',
+      name: product.name,
+      slug: product.slug,
+      description: product.description ? product.description : '',
+      price: product.price,
+      // categoryId: product.category.id,
+      storeId: userData.storeId,
     },
   });
-
   const { mutate, isPending } = useUpdateProduct();
+  const storeId = useWatch({ control, name: 'storeId' });
   const navigate = useNavigate();
 
   const onSubmit = (data: UpdateProductType) => {
-    const formData = new FormData();
+    const priceNumber = Number(data.price);
 
+    if (typeof priceNumber !== 'number') {
+      setError('price', { message: 'Price should be a valid number' }, { shouldFocus: true });
+      return;
+    }
+
+    const formData = new FormData();
     formData.append('name', data.name);
     formData.append('slug', data.slug);
+    formData.append('price', String(data.price));
+    formData.append('categoryId', data.categoryId);
 
-    if (data.description) formData.append('description', data.description);
     if (imageFile) formData.append('image', imageFile);
+    if (data.description) formData.append('description', data.description);
+    if (data.storeId) formData.append('storeId', data.storeId);
 
     mutate(
       { payload: formData, productId: product.id },
       {
         onSuccess: (payload) => {
-          if (payload.data) {
+          if (payload.status === RESPONSE_STATUS.success) {
             toast.success(payload.message);
-            navigate('/product');
+            navigate('/products');
+          } else {
+            toast.error(payload.message);
           }
         },
         onError: (payload) => {
@@ -68,44 +86,59 @@ export function FormUpdateProduct({ product }: FormUpdateProductProps) {
   };
 
   useEffect(() => {
-    reset({
-      name: product.name,
-      slug: product.slug,
-      description: product.description ? product.description : '',
-    });
-
-    setDefaultImage(product.image ? product.image : null);
-  }, []);
+    setValue('categoryId', '');
+  }, [storeId]);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='text-2xl'>Product Detail</CardTitle>
+        <CardTitle className='text-2xl'>Edit Product</CardTitle>
       </CardHeader>
       <CardContent>
         <div className='grid place-content-center gap-4 grid-cols-2'>
           <div className='col-span-2 order-2 lg:order-1 lg:col-span-1'>
-            <form id='form-edit-product' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
+            <form id='form-update-product' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
               <FieldGroup>
+                {/* Select Store */}
+                <Controller
+                  control={control}
+                  name='storeId'
+                  render={({ field }) => (
+                    <Field>
+                      <FieldLabel>
+                        Select Store <span className='text-destructive'>*</span>
+                      </FieldLabel>
+                      <SelectStore value={field.value} onSelect={field.onChange} />
+                    </Field>
+                  )}
+                />
+
                 {/* Product Name */}
                 <Controller
                   control={control}
                   name='name'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`product-edit-${field.name}`}>
+                      <FieldLabel htmlFor={`product-update-${field.name}`}>
                         Product Name <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
                         <InputGroupInput
                           {...field}
-                          id={`product-edit-${field.name}`}
-                          data-invalid={fieldState.invalid}
+                          id={`product-update-${field.name}`}
+                          aria-invalid={fieldState.invalid}
+                          placeholder='Product Name'
+                          autoComplete='off'
+                          onChange={(event) => {
+                            field.onChange(event);
+                            setValue('slug', generateSlug(event.target.value));
+                          }}
                         />
                         <InputGroupAddon>
                           <Tag />
                         </InputGroupAddon>
                       </InputGroup>
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                   )}
                 />
@@ -116,20 +149,58 @@ export function FormUpdateProduct({ product }: FormUpdateProductProps) {
                   name='slug'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`product-edit-${field.name}`}>
+                      <FieldLabel htmlFor={`product-update-${field.name}`}>
                         Product Slug (URL) <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
                         <InputGroupInput
                           {...field}
-                          id={`product-edit-${field.name}`}
-                          data-invalid={fieldState.invalid}
+                          id={`product-update-${field.name}`}
+                          aria-invalid={fieldState.invalid}
+                          placeholder='Product URL'
+                          autoComplete='off'
                         />
                         <InputGroupAddon>
                           <Link />
                         </InputGroupAddon>
                       </InputGroup>
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
+                  )}
+                />
+
+                {/* Product Price */}
+                <Controller
+                  control={control}
+                  name='price'
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor={`product-update-${field.name}`}>
+                        Price <span className='text-destructive'>*</span>
+                      </FieldLabel>
+                      <InputGroup>
+                        <InputGroupInput
+                          {...field}
+                          id={`product-update-${field.name}`}
+                          aria-invalid={fieldState.invalid}
+                          placeholder='10000'
+                          autoComplete='off'
+                        />
+                        <InputGroupAddon>
+                          <CircleDollarSign />
+                        </InputGroupAddon>
+                      </InputGroup>
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                  )}
+                />
+
+                {/* Product Category */}
+                <Controller
+                  control={control}
+                  name='categoryId'
+                  render={({ field }) => (
+                    <SelectCategory onSelect={field.onChange} storeId={storeId || ''} value={field.value} />
                   )}
                 />
 
@@ -139,14 +210,14 @@ export function FormUpdateProduct({ product }: FormUpdateProductProps) {
                   name='description'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`product-edit-${field.name}`}>
-                        Description <span className='text-destructive'>*</span>
-                      </FieldLabel>
+                      <FieldLabel htmlFor={`product-update-${field.name}`}>Description</FieldLabel>
                       <InputGroup>
                         <InputGroupTextarea
                           {...field}
-                          id={`product-edit-${field.name}`}
-                          data-invalid={fieldState.invalid}
+                          id={`product-update-${field.name}`}
+                          aria-invalid={fieldState.invalid}
+                          placeholder='Description...'
+                          autoComplete='off'
                         />
                         <InputGroupAddon>
                           <ClipboardList />
@@ -159,13 +230,13 @@ export function FormUpdateProduct({ product }: FormUpdateProductProps) {
             </form>
           </div>
           <div className='place-items-center col-span-2 order-1 lg:order-2 lg:col-span-1'>
-            <ImageUpload onChange={setImageFile} defaultValue={defaultImage} />
+            <ImageUpload onChange={setImageFile} defaultValue={product.image} />
           </div>
         </div>
       </CardContent>
       <CardFooter>
         <Field orientation={'horizontal'} className='justify-end'>
-          <Button type='submit' form='form-edit-product' className='px-10' disabled={isPending}>
+          <Button type='submit' form='form-update-product' className='px-10' disabled={isPending}>
             Save
           </Button>
         </Field>

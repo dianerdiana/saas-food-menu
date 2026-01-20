@@ -16,23 +16,22 @@ import { cn } from '@workspace/ui/lib/utils';
 import { Check, ChevronsUpDown } from 'lucide-react';
 
 import { useDebounce } from '@/utils/hooks/use-debounce';
-import { useGetAllCategory } from '@/views/category/api/category.query';
+import { useGetStoreCategories } from '@/views/store/api/store.query';
 
 type SelectCategoryProps = {
   onSelect: (value: string) => void;
+  storeId: string;
+  value: string;
 };
 
-export function SelectCategory({ onSelect }: SelectCategoryProps) {
+export function SelectCategory({ onSelect, storeId, value }: SelectCategoryProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [value, setValue] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
 
   // debounce source of truth untuk query
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  const { data, isLoading } = useGetAllCategory({
-    search: debouncedSearchTerm,
-  });
+  const { data, isLoading } = useGetStoreCategories({ search: debouncedSearchTerm }, storeId);
 
   const categories =
     data?.data?.map((category) => ({
@@ -78,7 +77,6 @@ export function SelectCategory({ onSelect }: SelectCategoryProps) {
                     value={category.value}
                     onSelect={(currentValue) => {
                       onSelect(currentValue);
-                      setValue(currentValue);
                       setOpen(false);
                     }}
                   >

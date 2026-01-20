@@ -13,10 +13,13 @@ import {
 } from '@nestjs/common';
 
 import { StoreResponse } from '../responses/store.response';
+import { CategoryResponse } from '../responses/category.response';
+
 import { GetStoreListDash } from '../../application/use-cases/store/get-store-list.dash';
 import { CreateStoreDash } from '../../application/use-cases/store/create-store.dash';
 import { UpdateStoreDash } from '../../application/use-cases/store/update-store.dash';
 import { DeleteStoreDash } from '../../application/use-cases/store/delete-store.dash';
+import { GetStoreCategoriesDash } from '../../application/use-cases/store/get-store-categories.dash';
 
 import type { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
 import { PoliciesGuard } from '@/modules/authorization/infrastructure/guards/policies.guard';
@@ -46,6 +49,7 @@ export class StoreController {
     private getStoreListDash: GetStoreListDash,
     private getStoreByIdUseCase: GetStoreByIdUseCase,
     private getStoreBySlugUseCase: GetStoreBySlugUseCase,
+    private getStoreCategoriesDash: GetStoreCategoriesDash,
 
     private createStoreDash: CreateStoreDash,
     private updateStoreDash: UpdateStoreDash,
@@ -72,6 +76,13 @@ export class StoreController {
   async getStoreById(@Param('id') id: string) {
     const result = await this.getStoreByIdUseCase.execute(id);
     return new StoreResponse(result);
+  }
+
+  @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
+  @Get('id/:id/categories')
+  async getStoreCategories(@Param('id') id: string, @Query() paginationDto: PaginationDto) {
+    const result = await this.getStoreCategoriesDash.execute(paginationDto, id);
+    return result.map((category) => new CategoryResponse(category));
   }
 
   @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))

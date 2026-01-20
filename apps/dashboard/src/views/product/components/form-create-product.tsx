@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Controller, type SubmitErrorHandler, useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { Controller, type SubmitErrorHandler, useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@workspace/ui/components/button';
@@ -11,7 +11,10 @@ import { toast } from '@workspace/ui/components/sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CircleDollarSign, ClipboardList, Link, Tag } from 'lucide-react';
 
+import { SelectStore } from '@/components/select-store';
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
+import { generateSlug } from '@/utils/generate-slug';
+import { useAuth } from '@/utils/hooks/use-auth';
 
 import { ImageUpload } from './image-product-upload';
 import { SelectCategory } from './select-category';
@@ -21,9 +24,10 @@ import { createProductSchema } from '../schema/create-product.schema';
 import type { CreateProductType } from '../types/create-product.type';
 
 export function FormCreateProduct() {
+  const { userData } = useAuth();
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const { control, handleSubmit, setError } = useForm<CreateProductType>({
+  const { control, handleSubmit, setError, setValue } = useForm<CreateProductType>({
     resolver: zodResolver(createProductSchema),
     mode: 'onChange',
     defaultValues: {
@@ -32,9 +36,11 @@ export function FormCreateProduct() {
       description: '',
       price: '',
       categoryId: '',
+      storeId: userData.storeId,
     },
   });
   const { mutate, isPending } = useCreateProduct();
+  const storeId = useWatch({ control, name: 'storeId' });
   const navigate = useNavigate();
 
   const onSubmit = (data: CreateProductType) => {
@@ -53,6 +59,7 @@ export function FormCreateProduct() {
 
     if (imageFile) formData.append('image', imageFile);
     if (data.description) formData.append('description', data.description);
+    if (data.storeId) formData.append('storeId', data.storeId);
 
     mutate(formData, {
       onSuccess: (payload) => {
@@ -74,6 +81,10 @@ export function FormCreateProduct() {
     toast.error(String(invalidMessage));
   };
 
+  useEffect(() => {
+    setValue('categoryId', '');
+  }, [storeId]);
+
   return (
     <Card>
       <CardHeader>
@@ -84,6 +95,20 @@ export function FormCreateProduct() {
           <div className='col-span-2 order-2 lg:order-1 lg:col-span-1'>
             <form id='form-create-product' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
               <FieldGroup>
+                {/* Select Store */}
+                <Controller
+                  control={control}
+                  name='storeId'
+                  render={({ field }) => (
+                    <Field>
+                      <FieldLabel>
+                        Select Store <span className='text-destructive'>*</span>
+                      </FieldLabel>
+                      <SelectStore value={field.value} onSelect={field.onChange} />
+                    </Field>
+                  )}
+                />
+
                 {/* Product Name */}
                 <Controller
                   control={control}
@@ -100,6 +125,10 @@ export function FormCreateProduct() {
                           aria-invalid={fieldState.invalid}
                           placeholder='Product Name'
                           autoComplete='off'
+                          onChange={(event) => {
+                            field.onChange(event);
+                            setValue('slug', generateSlug(event.target.value));
+                          }}
                         />
                         <InputGroupAddon>
                           <Tag />
@@ -166,7 +195,9 @@ export function FormCreateProduct() {
                 <Controller
                   control={control}
                   name='categoryId'
-                  render={({ field }) => <SelectCategory onSelect={field.onChange} />}
+                  render={({ field }) => (
+                    <SelectCategory onSelect={field.onChange} storeId={storeId || ''} value={field.value} />
+                  )}
                 />
 
                 {/* Description */}
