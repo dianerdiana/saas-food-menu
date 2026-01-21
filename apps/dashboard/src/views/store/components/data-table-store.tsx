@@ -1,4 +1,4 @@
-import { type ChangeEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
@@ -32,10 +32,11 @@ import { RESPONSE_STATUS } from '@/utils/constants/response-status';
 import { useDebounce } from '@/utils/hooks/use-debounce';
 import { usePagination } from '@/utils/hooks/use-pagination';
 
+import { createColumns } from './columns';
+
 import { useDeleteStore } from '../api/store.mutation';
 import { useGetAllStore } from '../api/store.query';
 import type { Store } from '../types/store.type';
-import { createColumns } from './columns';
 
 const selectLimitOptions = [
   { label: '10', value: '10' },
@@ -70,6 +71,7 @@ export function DataTableStore() {
   const storeResponse = useGetAllStore({
     limit: pagination.pageSize,
     page: pagination.pageIndex + 1,
+    search: debouncedSearchTerm,
   });
   const { paginationRange, hasPrevious, hasNext } = usePagination({
     currentPage: storeResponse.data?.meta?.page || 1,
@@ -111,12 +113,6 @@ export function DataTableStore() {
       });
     }
   };
-
-  useEffect(() => {
-    if (debouncedSearchTerm) {
-      console.log(searchTerm);
-    }
-  }, [debouncedSearchTerm]);
 
   return (
     <Card className='shadow-xl'>
@@ -204,7 +200,7 @@ export function DataTableStore() {
                 currentPage={table.getState().pagination.pageIndex + 1}
                 hasNext={hasNext}
                 hasPrevious={hasPrevious}
-                onPageChange={(page) => console.log(page)}
+                onPageChange={(page) => setPagination((prev) => ({ ...prev, pageIndex: page - 1 }))}
                 paginationRange={paginationRange}
               />
             </div>

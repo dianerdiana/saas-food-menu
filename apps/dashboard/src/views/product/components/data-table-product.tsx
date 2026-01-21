@@ -198,7 +198,7 @@ export function DataTableProduct() {
                 currentPage={table.getState().pagination.pageIndex + 1}
                 hasNext={hasNext}
                 hasPrevious={hasPrevious}
-                onPageChange={(page) => console.log(page)}
+                onPageChange={(page) => setPagination((prev) => ({ ...prev, pageIndex: page - 1 }))}
                 paginationRange={paginationRange}
               />
             </div>

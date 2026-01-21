@@ -1,4 +1,4 @@
-import { type ChangeEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
@@ -71,6 +71,7 @@ export function DataTableRecommendation() {
   const recommendationResponse = useGetAllRecommendation({
     limit: pagination.pageSize,
     page: pagination.pageIndex + 1,
+    search: debouncedSearchTerm,
   });
   const { paginationRange, hasPrevious, hasNext } = usePagination({
     currentPage: recommendationResponse.data?.meta?.page || 1,
@@ -112,12 +113,6 @@ export function DataTableRecommendation() {
       });
     }
   };
-
-  useEffect(() => {
-    if (debouncedSearchTerm) {
-      console.log(searchTerm);
-    }
-  }, [debouncedSearchTerm]);
 
   return (
     <Card className='shadow-xl'>
@@ -203,7 +198,7 @@ export function DataTableRecommendation() {
                 currentPage={table.getState().pagination.pageIndex + 1}
                 hasNext={hasNext}
                 hasPrevious={hasPrevious}
-                onPageChange={(page) => console.log(page)}
+                onPageChange={(page) => setPagination((prev) => ({ ...prev, pageIndex: page - 1 }))}
                 paginationRange={paginationRange}
               />
             </div>
