@@ -86,12 +86,15 @@ export class ProductWithCategoryListResponse {
   @Expose() status!: string;
 
   @Expose()
-  @Transform(({ obj }) =>
-    obj.categories.length ? obj.categories.map((category) => new CategoryResponse(category)) : [],
-  )
+  @Transform(({ obj }) => {
+    const source = obj.categories;
+    if (!source || !Array.isArray(source)) return [];
+
+    return source.map((category) => new CategoryResponse(category));
+  })
   categories!: CategoryResponse[];
 
-  constructor(partial: Partial<ProductResponse>) {
+  constructor(partial: Partial<ProductWithCategoryListResponse>) {
     Object.assign(this, partial);
   }
 }

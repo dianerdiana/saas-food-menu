@@ -46,7 +46,7 @@ export class GetStoreDataWeb {
       productCategoryGroupMap.set(pc.productId, [...existing, pc.categoryId]);
     });
 
-    const categoryMap = new Map(categories.map((c) => [c.id, c]));
+    const categoryMap = new Map(categories.map((category) => [category.id, category]));
 
     // OPTIMASI: Mapping product dengan kategori yang sudah di-group
     const productMap = new Map(
@@ -56,7 +56,10 @@ export class GetStoreDataWeb {
           product.id,
           {
             ...product,
-            categories: catIds.map((id) => categoryMap.get(id)).filter(Boolean),
+            categories: catIds
+              .map((id) => categoryMap.get(id))
+              .filter((cat) => cat !== undefined)
+              .filter(Boolean),
           },
         ];
       }),
