@@ -34,19 +34,12 @@ export class RecommendationRepository {
   async findByIdAndStoreId(id: string, storeId: string) {
     return this.repository
       .createQueryBuilder('recommendation')
-      .leftJoinAndSelect('recommendation.productRecommendations', 'productRecommendation')
-      .leftJoinAndSelect('productRecommendation.product', 'product', 'product.deleted_at IS NULL')
       .andWhere('recommendation.id=:id AND recommendation.store_id=:store_id', { id, store_id: storeId })
       .getOne();
   }
 
   async findAllByStoreId({ limit, skip, search }: PaginationDto, storeId: string) {
     const query = this.repository.createQueryBuilder('recommendation');
-
-    query
-      .leftJoinAndSelect('recommendation.productRecommendations', 'productRecommendation')
-      .leftJoinAndSelect('productRecommendation.product', 'product', 'product.deleted_at IS NULL')
-      .leftJoinAndSelect('recommendation.store', 'store', 'store.deleted_at IS NULL');
 
     if (search) {
       query.andWhere('(recommendation.name ILIKE :search)', {
@@ -60,21 +53,11 @@ export class RecommendationRepository {
   }
 
   async findById(id: string) {
-    return this.repository
-      .createQueryBuilder('recommendation')
-      .leftJoinAndSelect('recommendation.productRecommendations', 'productRecommendation')
-      .leftJoinAndSelect('productRecommendation.product', 'product', 'product.deleted_at IS NULL')
-      .andWhere('recommendation.id=:id', { id })
-      .getOne();
+    return this.repository.createQueryBuilder('recommendation').andWhere('recommendation.id=:id', { id }).getOne();
   }
 
   async findAll({ limit, skip, search }: PaginationDto) {
     const query = this.repository.createQueryBuilder('recommendation');
-
-    query
-      .leftJoinAndSelect('recommendation.productRecommendations', 'productRecommendation')
-      .leftJoinAndSelect('productRecommendation.product', 'product', 'product.deleted_at IS NULL')
-      .leftJoinAndSelect('recommendation.store', 'store', 'store.deleted_at IS NULL');
 
     if (search) {
       query.andWhere('(recommendation.name ILIKE :search)', {

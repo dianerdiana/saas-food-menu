@@ -12,7 +12,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { CategoryResponse, CategoryWithStoreResponse } from '../responses/category.response';
+import { CategoryResponse, CategoryWithStoreResponse } from '@/shared/responses/category.response';
 
 import { GetCategoryListDash } from '../../application/use-cases/category/get-category-list.dash';
 import { CreateCategoryDash } from '../../application/use-cases/category/create-category.dash';
@@ -40,7 +40,7 @@ import { Action, Subject } from '@/shared/enums/access-control.enum';
 
 @UseGuards(PoliciesGuard)
 @Controller('/dash/categories')
-export class CategoryController {
+export class DashCategoryController {
   constructor(
     private storageService: StorageService,
 

@@ -4,7 +4,7 @@ import {
   RecommendationResponse,
   RecommendationWithProductListResponse,
   RecommendationWithStoreResponse,
-} from '../responses/recommendation.response';
+} from '@/shared/responses/recommendation.response';
 
 import { GetRecommendationListDash } from '../../application/use-cases/recommendation/get-recommendation-list.dash';
 import { CreateRecommendationDash } from '../../application/use-cases/recommendation/create-recommendation.dash';
@@ -26,7 +26,7 @@ import { Action, Subject } from '@/shared/enums/access-control.enum';
 
 @UseGuards(PoliciesGuard)
 @Controller('/dash/recommendations')
-export class RecommendationController {
+export class DashRecommendationController {
   constructor(
     private getRecommendationListDash: GetRecommendationListDash,
     private getRecommendationByIdDash: GetRecommendationByIdDash,

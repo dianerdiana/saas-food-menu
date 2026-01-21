@@ -4,6 +4,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
+      "@/api/*": ["./src/api/*"],
       "@/app/*": ["./src/app/*"],
       "@/database/*": ["./src/database/*"],
       "@/modules/*": ["./src/modules/*"],

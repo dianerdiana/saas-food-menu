@@ -35,11 +35,15 @@ import { StorageService } from '@/shared/services/storage.service';
 import { BUCKET_FOLDER_NAME } from '@/shared/constants/bucket-folder-name.constant';
 import { Action, Subject } from '@/shared/enums/access-control.enum';
 
-import { ProductResponse, ProductWithCategoryResponse, ProductWithStoreResponse } from '../responses/product.response';
+import {
+  ProductResponse,
+  ProductWithCategoryResponse,
+  ProductWithStoreResponse,
+} from '@/shared/responses/product.response';
 
 @UseGuards(PoliciesGuard)
 @Controller('/dash/products')
-export class ProductController {
+export class DashProductController {
   constructor(
     private storageService: StorageService,
 

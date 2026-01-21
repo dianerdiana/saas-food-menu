@@ -8,6 +8,7 @@ import { ProductRecommendationRepository } from './infrastructure/repositories/p
 import { AssignProductRecommendationService } from './application/services/assign-product-recommendation.service';
 import { GetProductRecommendationListService } from './application/services/get-product-recommendation-list.service';
 import { DeleteProductRecommendationService } from './application/services/delete-product-recommendation.service';
+import { GetProductRecommendationListByIdsService } from './application/services/get-product-recommendation-list-by-ids.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ProductRecommendationEntity])],
@@ -16,11 +17,13 @@ import { DeleteProductRecommendationService } from './application/services/delet
     AssignProductRecommendationService,
     GetProductRecommendationListService,
     DeleteProductRecommendationService,
+    GetProductRecommendationListByIdsService,
   ],
   exports: [
     AssignProductRecommendationService,
     GetProductRecommendationListService,
     DeleteProductRecommendationService,
+    GetProductRecommendationListByIdsService,
   ],
 })
 export class ProductRecommendationModule {}

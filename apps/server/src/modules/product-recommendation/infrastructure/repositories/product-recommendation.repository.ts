@@ -12,36 +12,50 @@ export class ProductRecommendationRepository {
     private repository: Repository<ProductRecommendationEntity>,
   ) {}
 
-  create(productRecommendation: Partial<ProductRecommendationEntity>) {
-    return this.repository.create(productRecommendation);
+  create(pr: Partial<ProductRecommendationEntity>) {
+    return this.repository.create(pr);
   }
 
-  async bulkSave(productRecommendations: ProductRecommendationEntity[]) {
+  async bulkSave(prs: ProductRecommendationEntity[]) {
     return await this.repository
       .createQueryBuilder()
       .insert()
       .into(ProductRecommendationEntity)
-      .values(productRecommendations)
+      .values(prs)
       .returning(['id'])
       .execute();
   }
 
   findMany(recommendationId?: string, productId?: string) {
-    const query = this.repository.createQueryBuilder('productRecommendation');
+    const query = this.repository.createQueryBuilder('pr');
 
-    if (recommendationId) query.andWhere('recommendation_id=:recommendationId', { recommendationId });
-    if (productId) query.andWhere('product_id=:productId', { productId });
+    if (recommendationId) query.andWhere('pr.recommendation_id=:recommendationId', { recommendationId });
+    if (productId) query.andWhere('pr.product_id=:productId', { productId });
+
+    return query.getMany();
+  }
+
+  findManyByIds(recommendationIds?: string[], productIds?: string[]) {
+    const query = this.repository.createQueryBuilder('pr');
+
+    if (recommendationIds && recommendationIds.length) {
+      query.andWhere('pr.recommendation_id IN (:...recommendationIds)', { recommendationIds });
+    }
+
+    if (productIds) {
+      query.andWhere('pr.product_id IN (:...productIds)', { productIds });
+    }
 
     return query.getMany();
   }
 
   findOne(recommendationId?: string, productId?: string) {
-    const query = this.repository.createQueryBuilder('productRecommendation');
+    const query = this.repository.createQueryBuilder('pr');
 
     if (recommendationId) {
-      query.andWhere('recommendation_id=:recommendationId', { recommendationId });
+      query.andWhere('pr.recommendation_id=:recommendationId', { recommendationId });
     } else if (productId) {
-      query.andWhere('product_id=:productId', { productId });
+      query.andWhere('pr.product_id=:productId', { productId });
     }
 
     return query.getOne();

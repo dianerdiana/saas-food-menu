@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 
-import { StoreController } from './interface/controllers/store.controller';
-import { AuthController } from './interface/controllers/auth.controller';
-import { CategoryController } from './interface/controllers/category.controller';
-import { ProductController } from './interface/controllers/product.controller';
-import { RecommendationController } from './interface/controllers/recommendation.controller';
+import { DashStoreController } from './interface/controllers/store.controller';
+import { DashAuthController } from './interface/controllers/auth.controller';
+import { DashCategoryController } from './interface/controllers/category.controller';
+import { DashProductController } from './interface/controllers/product.controller';
+import { DashRecommendationController } from './interface/controllers/recommendation.controller';
 
 import { AuthModule } from '@/modules/auth/auth.module';
 import { AuthorizationModule } from '@/modules/authorization/authorization.module';
@@ -57,7 +57,13 @@ import { GetRecommendationByIdDash } from './application/use-cases/recommendatio
     ProductCategoryModule,
     ProductRecommendationModule,
   ],
-  controllers: [AuthController, StoreController, CategoryController, ProductController, RecommendationController],
+  controllers: [
+    DashAuthController,
+    DashStoreController,
+    DashCategoryController,
+    DashProductController,
+    DashRecommendationController,
+  ],
   providers: [
     StorageService,
 

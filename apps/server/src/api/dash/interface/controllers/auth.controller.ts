@@ -13,7 +13,7 @@ import type { AppAbility } from '@/modules/authorization/infrastructure/factorie
 import { LocalAuthGuard } from '@/modules/auth/infrastructure/guards/local-auth.guard';
 import { PoliciesGuard } from '@/modules/authorization/infrastructure/guards/policies.guard';
 
-import { UserDataResponse } from '../responses/auth.response';
+import { UserDataResponse } from '@/shared/responses/auth.response';
 
 import type { AuthUser } from '@/shared/types/auth-user.type';
 import { Public } from '@/shared/decorators/public.decorator';
@@ -25,7 +25,7 @@ const REFRESH_TOKEN_KEY = 'refreshToken';
 const MAX_AGE_COOKIE = 7 * 24 * 60 * 60 * 1000;
 
 @Controller('/dash/auth')
-export class AuthController {
+export class DashAuthController {
   constructor(
     private signInUseCase: SignInUseCase,
     private signUpUseCase: SignUpUseCase,

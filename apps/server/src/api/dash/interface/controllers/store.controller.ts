@@ -13,9 +13,9 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-import { StoreResponse } from '../responses/store.response';
-import { CategoryResponse } from '../responses/category.response';
-import { ProductResponse } from '../responses/product.response';
+import { StoreResponse } from '@/shared/responses/store.response';
+import { CategoryResponse } from '@/shared/responses/category.response';
+import { ProductResponse } from '@/shared/responses/product.response';
 
 import { GetStoreListDash } from '../../application/use-cases/store/get-store-list.dash';
 import { CreateStoreDash } from '../../application/use-cases/store/create-store.dash';
@@ -44,7 +44,7 @@ import { Action, Subject } from '@/shared/enums/access-control.enum';
 
 @UseGuards(PoliciesGuard)
 @Controller('/dash/stores')
-export class StoreController {
+export class DashStoreController {
   constructor(
     private storageService: StorageService,
 
