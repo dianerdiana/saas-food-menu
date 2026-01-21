@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Controller, type SubmitErrorHandler, useForm } from 'react-hook-form';
+import { Controller, type SubmitErrorHandler, useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@workspace/ui/components/button';
@@ -18,20 +18,23 @@ import {
 import { toast } from '@workspace/ui/components/sonner';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Tag } from 'lucide-react';
+import { Tag, X } from 'lucide-react';
 
+import { SelectStore } from '@/components/select-store';
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
 
 import { MultiSelectProduct } from './multi-select-product';
 
 import { useUpdateRecommendation } from '../api/recommendation.mutation';
 import { updateRecommendationSchema } from '../schema/update-recommendation.schema';
-import type { Recommendation } from '../types/recommendation.type';
+import type { RecommendationWithProducts } from '../types/recommendation.type';
 import type { UpdateRecommendationType } from '../types/update-recommendation.type';
 
 type OptionItem = { label: string; value: string };
 
-export function FormUpdateRecommendation({ recommendation }: { recommendation: Recommendation }) {
+type FormUpdateRecommendationProps = { recommendation: RecommendationWithProducts };
+
+export function FormUpdateRecommendation({ recommendation }: FormUpdateRecommendationProps) {
   const [selectedProducts, setSelectedProducts] = useState<OptionItem[]>(
     recommendation.products.map((product) => ({ label: product.name, value: product.id })),
   );
@@ -41,13 +44,15 @@ export function FormUpdateRecommendation({ recommendation }: { recommendation: R
     mode: 'onChange',
     defaultValues: {
       name: recommendation.name,
-      displayMode: recommendation.displayMode,
+      displayMode: 'vertical',
       productIds: recommendation.products.map((product) => product.id),
+      storeId: recommendation.storeId,
     },
   });
 
   const { mutate, isPending } = useUpdateRecommendation();
   const navigate = useNavigate();
+  const storeId = useWatch({ control, name: 'storeId' });
 
   const onSubmit = (data: UpdateRecommendationType) => {
     mutate(
@@ -89,6 +94,12 @@ export function FormUpdateRecommendation({ recommendation }: { recommendation: R
     );
   };
 
+  const onSelectStore = (value: string) => {
+    setValue('storeId', value);
+    setValue('productIds', []);
+    setSelectedProducts([]);
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -99,6 +110,20 @@ export function FormUpdateRecommendation({ recommendation }: { recommendation: R
           <div className='col-span-4'>
             <form id='form-update-recommendation' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
               <FieldGroup>
+                {/* Select Store */}
+                <Controller
+                  control={control}
+                  name='storeId'
+                  render={({ field }) => (
+                    <Field>
+                      <FieldLabel>
+                        Select Store <span className='text-destructive'>*</span>
+                      </FieldLabel>
+                      <SelectStore value={field.value} onSelect={onSelectStore} />
+                    </Field>
+                  )}
+                />
+
                 {/* Recommendation Name */}
                 <Controller
                   control={control}
@@ -129,7 +154,7 @@ export function FormUpdateRecommendation({ recommendation }: { recommendation: R
                   control={control}
                   render={({ field }) => (
                     <Field>
-                      <FieldLabel htmlFor={`recommendation-update-${field.name}`}>
+                      <FieldLabel>
                         Select Display Mode <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <Select value={field.value} onValueChange={field.onChange}>
@@ -150,21 +175,31 @@ export function FormUpdateRecommendation({ recommendation }: { recommendation: R
                 <Controller
                   name='productIds'
                   control={control}
-                  render={({ field }) => {
-                    return (
-                      <Field>
-                        <FieldLabel>Select Product</FieldLabel>
-                        <MultiSelectProduct
-                          values={field.value}
-                          onSelect={onSelectProduct}
-                          selectedProducts={selectedProducts}
-                        />
-                      </Field>
-                    );
-                  }}
+                  render={({ field }) => (
+                    <Field>
+                      <FieldLabel>Select Product</FieldLabel>
+                      <MultiSelectProduct
+                        values={field.value}
+                        onSelect={onSelectProduct}
+                        selectedProducts={selectedProducts}
+                        storeId={storeId || ''}
+                      />
+                    </Field>
+                  )}
                 />
               </FieldGroup>
             </form>
+
+            <div className='mt-5 space-y-2'>
+              {selectedProducts.map((product) => (
+                <div key={product.value} className='flex items-center gap-x-3'>
+                  <p className='w-80 border border-primary px-3 py-1 rounded'>{product.label}</p>
+                  <Button onClick={() => onSelectProduct(product)} size={'sm'}>
+                    <X />
+                  </Button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </CardContent>

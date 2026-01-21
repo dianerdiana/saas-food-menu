@@ -49,6 +49,6 @@ export class ProductRecommendationRepository {
 
   async hardDelete(recommendationId?: string, productId?: string) {
     if (recommendationId) return await this.repository.delete({ recommendationId });
-    if (recommendationId) return await this.repository.delete({ productId });
+    if (productId) return await this.repository.delete({ productId });
   }
 }

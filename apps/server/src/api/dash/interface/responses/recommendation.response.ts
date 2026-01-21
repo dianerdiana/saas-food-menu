@@ -23,7 +23,7 @@ export class RecommendationWithProductListResponse {
   @Expose() status!: string;
 
   @Expose()
-  // @Transform(({ obj }) => (obj.products.length ? obj.products.map((product) => new ProductResponse(product)) : []))
+  @Transform(({ obj }) => (obj.products.length ? obj.products.map((product) => new ProductResponse(product)) : []))
   products!: ProductResponse[];
 
   constructor(partial: Partial<RecommendationWithProductListResponse>) {

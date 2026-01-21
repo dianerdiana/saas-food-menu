@@ -47,7 +47,9 @@ export class ProductRepository {
   }
 
   async findByIds(ids: string[]) {
-    return this.repository.createQueryBuilder('product').where('id IN (:...ids)', { ids }).getMany();
+    const query = this.repository.createQueryBuilder('product').where('product.id IN (:...ids)', { ids });
+
+    return query.getMany();
   }
 
   async findBySlug(slug: string) {

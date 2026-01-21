@@ -8,7 +8,6 @@ export class GetProductByIdsUseCase {
 
   async execute(ids: string[]) {
     const products = await this.productRepository.findByIds(ids);
-
     return products;
   }
 }

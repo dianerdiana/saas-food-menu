@@ -1,4 +1,4 @@
-import { type ChangeEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
@@ -32,10 +32,11 @@ import { RESPONSE_STATUS } from '@/utils/constants/response-status';
 import { useDebounce } from '@/utils/hooks/use-debounce';
 import { usePagination } from '@/utils/hooks/use-pagination';
 
+import { createColumns } from './columns';
+
 import { useDeleteProduct } from '../api/product.mutation';
 import { useGetAllProduct } from '../api/product.query';
 import type { Product } from '../types/product.type';
-import { createColumns } from './columns';
 
 const selectLimitOptions = [
   { label: '10', value: '10' },
@@ -70,6 +71,7 @@ export function DataTableProduct() {
   const productResponse = useGetAllProduct({
     limit: pagination.pageSize,
     page: pagination.pageIndex + 1,
+    search: debouncedSearchTerm,
   });
   const { paginationRange, hasPrevious, hasNext } = usePagination({
     currentPage: productResponse.data?.meta?.page || 1,
@@ -111,12 +113,6 @@ export function DataTableProduct() {
       });
     }
   };
-
-  useEffect(() => {
-    if (debouncedSearchTerm) {
-      console.log(searchTerm);
-    }
-  }, [debouncedSearchTerm]);
 
   return (
     <Card className='shadow-xl'>

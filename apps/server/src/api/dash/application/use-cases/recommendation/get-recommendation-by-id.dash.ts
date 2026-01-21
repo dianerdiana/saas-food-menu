@@ -20,6 +20,7 @@ export class GetRecommendationByIdDash {
 
     if (productRecommendations.length) {
       const productIds = productRecommendations.map((pr) => pr.productId);
+
       const products = await this.getProductByIdsUseCase.execute(productIds);
 
       for (const product of products) {

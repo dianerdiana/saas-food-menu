@@ -1,4 +1,4 @@
-import { type ChangeEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
@@ -71,6 +71,7 @@ export function DataTableCategory() {
   const categoryResponse = useGetAllCategory({
     limit: pagination.pageSize,
     page: pagination.pageIndex + 1,
+    search: debouncedSearchTerm,
   });
   const { paginationRange, hasPrevious, hasNext } = usePagination({
     currentPage: categoryResponse.data?.meta?.page || 1,
@@ -112,12 +113,6 @@ export function DataTableCategory() {
       });
     }
   };
-
-  useEffect(() => {
-    if (debouncedSearchTerm) {
-      console.log(searchTerm);
-    }
-  }, [debouncedSearchTerm]);
 
   return (
     <Card className='shadow-xl'>

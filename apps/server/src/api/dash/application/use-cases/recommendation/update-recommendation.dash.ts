@@ -33,7 +33,7 @@ export class UpdateRecommendationDash {
       if (productIds && productIds.length) {
         const products = await this.getProductByIdsUseCase.execute(productIds);
 
-        if (products.length !== productIds.length) throw new BadRequestException('Bad request create recommendation');
+        if (products.length !== productIds.length) throw new BadRequestException('Bad request update recommendation');
 
         await this.assignProductRecommendationService.assign(recommendation.id, productIds);
       }

@@ -83,7 +83,7 @@ export class RecommendationController {
     const result = await this.updateRecommendationDash.execute(id, dto, authUser, ability);
 
     return {
-      message: 'Successfuly created recommendation',
+      message: 'Successfuly updated recommendation',
       data: new RecommendationResponse(result),
     };
   }

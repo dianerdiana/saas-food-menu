@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Controller, type SubmitErrorHandler, useForm } from 'react-hook-form';
+import { Controller, type SubmitErrorHandler, useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@workspace/ui/components/button';
@@ -18,9 +18,11 @@ import {
 import { toast } from '@workspace/ui/components/sonner';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Tag } from 'lucide-react';
+import { Tag, X } from 'lucide-react';
 
+import { SelectStore } from '@/components/select-store';
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
+import { useAuth } from '@/utils/hooks/use-auth';
 
 import { MultiSelectProduct } from './multi-select-product';
 
@@ -31,6 +33,7 @@ import type { CreateRecommendationType } from '../types/create-recommendation.ty
 type OptionItem = { label: string; value: string };
 
 export function FormCreateRecommendation() {
+  const { userData } = useAuth();
   const [selectedProducts, setSelectedProducts] = useState<OptionItem[]>([]);
 
   const { control, handleSubmit, getValues, setValue } = useForm<CreateRecommendationType>({
@@ -40,11 +43,13 @@ export function FormCreateRecommendation() {
       name: '',
       displayMode: 'vertical',
       productIds: [],
+      storeId: userData.storeId,
     },
   });
 
   const { mutate, isPending } = useCreateRecommendation();
   const navigate = useNavigate();
+  const storeId = useWatch({ control, name: 'storeId' });
 
   const onSubmit = (data: CreateRecommendationType) => {
     mutate(data, {
@@ -82,6 +87,13 @@ export function FormCreateRecommendation() {
         : [...selectedProducts, optionValue],
     );
   };
+
+  const onSelectStore = (value: string) => {
+    setValue('storeId', value);
+    setValue('productIds', []);
+    setSelectedProducts([]);
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -92,6 +104,20 @@ export function FormCreateRecommendation() {
           <div className='col-span-4'>
             <form id='form-create-recommendation' onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}>
               <FieldGroup>
+                {/* Select Store */}
+                <Controller
+                  control={control}
+                  name='storeId'
+                  render={({ field }) => (
+                    <Field>
+                      <FieldLabel>
+                        Select Store <span className='text-destructive'>*</span>
+                      </FieldLabel>
+                      <SelectStore value={field.value} onSelect={onSelectStore} />
+                    </Field>
+                  )}
+                />
+
                 {/* Recommendation Name */}
                 <Controller
                   control={control}
@@ -150,12 +176,24 @@ export function FormCreateRecommendation() {
                         values={field.value}
                         onSelect={onSelectProduct}
                         selectedProducts={selectedProducts}
+                        storeId={storeId || ''}
                       />
                     </Field>
                   )}
                 />
               </FieldGroup>
             </form>
+
+            <div className='mt-5 space-y-2'>
+              {selectedProducts.map((product) => (
+                <div key={product.value} className='flex items-center gap-x-3'>
+                  <p className='w-80 border border-primary px-3 py-1 rounded'>{product.label}</p>
+                  <Button onClick={() => onSelectProduct(product)} size={'sm'}>
+                    <X />
+                  </Button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </CardContent>

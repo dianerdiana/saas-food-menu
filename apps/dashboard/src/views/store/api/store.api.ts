@@ -4,6 +4,7 @@ import type { ApiResponse } from '@/types/api-response.type';
 import type { PaginationType } from '@/types/pagination';
 import { handleErrorApi } from '@/utils/handle-error-api';
 import type { Category } from '@/views/category/types/category.type';
+import type { Product } from '@/views/product/types/product.type';
 
 import type { Store } from '../types/store.type';
 
@@ -19,6 +20,15 @@ export const getAllStore = async (params: PaginationType): Promise<ApiResponse<S
 export const getStoreCategories = async (params: PaginationType, storeId: string): Promise<ApiResponse<Category[]>> => {
   try {
     const response = await jwt.get<ApiResponse<Category[]>>(`/stores/${storeId}/categories`, { params });
+    return response.data;
+  } catch (error) {
+    return handleErrorApi(error);
+  }
+};
+
+export const getStoreProducts = async (params: PaginationType, storeId: string): Promise<ApiResponse<Product[]>> => {
+  try {
+    const response = await jwt.get<ApiResponse<Product[]>>(`/stores/${storeId}/products`, { params });
     return response.data;
   } catch (error) {
     return handleErrorApi(error);

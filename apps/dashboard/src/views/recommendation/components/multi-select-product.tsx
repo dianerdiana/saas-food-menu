@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import { Badge } from '@workspace/ui/components/badge';
 import { Button } from '@workspace/ui/components/button';
 import {
   Command,
@@ -13,10 +12,10 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@workspace/ui/components/popover';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { Check, ChevronsUpDown, X } from 'lucide-react';
+import { Check, ChevronsUpDown } from 'lucide-react';
 
 import { useDebounce } from '@/utils/hooks/use-debounce';
-import { useGetAllProduct } from '@/views/product/api/product.query';
+import { useGetStoreProducts } from '@/views/store/api/store.query';
 
 type OptionItem = { label: string; value: string };
 
@@ -24,18 +23,17 @@ type MultiSelectProductProps = {
   values: string[];
   onSelect: (option: OptionItem) => void;
   selectedProducts: OptionItem[];
+  storeId: string;
 };
 
-export function MultiSelectProduct({ onSelect, values, selectedProducts }: MultiSelectProductProps) {
+export function MultiSelectProduct({ onSelect, values, storeId }: MultiSelectProductProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
 
   // debounce source of truth untuk query
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  const { data, isLoading } = useGetAllProduct({
-    search: debouncedSearchTerm,
-  });
+  const { data, isLoading } = useGetStoreProducts({ search: debouncedSearchTerm }, storeId);
   const products = data?.data ? data.data : [];
 
   const productOptions: OptionItem[] =
@@ -90,26 +88,6 @@ export function MultiSelectProduct({ onSelect, values, selectedProducts }: Multi
           </Command>
         </PopoverContent>
       </Popover>
-      <div className='mt-2 flex flex-wrap gap-2'>
-        {selectedProducts.map((product) => {
-          if (!product) return null;
-
-          return (
-            <Badge key={product.value} variant='primary'>
-              {product.label}
-              <Button
-                variant={'ghost'}
-                onClick={() => {
-                  onSelect(product);
-                }}
-                className='py-0 px-0 w-3 h-3 hover:bg-transparent hover:text-white'
-              >
-                <X className='h-3 w-3 cursor-pointer' />
-              </Button>
-            </Badge>
-          );
-        })}
-      </div>
     </>
   );
 }

@@ -51,7 +51,7 @@ export class StoreRepository {
   }
 
   async findByIds(ids: string[]) {
-    return this.repository.createQueryBuilder('store').where('id IN (:...ids)', { ids }).getMany();
+    return this.repository.createQueryBuilder('store').where('store.id IN (:...ids)', { ids }).getMany();
   }
 
   async findBySlug(slug: string) {

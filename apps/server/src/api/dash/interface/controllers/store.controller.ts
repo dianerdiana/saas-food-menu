@@ -11,15 +11,18 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 import { StoreResponse } from '../responses/store.response';
 import { CategoryResponse } from '../responses/category.response';
+import { ProductResponse } from '../responses/product.response';
 
 import { GetStoreListDash } from '../../application/use-cases/store/get-store-list.dash';
 import { CreateStoreDash } from '../../application/use-cases/store/create-store.dash';
 import { UpdateStoreDash } from '../../application/use-cases/store/update-store.dash';
 import { DeleteStoreDash } from '../../application/use-cases/store/delete-store.dash';
 import { GetStoreCategoriesDash } from '../../application/use-cases/store/get-store-categories.dash';
+import { GetStoreProductsDash } from '../../application/use-cases/store/get-store-products.dash';
 
 import type { AppAbility } from '@/modules/authorization/infrastructure/factories/casl-ability.factory';
 import { PoliciesGuard } from '@/modules/authorization/infrastructure/guards/policies.guard';
@@ -34,7 +37,6 @@ import type { AuthUser } from '@/shared/types/auth-user.type';
 import { GetAuthUser } from '@/shared/decorators/get-user.decorator';
 import { GetAbillity } from '@/shared/decorators/get-ability.decorator';
 import { PaginationDto } from '@/shared/dtos/pagination.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageValidationPipe } from '@/shared/pipes/image-validation.pipe';
 import { StorageService } from '@/shared/services/storage.service';
 import { BUCKET_FOLDER_NAME } from '@/shared/constants/bucket-folder-name.constant';
@@ -50,6 +52,7 @@ export class StoreController {
     private getStoreByIdUseCase: GetStoreByIdUseCase,
     private getStoreBySlugUseCase: GetStoreBySlugUseCase,
     private getStoreCategoriesDash: GetStoreCategoriesDash,
+    private getStoreProductsDash: GetStoreProductsDash,
 
     private createStoreDash: CreateStoreDash,
     private updateStoreDash: UpdateStoreDash,
@@ -83,6 +86,13 @@ export class StoreController {
   async getStoreCategories(@Param('id') id: string, @Query() paginationDto: PaginationDto) {
     const result = await this.getStoreCategoriesDash.execute(paginationDto, id);
     return result.map((category) => new CategoryResponse(category));
+  }
+
+  @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
+  @Get(':id/products')
+  async getStoreProducts(@Param('id') id: string, @Query() paginationDto: PaginationDto) {
+    const result = await this.getStoreProductsDash.execute(paginationDto, id);
+    return result.map((product) => new ProductResponse(product));
   }
 
   @CheckPolicies((ability) => ability.can(Action.Read, Subject.Store))
