@@ -3,7 +3,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@workspace/ui/components/carousel.js";
-import type { Category } from "@/types/category.js";
+import type { Category } from "@/views/category/types/category.js";
 
 type Props = {
   categories: Category[];

@@ -33,37 +33,35 @@ export class GetStoreDataWeb {
     const recommendationIds = [...new Set(recommendations.map((r) => r.id))];
     const productRecommendations = await this.getProductRecommendationService.execute(recommendationIds);
 
-    const productIds = [...new Set(productRecommendations.map((pr) => pr.productId))];
-    const [products, productCategories] = await Promise.all([
-      this.getProductByIdsUseCase.execute(productIds),
-      this.getProductCategoryService.execute(undefined, productIds),
-    ]);
-
-    // OPTIMASI: Grouping productCategories berdasarkan productId (O(N))
+    const productMap = new Map();
     const productCategoryGroupMap = new Map<string, any[]>();
-    productCategories.forEach((pc) => {
-      const existing = productCategoryGroupMap.get(pc.productId) || [];
-      productCategoryGroupMap.set(pc.productId, [...existing, pc.categoryId]);
-    });
+
+    const productIds = [...new Set(productRecommendations.map((pr) => pr.productId))];
+
+    if (productIds.length) {
+      const [products, productCategories] = await Promise.all([
+        this.getProductByIdsUseCase.execute(productIds),
+        this.getProductCategoryService.execute(undefined, productIds),
+      ]);
+
+      products.forEach((product) => {
+        const catIds = productCategoryGroupMap.get(product.id) || [];
+        productMap.set(product.id, {
+          ...product,
+          categories: catIds
+            .map((id) => categoryMap.get(id))
+            .filter((cat) => cat !== undefined)
+            .filter(Boolean),
+        });
+      });
+
+      productCategories.forEach((pc) => {
+        const existing = productCategoryGroupMap.get(pc.productId) || [];
+        productCategoryGroupMap.set(pc.productId, [...existing, pc.categoryId]);
+      });
+    }
 
     const categoryMap = new Map(categories.map((category) => [category.id, category]));
-
-    // OPTIMASI: Mapping product dengan kategori yang sudah di-group
-    const productMap = new Map(
-      products.map((product) => {
-        const catIds = productCategoryGroupMap.get(product.id) || [];
-        return [
-          product.id,
-          {
-            ...product,
-            categories: catIds
-              .map((id) => categoryMap.get(id))
-              .filter((cat) => cat !== undefined)
-              .filter(Boolean),
-          },
-        ];
-      }),
-    );
 
     return {
       store,

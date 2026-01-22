@@ -1,6 +1,6 @@
-import { Category } from "@/types/category.js";
-import { Product } from "@/types/product.js";
-import { Button } from "@workspace/ui/components/button.js";
+import type { Category } from "@/views/category/types/category";
+import type { Product } from "@/views/product/types/product";
+import { Button } from "@workspace/ui/components/button";
 import {
   Carousel,
   CarouselContent,
