@@ -13,130 +13,16 @@ import ProductCardHorizontal from "@/views/product/components/astro/product-card
 
 import { getHomeData } from "@/services/home";
 
-const storeName = Astro.params.storename || '';
+const storeName = Astro.params.storename || "";
 const homeData = await getHomeData(storeName);
-console.log(homeData);
 
 const store = homeData.data?.store;
 const categories = homeData.data?.categories;
-
-const response = {
-  data: {
-    store: {
-      id: "1",
-      name: "Ramenku Majalengka",
-    },
-    categories: [
-      {
-        id: "1",
-        name: "All Menu",
-        slug: "",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/all-menu.png",
-      },
-      {
-        id: "2",
-        name: "Desert",
-        slug: "desert",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/desert.png",
-      },
-      {
-        id: "2",
-        name: "Drink",
-        slug: "drink",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/drink.png",
-      },
-      {
-        id: "2",
-        name: "Ramen",
-        slug: "ramen",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/ramen.png",
-      },
-      {
-        id: "2",
-        name: "Chicken",
-        slug: "chicken",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/chicken.png",
-      },
-    ],
-    productFavorites: [
-      {
-        id: "1",
-        store_id: "2",
-        name: "Spicy Ramen Level 3",
-        description: "Rich broth, spicy and tempting, with chashu topping",
-        price: 45000,
-        slug: "spicy-ramen-level-3",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/products/default/ramen.png",
-        category: {
-          id: "2",
-          name: "Ramen",
-          image: "",
-          slug: "",
-        },
-      },
-      {
-        id: "2",
-        store_id: "2",
-        name: "Chicken Karaage",
-        description: "Crispy Japanese-style fried chicken, served with a tangy",
-        price: 48000,
-        slug: "spicy-ramen-level-3",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/products/default/Fried%20Chicken%20High%20Angle%20Shot.png",
-        category: {
-          id: "2",
-          name: "Chicken",
-          image: "",
-          slug: "",
-        },
-      },
-    ],
-    productRecommendations: [
-      {
-        id: "1",
-        store_id: "2",
-        name: "Spicy Ramen Level 3",
-        description: "Rich broth, spicy and tempting, with chashu topping",
-        price: 45000,
-        slug: "spicy-ramen-level-3",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/products/default/ramen.png",
-        category: {
-          id: "2",
-          name: "Ramen",
-          image: "",
-          slug: "",
-        },
-      },
-      {
-        id: "1",
-        store_id: "2",
-        name: "Spicy Ramen Level 3",
-        description: "Rich broth, spicy and tempting, with chashu topping",
-        price: 45000,
-        slug: "spicy-ramen-level-3",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/products/default/ramen.png",
-        category: {
-          id: "2",
-          name: "Ramen",
-          image: "",
-          slug: "",
-        },
-      },
-    ],
-  },
-};
+const recommendations = homeData.data?.recommendations;
+console.log(recommendations?.map((rec) => rec.products));
 ---
 
 <BlankLayout>
-  
   <main class="pb-32">
     <Container class="min-h-fit h-42.5 pb-5">
       <header class="relative">
@@ -167,14 +53,14 @@ const response = {
 
           <div class="absolute bottom-0 left-0 right-0 w-full gap-2 px-5">
             <label
-              class="flex items-center w-full rounded-full p-2 gap-3 bg-input ring-1 ring-ring focus-within:ring-primary transition-all duration-300"
+              class="flex items-center w-full rounded-full p-2 gap-3 bg-white dark:bg-foreground ring-1 ring-ring focus-within:ring-primary transition-all duration-300"
             >
               <Search className="w-8 h-8 flex shrink-0 text-primary" />
               <input
                 type="text"
                 name="search"
                 id=""
-                class="appearance-none outline-none w-full font-semibold placeholder:text-ngekos-grey placeholder:font-light"
+                class="appearance-none outline-none w-full font-semibold placeholder:font-light"
                 placeholder="Search menu, or etc..."
               />
             </label>
@@ -191,25 +77,33 @@ const response = {
         />
       </Section>
 
-      <Section id="Favorites" title="Menu Favorite" link="#">
-        <ProductCarousel
-          client:load
-          products={response.data.productFavorites}
-          slot="content"
-        />
-      </Section>
-
-      <Section id="Recommendation" title="Chef's Recommendation" link="#">
-        <div slot="content" class="flex flex-col gap-4 mt-2.5">
-          {
-            response.data.productRecommendations.map((product) => (
-              <ProductCardHorizontal product={product} />
-            ))
-          }
-        </div>
-      </Section>
+      {
+        recommendations &&
+          recommendations.length &&
+          recommendations.map((rec) => (
+            <Section
+              id={rec.name}
+              title={rec.name}
+              link={`/${store?.name}/products`}
+            >
+              {rec.displayMode === "horizontal" ? (
+                <ProductCarousel
+                  client:load
+                  products={rec.products}
+                  slot="content"
+                />
+              ) : (
+                <div slot="content" class="flex flex-col gap-4 mt-2.5">
+                  {rec.products.map((product) => (
+                    <ProductCardHorizontal product={product} />
+                  ))}
+                </div>
+              )}
+            </Section>
+          ))
+      }
     </Container>
   </main>
 
-  <NavigationBottom />
+  <NavigationBottom activePath="home" />
 </BlankLayout>

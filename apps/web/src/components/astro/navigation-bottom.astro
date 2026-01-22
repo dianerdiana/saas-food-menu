@@ -2,33 +2,33 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { House, Search, ShoppingCart, User } from "lucide-react";
 
-const pathname = Astro.url.pathname;
+const pathname = Astro.props.activePath;
 
 const navigation = [
   {
     id: "1",
     name: "Home",
     icon: House,
-    href: "/",
+    href: "home",
   },
   {
     id: "2",
     name: "Cart",
     icon: ShoppingCart,
-    href: "/cart",
+    href: "cart",
     count: 6,
   },
   {
     id: "3",
     name: "Search",
     icon: Search,
-    href: "/search",
+    href: "search",
   },
   {
     id: "4",
     name: "Profile",
     icon: User,
-    href: "/profile",
+    href: "profile",
   },
 ];
 ---

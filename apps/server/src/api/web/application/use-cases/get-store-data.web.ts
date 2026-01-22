@@ -33,7 +33,8 @@ export class GetStoreDataWeb {
     const recommendationIds = [...new Set(recommendations.map((r) => r.id))];
     const productRecommendations = await this.getProductRecommendationService.execute(recommendationIds);
 
-    const productMap = new Map();
+    const productMap = new Map<string, any>();
+    const categoryMap = new Map(categories.map((category) => [category.id, category]));
     const productCategoryGroupMap = new Map<string, any[]>();
 
     const productIds = [...new Set(productRecommendations.map((pr) => pr.productId))];
@@ -43,6 +44,11 @@ export class GetStoreDataWeb {
         this.getProductByIdsUseCase.execute(productIds),
         this.getProductCategoryService.execute(undefined, productIds),
       ]);
+
+      productCategories.forEach((pc) => {
+        const existing = productCategoryGroupMap.get(pc.productId) || [];
+        productCategoryGroupMap.set(pc.productId, [...existing, pc.categoryId]);
+      });
 
       products.forEach((product) => {
         const catIds = productCategoryGroupMap.get(product.id) || [];
@@ -54,14 +60,7 @@ export class GetStoreDataWeb {
             .filter(Boolean),
         });
       });
-
-      productCategories.forEach((pc) => {
-        const existing = productCategoryGroupMap.get(pc.productId) || [];
-        productCategoryGroupMap.set(pc.productId, [...existing, pc.categoryId]);
-      });
     }
-
-    const categoryMap = new Map(categories.map((category) => [category.id, category]));
 
     return {
       store,

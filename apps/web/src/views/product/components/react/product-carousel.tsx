@@ -1,5 +1,4 @@
-import type { Category } from "@/views/category/types/category";
-import type { Product } from "@/views/product/types/product";
+import { Plus, Soup, Star } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import {
   Carousel,
@@ -7,9 +6,9 @@ import {
   CarouselItem,
 } from "@workspace/ui/components/carousel";
 
-import { Plus, Star } from "lucide-react";
+import type { ProductWithCategories } from "@/views/product/types/product";
 
-type ProductCarouselProps = { products: (Product & { category: Category })[] };
+type ProductCarouselProps = { products: ProductWithCategories[] };
 
 export function ProductCarousel({ products }: ProductCarouselProps) {
   return (
@@ -27,11 +26,17 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
                 <a href="/details">
                   <div className="flex flex-col w-full shrink-0 gap-2.5">
                     <div className="relative flex w-full h-37.5 shrink-0 rounded-xl bg-accent overflow-hidden">
-                      <img
-                        src={product.image}
-                        className="w-full h-full object-cover"
-                        alt="thumbnail"
-                      />
+                      {product.image ? (
+                        <img
+                          src={product.image}
+                          className="w-full h-full object-cover"
+                          alt="thumbnail"
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center h-full w-full">
+                          <Soup size={52} className="stroke-primary" />
+                        </div>
+                      )}
 
                       <div className="absolute top-1 right-1 flex items-center gap-1 bg-white px-2 py-1 rounded-full">
                         <Star className="text-primary size-4 fill-primary" />
@@ -39,9 +44,15 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
                       </div>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <p className="text-primary font-normal text-xs">
-                        {product.category.name}
-                      </p>
+                      <div>
+                        {product.categories &&
+                          product.categories.length &&
+                          product.categories.map((category) => (
+                            <p className="text-primary font-medium text-xs w-fit">
+                              {category.name}
+                            </p>
+                          ))}
+                      </div>
                       <h3 className="text-accent-foreground font-medium text-sm">
                         {product.name}
                       </h3>

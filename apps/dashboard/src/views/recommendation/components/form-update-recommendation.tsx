@@ -44,7 +44,7 @@ export function FormUpdateRecommendation({ recommendation }: FormUpdateRecommend
     mode: 'onChange',
     defaultValues: {
       name: recommendation.name,
-      displayMode: 'vertical',
+      displayMode: recommendation.displayMode,
       productIds: recommendation.products.map((product) => product.id),
       storeId: recommendation.storeId,
     },

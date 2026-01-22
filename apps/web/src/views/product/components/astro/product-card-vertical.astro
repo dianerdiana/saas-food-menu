@@ -1,8 +1,10 @@
 ---
-import { Category } from "@/views/category/types/category";
-import { Product } from "@/views/product/types/product";
+import { Plus, Star, Soup } from "lucide-react";
+
 import { Button } from "@workspace/ui/components/button";
-import { Plus, Star } from "lucide-react";
+
+import type { Category } from "@/views/category/types/category";
+import type { Product } from "@/views/product/types/product";
 
 type Props = { product: Product & { category: Category } };
 const { product } = Astro.props;
@@ -16,11 +18,19 @@ const { product } = Astro.props;
       <div
         class="relative flex w-full h-37.5 shrink-0 rounded-xl bg-accent overflow-hidden"
       >
-        <img
-          src={product.image}
-          class="w-full h-full object-cover"
-          alt="thumbnail"
-        />
+        {
+          product.image ? (
+            <img
+              src={product.image}
+              class="w-full h-full object-cover"
+              alt="thumbnail"
+            />
+          ) : (
+            <div class="flex items-center justify-center h-full w-full">
+              <Soup size={52} className="stroke-primary" />
+            </div>
+          )
+        }
 
         <div
           class="absolute top-1 right-1 flex items-center gap-1 bg-white px-2 py-1 rounded-full"

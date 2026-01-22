@@ -1,10 +1,9 @@
 ---
-import type { Category } from "@/views/category/types/category";
-import type { Product } from "@/views/product/types/product";
+import type { ProductWithCategories } from "@/views/product/types/product";
 import { Button } from "@workspace/ui/components/button";
-import { Plus } from "lucide-react";
+import { Plus, Soup } from "lucide-react";
 
-type Props = { product: Product & { category: Category } };
+type Props = { product: ProductWithCategories };
 const { product } = Astro.props;
 ---
 
@@ -12,20 +11,36 @@ const { product } = Astro.props;
   class="flex flex-wrap rounded-xl border border-background p-3 bg-white hover:bg-primary/20 hover:border hover:border-primary transition-all duration-300"
 >
   <div class="basis-4/12 lg:basis-3/12">
-    <img
-      src={product.image}
-      class="w-full object-cover rounded-xl aspect-square sm:aspect-auto"
-      alt="icon"
-    />
+    {
+      product.image ? (
+        <img
+          src={product.image}
+          class="w-full object-cover rounded-xl aspect-square sm:aspect-auto"
+          alt="icon"
+        />
+      ) : (
+        <div class="flex items-center justify-center h-full w-full">
+          <Soup size={52} className="stroke-primary" />
+        </div>
+      )
+    }
   </div>
   <div
     class="flex flex-col justify-between gap-4 ps-4 basis-8/12 lg:basis-9/12"
   >
     <a href="/details">
       <div class="flex flex-col gap-1 w-full">
-        <p class="text-primary font-medium text-xs">
-          {product.category.name}
-        </p>
+        <div>
+          {
+            product.categories &&
+              product.categories.length &&
+              product.categories.map((category) => (
+                <p class="text-primary font-medium text-xs w-fit">
+                  {category.name}
+                </p>
+              ))
+          }
+        </div>
         <h3 class="text-accent-foreground font-medium text-sm line-clamp-1">
           {product.name}
         </h3>
