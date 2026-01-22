@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AuthorizationModule } from '../authorization/authorization.module';
-
-import { UserRoleEntity } from './domain/entities/user-role.entity';
-import { BulkCreateUserRoleUseCase } from './application/use-cases/bulk-create-user-role.use-case';
 import { UserRoleRepository } from './infrastructure/repositories/user-role.repository';
-import { UserRoleController } from './interface/controllers/user-role.controller';
+import { UserRoleEntity } from './domain/entities/user-role.entity';
+
+import { BulkCreateUserRoleUseCase } from './application/use-cases/bulk-create-user-role.use-case';
+import { AssignUserRoleService } from './application/services/assign-user-role.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserRoleEntity]), AuthorizationModule],
-  controllers: [UserRoleController],
-  providers: [UserRoleRepository, BulkCreateUserRoleUseCase],
+  imports: [TypeOrmModule.forFeature([UserRoleEntity])],
+  providers: [UserRoleRepository, BulkCreateUserRoleUseCase, AssignUserRoleService],
+  exports: [BulkCreateUserRoleUseCase, AssignUserRoleService],
 })
 export class UserRoleModule {}

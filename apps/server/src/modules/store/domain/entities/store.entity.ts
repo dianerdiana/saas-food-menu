@@ -27,7 +27,7 @@ export class StoreEntity extends BaseAuditEntity {
   @Column({ type: 'varchar', length: 255 })
   slug!: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   phone!: string;
 
   @Column({

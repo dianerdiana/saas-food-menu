@@ -3,8 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import type { Response } from 'express';
 
+import { SignUpDash } from '../../application/use-cases/auth/sign-up.dash';
+
 import { SignInUseCase } from '@/modules/auth/application/use-cases/sign-in.use-case';
-import { SignUpUseCase } from '@/modules/auth/application/use-cases/sign-up.use-case';
 import { SignUpDto } from '@/modules/auth/application/dtos/sign-up.dto';
 import { RefreshAccessTokenUseCase } from '@/modules/auth/application/use-cases/refresh-access-token.use-case';
 import { ChangeStoreUseCase } from '@/modules/auth/application/use-cases/change-store.use-case';
@@ -28,7 +29,7 @@ const MAX_AGE_COOKIE = 7 * 24 * 60 * 60 * 1000;
 export class DashAuthController {
   constructor(
     private signInUseCase: SignInUseCase,
-    private signUpUseCase: SignUpUseCase,
+    private signUpDash: SignUpDash,
     private refreshAccessTokenUseCase: RefreshAccessTokenUseCase,
     private configService: ConfigService,
     private changeStoreUseCase: ChangeStoreUseCase,
@@ -61,7 +62,10 @@ export class DashAuthController {
   @Public()
   @Post('signup')
   async signUp(@Body() signUpDto: SignUpDto) {
-    return await this.signUpUseCase.execute(signUpDto);
+    const user = await this.signUpDash.execute(signUpDto);
+    return {
+      data: new UserDataResponse(user),
+    };
   }
 
   @Public()

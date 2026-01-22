@@ -12,7 +12,6 @@ import { TokenGeneratorService } from './application/services/token-generator.se
 
 import { ValidateUserUseCase } from './application/use-cases/validate-user.use-case';
 import { SignInUseCase } from './application/use-cases/sign-in.use-case';
-import { SignUpUseCase } from './application/use-cases/sign-up.use-case';
 import { RefreshAccessTokenUseCase } from './application/use-cases/refresh-access-token.use-case';
 import { ChangeStoreUseCase } from './application/use-cases/change-store.use-case';
 
@@ -46,7 +45,6 @@ import { JwtRefreshStrategy } from './infrastructure/strategies/jwt-refresh.stra
     LocalStrategy,
     ValidateUserUseCase,
     SignInUseCase,
-    SignUpUseCase,
     RefreshAccessTokenUseCase,
     ChangeStoreUseCase,
     AuthProjectionService,
@@ -57,7 +55,6 @@ import { JwtRefreshStrategy } from './infrastructure/strategies/jwt-refresh.stra
     LocalStrategy,
     ValidateUserUseCase,
     SignInUseCase,
-    SignUpUseCase,
     RefreshAccessTokenUseCase,
     ChangeStoreUseCase,
     AuthProjectionService,

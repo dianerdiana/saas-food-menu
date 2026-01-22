@@ -5,6 +5,8 @@ import { DashAuthController } from './interface/controllers/auth.controller';
 import { DashCategoryController } from './interface/controllers/category.controller';
 import { DashProductController } from './interface/controllers/product.controller';
 import { DashRecommendationController } from './interface/controllers/recommendation.controller';
+import { DashRoleController } from './interface/controllers/role.controller';
+import { DashUserRoleController } from './interface/controllers/user-role.controller';
 
 import { AuthModule } from '@/modules/auth/auth.module';
 import { AuthorizationModule } from '@/modules/authorization/authorization.module';
@@ -14,8 +16,14 @@ import { ProductModule } from '@/modules/product/product.module';
 import { RecommendationModule } from '@/modules/recommendation/recommendation.module';
 import { ProductCategoryModule } from '@/modules/product-category/product-category.module';
 import { ProductRecommendationModule } from '@/modules/product-recommendation/product-recommendation.module';
+import { UserModule } from '@/modules/user/user.module';
+import { RoleModule } from '@/modules/role/role.module';
+import { UserRoleModule } from '@/modules/user-role/user-role.module';
 
 import { StorageService } from '@/shared/services/storage.service';
+
+// Auth Providers
+import { SignUpDash } from './application/use-cases/auth/sign-up.dash';
 
 // Store Providers
 import { GetStoreListDash } from './application/use-cases/store/get-store-list.dash';
@@ -56,6 +64,9 @@ import { GetRecommendationByIdDash } from './application/use-cases/recommendatio
     RecommendationModule,
     ProductCategoryModule,
     ProductRecommendationModule,
+    UserModule,
+    RoleModule,
+    UserRoleModule,
   ],
   controllers: [
     DashAuthController,
@@ -63,9 +74,14 @@ import { GetRecommendationByIdDash } from './application/use-cases/recommendatio
     DashCategoryController,
     DashProductController,
     DashRecommendationController,
+    DashRoleController,
+    DashUserRoleController,
   ],
   providers: [
     StorageService,
+
+    // Auth
+    SignUpDash,
 
     // Store
     GetStoreListDash,

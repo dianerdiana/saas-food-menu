@@ -10,6 +10,8 @@ import { toast } from '@workspace/ui/components/sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ClipboardList, MapPin, PhoneCall, Store, Tag } from 'lucide-react';
 
+import { generateSlug } from '@/utils/generate-slug';
+
 import { ImageUpload } from './image-store-upload';
 
 import { useUpdateStore } from '../api/store.mutation';
@@ -25,7 +27,7 @@ export function FormUpdateStore({ store }: FormUpdateStoreProps) {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [defaultImage, setDefaultImage] = useState<string | null>(null);
 
-  const { control, reset, handleSubmit } = useForm<UpdateStoreType>({
+  const { control, reset, handleSubmit, setValue } = useForm<UpdateStoreType>({
     resolver: zodResolver(updateStoreSchema),
     defaultValues: {
       name: '',
@@ -101,7 +103,15 @@ export function FormUpdateStore({ store }: FormUpdateStoreProps) {
                         Store Name <span className='text-destructive'>*</span>
                       </FieldLabel>
                       <InputGroup>
-                        <InputGroupInput {...field} id={`store-edit-${field.name}`} data-invalid={fieldState.invalid} />
+                        <InputGroupInput
+                          {...field}
+                          id={`store-edit-${field.name}`}
+                          data-invalid={fieldState.invalid}
+                          onChange={(event) => {
+                            field.onChange(event);
+                            setValue('slug', generateSlug(event.target.value));
+                          }}
+                        />
                         <InputGroupAddon>
                           <Store />
                         </InputGroupAddon>

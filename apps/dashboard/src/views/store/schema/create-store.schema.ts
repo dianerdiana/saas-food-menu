@@ -1,6 +1,6 @@
 import z from 'zod';
 
-import { imageRequiredSchema, phoneNumberSchema } from '@/schemas/global-schema';
+import { phoneNumberSchema } from '@/schemas/global-schema';
 
 export const createStoreSchema = z.object({
   name: z.string().min(1, 'Store name is required'),
@@ -8,5 +8,4 @@ export const createStoreSchema = z.object({
   phone: phoneNumberSchema,
   address: z.string().optional(),
   description: z.string().optional(),
-  image: imageRequiredSchema,
 });

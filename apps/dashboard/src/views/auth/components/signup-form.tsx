@@ -41,7 +41,7 @@ export function SignUpForm() {
   const onSubmit = async (data: SignUpType) => {
     mutate(data, {
       onSuccess: (payload) => {
-        if (payload.data.status === RESPONSE_STATUS.success) {
+        if (payload.data && payload.data.status === RESPONSE_STATUS.success) {
           navigate('/signin');
           toast.success('Please login with registered username/email');
         } else {

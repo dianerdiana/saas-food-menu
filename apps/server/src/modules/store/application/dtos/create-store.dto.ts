@@ -10,7 +10,7 @@ export class CreateStoreDto {
   slug!: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   phone!: string;
 
   @IsNumber()

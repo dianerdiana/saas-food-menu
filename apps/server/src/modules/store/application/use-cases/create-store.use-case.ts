@@ -26,8 +26,10 @@ export class CreateStoreUseCase {
     const existingStoreSlug = await this.storeRepository.findBySlug(store.slug);
     if (existingStoreSlug) throw new BadRequestException("Store's slug is already exist");
 
-    const existingStorePhone = await this.storeRepository.findByPhone(store.phone);
-    if (existingStorePhone) throw new BadRequestException("Store's phone is already exist");
+    if (store.phone) {
+      const existingStorePhone = await this.storeRepository.findByPhone(store.phone);
+      if (existingStorePhone) throw new BadRequestException("Store's phone is already exist");
+    }
 
     const ownedStoreCount = await this.storeRepository.countAllOwned(store.ownerId);
 

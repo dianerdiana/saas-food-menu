@@ -17,4 +17,8 @@ export class RoleRepository {
   async bulkSave(roles: RoleEntity[]) {
     return await this.repository.createQueryBuilder().insert().into(RoleEntity).values(roles).execute();
   }
+
+  findByName(name: string) {
+    return this.repository.findOneBy({ name });
+  }
 }

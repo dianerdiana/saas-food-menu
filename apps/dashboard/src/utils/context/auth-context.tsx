@@ -63,17 +63,20 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 
       return response;
     } catch (error) {
-      return handleErrorApi(error);
+      throw handleErrorApi(error);
     }
   };
 
-  const signUp = async (credentials: any) => {
-    const response = await jwt.signUp(credentials);
-    const { data } = response.data;
+  const signUp = async (credentials: any): Promise<AxiosResponse<ApiResponse<SignInResponse>> | any> => {
+    try {
+      const response = await jwt.signUp(credentials);
 
-    setIsInitialLoading(false);
+      setIsInitialLoading(false);
 
-    return data;
+      return response;
+    } catch (error) {
+      throw handleErrorApi(error);
+    }
   };
 
   const signOut = async () => {
@@ -94,7 +97,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 
       return response;
     } catch (error) {
-      return error;
+      throw handleErrorApi(error);
     } finally {
       setIsInitialLoading(false);
     }

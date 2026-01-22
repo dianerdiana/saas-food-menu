@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,12 +22,15 @@ import { ClipboardList, MapPin, PhoneCall, Store, Tag } from 'lucide-react';
 import { generateSlug } from '@/utils/generate-slug';
 import { useAuth } from '@/utils/hooks/use-auth';
 
+import { ImageUpload } from './image-store-upload';
+
 import { useCreateStore } from '../api/store.mutation';
 import { createStoreSchema } from '../schema/create-store.schema';
 import type { CreateStoreType } from '../types/create-store.type';
-import { ImageUpload } from './image-store-upload';
 
 export function FormCreateStore() {
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
   const { control, handleSubmit, setValue, getValues } = useForm<CreateStoreType>({
     resolver: zodResolver(createStoreSchema),
     mode: 'onBlur',
@@ -36,7 +40,6 @@ export function FormCreateStore() {
       phone: '',
       address: '',
       description: '',
-      image: '',
     },
   });
   const { mutate, isPending } = useCreateStore();
@@ -48,8 +51,8 @@ export function FormCreateStore() {
     formData.append('name', data.name);
     formData.append('slug', data.slug);
     formData.append('phone', data.phone);
-    formData.append('image', data.image);
 
+    if (imageFile) formData.append('image', imageFile);
     if (data.address) formData.append('address', data.address);
     if (data.description) formData.append('description', data.description);
 
@@ -214,11 +217,7 @@ export function FormCreateStore() {
             </form>
           </div>
           <div className='place-items-center col-span-2 order-1 lg:order-2 lg:col-span-1'>
-            <Controller
-              control={control}
-              name='image'
-              render={({ field }) => <ImageUpload onChange={field.onChange} />}
-            />
+            <ImageUpload onChange={setImageFile} />
           </div>
         </div>
       </CardContent>

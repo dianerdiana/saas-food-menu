@@ -8,9 +8,6 @@ import { PasswordService } from '../auth/infrastructure/config/password.service'
 // Entity
 import { UserEntity } from './domain/entities/user.entity';
 
-// Controller
-import { UserController } from './interface/controllers/user.controller';
-
 // Repository
 import { UserRepository } from './infrastructure/repositories/user.repository';
 
@@ -28,9 +25,9 @@ import { GetUserByUsernameForAuth } from './application/use-cases/get-user-by-us
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
-  controllers: [UserController],
   providers: [
     UserRepository,
+
     PasswordService,
     GetUserByIdWithPermissions,
     GetUserByIdUseCase,
@@ -43,6 +40,17 @@ import { GetUserByUsernameForAuth } from './application/use-cases/get-user-by-us
     GetUserByUsernameUseCase,
     GetUserByUsernameForAuth,
   ],
-  exports: [GetUserByIdUseCase, CreateUserUseCase, GetUserByIdWithPermissions, GetUserByUsernameForAuth],
+  exports: [
+    GetUserByIdWithPermissions,
+    GetUserByIdUseCase,
+    CreateUserUseCase,
+    GetAllUserUseCase,
+    UpdateUserUseCase,
+    DeleteUserUseCase,
+    GetUserByEmailUseCase,
+    GetUserByPhoneUseCase,
+    GetUserByUsernameUseCase,
+    GetUserByUsernameForAuth,
+  ],
 })
 export class UserModule {}
