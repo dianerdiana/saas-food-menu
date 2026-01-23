@@ -5,7 +5,7 @@ import type { PaginationType } from '@/types/pagination';
 import { handleErrorApi } from '@/utils/handle-error-api';
 
 import type { CreateRecommendationType } from '../types/create-recommendation.type';
-import type { Recommendation } from '../types/recommendation.type';
+import type { Recommendation, RecommendationWithProducts } from '../types/recommendation.type';
 import type { UpdateRecommendationType } from '../types/update-recommendation.type';
 
 export const getAllRecommendation = async (params: PaginationType): Promise<ApiResponse<Recommendation[]>> => {
@@ -17,7 +17,9 @@ export const getAllRecommendation = async (params: PaginationType): Promise<ApiR
   }
 };
 
-export const getRecommendationById = async (recommendationId: string): Promise<ApiResponse<Recommendation>> => {
+export const getRecommendationById = async (
+  recommendationId: string,
+): Promise<ApiResponse<RecommendationWithProducts>> => {
   try {
     const response = await jwt.get(`/recommendations/${recommendationId}`);
     return response.data;

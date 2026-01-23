@@ -4,7 +4,7 @@ import type { ApiResponse } from '@/types/api-response.type';
 import type { PaginationType } from '@/types/pagination';
 import { handleErrorApi } from '@/utils/handle-error-api';
 
-import type { Product } from '../types/product.type';
+import type { Product, ProductWithCategory } from '../types/product.type';
 
 export const getAllProduct = async (params: PaginationType): Promise<ApiResponse<Product[]>> => {
   try {
@@ -15,7 +15,7 @@ export const getAllProduct = async (params: PaginationType): Promise<ApiResponse
   }
 };
 
-export const getProductById = async (productId: string): Promise<ApiResponse<Product>> => {
+export const getProductById = async (productId: string): Promise<ApiResponse<ProductWithCategory>> => {
   try {
     const response = await jwt.get(`/products/${productId}`);
     return response.data;

@@ -11,8 +11,9 @@ import { toast } from '@workspace/ui/components/sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ClipboardList, Link, Tag } from 'lucide-react';
 
+import { SelectStore } from '@/components/select-store';
+
 import { ImageUpload } from './image-category-upload';
-import { SelectStore } from './select-store';
 
 import { useUpdateCategory } from '../api/category.mutation';
 import { updateCategorySchema } from '../schema/update-category.schema';
