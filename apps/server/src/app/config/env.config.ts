@@ -5,9 +5,9 @@ export default (): EnvironmentInterface => ({
   host: process.env.HOST || 'localhost',
   nodeEnv: process.env.NODE_ENV || 'production',
   database: {
-    host: process.env.DB_HOST || '',
+    host: process.env.DB_HOST || 'postgres',
     port: Number(process.env.DB_PORT),
-    username: process.env.DB_USER || '',
+    username: process.env.DB_USER || 'postgress',
     password: process.env.DB_PASSWORD || 'password',
     database: process.env.DB_DATABASE || 'postgres',
   },

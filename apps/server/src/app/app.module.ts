@@ -43,6 +43,7 @@ import { WebModule } from '@/api/web/web.module';
       isGlobal: true,
       envFilePath: ['.env', '.env.development'],
       load: [configuration],
+      ignoreEnvFile: process.env.NODE_ENV === 'production',
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

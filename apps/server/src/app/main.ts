@@ -4,8 +4,8 @@ import { createServer } from './server';
 const startServer = async (): Promise<void> => {
   try {
     const server = await createServer();
-
     const env = server.get(ConfigService);
+
     const port = env.get('port');
     const host = env.get('host');
 
