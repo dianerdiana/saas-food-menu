@@ -1,8 +1,20 @@
 ---
-import Container from "@/components/astro/container.astro";
-import BlankLayout from "@/layouts/blank-layout.astro";
+import { ArrowLeft, CircleCheck, Soup, Star, ThumbsUp } from "lucide-react";
+
 import { Button } from "@workspace/ui/components/button";
-import { ArrowLeft, CircleCheck, Star, ThumbsUp } from "lucide-react";
+
+import BlankLayout from "@/layouts/blank-layout.astro";
+import Container from "@/components/astro/container.astro";
+import { formatCurrency } from "@/utils/format-currency";
+
+import { getStoreProduct } from "@/services/api";
+import { cn } from "@workspace/ui/lib/utils";
+
+const storeSlug = Astro.params.storeSlug || "";
+const productSlug = Astro.params.productSlug || "";
+const response = await getStoreProduct(storeSlug, productSlug);
+
+const product = response.data?.product;
 ---
 
 <BlankLayout>
@@ -30,15 +42,26 @@ import { ArrowLeft, CircleCheck, Star, ThumbsUp } from "lucide-react";
     <main class="pb-24">
       <div id="Image" class="relative w-full -mb-9.5">
         <div class="overflow-hidden">
-          <img
-            src="https://ik.imagekit.io/dianerdiana/saas-food-menu/products/default/Delicious%20Ramen%20Bowl.png"
-            alt=""
-            class="w-full object-cover h-125 overflow-hidden"
-          />
+          {
+            product?.image ? (
+              <img
+                src={product.image}
+                alt=""
+                class="w-full object-cover h-125 overflow-hidden"
+              />
+            ) : (
+              <div class="w-full h-125 overflow-hidden flex items-center justify-center bg-primary/10">
+                <Soup size={244} className="stroke-primary" />
+              </div>
+            )
+          }
         </div>
 
         <div
-          class="absolute bottom-20 right-5 flex items-center gap-1 bg-white/10 px-2 py-1 rounded-full"
+          class={cn(
+            "absolute bottom-20 right-5 flex items-center gap-1 bg-white/20 backdrop-blur-2xl px-2 py-1 rounded-full",
+            product?.image ? "bg-transparent" : "bg-foreground/10",
+          )}
         >
           <Star className="fill-primary stroke-primary size-4" />
           <p class="text-white text-sm">4.8</p>
@@ -48,11 +71,18 @@ import { ArrowLeft, CircleCheck, Star, ThumbsUp } from "lucide-react";
         class="relative flex flex-col w-full px-5 py-5 gap-5 bg-white rounded-t-3xl shadow-sm -mt-5 z-10"
       >
         <div id="Title">
-          <p class="text-secondary font-normal text-xs">Ramen</p>
-          <h1 class="text-2xl font-semibold">Miso Ramen</h1>
+          <div class="flex items-center">
+            {
+              product?.categories.map((category) => (
+                <p class="text-secondary font-normal text-xs">
+                  {category.name}
+                </p>
+              ))
+            }
+          </div>
+          <h1 class="text-2xl font-semibold">{product?.name}</h1>
           <p class="text-muted-foreground font-normal text-sm">
-            Rich miso-based broth with a savory flavor, topped with corn, minced
-            meat, and green onions.
+            {product?.description}
           </p>
         </div>
         <div id="Ingredients">
@@ -133,7 +163,9 @@ import { ArrowLeft, CircleCheck, Star, ThumbsUp } from "lucide-react";
       <div class="flex items-center justify-between p-5">
         <div class="flex flex-col gap-2">
           <p class="text-muted-foreground font-normal text-sm">Menu Price</p>
-          <p class="font-semibold text-lg">Rp 40.000</p>
+          <p class="font-semibold text-lg">
+            {formatCurrency(product?.price || 0)}
+          </p>
         </div>
 
         <Button

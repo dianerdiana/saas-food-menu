@@ -1,4 +1,5 @@
 ---
+import { formatCurrency } from "@/utils/format-currency";
 import type { ProductWithCategories } from "@/views/product/types/product";
 import { Button } from "@workspace/ui/components/button";
 import { Plus, Soup } from "lucide-react";
@@ -48,14 +49,14 @@ const { product, storeSlug } = Astro.props;
         <h3 class="text-accent-foreground font-medium text-sm line-clamp-1">
           {product.name}
         </h3>
-        <p class="text-muted-foreground font-medium text-[10px]">
+        <p class="text-muted-foreground font-medium text-[10px] line-clamp-2">
           {product.description}
         </p>
       </div>
     </a>
     <div class="flex items-center justify-between">
       <p class="text-destructive font-semibold text-sm">
-        Rp {product.price}
+        {formatCurrency(product.price)}
       </p>
       <Button
         type="button"

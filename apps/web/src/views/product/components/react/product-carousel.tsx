@@ -23,8 +23,11 @@ export function ProductCarousel({ products, storeSlug }: ProductCarouselProps) {
         }}
       >
         <CarouselContent className="w-full">
-          {products.map((product, index) => (
-            <CarouselItem key={index} className="w-fit basis-1/2 lg:basis-2/5">
+          {products.map((product) => (
+            <CarouselItem
+              key={product.id}
+              className="w-fit basis-1/2 lg:basis-2/5"
+            >
               <div className=" p-3 pb-5 bg-white hover:bg-primary/20 rounded-xl border border-background hover:border-primary transition-all duration-300">
                 <a
                   href={
@@ -57,7 +60,10 @@ export function ProductCarousel({ products, storeSlug }: ProductCarouselProps) {
                         {product.categories &&
                           product.categories.length &&
                           product.categories.map((category) => (
-                            <p className="text-primary font-medium text-xs w-fit">
+                            <p
+                              key={category.id}
+                              className="text-primary font-medium text-xs w-fit"
+                            >
                               {category.name}
                             </p>
                           ))}

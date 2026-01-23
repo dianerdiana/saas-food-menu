@@ -14,7 +14,6 @@ import { CircleDollarSign, ClipboardList, Link, Tag } from 'lucide-react';
 import { SelectStore } from '@/components/select-store';
 import { RESPONSE_STATUS } from '@/utils/constants/response-status';
 import { generateSlug } from '@/utils/generate-slug';
-import { useAuth } from '@/utils/hooks/use-auth';
 
 import { ImageUpload } from './image-product-upload';
 import { SelectCategory } from './select-category';
@@ -25,7 +24,6 @@ import type { ProductWithCategory } from '../types/product.type';
 import type { UpdateProductType } from '../types/update-product.type';
 
 export function FormUpdateProduct({ product }: { product: ProductWithCategory }) {
-  const { userData } = useAuth();
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const { control, handleSubmit, setError, setValue } = useForm<UpdateProductType>({
@@ -37,7 +35,7 @@ export function FormUpdateProduct({ product }: { product: ProductWithCategory })
       description: product.description ? product.description : '',
       price: product.price,
       categoryId: product.category.id,
-      storeId: userData.storeId,
+      storeId: product.storeId,
     },
   });
   const { mutate, isPending } = useUpdateProduct();

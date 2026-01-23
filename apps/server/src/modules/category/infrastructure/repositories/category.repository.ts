@@ -50,7 +50,7 @@ export class CategoryRepository {
   }
 
   async findByIds(ids: string[]) {
-    return this.repository.findOneBy({ id: In(ids) });
+    return this.repository.findBy({ id: In(ids) });
   }
 
   async findBySlug(slug: string) {

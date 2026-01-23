@@ -6,7 +6,7 @@ import { CategoryResponse } from './category.response';
 @Exclude()
 export class ProductResponse {
   @Expose() id!: string;
-  @Expose() productId!: string;
+  @Expose() storeId!: string;
   @Expose() name!: string;
   @Expose() slug!: string;
   @Expose() image?: string | null;
@@ -25,7 +25,7 @@ export class ProductResponse {
 
 export class ProductWithStoreResponse {
   @Expose() id!: string;
-  @Expose() productId!: string;
+  @Expose() storeId!: string;
   @Expose() name!: string;
   @Expose() slug!: string;
   @Expose() image?: string | null;
@@ -49,7 +49,7 @@ export class ProductWithStoreResponse {
 @Exclude()
 export class ProductWithCategoryResponse {
   @Expose() id!: string;
-  @Expose() productId!: string;
+  @Expose() storeId!: string;
   @Expose() name!: string;
   @Expose() slug!: string;
   @Expose() image?: string | null;
@@ -73,7 +73,7 @@ export class ProductWithCategoryResponse {
 @Exclude()
 export class ProductWithCategoryListResponse {
   @Expose() id!: string;
-  @Expose() productId!: string;
+  @Expose() storeId!: string;
   @Expose() name!: string;
   @Expose() slug!: string;
   @Expose() image?: string | null;

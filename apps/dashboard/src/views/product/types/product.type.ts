@@ -2,6 +2,7 @@ import type { Category } from '@/views/category/types/category.type';
 
 export type Product = {
   id: string;
+  storeId: string;
   name: string;
   slug: string;
   image: string;
@@ -12,6 +13,7 @@ export type Product = {
 
 export type ProductWithCategory = {
   id: string;
+  storeId: string;
   name: string;
   slug: string;
   image: string;
