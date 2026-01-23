@@ -3,8 +3,8 @@ import type { ProductWithCategories } from "@/views/product/types/product";
 import { Button } from "@workspace/ui/components/button";
 import { Plus, Soup } from "lucide-react";
 
-type Props = { product: ProductWithCategories };
-const { product } = Astro.props;
+type Props = { product: ProductWithCategories; storeSlug?: string };
+const { product, storeSlug } = Astro.props;
 ---
 
 <div
@@ -19,7 +19,7 @@ const { product } = Astro.props;
           alt="icon"
         />
       ) : (
-        <div class="flex items-center justify-center h-full w-full">
+        <div class="flex items-center justify-center h-full w-full bg-accent rounded-xl">
           <Soup size={52} className="stroke-primary" />
         </div>
       )
@@ -28,7 +28,11 @@ const { product } = Astro.props;
   <div
     class="flex flex-col justify-between gap-4 ps-4 basis-8/12 lg:basis-9/12"
   >
-    <a href="/details">
+    <a
+      href={storeSlug
+        ? `${storeSlug}/products/${product.slug}`
+        : `/products/${product.slug}`}
+    >
       <div class="flex flex-col gap-1 w-full">
         <div>
           {

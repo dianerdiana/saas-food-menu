@@ -1,10 +1,9 @@
 ---
-import type { Category } from "@/views/category/types/category";
-import type { Product } from "@/views/product/types/product";
+import type { ProductWithCategories } from "@/views/product/types/product";
 import { Button } from "@workspace/ui/components/button";
 import { Minus, NotebookPen, Plus, Trash2 } from "lucide-react";
 
-type Props = { product: Product & { category: Category } & { note: string } };
+type Props = { product: ProductWithCategories & { note: string } };
 const { product } = Astro.props;
 ---
 
@@ -20,9 +19,15 @@ const { product } = Astro.props;
   </div>
   <div class="flex flex-col gap-1 ps-4 basis-8/12 lg:basis-9/12">
     <div class="flex items-center justify-between">
-      <p class="text-secondary font-normal text-xs">
-        {product.category.name}
-      </p>
+      {
+        product.categories &&
+          product.categories.length &&
+          product.categories.map((category) => (
+            <p class="text-primary font-medium text-xs w-fit">
+              {category.name}
+            </p>
+          ))
+      }
 
       <Button
         variant={"outline_destructive"}

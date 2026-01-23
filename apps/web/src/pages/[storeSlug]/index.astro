@@ -13,13 +13,12 @@ import ProductCardHorizontal from "@/views/product/components/astro/product-card
 
 import { getHomeData } from "@/services/home";
 
-const storeName = Astro.params.storename || "";
-const homeData = await getHomeData(storeName);
+const storeSlug = Astro.params.storeSlug || "";
+const homeData = await getHomeData(storeSlug);
 
 const store = homeData.data?.store;
 const categories = homeData.data?.categories;
 const recommendations = homeData.data?.recommendations;
-console.log(recommendations?.map((rec) => rec.products));
 ---
 
 <BlankLayout>
@@ -48,7 +47,7 @@ console.log(recommendations?.map((rec) => rec.products));
           </div>
 
           <h1 class="text-white font-semibold text-2xl leading-7.5 mt-5">
-            Found Delicious Meal!
+            Discover Your Favorite Meal!
           </h1>
 
           <div class="absolute bottom-0 left-0 right-0 w-full gap-2 px-5">
@@ -90,12 +89,16 @@ console.log(recommendations?.map((rec) => rec.products));
                 <ProductCarousel
                   client:load
                   products={rec.products}
+                  storeSlug={`/${storeSlug}`}
                   slot="content"
                 />
               ) : (
                 <div slot="content" class="flex flex-col gap-4 mt-2.5">
                   {rec.products.map((product) => (
-                    <ProductCardHorizontal product={product} />
+                    <ProductCardHorizontal
+                      product={product}
+                      storeSlug={`/${storeSlug}`}
+                    />
                   ))}
                 </div>
               )}
@@ -105,5 +108,5 @@ console.log(recommendations?.map((rec) => rec.products));
     </Container>
   </main>
 
-  <NavigationBottom activePath="home" />
+  <NavigationBottom activePath={storeSlug} storeSlug={storeSlug} />
 </BlankLayout>

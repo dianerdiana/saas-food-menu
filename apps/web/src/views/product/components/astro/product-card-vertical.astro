@@ -3,17 +3,20 @@ import { Plus, Star, Soup } from "lucide-react";
 
 import { Button } from "@workspace/ui/components/button";
 
-import type { Category } from "@/views/category/types/category";
-import type { Product } from "@/views/product/types/product";
+import type { ProductWithCategories } from "@/views/product/types/product";
 
-type Props = { product: Product & { category: Category } };
-const { product } = Astro.props;
+type Props = { product: ProductWithCategories; storeSlug?: string };
+const { product, storeSlug } = Astro.props;
 ---
 
 <div
   class="p-3 pb-5 bg-white hover:bg-primary/20 rounded-xl border border-background hover:border-primary transition-all duration-300"
 >
-  <a href="details.html">
+  <a
+    href={storeSlug
+      ? `${storeSlug}/products/${product.slug}`
+      : `/products/${product.slug}`}
+  >
     <div class="flex flex-col w-full shrink-0 gap-2.5">
       <div
         class="relative flex w-full h-37.5 shrink-0 rounded-xl bg-accent overflow-hidden"
@@ -40,9 +43,17 @@ const { product } = Astro.props;
         </div>
       </div>
       <div class="flex flex-col gap-1">
-        <p class="text-primary font-normal text-xs line-clamp-1">
-          {product.category.name}
-        </p>
+        <div>
+          {
+            product.categories &&
+              product.categories.length &&
+              product.categories.map((category) => (
+                <p class="text-primary font-medium text-xs w-fit">
+                  {category.name}
+                </p>
+              ))
+          }
+        </div>
         <h3 class="text-accent-foreground font-medium text-sm">
           {product.name}
         </h3>

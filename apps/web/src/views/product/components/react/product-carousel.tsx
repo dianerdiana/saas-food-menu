@@ -8,9 +8,12 @@ import {
 
 import type { ProductWithCategories } from "@/views/product/types/product";
 
-type ProductCarouselProps = { products: ProductWithCategories[] };
+type ProductCarouselProps = {
+  products: ProductWithCategories[];
+  storeSlug?: string;
+};
 
-export function ProductCarousel({ products }: ProductCarouselProps) {
+export function ProductCarousel({ products, storeSlug }: ProductCarouselProps) {
   return (
     <div className="flex justify-center">
       <Carousel
@@ -23,7 +26,13 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
           {products.map((product, index) => (
             <CarouselItem key={index} className="w-fit basis-1/2 lg:basis-2/5">
               <div className=" p-3 pb-5 bg-white hover:bg-primary/20 rounded-xl border border-background hover:border-primary transition-all duration-300">
-                <a href="/details">
+                <a
+                  href={
+                    storeSlug
+                      ? `${storeSlug}/products/${product.slug}`
+                      : `/products/${product.slug}`
+                  }
+                >
                   <div className="flex flex-col w-full shrink-0 gap-2.5">
                     <div className="relative flex w-full h-37.5 shrink-0 rounded-xl bg-accent overflow-hidden">
                       {product.image ? (
