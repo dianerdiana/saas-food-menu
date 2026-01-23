@@ -11,7 +11,7 @@ import { CategoryCarousel } from "@/views/category/components/react/category-car
 import { ProductCarousel } from "@/views/product/components/react/product-carousel";
 import ProductCardHorizontal from "@/views/product/components/astro/product-card-horizontal.astro";
 
-import { getHomeData } from "@/services/home";
+import { getHomeData } from "@/services/api";
 
 const storeSlug = Astro.params.storeSlug || "";
 const homeData = await getHomeData(storeSlug);

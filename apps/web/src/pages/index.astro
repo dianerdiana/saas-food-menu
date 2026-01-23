@@ -10,125 +10,207 @@ import NavigationBottom from "@/components/astro/navigation-bottom.astro";
 import { CategoryCarousel } from "@/views/category/components/react/category-carousel";
 import { ProductCarousel } from "@/views/product/components/react/product-carousel";
 import ProductCardHorizontal from "@/views/product/components/astro/product-card-horizontal.astro";
+import type { Store } from "@/views/store/types/store.type";
+import type { Category } from "@/views/category/types/category";
+import type { RecommendationWithProductList } from "@/views/recommendation/types/recommendation-type";
 
-import { getHomeData } from "@/services/home";
+type Response = {
+  data: {
+    store: Store;
+    categories: Category[];
+    recommendations: RecommendationWithProductList[];
+  };
+};
 
-const homeData = await getHomeData();
-console.log(homeData);
-
-const response = {
+const response: Response = {
   data: {
     store: {
-      id: "1",
-      name: "Ramenku Majalengka",
+      id: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+      name: "Papagesha",
+      ownerId: "019b8355-8e9e-744b-91c6-302bc151225b",
+      image:
+        "https://ik.imagekit.io/dianerdiana/saas-food-menu/stores/Toko Milik Admin/1769007603823-Screenshot 2026-01-18 195319.jpg",
+      slug: "papagesha",
+      phone: "081234567821",
     },
     categories: [
       {
-        id: "1",
-        name: "All Menu",
-        slug: "",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/all-menu.png",
-      },
-      {
-        id: "2",
-        name: "Desert",
-        slug: "desert",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/desert.png",
-      },
-      {
-        id: "2",
-        name: "Drink",
-        slug: "drink",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/drink.png",
-      },
-      {
-        id: "2",
-        name: "Ramen",
-        slug: "ramen",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/ramen.png",
-      },
-      {
-        id: "2",
+        id: "019be111-e281-761b-86c2-842bf90ef48e",
+        storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
         name: "Chicken",
         slug: "chicken",
         image:
           "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/chicken.png",
+        description: null,
+        status: "ACTIVE",
+      },
+      {
+        id: "019be111-e282-7158-a5f5-1e7741eabd64",
+        storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+        name: "Desert",
+        slug: "desert",
+        image:
+          "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/desert.png",
+        description: null,
+        status: "ACTIVE",
+      },
+      {
+        id: "019be111-e282-7158-a5f5-234ff614e867",
+        storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+        name: "Drink",
+        slug: "drink",
+        image:
+          "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/drink.png",
+        description: null,
+        status: "ACTIVE",
+      },
+      {
+        id: "019be111-e282-7158-a5f5-27cdf0ebf1ef",
+        storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+        name: "Ramen",
+        slug: "ramen",
+        image:
+          "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/ramen.png",
+        description: null,
+        status: "ACTIVE",
       },
     ],
-    productFavorites: [
+    recommendations: [
       {
-        id: "1",
-        store_id: "2",
-        name: "Spicy Ramen Level 3",
-        description: "Rich broth, spicy and tempting, with chashu topping",
-        price: 45000,
-        slug: "spicy-ramen-level-3",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/products/default/ramen.png",
-        category: {
-          id: "2",
-          name: "Ramen",
-          image: "",
-          slug: "",
-        },
+        id: "019be111-e28a-74df-8fa4-b0406bafb8af",
+        storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+        name: "Menu Favorite",
+        displayMode: "horizontal",
+        status: "ACTIVE",
+        products: [
+          {
+            id: "019bdf75-85b8-7239-9c40-ed696716c7cf",
+            storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+            name: "Ayam Geprek",
+            slug: "ayam-geprek",
+            image: null,
+            price: 10000,
+            description: null,
+            status: "ACTIVE",
+            categories: [
+              {
+                id: "019be111-e281-761b-86c2-842bf90ef48e",
+                storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+                name: "Chicken",
+                slug: "chicken",
+                image:
+                  "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/chicken.png",
+                description: null,
+                status: "ACTIVE",
+              },
+            ],
+          },
+          {
+            id: "019bdf75-322b-7521-8328-bcaaacfa49b7",
+            storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+            name: "Ramen",
+            slug: "ramen",
+            image: null,
+            price: 10000,
+            description: null,
+            status: "ACTIVE",
+            categories: [
+              {
+                id: "019be111-e282-7158-a5f5-1e7741eabd64",
+                storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+                name: "Desert",
+                slug: "desert",
+                image:
+                  "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/desert.png",
+                description: null,
+                status: "ACTIVE",
+              },
+            ],
+          },
+          {
+            id: "019beabb-8453-749b-b78f-679f72168410",
+            storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+            name: "Nano-Nano",
+            slug: "nano-nano",
+            image: null,
+            price: 500,
+            description: null,
+            status: "ACTIVE",
+            categories: [
+              {
+                id: "019be111-e282-7158-a5f5-1e7741eabd64",
+                storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+                name: "Desert",
+                slug: "desert",
+                image:
+                  "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/desert.png",
+                description: null,
+                status: "ACTIVE",
+              },
+            ],
+          },
+        ],
       },
       {
-        id: "2",
-        store_id: "2",
-        name: "Chicken Karaage",
-        description: "Crispy Japanese-style fried chicken, served with a tangy",
-        price: 48000,
-        slug: "spicy-ramen-level-3",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/products/default/Fried%20Chicken%20High%20Angle%20Shot.png",
-        category: {
-          id: "2",
-          name: "Chicken",
-          image: "",
-          slug: "",
-        },
-      },
-    ],
-    productRecommendations: [
-      {
-        id: "1",
-        store_id: "2",
-        name: "Spicy Ramen Level 3",
-        description: "Rich broth, spicy and tempting, with chashu topping",
-        price: 45000,
-        slug: "spicy-ramen-level-3",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/products/default/ramen.png",
-        category: {
-          id: "2",
-          name: "Ramen",
-          image: "",
-          slug: "",
-        },
-      },
-      {
-        id: "1",
-        store_id: "2",
-        name: "Spicy Ramen Level 3",
-        description: "Rich broth, spicy and tempting, with chashu topping",
-        price: 45000,
-        slug: "spicy-ramen-level-3",
-        image:
-          "https://ik.imagekit.io/dianerdiana/saas-food-menu/products/default/ramen.png",
-        category: {
-          id: "2",
-          name: "Ramen",
-          image: "",
-          slug: "",
-        },
+        id: "019be111-e28a-74df-8fa4-b591156d4fea",
+        storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+        name: "Chef's Recommendation",
+        displayMode: "vertical",
+        status: "ACTIVE",
+        products: [
+          {
+            id: "019bdf75-85b8-7239-9c40-ed696716c7cf",
+            storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+            name: "Ayam Geprek",
+            slug: "ayam-geprek",
+            image: null,
+            price: 10000,
+            description: null,
+            status: "ACTIVE",
+            categories: [
+              {
+                id: "019be111-e281-761b-86c2-842bf90ef48e",
+                storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+                name: "Chicken",
+                slug: "chicken",
+                image:
+                  "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/chicken.png",
+                description: null,
+                status: "ACTIVE",
+              },
+            ],
+          },
+          {
+            id: "019bdf75-322b-7521-8328-bcaaacfa49b7",
+            storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+            name: "Ramen",
+            slug: "ramen",
+            image: null,
+            price: 10000,
+            description: null,
+            status: "ACTIVE",
+            categories: [
+              {
+                id: "019be111-e282-7158-a5f5-1e7741eabd64",
+                storeId: "019be111-e25f-763f-a32e-d7ed7a81f3d1",
+                name: "Desert",
+                slug: "desert",
+                image:
+                  "https://ik.imagekit.io/dianerdiana/saas-food-menu/categories/default/desert.png",
+                description: null,
+                status: "ACTIVE",
+              },
+            ],
+          },
+        ],
       },
     ],
   },
 };
+
+const store = response.data.store;
+const categories = response.data.categories;
+const recommendations = response.data.recommendations;
 ---
 
 <BlankLayout>
@@ -145,7 +227,7 @@ const response = {
             <div class="flex flex-col gap-1">
               <p class="text-white text-sm">Welcome To,</p>
               <h1 class="text-white font-semibold">
-                {response.data.store.name}
+                {store.name}
               </h1>
             </div>
             <a
@@ -179,32 +261,40 @@ const response = {
     </Container>
     <Container>
       <Section id="Category" title="Explore Categories" link="#">
-        <CategoryCarousel
-          client:load
-          categories={response.data.categories}
-          slot="content"
-        />
+        <CategoryCarousel client:load categories={categories} slot="content" />
       </Section>
 
-      <Section id="Favorites" title="Menu Favorite" link="#">
-        <ProductCarousel
-          client:load
-          products={response.data.productFavorites}
-          slot="content"
-        />
-      </Section>
-
-      <Section id="Recommendation" title="Chef's Recommendation" link="#">
-        <div slot="content" class="flex flex-col gap-4 mt-2.5">
-          {
-            response.data.productRecommendations.map((product) => (
-              <ProductCardHorizontal product={product} />
-            ))
-          }
-        </div>
-      </Section>
+      {
+        recommendations &&
+          recommendations.length &&
+          recommendations.map((rec) => (
+            <Section
+              id={rec.name}
+              title={rec.name}
+              link={`/${store?.name}/products`}
+            >
+              {rec.displayMode === "horizontal" ? (
+                <ProductCarousel
+                  client:load
+                  products={rec.products}
+                  storeSlug={`/${store.slug}`}
+                  slot="content"
+                />
+              ) : (
+                <div slot="content" class="flex flex-col gap-4 mt-2.5">
+                  {rec.products.map((product) => (
+                    <ProductCardHorizontal
+                      product={product}
+                      storeSlug={`/${store.slug}`}
+                    />
+                  ))}
+                </div>
+              )}
+            </Section>
+          ))
+      }
     </Container>
   </main>
 
-  <NavigationBottom />
+  <NavigationBottom activePath="/" />
 </BlankLayout>

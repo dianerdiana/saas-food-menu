@@ -6,4 +6,5 @@ export type Store = {
   phone: string;
   address?: string | null;
   description?: string | null;
+  ownerId: string;
 };
