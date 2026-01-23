@@ -2,15 +2,16 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { House, Search, ShoppingCart, SquareMenu, User } from "lucide-react";
 
-type Props = { activePath: string; storeSlug?: string };
-const { activePath: pathname, storeSlug } = Astro.props;
+type Props = { activePath: string };
+const { activePath: pathname } = Astro.props;
+const storeSlug = Astro.params.storeSlug || "";
 
 const navigation = [
   {
     id: "1",
     name: "Home",
     icon: House,
-    href: storeSlug || "",
+    href: storeSlug,
   },
   {
     id: "2",
@@ -49,8 +50,8 @@ const navigation = [
           <a
             href={
               storeSlug && storeSlug !== nav.href
-                ? `${storeSlug}/${nav.href}`
-                : nav.href
+                ? `/${storeSlug}/${nav.href}`
+                : `/${nav.href}`
             }
             class={cn(
               "flex flex-col items-center gap-2",

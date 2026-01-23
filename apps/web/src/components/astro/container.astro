@@ -4,10 +4,7 @@ const props = Astro.props;
 ---
 
 <div
-  class={cn(
-    "flex flex-col w-full max-w-160 mx-auto overflow-x-hidden",
-    props.class,
-  )}
+  class={cn("flex flex-col w-full max-w-160 mx-auto", props.class)}
   {...props}
 >
   <slot />

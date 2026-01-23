@@ -11,6 +11,7 @@ import { ProductRecommendationModule } from '@/modules/product-recommendation/pr
 
 import { GetStoreDataWeb } from './application/use-cases/get-store-data.web';
 import { GetStoreProductWeb } from './application/use-cases/get-store-product.web';
+import { GetStoreProductListWeb } from './application/use-cases/get-store-product-list.web';
 
 @Module({
   imports: [
@@ -22,6 +23,6 @@ import { GetStoreProductWeb } from './application/use-cases/get-store-product.we
     ProductRecommendationModule,
   ],
   controllers: [WebtoreController],
-  providers: [GetStoreDataWeb, GetStoreProductWeb],
+  providers: [GetStoreDataWeb, GetStoreProductWeb, GetStoreProductListWeb],
 })
 export class WebModule {}

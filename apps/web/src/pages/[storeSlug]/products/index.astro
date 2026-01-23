@@ -1,0 +1,36 @@
+---
+import BlankLayout from "@/layouts/blank-layout.astro";
+
+import Container from "@/components/astro/container.astro";
+import NavigationBottom from "@/components/astro/navigation-bottom.astro";
+import NavigationTop from "@/components/astro/navigation-top.astro";
+
+import ProductCardHorizontal from "@/views/product/components/astro/product-card-horizontal.astro";
+import { ProductCategoryTab } from "@/views/product/components/react/product-category-tab";
+import { getStoreProductList } from "@/services/api";
+
+const storeSlug = Astro.params.storeSlug || "";
+const response = await getStoreProductList(storeSlug);
+
+const categories = response.data?.categories;
+const categoryProducts = response.data?.categoryProducts;
+---
+
+<BlankLayout>
+  <Container>
+    <header>
+      <NavigationTop title="Menu" backLink="javascript:history.back()" />
+    </header>
+    <main class="pb-32">
+      <ProductCategoryTab
+        client:load
+        categories={categories || []}
+        categoryProducts={categoryProducts || []}
+        storeSlug={storeSlug}
+      />
+      <div id="ProductList" class="flex flex-col gap-4 mt-2.5 px-5"></div>
+    </main>
+  </Container>
+
+  <NavigationBottom activePath={"products"} />
+</BlankLayout>
