@@ -7,7 +7,7 @@ export async function createServer() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: ['http://localhost:7000'],
+    origin: ['http://localhost:7000', 'https://tooang.com', 'https://www.tooang.com', 'https://dash.tooang.com'],
     credentials: true,
   });
 
