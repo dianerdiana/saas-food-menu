@@ -40,7 +40,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             size='lg'
             className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
           >
-            <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-sm overflow-hidden'>
+            <div className='text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-sm overflow-hidden'>
               <img src={appConfig.logoUrl} className='size-8' />
             </div>
             <div className='grid flex-1 text-left text-sm leading-tight'>

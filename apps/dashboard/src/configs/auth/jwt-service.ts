@@ -42,7 +42,7 @@ export class JwtService {
         const { config, response } = error;
         const originalRequest = config;
 
-        if (config.url === this.jwtConfig.refreshTokenUrl) {
+        if (config.url === this.jwtConfig.signInUrl || config.url === this.jwtConfig.refreshTokenUrl) {
           return Promise.reject(error);
         }
 

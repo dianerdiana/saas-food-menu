@@ -22,6 +22,6 @@ export class UpdateProductDto extends SlugRequiredDto {
   categoryId!: string;
 
   @IsString()
-  @IsOptional()
-  storeId?: string;
+  @IsNotEmpty()
+  storeId!: string;
 }

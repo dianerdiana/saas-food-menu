@@ -20,7 +20,7 @@ export class RefreshAccessTokenUseCase {
   async execute(authUser: AuthUser) {
     const { storeId } = authUser;
     const user = await this.getUserByUsernameForAuth.execute(authUser.username);
-    const store = await this.getStoreByIdUseCase.execute(storeId);
+    const store = storeId ? await this.getStoreByIdUseCase.execute(storeId) : undefined;
 
     if (!user) throw new UnauthorizedException('Invalid credentials');
 

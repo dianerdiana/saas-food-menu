@@ -47,7 +47,11 @@ export class RecommendationRepository {
       });
     }
 
-    query.andWhere('recommendation.store_id=:store_id', { store_id: storeId }).take(limit).skip(skip);
+    query
+      .andWhere('recommendation.store_id=:store_id', { store_id: storeId })
+      .take(limit)
+      .skip(skip)
+      .orderBy('recommendation.created_at', 'DESC');
 
     return query.getManyAndCount();
   }
@@ -65,7 +69,7 @@ export class RecommendationRepository {
       });
     }
 
-    query.take(limit).skip(skip);
+    query.take(limit).skip(skip).orderBy('recommendation.created_at', 'DESC');
 
     return query.getManyAndCount();
   }

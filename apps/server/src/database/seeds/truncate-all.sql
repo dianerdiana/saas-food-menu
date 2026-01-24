@@ -1,0 +1,1 @@
+TRUNCATE TABLE banks,categories,ingredients,permissions,product_categories,product_ingredients,product_recommendations,products,recommendations,role_permissions,roles,stores,subscriptions,subscription_payments,transaction_details,transactions,user_roles,users;

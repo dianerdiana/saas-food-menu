@@ -29,7 +29,7 @@ export class StoreRepository {
       query.andWhere('(store.name ILIKE :search or store.slug ILIKE :search)', { search: `%${search}%` });
     }
 
-    query.take(limit).skip(skip);
+    query.take(limit).skip(skip).orderBy('store.created_at', 'DESC');
 
     return query.getManyAndCount();
   }

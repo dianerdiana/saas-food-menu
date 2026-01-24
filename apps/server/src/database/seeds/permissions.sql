@@ -10,6 +10,7 @@
 
 INSERT INTO "permissions" ("id","created_at","updated_at","deleted_at","name","action","subject","conditions","inverted","reason") VALUES 
 ( '019b835f-fd53-75ba-8ce8-aaf3b79179f3','2026-01-03 17:21:03.905674+07','2026-01-03 17:21:03.905674+07',NULL,'Super Admin','manage','all','','0',NULL ),
+( '019beefe-b289-7514-9da5-fade878c5588','2026-01-03 17:21:03.905674+07','2026-01-03 17:21:03.905674+07',NULL,'Manage Store','manage','store','','0',NULL ),
 ( '019b835f-fd53-75ba-8ce8-ae4d6059aad4','2026-01-03 17:21:03.905674+07','2026-01-03 17:21:03.905674+07',NULL,'Store','create','Store','','0',NULL ),
 ( '019b835f-fd53-75ba-8ce8-b16112c0fc0b','2026-01-03 17:21:03.905674+07','2026-01-03 17:21:03.905674+07',NULL,'Store','read','Store','{"ownerId": "$current_user_id"}','0',NULL ),
 ( '019b835f-fd53-75ba-8ce8-b4c2067a0c9c','2026-01-03 17:21:03.905674+07','2026-01-03 17:21:03.905674+07',NULL,'Store','update','Store','{"ownerId": "$current_user_id"}','0',NULL ),

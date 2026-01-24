@@ -40,7 +40,11 @@ export class CategoryRepository {
       });
     }
 
-    query.andWhere('category.store_id=:store_id', { store_id: storeId }).take(limit).skip(skip);
+    query
+      .andWhere('category.store_id=:store_id', { store_id: storeId })
+      .take(limit)
+      .skip(skip)
+      .orderBy('category.created_at', 'DESC');
 
     return query.getManyAndCount();
   }
@@ -66,7 +70,7 @@ export class CategoryRepository {
       });
     }
 
-    query.take(limit).skip(skip);
+    query.take(limit).skip(skip).orderBy('category.created_at', 'DESC');
     return query.getManyAndCount();
   }
 

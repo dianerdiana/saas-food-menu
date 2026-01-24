@@ -9,7 +9,7 @@
 -- --------------------------------------------------------------------------------
 
 INSERT INTO "users" ("id","created_at","updated_at","deleted_at","created_by","updated_by","deleted_by","avatar","first_name","last_name","username","email","phone","password","status","last_login") VALUES 
-( '019b8362-3561-707a-bd14-047387c2ef09','2026-01-03 17:23:29.146492+07','2026-01-03 17:23:29.146492+07',NULL,NULL,NULL,NULL,NULL,'Admin','','admin','admin@tooang.com','83824800565','$2b$10$Jw4/YXPNoSv7YJk29GPRAOOIC8/xhF6Ow/UiwsF70.Hcz45ZBhEUG','ACTIVE',NULL ),
-( '019b8380-f0c3-761f-b6e0-d79ab31a02e7','2026-01-03 17:57:01.989308+07','2026-01-03 17:57:01.989308+07',NULL,NULL,NULL,NULL,NULL,'User','','user','user@tooang.com','083824800565','$2b$10$cceudaHEdgsDwGhF3UiKPu63Sy0rURNSgla.yk9BFrjoRmg30d0si','ACTIVE',NULL ),
-( '019b8355-8e9e-744b-91c6-302bc151225b','2026-01-03 17:09:40.158145+07','2026-01-04 11:05:53.969267+07',NULL,NULL,NULL,NULL,NULL,'Dian','Erdiana','dianerdiana','dianerdiana.de@gmail.com','081289790713','$2b$10$KmmKy9ZuhpRqaLf29nYS5uQpgh1pDF58h188Zu82DaS9YihRhaeEe','ACTIVE',NULL )
+( '019b8355-8e9e-744b-91c6-302bc151225b','2026-01-03 17:09:40.158145+07','2026-01-04 11:05:53.969267+07',NULL,NULL,NULL,NULL,NULL,'Dian','Erdiana','dianerdiana','dianerdiana.de@gmail.com','081289790713','$2b$10$KmmKy9ZuhpRqaLf29nYS5uQpgh1pDF58h188Zu82DaS9YihRhaeEe','ACTIVE',NULL ),
+( '019b8362-3561-707a-bd14-047387c2ef09','2026-01-03 17:23:29.146492+07','2026-01-03 17:23:29.146492+07',NULL,NULL,NULL,NULL,NULL,'Admin','','admin','admin@tooang.com','083824800566','$2b$10$Jw4/YXPNoSv7YJk29GPRAOOIC8/xhF6Ow/UiwsF70.Hcz45ZBhEUG','ACTIVE',NULL ),
+( '019b8380-f0c3-761f-b6e0-d79ab31a02e7','2026-01-03 17:57:01.989308+07','2026-01-03 17:57:01.989308+07',NULL,NULL,NULL,NULL,NULL,'Owner','','owner','owner@tooang.com','083824800565','$2b$10$cceudaHEdgsDwGhF3UiKPu63Sy0rURNSgla.yk9BFrjoRmg30d0si','ACTIVE',NULL );
 

@@ -37,7 +37,11 @@ export class ProductRepository {
       query.andWhere('(product.name ILIKE :search or product.slug ILIKE :search)', { search: `%${search}%` });
     }
 
-    query.andWhere('product.store_id=:store_id', { store_id: storeId }).take(limit).skip(skip);
+    query
+      .andWhere('product.store_id=:store_id', { store_id: storeId })
+      .take(limit)
+      .skip(skip)
+      .orderBy('product.created_at', 'DESC');
 
     return query.getManyAndCount();
   }
@@ -63,7 +67,7 @@ export class ProductRepository {
       query.andWhere('(product.name ILIKE :search or product.slug ILIKE :search)', { search: `%${search}%` });
     }
 
-    query.take(limit).skip(skip);
+    query.take(limit).skip(skip).orderBy('product.created_at', 'DESC');
 
     return query.getManyAndCount();
   }

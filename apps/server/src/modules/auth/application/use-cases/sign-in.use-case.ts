@@ -17,7 +17,7 @@ export class SignInUseCase {
   async execute(user: UserEntity) {
     const storeId = user.stores[0]?.id || '';
 
-    const store = await this.getStoreByIdUseCase.execute(storeId);
+    const store = storeId ? await this.getStoreByIdUseCase.execute(storeId) : undefined;
 
     const userData = this.authProjectionService.buildUserData(user, store);
     const jwtPayload = this.authProjectionService.buildJwtPayload(user, store);
