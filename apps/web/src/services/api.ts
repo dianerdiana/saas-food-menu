@@ -19,7 +19,7 @@ export const getHomeData = async (
   }>
 > => {
   try {
-    const response = await api.get(`/web/stores/${storeSlug}`);
+    const response = await api.get(`/stores/${storeSlug}`);
     return response.data;
   } catch (error) {
     return handleErrorApi(error);
@@ -37,7 +37,7 @@ export const getStoreProduct = async (
 > => {
   try {
     const response = await api.get(
-      `/web/stores/${storeSlug}/products/${productSlug}`,
+      `/stores/${storeSlug}/products/${productSlug}`,
     );
     return response.data;
   } catch (error) {
@@ -55,7 +55,7 @@ export const getStoreProductList = async (
   }>
 > => {
   try {
-    const response = await api.get(`/web/stores/${storeSlug}/products`);
+    const response = await api.get(`/stores/${storeSlug}/products`);
     return response.data;
   } catch (error) {
     return handleErrorApi(error);

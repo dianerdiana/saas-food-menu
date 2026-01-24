@@ -27,5 +27,5 @@ INSERT INTO "permissions" ("id","created_at","updated_at","deleted_at","name","a
 ( '019b8c71-7f8e-74c9-85b1-f1123f772954','2026-01-05 11:36:47.502922+07','2026-01-05 11:36:47.502922+07',NULL,'Create Recommendation','create','Recommendation','{"storeId": "$current_store_id"}','0',NULL ),
 ( '019b8c71-7f8e-74c9-85b1-f6be3379e308','2026-01-05 11:36:47.502922+07','2026-01-05 11:36:47.502922+07',NULL,'View Recommendation','read','Recommendation','{"storeId": "$current_store_id"}','0',NULL ),
 ( '019b8c71-7f8e-74c9-85b1-f848594c0d83','2026-01-05 11:36:47.502922+07','2026-01-05 11:36:47.502922+07',NULL,'Update Recommendation','update','Recommendation','{"storeId": "$current_store_id"}','0',NULL ),
-( '019b8c71-7f8e-74c9-85b1-fef894d5ed86','2026-01-05 11:36:47.502922+07','2026-01-05 11:36:47.502922+07',NULL,'Delete Recommendation','delete','Recommendation','{"storeId": "$current_store_id"}','0',NULL )
+( '019b8c71-7f8e-74c9-85b1-fef894d5ed86','2026-01-05 11:36:47.502922+07','2026-01-05 11:36:47.502922+07',NULL,'Delete Recommendation','delete','Recommendation','{"storeId": "$current_store_id"}','0',NULL );
 
