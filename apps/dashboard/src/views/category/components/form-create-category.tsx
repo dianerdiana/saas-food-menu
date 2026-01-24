@@ -44,6 +44,7 @@ export function FormCreateCategory() {
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('slug', data.slug);
+    formData.append('storeId', data.storeId);
 
     if (imageFile) formData.append('image', imageFile);
     if (data.description) formData.append('description', data.description);
@@ -160,9 +161,7 @@ export function FormCreateCategory() {
                   name='description'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`category-create-${field.name}`}>
-                        Description <span className='text-destructive'>*</span>
-                      </FieldLabel>
+                      <FieldLabel htmlFor={`category-create-${field.name}`}>Description</FieldLabel>
                       <InputGroup>
                         <InputGroupTextarea
                           {...field}

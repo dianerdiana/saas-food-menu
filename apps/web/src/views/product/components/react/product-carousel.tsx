@@ -6,6 +6,7 @@ import {
   CarouselItem,
 } from "@workspace/ui/components/carousel";
 
+import { formatCurrency } from "@/utils/format-currency";
 import type { ProductWithCategories } from "@/views/product/types/product";
 
 type ProductCarouselProps = {
@@ -28,11 +29,11 @@ export function ProductCarousel({ products, storeSlug }: ProductCarouselProps) {
               key={product.id}
               className="w-fit basis-1/2 lg:basis-2/5"
             >
-              <div className=" p-3 pb-5 bg-white hover:bg-primary/20 rounded-xl border border-background hover:border-primary transition-all duration-300">
+              <div className="p-3 mb-5 bg-white hover:bg-primary/20 rounded-xl border border-background hover:border-primary transition-all duration-300">
                 <a
                   href={
                     storeSlug
-                      ? `${storeSlug}/products/${product.slug}`
+                      ? `/${storeSlug}/products/${product.slug}`
                       : `/products/${product.slug}`
                   }
                 >
@@ -80,7 +81,7 @@ export function ProductCarousel({ products, storeSlug }: ProductCarouselProps) {
 
                 <div className="flex items-center justify-between">
                   <p className="text-destructive font-semibold text-sm">
-                    Rp {product.price}
+                    {formatCurrency(product.price)}
                   </p>
                   <Button
                     type="button"

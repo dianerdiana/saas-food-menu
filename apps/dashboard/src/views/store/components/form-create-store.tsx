@@ -33,7 +33,7 @@ export function FormCreateStore() {
 
   const { control, handleSubmit, setValue, getValues } = useForm<CreateStoreType>({
     resolver: zodResolver(createStoreSchema),
-    mode: 'onBlur',
+    mode: 'onChange',
     defaultValues: {
       name: '',
       slug: '',
@@ -195,9 +195,7 @@ export function FormCreateStore() {
                   name='description'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`store-create-${field.name}`}>
-                        Description <span className='text-destructive'>*</span>
-                      </FieldLabel>
+                      <FieldLabel htmlFor={`store-create-${field.name}`}>Description</FieldLabel>
                       <InputGroup>
                         <InputGroupTextarea
                           {...field}

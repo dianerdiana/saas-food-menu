@@ -89,7 +89,7 @@ const recommendations = homeData.data?.recommendations;
                 <ProductCarousel
                   client:load
                   products={rec.products}
-                  storeSlug={`/${storeSlug}`}
+                  storeSlug={storeSlug}
                   slot="content"
                 />
               ) : (
@@ -97,7 +97,7 @@ const recommendations = homeData.data?.recommendations;
                   {rec.products.map((product) => (
                     <ProductCardHorizontal
                       product={product}
-                      storeSlug={`/${storeSlug}`}
+                      storeSlug={storeSlug}
                     />
                   ))}
                 </div>

@@ -187,9 +187,7 @@ export function FormUpdateStore({ store }: FormUpdateStoreProps) {
                   name='description'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`store-edit-${field.name}`}>
-                        Description <span className='text-destructive'>*</span>
-                      </FieldLabel>
+                      <FieldLabel htmlFor={`store-edit-${field.name}`}>Description</FieldLabel>
                       <InputGroup>
                         <InputGroupTextarea
                           {...field}

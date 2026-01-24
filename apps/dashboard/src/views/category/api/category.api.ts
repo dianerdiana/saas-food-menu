@@ -17,7 +17,7 @@ export const getAllCategory = async (params?: PaginationType): Promise<ApiRespon
 
 export const getCategoryById = async (categoryId: string): Promise<ApiResponse<Category>> => {
   try {
-    const response = await jwt.get(`/categories/id/${categoryId}`);
+    const response = await jwt.get(`/categories/${categoryId}`);
     return response.data;
   } catch (error) {
     throw handleErrorApi(error);

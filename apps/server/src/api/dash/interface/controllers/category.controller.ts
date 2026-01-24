@@ -69,7 +69,7 @@ export class DashCategoryController {
   }
 
   @CheckPolicies((ability) => ability.can(Action.Read, Subject.Category))
-  @Get('id/:id')
+  @Get(':id')
   async getCategoryById(@Param('id') id: string) {
     const result = await this.getCategoryByIdUseCase.execute(id);
     return new CategoryResponse(result);
@@ -128,7 +128,7 @@ export class DashCategoryController {
     const result = await this.updateCategoryDash.execute(id, { ...dto, image: url }, authUser, ability);
 
     return {
-      message: 'Successfuly created category',
+      message: 'Successfuly updated category',
       data: new CategoryResponse(result),
     };
   }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Controller, type SubmitErrorHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ClipboardList, Link, Tag } from 'lucide-react';
 
 import { SelectStore } from '@/components/select-store';
+import { generateSlug } from '@/utils/generate-slug';
 
 import { ImageUpload } from './image-category-upload';
 
@@ -26,15 +27,14 @@ type FormUpdateCategoryProps = {
 
 export function FormUpdateCategory({ category }: FormUpdateCategoryProps) {
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [defaultImage, setDefaultImage] = useState<string | null>(null);
 
-  const { control, reset, handleSubmit } = useForm<UpdateCategoryType>({
+  const { control, handleSubmit, setValue } = useForm<UpdateCategoryType>({
     resolver: zodResolver(updateCategorySchema),
     defaultValues: {
-      name: '',
-      slug: '',
-      description: '',
-      storeId: '',
+      name: category.name,
+      slug: category.slug,
+      description: category.description || '',
+      storeId: category.storeId,
     },
   });
 
@@ -46,6 +46,7 @@ export function FormUpdateCategory({ category }: FormUpdateCategoryProps) {
 
     formData.append('name', data.name);
     formData.append('slug', data.slug);
+    formData.append('storeId', data.storeId);
 
     if (data.description) formData.append('description', data.description);
     if (imageFile) formData.append('image', imageFile);
@@ -70,17 +71,6 @@ export function FormUpdateCategory({ category }: FormUpdateCategoryProps) {
     const invalidMessage = Object.entries(error)[0][1].message;
     toast.error(String(invalidMessage));
   };
-
-  useEffect(() => {
-    reset({
-      name: category.name,
-      slug: category.slug,
-      description: category.description ? category.description : '',
-      storeId: category.storeId,
-    });
-
-    setDefaultImage(category.image ? category.image : null);
-  }, []);
 
   return (
     <Card>
@@ -120,6 +110,10 @@ export function FormUpdateCategory({ category }: FormUpdateCategoryProps) {
                           {...field}
                           id={`category-edit-${field.name}`}
                           data-invalid={fieldState.invalid}
+                          onChange={(event) => {
+                            field.onChange(event);
+                            setValue('slug', generateSlug(event.target.value));
+                          }}
                         />
                         <InputGroupAddon>
                           <Tag />
@@ -158,9 +152,7 @@ export function FormUpdateCategory({ category }: FormUpdateCategoryProps) {
                   name='description'
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={`category-edit-${field.name}`}>
-                        Description <span className='text-destructive'>*</span>
-                      </FieldLabel>
+                      <FieldLabel htmlFor={`category-edit-${field.name}`}>Description</FieldLabel>
                       <InputGroup>
                         <InputGroupTextarea
                           {...field}
@@ -178,7 +170,7 @@ export function FormUpdateCategory({ category }: FormUpdateCategoryProps) {
             </form>
           </div>
           <div className='place-items-center col-span-2 order-1 lg:order-2 lg:col-span-1'>
-            <ImageUpload onChange={setImageFile} defaultValue={defaultImage} />
+            <ImageUpload onChange={setImageFile} defaultValue={category.image} />
           </div>
         </div>
       </CardContent>

@@ -6,5 +6,5 @@ export const createProductSchema = z.object({
   price: z.string().min(1, 'Harga wajib diisi'),
   description: z.string().optional(),
   categoryId: z.string(),
-  storeId: z.string().optional(),
+  storeId: z.string(),
 });

@@ -14,11 +14,13 @@ const { product, storeSlug } = Astro.props;
   <div class="basis-4/12 lg:basis-3/12">
     {
       product.image ? (
-        <img
-          src={product.image}
-          class="w-full object-cover rounded-xl aspect-square sm:aspect-auto"
-          alt="icon"
-        />
+        <div class="w-full aspect-square overflow-hidden rounded-xl">
+          <img
+            src={product.image}
+            class="w-full h-full object-cover object-center"
+            alt="icon"
+          />
+        </div>
       ) : (
         <div class="flex items-center justify-center h-full w-full bg-accent rounded-xl">
           <Soup size={52} className="stroke-primary" />
@@ -31,7 +33,7 @@ const { product, storeSlug } = Astro.props;
   >
     <a
       href={storeSlug
-        ? `${storeSlug}/products/${product.slug}`
+        ? `/${storeSlug}/products/${product.slug}`
         : `/products/${product.slug}`}
     >
       <div class="flex flex-col gap-1 w-full">

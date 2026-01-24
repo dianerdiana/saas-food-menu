@@ -5,8 +5,9 @@ import Container from "@/components/astro/container.astro";
 import NavigationBottom from "@/components/astro/navigation-bottom.astro";
 import NavigationTop from "@/components/astro/navigation-top.astro";
 
-import ProductCardHorizontal from "@/views/product/components/astro/product-card-horizontal.astro";
 import { ProductCategoryTab } from "@/views/product/components/react/product-category-tab";
+import ProductCardHorizontal from "@/views/product/components/astro/product-card-horizontal.astro";
+
 import { getStoreProductList } from "@/services/api";
 
 const storeSlug = Astro.params.storeSlug || "";
@@ -25,10 +26,32 @@ const categoryProducts = response.data?.categoryProducts;
       <ProductCategoryTab
         client:load
         categories={categories || []}
-        categoryProducts={categoryProducts || []}
         storeSlug={storeSlug}
       />
-      <div id="ProductList" class="flex flex-col gap-4 mt-2.5 px-5"></div>
+      {
+        categoryProducts &&
+          categoryProducts.map((category) => (
+            <section id={category.slug} class="py-4 rounded-lg px-5">
+              <div class="flex flex-col gap-1.5 mb-2">
+                <h1 class="text-[20px]">{category.name}</h1>
+                <p class="text-muted-foreground text-[12px]">
+                  {category.products.length} Menus Available
+                </p>
+              </div>
+              <div class="flex flex-col gap-3">
+                <div id="ProductList" class="flex flex-col gap-4 mt-2.5">
+                  {category.products &&
+                    category.products.map((product) => (
+                      <ProductCardHorizontal
+                        product={product}
+                        storeSlug={storeSlug}
+                      />
+                    ))}
+                </div>
+              </div>
+            </section>
+          ))
+      }
     </main>
   </Container>
 

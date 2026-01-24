@@ -32,7 +32,7 @@ export class AuthProjectionService {
       email: user.email,
       username: user.username,
       storeId: store?.id || '',
-      storeName: store?.name || '',
+      storeName: store?.slug || '',
     };
   }
 }
