@@ -10,7 +10,6 @@ export const useGetAllStore = (params: PaginationType) => {
     queryKey: storeKeys.list(params),
     queryFn: () => getAllStore(params),
     retry: 1,
-    staleTime: 1000 * 60 * 60, // 1 Hour
   });
 };
 
@@ -19,7 +18,6 @@ export const useGetListStore = (params: PaginationType) => {
     queryKey: storeKeys.lists(),
     queryFn: () => getAllStore(params),
     retry: 1,
-    staleTime: 1000 * 60 * 60 * 24, // 1 days
   });
 };
 

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { appConfig } from '@/configs/app.config';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,11 +28,11 @@ export function StoreSwitcher({
   userData,
 }: {
   stores: Store[];
-  userActiveStore: Store;
+  userActiveStore?: Store;
   userData: UserData;
 }) {
   const { isMobile } = useSidebar();
-  const [activeStore, setActiveStore] = React.useState<Store>(userActiveStore);
+  const [activeStore, setActiveStore] = React.useState<Store | undefined>(userActiveStore);
 
   const changeStoreMutation = useChangeStore();
   const navigate = useNavigate();
@@ -53,10 +55,6 @@ export function StoreSwitcher({
     setActiveStore(userActiveStore);
   }, [stores.length]);
 
-  if (!activeStore) {
-    return null;
-  }
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -67,14 +65,14 @@ export function StoreSwitcher({
               className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
             >
               <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-sm overflow-hidden'>
-                {activeStore.image ? (
-                  <img src={activeStore.image} className='size-8' />
+                {activeStore?.image ? (
+                  <img src={activeStore?.image || appConfig.logoUrl} className='size-8' />
                 ) : (
-                  <span>{activeStore.name[0]}</span>
+                  <span>{activeStore?.name[0] || appConfig.brandName}</span>
                 )}
               </div>
               <div className='grid flex-1 text-left text-sm leading-tight'>
-                <span className='truncate font-medium'>{activeStore.name}</span>
+                <span className='truncate font-medium'>{activeStore?.name}</span>
               </div>
               <ChevronsUpDown className='ml-auto' />
             </SidebarMenuButton>

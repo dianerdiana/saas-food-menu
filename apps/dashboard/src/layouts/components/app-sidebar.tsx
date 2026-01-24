@@ -29,7 +29,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        {userActiveStore ? (
+        {storeResponse.data && storeResponse.data.data ? (
           <StoreSwitcher
             stores={storeResponse.data?.data || []}
             userActiveStore={userActiveStore}
