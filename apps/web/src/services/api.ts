@@ -8,6 +8,7 @@ import type {
 import type { ProductWithCategories } from "@/views/product/types/product";
 import type { RecommendationWithProductList } from "@/views/recommendation/types/recommendation-type";
 import type { Store } from "@/views/store/types/store.type";
+import axios from "axios";
 
 export const getHomeData = async (
   storeSlug: string,
@@ -19,7 +20,9 @@ export const getHomeData = async (
   }>
 > => {
   try {
-    const response = await api.get(`/stores/${storeSlug}`);
+    const response = await axios.get(
+      `https://api.tooang.com/web/stores/${storeSlug}`,
+    );
     return response.data;
   } catch (error) {
     return handleErrorApi(error);
