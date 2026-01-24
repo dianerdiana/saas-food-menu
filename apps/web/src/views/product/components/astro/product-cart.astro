@@ -3,7 +3,7 @@ import type { ProductWithCategories } from "@/views/product/types/product";
 import { Button } from "@workspace/ui/components/button";
 import { Minus, NotebookPen, Plus, Trash2 } from "lucide-react";
 
-type Props = { product: ProductWithCategories & { note: string } };
+type Props = { product: ProductWithCategories & { note?: string } };
 const { product } = Astro.props;
 ---
 
