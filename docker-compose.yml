@@ -17,6 +17,17 @@ services:
       - DB_HOST=postgres
       - NODE_ENV=production
 
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: web
+    restart: always
+    env_file:
+      - ./apps/web/.env
+    ports:
+      - "4321:4321"
+
   postgres:
     image: postgres:16-alpine
     container_name: postgres
