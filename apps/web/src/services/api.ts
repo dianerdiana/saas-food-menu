@@ -40,7 +40,7 @@ export const getStoreProduct = async (
 > => {
   try {
     const response = await api.get(
-      `stores/${storeSlug}/products/${productSlug}`,
+      `/stores/${storeSlug}/products/${productSlug}`,
     );
     return response.data;
   } catch (error) {
@@ -58,7 +58,7 @@ export const getStoreProductList = async (
   }>
 > => {
   try {
-    const response = await api.get(`stores/${storeSlug}/products`);
+    const response = await api.get(`/stores/${storeSlug}/products`);
     return response.data;
   } catch (error) {
     return handleErrorApi(error);
