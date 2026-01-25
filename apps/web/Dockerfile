@@ -25,6 +25,13 @@ RUN pnpm install --frozen-lockfile
 COPY --from=pruner /app/out/full/ .
 COPY turbo.json turbo.json
 
+# Set Environment
+ARG PUBLIC_API_URL
+ARG PUBLIC_JWT_URL
+
+ENV PUBLIC_API_URL=$PUBLIC_API_URL
+ENV PUBLIC_JWT_URL=$PUBLIC_JWT_URL
+
 # Build project Astro
 RUN pnpm turbo run build --filter=web...
 

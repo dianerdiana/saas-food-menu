@@ -21,6 +21,9 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+      args:
+        - PUBLIC_API_URL=${PUBLIC_API_URL}
+        - PUBLIC_JWT_URL=${PUBLIC_JWT_URL}
     container_name: web
     restart: always
     env_file:
