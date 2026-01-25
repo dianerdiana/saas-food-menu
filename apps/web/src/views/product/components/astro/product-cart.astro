@@ -1,7 +1,7 @@
 ---
 import type { ProductWithCategories } from "@/views/product/types/product";
 import { Button } from "@workspace/ui/components/button";
-import { Minus, NotebookPen, Plus, Trash2 } from "lucide-react";
+import { Minus, NotebookPen, Plus, Soup, Trash2 } from "lucide-react";
 
 type Props = { product: ProductWithCategories & { note?: string } };
 const { product } = Astro.props;
@@ -11,11 +11,21 @@ const { product } = Astro.props;
   class="flex flex-wrap rounded-xl border border-background p-3 bg-white hover:bg-primary/20 hover:border hover:border-primary transition-all duration-300"
 >
   <div class="basis-4/12 lg:basis-3/12 mb-2">
-    <img
-      src={product.image}
-      class="w-full object-cover rounded-xl aspect-square sm:aspect-auto"
-      alt="icon"
-    />
+    {
+      product.image ? (
+        <div class="w-full aspect-square overflow-hidden rounded-xl">
+          <img
+            src={product.image}
+            class="w-full h-full object-cover object-center"
+            alt="icon"
+          />
+        </div>
+      ) : (
+        <div class="flex items-center justify-center h-full w-full bg-accent rounded-xl">
+          <Soup size={52} className="stroke-primary" />
+        </div>
+      )
+    }
   </div>
   <div class="flex flex-col gap-1 ps-4 basis-8/12 lg:basis-9/12">
     <div class="flex items-center justify-between">
