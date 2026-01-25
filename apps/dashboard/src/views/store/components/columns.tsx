@@ -72,7 +72,7 @@ export const createColumns = (options: ColumnOptions): ColumnDef<Store>[] => [
     cell: (info) => (
       <div className='flex items-center justify-center gap-2'>
         <Button variant={'outline_primary'} className='py-0.5' size={'sm'} asChild>
-          <Link to={`${env.BASE_WEB_URL}/${info.row.original.slug}`}>
+          <Link target='_blank' to={`${env.BASE_WEB_URL}/${info.row.original.slug}`}>
             <Eye />
           </Link>
         </Button>
