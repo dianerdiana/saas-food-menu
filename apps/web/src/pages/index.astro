@@ -13,6 +13,7 @@ import ProductCardHorizontal from "@/views/product/components/astro/product-card
 import type { Store } from "@/views/store/types/store.type";
 import type { Category } from "@/views/category/types/category";
 import type { RecommendationWithProductList } from "@/views/recommendation/types/recommendation-type";
+import { env } from "@/configs/env.config";
 
 type Response = {
   data: {
@@ -211,6 +212,8 @@ const response: Response = {
 const store = response.data.store;
 const categories = response.data.categories;
 const recommendations = response.data.recommendations;
+
+console.log(env.BASE_API_URL, env.BASE_JWT_URL);
 ---
 
 <BlankLayout>
